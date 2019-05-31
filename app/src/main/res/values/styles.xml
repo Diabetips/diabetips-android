@@ -1,0 +1,55 @@
+<resources>
+    <style name="Widget.Support.CoordinatorLayout" parent="android:Widget">
+        <item name="statusBarBackground">@null</item>
+    </style>
+
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="BackgroundTheme" parent="ThemeOverlay.AppCompat.Dark">
+        <item name="android:background">@color/colorBackground</item>
+    </style>
+
+    <style name="ButtonTheme" parent="ThemeOverlay.AppCompat.Dark">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorButtonNormal">@color/colorPrimary</item>
+        <item name="colorControlHighlight">@color/colorPrimaryDark</item>
+    </style>
+
+    <style name="FloatingTextButtonTheme" parent="ThemeOverlay.AppCompat.Dark">
+        <item name="android:background">@null</item>
+        <item name="android:tint">@color/colorBackground</item>
+        <item name="floating_background_color">@color/colorPrimary</item>
+        <item name="floating_title_color">@color/colorBackground</item>
+    </style>
+
+    <style name="TextInputTheme" parent="@style/Widget.AppCompat.EditText">
+        <item name="android:textColorHint">@color/colorAccent</item>
+        <item name="android:textColorHintInverse">@color/colorAccent</item>
+        <item name="android:textColor">@color/colorPrimaryDark</item>
+        <item name="colorControlNormal">@color/colorPrimaryDark</item>
+        <item name="colorControlActivated">@color/colorPrimary</item>
+        <item name="colorControlHighlight">@color/colorPrimary</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="TextViewTheme" parent="ThemeOverlay.AppCompat.Dark">
+        <item name="android:textColor">@color/colorPrimaryDark</item>
+        <item name="android:textColorHint">@color/colorPrimaryDark</item>
+        <item name="android:textColorHintInverse">@color/colorPrimaryDark</item>
+    </style>
+
+    <style name="TitleTheme" parent="TextViewTheme">
+        <item name="android:textSize">32sp</item>
+    </style>
+
+    <style name="TextTheme" parent="TextViewTheme">
+        <item name="android:textSize">18sp</item>
+    </style>
+
+</resources>
