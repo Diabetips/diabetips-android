@@ -8,8 +8,10 @@ import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.core.content.ContextCompat
+import com.epitech.diabetips.Managers.AccountManager
 import com.epitech.diabetips.R
 import com.epitech.diabetips.Services.DiabetipsService
+import com.epitech.diabetips.Storages.AccountObject
 import kotlinx.android.synthetic.main.activity_profile.*
 
 class ProfileActivity : AppCompatActivity() {
@@ -38,21 +40,19 @@ class ProfileActivity : AppCompatActivity() {
     }
 
     private fun getAccountInfo() {
-        DiabetipsService.instance.getAccount().doOnSuccess { res ->
-            if (res.second.component2() == null) {
-                val account = res.second.component1()
-                nameText.text = account?.name
-                firstNameText.text = account?.firstname
-                emailText.text = account?.email
-                emailInput.setText(account?.email)
-            }
-        }.subscribe()
+        val account = AccountManager.instance.getAccount(this)
+        nameText.text = account.name
+        firstNameText.text = account.firstname
+        emailText.text = account.email
+        emailInput.setText(account.email)
     }
 
     private fun emailButtonClick() {
         if (isChangingEmail) {
             emailText.text = emailInput.text
-            DiabetipsService.instance.changeEmail(emailInput.text.toString()).subscribe()
+            val account : AccountObject = AccountManager.instance.getAccount(this)
+            account.email = emailInput.text.toString()
+            DiabetipsService.instance.changeEmail(account).subscribe()
             //API call
         }
         isChangingEmail = !isChangingEmail
@@ -74,7 +74,9 @@ class ProfileActivity : AppCompatActivity() {
         if (isChangingPassword) {
             if (newPasswordInput.text.toString().isNotEmpty() &&
                 newPasswordInput.text.toString() == newPasswordConfirmInput.text.toString()) {
-                DiabetipsService.instance.changePassword(newPasswordInput.text.toString()).subscribe()
+                val account : AccountObject = AccountManager.instance.getAccount(this)
+                account.password = newPasswordInput.text.toString()
+                DiabetipsService.instance.changePassword(account).subscribe()
                 newPasswordConfirmInput.visibility = View.INVISIBLE
                 newPasswordInput.visibility = View.INVISIBLE
                 newPasswordButton.rightIconDrawable = ContextCompat.getDrawable(applicationContext, R.drawable.ic_edit)

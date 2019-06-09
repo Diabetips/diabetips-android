@@ -53,7 +53,7 @@ class DiabetipsService {
             }
     }
 
-    fun changeEmail(newEmail: String) : FuelResponse<ByteArray> {
+    fun changeEmail(account: AccountObject) : FuelResponse<ByteArray> {
         return "changeEmail".httpPost().rx_response()
             .subscribeOn(Schedulers.newThread())
             .observeOn(AndroidSchedulers.mainThread()).doOnError { err ->
@@ -61,7 +61,7 @@ class DiabetipsService {
             }
     }
 
-    fun changePassword(newPassword: String) : FuelResponse<ByteArray> {
+    fun changePassword(account: AccountObject) : FuelResponse<ByteArray> {
         return "changePassword".httpPost().rx_response()
             .subscribeOn(Schedulers.newThread())
             .observeOn(AndroidSchedulers.mainThread()).doOnError { err ->

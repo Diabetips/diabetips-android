@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.epitech.diabetips.Managers.AccountManager
 import com.epitech.diabetips.R
 import com.epitech.diabetips.Services.DiabetipsService
 import com.epitech.diabetips.Storages.AccountObject
@@ -25,6 +26,7 @@ class MainActivity : AppCompatActivity() {
                 signUp = false
             } else {
                 DiabetipsService.instance.login(AccountObject()).subscribe()
+                AccountManager.instance.saveObject(this, AccountObject())
                 startActivity(Intent(this, HomeActivity::class.java))
             }
         }
@@ -35,6 +37,7 @@ class MainActivity : AppCompatActivity() {
             } else {
                 if (passwordInput.text.toString().isNotEmpty() &&
                     passwordInput.text.toString() == passwordConfirmInput.text.toString()) {
+                    AccountManager.instance.saveObject(this, AccountObject())
                     startActivity(Intent(this, HomeActivity::class.java))
                 } else {
                     Toast.makeText(this, getString(R.string.password_match_error), Toast.LENGTH_SHORT).show()

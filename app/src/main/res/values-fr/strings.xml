@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="first_name_input">Prénom</string>
+    <string name="login_button">Connection</string>
+    <string name="mail_input">Email</string>
+    <string name="name_input">Nom</string>
+    <string name="new_password_button">Changer de mot de passe</string>
+    <string name="new_password_input">Nouveau mot de passe</string>
+    <string name="password_confirm_input">Confirmation du MDP</string>
+    <string name="password_input">Mot de passe</string>
+    <string name="password_match_error">Le mot de passe ne correspond pas</string>
+    <string name="profile_title">Profil</string>
+    <string name="sign_up_button">Inscription</string>
+</resources>
