@@ -1,7 +1,4 @@
 version: '3.3'
 services:
-  client_mobile:
-    build: .
-    command: bash -c "./gradlew test;./gradlew connectedAndroidTest"
-    volumes:
-      - ./:/usr/app
+  app:
+    command: bash -c "./gradlew test"
