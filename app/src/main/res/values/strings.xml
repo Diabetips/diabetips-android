@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name" translatable="false">Diabetips</string>
     <string name="api_base_url" translatable="false">http://10.0.2.2:8080/</string>
+    <string name="client_id" translatable="false">diabetips-android</string>
+    <string name="client_secret" translatable="false">5rJANZsEWaOdTIdqYx3yti8HKnLFfzgH</string>
 
     <string name="profile_title">Profile</string>
 
@@ -12,8 +14,10 @@
     <string name="first_name_input">Firstname</string>
 
     <string name="login_button">Connexion</string>
+    <string name="sign_up_button">Sign Up</string>
     <string name="new_password_button">Change Password</string>
 
     <string name="password_match_error">Password doesn\'t match</string>
-    <string name="sign_up_button">Sign Up</string>
+    <string name="password_incorrect_error">Incorrect password</string>
+
 </resources>

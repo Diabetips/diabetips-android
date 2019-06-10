@@ -11,4 +11,5 @@
     <string name="password_match_error">Le mot de passe ne correspond pas</string>
     <string name="profile_title">Profil</string>
     <string name="sign_up_button">Inscription</string>
+    <string name="password_incorrect_error">Mot de passe incorrect</string>
 </resources>

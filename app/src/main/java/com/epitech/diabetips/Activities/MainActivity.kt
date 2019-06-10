@@ -25,10 +25,14 @@ class MainActivity : AppCompatActivity() {
                 changeSignUpVisibility(View.INVISIBLE)
                 signUp = false
             } else {
-                val account = getAccountFromFields()
-                DiabetipsService.instance.login(account).subscribe()
-                AccountManager.instance.saveObject(this, account)
-                startActivity(Intent(this, HomeActivity::class.java))
+                if (passwordInput.text.toString().isNotEmpty()) {
+                    val account = getAccountFromFields()
+                    DiabetipsService.instance.login(account).subscribe()
+                    AccountManager.instance.saveObject(this, account)
+                    startActivity(Intent(this, HomeActivity::class.java))
+                } else {
+                    Toast.makeText(this, getString(R.string.password_incorrect_error), Toast.LENGTH_SHORT).show()
+                }
             }
         }
         signUpButton.setOnClickListener {
