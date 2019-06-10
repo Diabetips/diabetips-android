@@ -25,8 +25,9 @@ class MainActivity : AppCompatActivity() {
                 changeSignUpVisibility(View.INVISIBLE)
                 signUp = false
             } else {
-                DiabetipsService.instance.login(AccountObject()).subscribe()
-                AccountManager.instance.saveObject(this, AccountObject())
+                val account = getAccountFromFields()
+                DiabetipsService.instance.login(account).subscribe()
+                AccountManager.instance.saveObject(this, account)
                 startActivity(Intent(this, HomeActivity::class.java))
             }
         }
@@ -37,7 +38,9 @@ class MainActivity : AppCompatActivity() {
             } else {
                 if (passwordInput.text.toString().isNotEmpty() &&
                     passwordInput.text.toString() == passwordConfirmInput.text.toString()) {
-                    AccountManager.instance.saveObject(this, AccountObject())
+                    val account = getAccountFromFields()
+                    DiabetipsService.instance.signUp(account).subscribe()
+                    AccountManager.instance.saveObject(this, account)
                     startActivity(Intent(this, HomeActivity::class.java))
                 } else {
                     Toast.makeText(this, getString(R.string.password_match_error), Toast.LENGTH_SHORT).show()
@@ -53,5 +56,16 @@ class MainActivity : AppCompatActivity() {
         nameInput.visibility = visibility
         firstNameInput.visibility = visibility
         passwordConfirmInput.visibility = visibility
+    }
+
+    private fun getAccountFromFields() : AccountObject {
+        val account = AccountObject()
+        account.email = emailInput.text.toString()
+        account.password = passwordInput.text.toString()
+        if (signUp) {
+            account.name = nameInput.text.toString()
+            account.firstname = firstNameInput.text.toString()
+        }
+        return account
     }
 }

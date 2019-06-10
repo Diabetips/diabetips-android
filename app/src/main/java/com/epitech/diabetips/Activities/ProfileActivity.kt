@@ -53,6 +53,7 @@ class ProfileActivity : AppCompatActivity() {
             val account : AccountObject = AccountManager.instance.getAccount(this)
             account.email = emailInput.text.toString()
             DiabetipsService.instance.changeEmail(account).subscribe()
+            AccountManager.instance.saveObject(this, account)
             //API call
         }
         isChangingEmail = !isChangingEmail

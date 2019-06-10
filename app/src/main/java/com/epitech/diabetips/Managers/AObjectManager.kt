@@ -6,8 +6,8 @@ import java.lang.reflect.Type
 
 abstract class AObjectManager<T: Any>(key: String) : AManager("saved_objects", key)  {
 
-    fun saveObject(context: Context, aobject: T) {
-        saveString(context, Gson().toJson(aobject))
+    fun saveObject(context: Context, objectToSave: T) {
+        saveString(context, Gson().toJson(objectToSave))
     }
 
     protected fun getObject(context: Context, type: Type): T {

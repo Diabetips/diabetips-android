@@ -4,23 +4,23 @@ import android.annotation.SuppressLint
 import android.content.Context
 
 @Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
-abstract class AManager(private val preference : String, private val key : String) {
+abstract class AManager(private val preference : String, private val key : String = "") {
 
     @SuppressLint("ApplySharedPref")
-    fun saveString(context: Context, string: String) {
+    fun saveString(context: Context, string: String, prefKey: String = key) {
         context.getSharedPreferences(preference, 0)
-                .edit().putString(key, string).commit()
+                .edit().putString(prefKey, string).commit()
     }
 
-    fun getString(context: Context): String {
+    fun getString(context: Context, prefKey: String = key): String {
         return context.getSharedPreferences(preference, 0)
-                .getString(key, "")
+                .getString(prefKey, "")
     }
 
     @SuppressLint("ApplySharedPref")
-    fun removeString(context: Context) {
+    fun removeString(context: Context, prefKey: String = key) {
         context.getSharedPreferences(preference, 0)
-            .edit().remove(key).commit()
+            .edit().remove(prefKey).commit()
     }
 
     @SuppressLint("ApplySharedPref")

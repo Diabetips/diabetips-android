@@ -16,21 +16,21 @@ class UnitTests {
     private val expectedAccount = AccountObject("nom.prenom@test.com", "password","NOM", "Prénom")
 
     @Test
-    fun login_isCorrect() {
+    fun login() {
         DiabetipsService.instance.login(expectedAccount).doOnSuccess { res ->
             assertEquals(expectedAccount, res.second.component2())
         }
     }
 
     @Test
-    fun signUp_isCorrect() {
+    fun signUp() {
         DiabetipsService.instance.signUp(expectedAccount).doOnSuccess { res ->
             assertEquals(expectedAccount, res.second.component2())
         }
     }
 
     @Test
-    fun getAccount_isCorrect() {
+    fun getAccount() {
         DiabetipsService.instance.getAccount().doOnSuccess { res ->
             assertEquals(expectedAccount, res.second.component2())
         }
