@@ -3,6 +3,7 @@ package com.epitech.diabetips.Activities
 import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Patterns
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
@@ -14,7 +15,9 @@ import com.epitech.diabetips.Managers.ModeManager
 import com.epitech.diabetips.R
 import com.epitech.diabetips.Services.DiabetipsService
 import com.epitech.diabetips.Storages.AccountObject
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_profile.*
+import kotlinx.android.synthetic.main.activity_profile.emailInput
 import kotlinx.android.synthetic.main.activity_style.*
 
 class ProfileActivity : AppCompatActivity() {
@@ -68,6 +71,10 @@ class ProfileActivity : AppCompatActivity() {
 
     private fun emailButtonClick() {
         if (isChangingEmail) {
+            if (emailInput.text.toString().isEmpty() || !Patterns.EMAIL_ADDRESS.matcher(emailInput.text.toString()).matches()) {
+                Toast.makeText(this, getString(R.string.email_invalid_error), Toast.LENGTH_SHORT).show()
+                return
+            }
             emailText.text = emailInput.text
             val account : AccountObject = AccountManager.instance.getAccount(this)
             account.email = emailInput.text.toString()

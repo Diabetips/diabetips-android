@@ -6,5 +6,6 @@
         <attr name="colorWarm" format="color" />
         <attr name="colorBackground" format="color" />
         <attr name="colorText" format="color" />
+        <attr name="colorTextButton" format="color" />
     </declare-styleable>
 </resources>

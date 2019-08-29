@@ -9,6 +9,7 @@
         <item name="colorWarm">@color/colorWarm</item>
         <item name="colorBackground">@color/colorBackground</item>
         <item name="colorText">@color/colorText</item>
+        <item name="colorTextButton">@color/colorTextDark</item>
     </style>
 
     <style name="DarkTheme" parent="Theme.AppCompat.Light.DarkActionBar">
@@ -16,7 +17,8 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="colorWarm">@color/colorWarm</item>
         <item name="colorBackground">@color/colorBackgroundDark</item>
-        <item name="colorText">@color/colorTextDark</item>
+        <item name="colorText">@color/colorTextDark</item>>
+        <item name="colorTextButton">@color/colorTextDark</item>
     </style>
 
     <style name="BackgroundTheme" parent="ThemeOverlay.AppCompat.Dark">
@@ -33,9 +35,9 @@
 
     <style name="FloatingTextButtonTheme" parent="ThemeOverlay.AppCompat.Dark">
         <item name="android:background">@null</item>
-        <item name="tint">?attr/colorBackground</item>
+        <item name="tint">?attr/colorTextButton</item>
         <item name="floating_background_color">?attr/colorPrimary</item>
-        <item name="floating_title_color">?attr/colorBackground</item>
+        <item name="floating_title_color">?attr/colorTextButton</item>
     </style>
 
     <style name="TextInputTheme" parent="@style/Widget.AppCompat.EditText">
@@ -45,6 +47,7 @@
         <item name="colorControlNormal">?attr/colorPrimary</item>
         <item name="colorControlActivated">?attr/colorPrimary</item>
         <item name="colorControlHighlight">?attr/colorPrimary</item>
+        <item name="android:editTextColor">?attr/colorText</item>
         <item name="android:textSize">18sp</item>
     </style>
 
@@ -60,6 +63,20 @@
 
     <style name="TextTheme" parent="TextViewTheme">
         <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="SwitchTheme" parent="ThemeOverlay.AppCompat.Dark">
+        <item name="android:textColorPrimaryDisableOnly">?attr/colorText</item>
+    </style>
+
+    <style name="CheckBoxTheme" parent="ThemeOverlay.AppCompat.Dark">
+        <item name="android:textColorSecondary">?attr/colorText</item>
+        <item name="android:textColorPrimaryDisableOnly">?attr/colorText</item>
+    </style>
+
+    <style name="RadioGroupTheme" parent="ThemeOverlay.AppCompat.Dark">
+        <item name="android:textColorSecondary">?attr/colorText</item>
+        <item name="android:textColorPrimaryDisableOnly">?attr/colorText</item>
     </style>
 
 </resources>

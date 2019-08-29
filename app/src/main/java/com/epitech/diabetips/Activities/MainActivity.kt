@@ -2,6 +2,7 @@ package com.epitech.diabetips.Activities
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Patterns
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -19,8 +20,8 @@ class MainActivity : AppCompatActivity() {
     private var signUp: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        //if(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
-        if(ModeManager.instance.getDarkMode(this) == AppCompatDelegate.MODE_NIGHT_YES) {
+        AppCompatDelegate.setDefaultNightMode(ModeManager.instance.getDarkMode(this))
+        if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
             setTheme(R.style.DarkTheme)
         } else {
             setTheme(R.style.AppTheme)
@@ -33,13 +34,15 @@ class MainActivity : AppCompatActivity() {
                 changeSignUpVisibility(View.INVISIBLE)
                 signUp = false
             } else {
-                if (passwordInput.text.toString().isNotEmpty()) {
+                if (emailInput.text.toString().isEmpty() || !Patterns.EMAIL_ADDRESS.matcher(emailInput.text.toString()).matches()) {
+                    Toast.makeText(this, getString(R.string.email_invalid_error), Toast.LENGTH_SHORT).show()
+                } else if (passwordInput.text.toString().isEmpty()) {
+                    Toast.makeText(this, getString(R.string.password_incorrect_error), Toast.LENGTH_SHORT).show()
+                } else {
                     val account = getAccountFromFields()
                     DiabetipsService.instance.login(account).subscribe()
                     AccountManager.instance.saveObject(this, account)
                     startActivity(Intent(this, HomeActivity::class.java))
-                } else {
-                    Toast.makeText(this, getString(R.string.password_incorrect_error), Toast.LENGTH_SHORT).show()
                 }
             }
         }
@@ -48,14 +51,18 @@ class MainActivity : AppCompatActivity() {
                 changeSignUpVisibility(View.VISIBLE)
                 signUp = true
             } else {
-                if (passwordInput.text.toString().isNotEmpty() &&
-                    passwordInput.text.toString() == passwordConfirmInput.text.toString()) {
+                if (nameInput.text.toString().isEmpty() || firstNameInput.text.toString().isEmpty()) {
+                    Toast.makeText(this, getString(R.string.name_invalid_error), Toast.LENGTH_SHORT).show()
+                } else if (emailInput.text.toString().isEmpty() || !Patterns.EMAIL_ADDRESS.matcher(emailInput.text.toString()).matches()) {
+                    Toast.makeText(this, getString(R.string.email_invalid_error), Toast.LENGTH_SHORT).show()
+                } else if (passwordInput.text.toString().isEmpty() ||
+                    passwordInput.text.toString() != passwordConfirmInput.text.toString()) {
+                    Toast.makeText(this, getString(R.string.password_match_error), Toast.LENGTH_SHORT).show()
+                } else {
                     val account = getAccountFromFields()
                     DiabetipsService.instance.signUp(account).subscribe()
                     AccountManager.instance.saveObject(this, account)
                     startActivity(Intent(this, HomeActivity::class.java))
-                } else {
-                    Toast.makeText(this, getString(R.string.password_match_error), Toast.LENGTH_SHORT).show()
                 }
             }
         }

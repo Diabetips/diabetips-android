@@ -19,5 +19,7 @@
 
     <string name="password_match_error">Password doesn\'t match</string>
     <string name="password_incorrect_error">Incorrect password</string>
+    <string name="email_invalid_error">Invalid email</string>
+    <string name="name_invalid_error">Invalid name or firstname</string>
 
 </resources>
