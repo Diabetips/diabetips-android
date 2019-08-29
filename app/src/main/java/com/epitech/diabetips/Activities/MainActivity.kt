@@ -5,7 +5,9 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import com.epitech.diabetips.Managers.AccountManager
+import com.epitech.diabetips.Managers.ModeManager
 import com.epitech.diabetips.R
 import com.epitech.diabetips.Services.DiabetipsService
 import com.epitech.diabetips.Storages.AccountObject
@@ -17,6 +19,12 @@ class MainActivity : AppCompatActivity() {
     private var signUp: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        //if(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
+        if(ModeManager.instance.getDarkMode(this) == AppCompatDelegate.MODE_NIGHT_YES) {
+            setTheme(R.style.DarkTheme)
+        } else {
+            setTheme(R.style.AppTheme)
+        }
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         FuelManager.instance.basePath = getString(R.string.api_base_url)

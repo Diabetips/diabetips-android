@@ -5,43 +5,53 @@
 
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimary</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorWarm">@color/colorWarm</item>
+        <item name="colorBackground">@color/colorBackground</item>
+        <item name="colorText">@color/colorText</item>
+    </style>
+
+    <style name="DarkTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorWarm">@color/colorWarm</item>
+        <item name="colorBackground">@color/colorBackgroundDark</item>
+        <item name="colorText">@color/colorTextDark</item>
     </style>
 
     <style name="BackgroundTheme" parent="ThemeOverlay.AppCompat.Dark">
-        <item name="android:background">@color/colorBackground</item>
+        <item name="android:background">?attr/colorBackground</item>
     </style>
 
     <style name="ButtonTheme" parent="ThemeOverlay.AppCompat.Dark">
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimary</item>
-        <item name="colorAccent">@color/colorAccent</item>
-        <item name="colorButtonNormal">@color/colorPrimary</item>
-        <item name="colorControlHighlight">@color/colorPrimary</item>
+        <item name="colorPrimary">?attr/colorPrimary</item>
+        <item name="colorPrimaryDark">?attr/colorPrimary</item>
+        <item name="backgroundTint">?attr/colorAccent</item>
+        <item name="colorButtonNormal">?attr/colorPrimary</item>
+        <item name="colorControlHighlight">?attr/colorPrimary</item>
     </style>
 
     <style name="FloatingTextButtonTheme" parent="ThemeOverlay.AppCompat.Dark">
         <item name="android:background">@null</item>
-        <item name="android:tint">@color/colorBackground</item>
-        <item name="floating_background_color">@color/colorPrimary</item>
-        <item name="floating_title_color">@color/colorBackground</item>
+        <item name="tint">?attr/colorBackground</item>
+        <item name="floating_background_color">?attr/colorPrimary</item>
+        <item name="floating_title_color">?attr/colorBackground</item>
     </style>
 
     <style name="TextInputTheme" parent="@style/Widget.AppCompat.EditText">
-        <item name="android:textColorHint">@color/colorAccent</item>
-        <item name="android:textColorHintInverse">@color/colorAccent</item>
-        <item name="android:textColor">@color/colorPrimary</item>
-        <item name="colorControlNormal">@color/colorPrimary</item>
-        <item name="colorControlActivated">@color/colorPrimary</item>
-        <item name="colorControlHighlight">@color/colorPrimary</item>
+        <item name="android:textColorHint">?attr/colorAccent</item>
+        <item name="android:textColorHintInverse">?attr/colorAccent</item>
+        <item name="android:textColor">?attr/colorPrimary</item>
+        <item name="colorControlNormal">?attr/colorPrimary</item>
+        <item name="colorControlActivated">?attr/colorPrimary</item>
+        <item name="colorControlHighlight">?attr/colorPrimary</item>
         <item name="android:textSize">18sp</item>
     </style>
 
     <style name="TextViewTheme" parent="ThemeOverlay.AppCompat.Dark">
-        <item name="android:textColor">@color/colorPrimary</item>
-        <item name="android:textColorHint">@color/colorPrimary</item>
-        <item name="android:textColorHintInverse">@color/colorPrimary</item>
+        <item name="android:textColor">?attr/colorPrimary</item>
+        <item name="android:textColorHint">?attr/colorPrimary</item>
+        <item name="android:textColorHintInverse">?attr/colorPrimary</item>
     </style>
 
     <style name="TitleTheme" parent="TextViewTheme">
