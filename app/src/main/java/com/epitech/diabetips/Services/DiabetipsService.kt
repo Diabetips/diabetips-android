@@ -7,6 +7,7 @@ import com.github.kittinunf.fuel.core.FuelManager
 import com.github.kittinunf.fuel.core.Response
 import com.github.kittinunf.fuel.httpGet
 import com.github.kittinunf.fuel.httpPost
+import com.github.kittinunf.fuel.httpPut
 import com.github.kittinunf.fuel.rx.rx_response
 import com.github.kittinunf.fuel.rx.rx_responseObject
 import com.github.kittinunf.result.Result
@@ -34,8 +35,8 @@ class DiabetipsService {
             }
     }
 
-    fun signUp(account: AccountObject) : FuelResponse<AccountObject> {
-        return "signUp".httpPost()
+    fun postUser(account: AccountObject) : FuelResponse<AccountObject> {
+        return "v1/users".httpPost().body(account.toString())
             .rx_responseObject(AccountObject.Deserializer())
             .subscribeOn(Schedulers.newThread())
             .observeOn(AndroidSchedulers.mainThread()).doOnError { err ->
@@ -43,29 +44,31 @@ class DiabetipsService {
             }
     }
 
-    fun getAccount() : FuelResponse<AccountObject> {
-        FuelManager.instance.basePath = "https://next.json-generator.com/api/json/get/" // remove this line when using the real API
-        return "4yMg6WlnL".httpGet()
+    fun getUser(uid: String) : FuelResponse<AccountObject> {
+        //FuelManager.instance.basePath = "https://next.json-generator.com/api/json/get/4yMg6WlnL" // remove this line when using the real API
+        return ("v1/users/" + uid).httpGet()
             .rx_responseObject(AccountObject.Deserializer())
             .subscribeOn(Schedulers.newThread())
             .observeOn(AndroidSchedulers.mainThread()).doOnError { err ->
-                Log.d("getAccount error", err.message)
+                Log.d("getUser error", err.message)
             }
     }
 
-    fun changeEmail(account: AccountObject) : FuelResponse<ByteArray> {
-        return "changeEmail".httpPost().rx_response()
+    fun getUsers(uid: String) : FuelResponse<Array<AccountObject>> {
+        return ("v1/users/" + uid).httpGet()
+            .rx_responseObject(AccountObject.ArrayDeserializer())
+            .subscribeOn(Schedulers.newThread())
+            .observeOn(AndroidSchedulers.mainThread()).doOnError { err ->
+                Log.d("getUsers error", err.message)
+            }
+    }
+
+    fun putUser(account: AccountObject) : FuelResponse<AccountObject> {
+        return ("v1/users/" + account.uid).httpPut().body(account.toString())
+            .rx_responseObject(AccountObject.Deserializer())
             .subscribeOn(Schedulers.newThread())
             .observeOn(AndroidSchedulers.mainThread()).doOnError { err ->
                 Log.d("changeEmail error", err.message)
-            }
-    }
-
-    fun changePassword(account: AccountObject) : FuelResponse<ByteArray> {
-        return "changePassword".httpPost().rx_response()
-            .subscribeOn(Schedulers.newThread())
-            .observeOn(AndroidSchedulers.mainThread()).doOnError { err ->
-                Log.d("changePassword error", err.message)
             }
     }
 

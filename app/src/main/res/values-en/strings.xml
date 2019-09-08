@@ -12,4 +12,7 @@
     <string name="profile_title">Profile</string>
     <string name="sign_up_button">Sign Up</string>
     <string name="password_incorrect_error">Incorrect password</string>
+    <string name="email_invalid_error">Invalid email</string>
+    <string name="name_invalid_error">Invalid name or firstname</string>
+    <string name="password_length_error">Password must be at least 8 caracters long</string>
 </resources>

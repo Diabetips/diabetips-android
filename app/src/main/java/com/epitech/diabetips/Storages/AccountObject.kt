@@ -5,12 +5,16 @@ import com.google.gson.Gson
 import java.io.Serializable
 
 data class AccountObject (
-        var email: String = "",
-        var password: String = "",
-        var name: String = "",
-        var firstname: String = "") : Serializable {
+    var uid: String = "",
+    var email: String = "",
+    var password: String = "",
+    var first_name: String = "",
+    var last_name: String = "") : Serializable {
 
     class Deserializer : ResponseDeserializable<AccountObject> {
         override fun deserialize(content: String) = Gson().fromJson(content, AccountObject::class.java)
+    }
+    class ArrayDeserializer : ResponseDeserializable<Array<AccountObject>> {
+        override fun deserialize(content: String) = Gson().fromJson(content, Array<AccountObject>::class.java)
     }
 }

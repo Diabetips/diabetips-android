@@ -9,7 +9,7 @@
         android:theme="@style/BackgroundTheme">
 
     <TextView
-            android:id="@+id/TitleText"
+            android:id="@+id/titleText"
             android:theme="@style/TitleTheme"
             android:text="@string/profile_title"
             android:layout_width="wrap_content"
@@ -21,6 +21,17 @@
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginStart="8dp"/>
 
+    <ru.dimorinny.floatingtextbutton.FloatingTextButton
+            android:id="@+id/darkModeButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginTop="8dp"
+            android:theme="@style/FloatingTextButtonTheme"
+            app:floating_right_icon="@drawable/ic_sun"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
     <TextView
             android:id="@+id/nameText"
             android:theme="@style/TextTheme"
@@ -30,7 +41,7 @@
             app:layout_constraintTop_toTopOf="parent"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
-            app:layout_constraintEnd_toStartOf="@+id/TitleText"
+            app:layout_constraintEnd_toStartOf="@+id/titleText"
             app:layout_constraintBottom_toTopOf="@+id/emailText"/>
 
     <TextView
@@ -43,7 +54,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginBottom="8dp"
             app:layout_constraintBottom_toTopOf="@+id/emailText"
-            app:layout_constraintStart_toEndOf="@+id/TitleText"/>
+            app:layout_constraintStart_toEndOf="@+id/titleText"/>
 
     <TextView
             android:id="@+id/emailText"
@@ -83,7 +94,9 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/emailInput"
             app:layout_constraintStart_toEndOf="@+id/emailInput"
-            app:layout_constraintBottom_toBottomOf="@+id/emailInput"/>
+            app:layout_constraintBottom_toBottomOf="@+id/emailInput">
+
+    </ru.dimorinny.floatingtextbutton.FloatingTextButton>
 
     <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/newPasswordInput"
@@ -128,4 +141,5 @@
             app:layout_constraintBottom_toBottomOf="parent"
             android:layout_marginBottom="8dp"
             app:layout_constraintStart_toStartOf="parent"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

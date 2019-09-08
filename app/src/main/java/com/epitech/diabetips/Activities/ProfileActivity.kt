@@ -3,16 +3,22 @@ package com.epitech.diabetips.Activities
 import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Patterns
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
 import com.epitech.diabetips.Managers.AccountManager
+import com.epitech.diabetips.Managers.ModeManager
 import com.epitech.diabetips.R
 import com.epitech.diabetips.Services.DiabetipsService
 import com.epitech.diabetips.Storages.AccountObject
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_profile.*
+import kotlinx.android.synthetic.main.activity_profile.emailInput
+import kotlinx.android.synthetic.main.activity_style.*
 
 class ProfileActivity : AppCompatActivity() {
 
@@ -20,8 +26,24 @@ class ProfileActivity : AppCompatActivity() {
     private var isChangingPassword: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        if(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
+            setTheme(R.style.DarkTheme)
+        } else {
+            setTheme(R.style.AppTheme)
+        }
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_profile)
+        darkModeButton.setOnClickListener {
+            if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+            } else {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+            }
+            ModeManager.instance.saveDarkMode(this, AppCompatDelegate.getDefaultNightMode())
+            val intent = intent
+            finish()
+            startActivity(intent)
+        }
         emailButton.setOnClickListener {
             emailButtonClick()
         }
@@ -41,18 +63,22 @@ class ProfileActivity : AppCompatActivity() {
 
     private fun getAccountInfo() {
         val account = AccountManager.instance.getAccount(this)
-        nameText.text = account.name
-        firstNameText.text = account.firstname
+        firstNameText.text = account.first_name
+        nameText.text = account.last_name
         emailText.text = account.email
         emailInput.setText(account.email)
     }
 
     private fun emailButtonClick() {
         if (isChangingEmail) {
+            if (emailInput.text.toString().isEmpty() || !Patterns.EMAIL_ADDRESS.matcher(emailInput.text.toString()).matches()) {
+                Toast.makeText(this, getString(R.string.email_invalid_error), Toast.LENGTH_SHORT).show()
+                return
+            }
             emailText.text = emailInput.text
             val account : AccountObject = AccountManager.instance.getAccount(this)
             account.email = emailInput.text.toString()
-            DiabetipsService.instance.changeEmail(account).subscribe()
+            DiabetipsService.instance.putUser(account).subscribe()
             AccountManager.instance.saveObject(this, account)
             //API call
         }
@@ -73,17 +99,20 @@ class ProfileActivity : AppCompatActivity() {
 
     private fun changePasswordDisplay() {
         if (isChangingPassword) {
-            if (newPasswordInput.text.toString().isNotEmpty() &&
+            if (passwordInput.text.toString().length < resources.getInteger(R.integer.password_length)) {
+                Toast.makeText(this, getString(R.string.password_length_error), Toast.LENGTH_SHORT).show()
+            }
+            else if (newPasswordInput.text.toString().isNotEmpty() &&
                 newPasswordInput.text.toString() == newPasswordConfirmInput.text.toString()) {
+                Toast.makeText(this, getString(R.string.password_match_error), Toast.LENGTH_SHORT).show()
+            } else {
                 val account : AccountObject = AccountManager.instance.getAccount(this)
                 account.password = newPasswordInput.text.toString()
-                DiabetipsService.instance.changePassword(account).subscribe()
+                DiabetipsService.instance.putUser(account).subscribe()
                 newPasswordConfirmInput.visibility = View.INVISIBLE
                 newPasswordInput.visibility = View.INVISIBLE
                 newPasswordButton.rightIconDrawable = ContextCompat.getDrawable(applicationContext, R.drawable.ic_edit)
                 isChangingPassword = false
-            } else {
-                Toast.makeText(this, getString(R.string.password_match_error), Toast.LENGTH_SHORT).show()
             }
         } else {
             newPasswordConfirmInput.visibility = View.VISIBLE
