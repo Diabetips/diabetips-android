@@ -14,4 +14,5 @@
     <string name="password_incorrect_error">Mot de passe incorrect</string>
     <string name="email_invalid_error">Email invalide</string>
     <string name="name_invalid_error">Nom ou prénom invalide</string>
+    <string name="password_length_error">Le mot de passe doit faire au moins 8 caractères de long</string>
 </resources>

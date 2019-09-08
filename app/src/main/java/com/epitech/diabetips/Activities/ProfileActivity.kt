@@ -63,8 +63,8 @@ class ProfileActivity : AppCompatActivity() {
 
     private fun getAccountInfo() {
         val account = AccountManager.instance.getAccount(this)
-        nameText.text = account.name
-        firstNameText.text = account.firstname
+        firstNameText.text = account.first_name
+        nameText.text = account.last_name
         emailText.text = account.email
         emailInput.setText(account.email)
     }
@@ -78,7 +78,7 @@ class ProfileActivity : AppCompatActivity() {
             emailText.text = emailInput.text
             val account : AccountObject = AccountManager.instance.getAccount(this)
             account.email = emailInput.text.toString()
-            DiabetipsService.instance.changeEmail(account).subscribe()
+            DiabetipsService.instance.putUser(account).subscribe()
             AccountManager.instance.saveObject(this, account)
             //API call
         }
@@ -99,17 +99,20 @@ class ProfileActivity : AppCompatActivity() {
 
     private fun changePasswordDisplay() {
         if (isChangingPassword) {
-            if (newPasswordInput.text.toString().isNotEmpty() &&
+            if (passwordInput.text.toString().length < resources.getInteger(R.integer.password_length)) {
+                Toast.makeText(this, getString(R.string.password_length_error), Toast.LENGTH_SHORT).show()
+            }
+            else if (newPasswordInput.text.toString().isNotEmpty() &&
                 newPasswordInput.text.toString() == newPasswordConfirmInput.text.toString()) {
+                Toast.makeText(this, getString(R.string.password_match_error), Toast.LENGTH_SHORT).show()
+            } else {
                 val account : AccountObject = AccountManager.instance.getAccount(this)
                 account.password = newPasswordInput.text.toString()
-                DiabetipsService.instance.changePassword(account).subscribe()
+                DiabetipsService.instance.putUser(account).subscribe()
                 newPasswordConfirmInput.visibility = View.INVISIBLE
                 newPasswordInput.visibility = View.INVISIBLE
                 newPasswordButton.rightIconDrawable = ContextCompat.getDrawable(applicationContext, R.drawable.ic_edit)
                 isChangingPassword = false
-            } else {
-                Toast.makeText(this, getString(R.string.password_match_error), Toast.LENGTH_SHORT).show()
             }
         } else {
             newPasswordConfirmInput.visibility = View.VISIBLE
