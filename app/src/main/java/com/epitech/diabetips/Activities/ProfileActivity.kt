@@ -18,7 +18,6 @@ import com.epitech.diabetips.Storages.AccountObject
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_profile.*
 import kotlinx.android.synthetic.main.activity_profile.emailInput
-import kotlinx.android.synthetic.main.activity_style.*
 
 class ProfileActivity : AppCompatActivity() {
 

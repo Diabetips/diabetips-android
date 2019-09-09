@@ -28,8 +28,9 @@
                         </option>
                         <option name="values">
                           <map>
-                            <entry key="outputName" value="ic_sun" />
-                            <entry key="sourceFile" value="C:\Users\Out-Feu" />
+                            <entry key="assetSourceType" value="FILE" />
+                            <entry key="outputName" value="ic_food" />
+                            <entry key="sourceFile" value="C:\Users\Out-Feu\Downloads\apple-black-silhouette-with-a-leaf.svg" />
                           </map>
                         </option>
                       </PersistentState>
