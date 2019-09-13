@@ -2,6 +2,7 @@ package com.epitech.diabetips.Services
 
 import android.util.Log
 import com.epitech.diabetips.Storages.AccountObject
+import com.epitech.diabetips.Storages.AccountObjectAdapter
 import com.github.kittinunf.fuel.core.FuelError
 import com.github.kittinunf.fuel.core.FuelManager
 import com.github.kittinunf.fuel.core.Response
@@ -11,6 +12,7 @@ import com.github.kittinunf.fuel.httpPut
 import com.github.kittinunf.fuel.rx.rx_response
 import com.github.kittinunf.fuel.rx.rx_responseObject
 import com.github.kittinunf.result.Result
+import com.google.gson.GsonBuilder
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -19,6 +21,9 @@ typealias FuelResponse<ResponseObject> = Single<Pair<Response, Result<ResponseOb
 
 class DiabetipsService {
 
+    val customGson = GsonBuilder()
+        .registerTypeAdapter(AccountObject::class.java, AccountObjectAdapter())
+        .create()
 
     private object Holder { val INSTANCE = DiabetipsService() }
 
@@ -27,7 +32,7 @@ class DiabetipsService {
     }
 
     fun login(account: AccountObject) : FuelResponse<AccountObject> {
-        return "login".httpPost()
+        return "login".httpPost().body(customGson.toJson(account))
             .rx_responseObject(AccountObject.Deserializer())
             .subscribeOn(Schedulers.newThread())
             .observeOn(AndroidSchedulers.mainThread()).doOnError { err ->
@@ -36,7 +41,7 @@ class DiabetipsService {
     }
 
     fun postUser(account: AccountObject) : FuelResponse<AccountObject> {
-        return "v1/users".httpPost().body(account.toString())
+        return "v1/users".httpPost().body(customGson.toJson(account))
             .rx_responseObject(AccountObject.Deserializer())
             .subscribeOn(Schedulers.newThread())
             .observeOn(AndroidSchedulers.mainThread()).doOnError { err ->
@@ -64,7 +69,7 @@ class DiabetipsService {
     }
 
     fun putUser(account: AccountObject) : FuelResponse<AccountObject> {
-        return ("v1/users/" + account.uid).httpPut().body(account.toString())
+        return ("v1/users/" + account.uid).httpPut().body(customGson.toJson(account))
             .rx_responseObject(AccountObject.Deserializer())
             .subscribeOn(Schedulers.newThread())
             .observeOn(AndroidSchedulers.mainThread()).doOnError { err ->
