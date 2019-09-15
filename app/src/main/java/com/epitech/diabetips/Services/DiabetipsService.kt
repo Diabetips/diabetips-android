@@ -51,7 +51,6 @@ class DiabetipsService {
     }
 
     fun getUser(uid: String) : FuelResponse<AccountObject> {
-        //FuelManager.instance.basePath = "https://next.json-generator.com/api/json/get/4yMg6WlnL" // remove this line when using the real API
         return ("v1/users/" + uid).httpGet()
             .rx_responseObject(AccountObject.Deserializer())
             .subscribeOn(Schedulers.newThread())
@@ -60,8 +59,8 @@ class DiabetipsService {
             }
     }
 
-    fun getAllUsers(uid: String) : FuelResponse<Array<AccountObject>> {
-        return ("v1/users/" + uid).httpGet()
+    fun getAllUsers() : FuelResponse<Array<AccountObject>> {
+        return ("v1/users/").httpGet()
             .rx_responseObject(AccountObject.ArrayDeserializer())
             .subscribeOn(Schedulers.newThread())
             .observeOn(AndroidSchedulers.mainThread()).doOnError { err ->

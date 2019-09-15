@@ -20,4 +20,5 @@
     <string name="add_food">Ajouter un aliment</string>
     <string name="new_recipe">Nouvelle recette</string>
     <string name="validate">Valider</string>
+    <string name="email_already_taken">Cet email est déjà lié à un autre compte</string>
 </resources>

@@ -20,4 +20,5 @@
     <string name="add_food">Add some food</string>
     <string name="new_recipe">New recipe</string>
     <string name="validate">Validate</string>
+    <string name="email_already_taken">This email is already linked to another account</string>
 </resources>
