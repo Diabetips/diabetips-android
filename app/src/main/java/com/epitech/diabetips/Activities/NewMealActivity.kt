@@ -5,9 +5,9 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatDelegate
 import com.epitech.diabetips.R
-import kotlinx.android.synthetic.main.activity_home.*
+import kotlinx.android.synthetic.main.activity_new_meal.*
 
-class HomeActivity : AppCompatActivity() {
+class NewMealActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         if(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
@@ -16,12 +16,9 @@ class HomeActivity : AppCompatActivity() {
             setTheme(R.style.AppTheme)
         }
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_home)
-        profileButton.setOnClickListener {
-            startActivity(Intent(this, ProfileActivity::class.java))
-        }
-        mealButton.setOnClickListener {
-            startActivity(Intent(this, NewMealActivity::class.java))
+        setContentView(R.layout.activity_new_meal)
+        recipeButton.setOnClickListener {
+            startActivity(Intent(this, RecipeActivity::class.java))
         }
     }
 }

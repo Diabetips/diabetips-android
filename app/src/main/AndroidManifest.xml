@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.epitech.diabetips">
+        package="com.epitech.diabetips">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
     <application
             android:allowBackup="true"
             android:icon="@mipmap/ic_launcher"
@@ -11,16 +12,18 @@
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
-        <activity android:name=".Activities.ProfileActivity">
-        </activity>
-        <activity android:name=".Activities.HomeActivity">
-        </activity>
-        <activity android:name=".Activities.StyleActivity">
-        </activity>
+        <activity android:name=".Activities.NewRecipeActivity"></activity>
+        <activity android:name=".Activities.FoodActivity" />
+        <activity android:name=".Activities.RecipeActivity" />
+        <activity android:name=".Activities.NewMealActivity" />
+        <activity android:name=".Activities.ProfileActivity" />
+        <activity android:name=".Activities.HomeActivity" />
+        <activity android:name=".Activities.StyleActivity" />
         <activity android:name=".Activities.MainActivity">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
     </application>

@@ -15,4 +15,10 @@
     <string name="email_invalid_error">Email invalide</string>
     <string name="name_invalid_error">Nom ou prénom invalide</string>
     <string name="password_length_error">Le mot de passe doit faire au moins 8 caractères de long</string>
+    <string name="add_meal">Ajouter un nouveau repas</string>
+    <string name="add_recipe">Ajouter une recette</string>
+    <string name="add_food">Ajouter un aliment</string>
+    <string name="new_recipe">Nouvelle recette</string>
+    <string name="validate">Valider</string>
+    <string name="email_already_taken">Cet email est déjà lié à un autre compte</string>
 </resources>
