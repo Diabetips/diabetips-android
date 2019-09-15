@@ -77,9 +77,13 @@ class ProfileActivity : AppCompatActivity() {
             emailText.text = emailInput.text
             val account : AccountObject = AccountManager.instance.getAccount(this)
             account.email = emailInput.text.toString()
-            DiabetipsService.instance.putUser(account).subscribe()
-            AccountManager.instance.saveObject(this, account)
-            //API call
+            DiabetipsService.instance.updateUser(account).doOnSuccess {
+                if (it.second.component2() == null) {
+                    AccountManager.instance.saveObject(this, it.second.component1()!!)
+                } else {
+                    Toast.makeText(this, it.second.component2()!!.exception.message, Toast.LENGTH_SHORT).show()
+                }
+            }.subscribe()
         }
         isChangingEmail = !isChangingEmail
         if (isChangingEmail) {
@@ -107,7 +111,13 @@ class ProfileActivity : AppCompatActivity() {
             } else {
                 val account : AccountObject = AccountManager.instance.getAccount(this)
                 account.password = newPasswordInput.text.toString()
-                DiabetipsService.instance.putUser(account).subscribe()
+                DiabetipsService.instance.updateUser(account).doOnSuccess {
+                    if (it.second.component2() == null) {
+                        AccountManager.instance.saveObject(this, it.second.component1()!!)
+                    } else {
+                        Toast.makeText(this, it.second.component2()!!.exception.message, Toast.LENGTH_SHORT).show()
+                    }
+                }.subscribe()
                 newPasswordConfirmInput.visibility = View.INVISIBLE
                 newPasswordInput.visibility = View.INVISIBLE
                 newPasswordButton.rightIconDrawable = ContextCompat.getDrawable(applicationContext, R.drawable.ic_edit)

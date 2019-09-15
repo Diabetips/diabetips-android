@@ -21,7 +21,7 @@ class HomeActivity : AppCompatActivity() {
             startActivity(Intent(this, ProfileActivity::class.java))
         }
         mealButton.setOnClickListener {
-            startActivity(Intent(this, MealActivity::class.java))
+            startActivity(Intent(this, NewMealActivity::class.java))
         }
     }
 }

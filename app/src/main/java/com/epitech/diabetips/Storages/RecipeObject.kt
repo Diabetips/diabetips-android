@@ -7,7 +7,8 @@ import java.io.Serializable
 data class RecipeObject (
     var uid: String = "",
     var name: String = "",
-    var foods: Array<FoodObject> = arrayOf()) : Serializable {
+    var description: String = "",
+    var ingredients: Array<FoodObject> = arrayOf()) : Serializable {
 
     class Deserializer : ResponseDeserializable<RecipeObject> {
         override fun deserialize(content: String) = Gson().fromJson(content, RecipeObject::class.java)

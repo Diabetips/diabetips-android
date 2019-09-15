@@ -16,7 +16,7 @@
     <string name="name_invalid_error">Invalid name or firstname</string>
     <string name="password_length_error">Password must be at least 8 caracters long</string>
     <string name="add_meal">Add a new meal</string>
-    <string name="add_recipe">Add a new meal</string>
+    <string name="add_recipe">Add a recipe</string>
     <string name="add_food">Add some food</string>
     <string name="new_recipe">New recipe</string>
     <string name="validate">Validate</string>

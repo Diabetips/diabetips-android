@@ -7,6 +7,7 @@ import java.io.Serializable
 data class FoodObject (
     var uid: String = "",
     var name: String = "",
+    var unit: String = "",
     var quantity: Float = 0f) : Serializable {
 
     class Deserializer : ResponseDeserializable<FoodObject> {

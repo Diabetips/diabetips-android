@@ -62,7 +62,7 @@ class MainActivity : AppCompatActivity() {
                     Toast.makeText(this, getString(R.string.password_match_error), Toast.LENGTH_SHORT).show()
                 } else {
                     val account = getAccountFromFields()
-                    DiabetipsService.instance.postUser(account).doOnSuccess {
+                    DiabetipsService.instance.registerUser(account).doOnSuccess {
                         if (it.second.component2() == null) {
                             AccountManager.instance.saveObject(this, it.second.component1()!!)
                             startActivity(Intent(this, HomeActivity::class.java))

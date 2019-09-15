@@ -7,7 +7,8 @@ import java.util.*
 
 data class MealObject (
     var uid: String = "",
-    var date: Date = Date(),
+    var time: Date = Date(),
+    var description: String = "",
     var recipes: Array<RecipeObject> = arrayOf()) : Serializable {
 
     class Deserializer : ResponseDeserializable<MealObject> {

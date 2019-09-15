@@ -1,8 +1,9 @@
 package com.epitech.diabetips.Services
 
+import android.app.Application
 import android.util.Log
-import com.epitech.diabetips.Storages.AccountObject
-import com.epitech.diabetips.Storages.AccountObjectAdapter
+import com.epitech.diabetips.Managers.AccountManager
+import com.epitech.diabetips.Storages.*
 import com.github.kittinunf.fuel.core.FuelError
 import com.github.kittinunf.fuel.core.FuelManager
 import com.github.kittinunf.fuel.core.Response
@@ -40,12 +41,12 @@ class DiabetipsService {
             }
     }
 
-    fun postUser(account: AccountObject) : FuelResponse<AccountObject> {
+    fun registerUser(account: AccountObject) : FuelResponse<AccountObject> {
         return "v1/users".httpPost().body(customGson.toJson(account))
             .rx_responseObject(AccountObject.Deserializer())
             .subscribeOn(Schedulers.newThread())
             .observeOn(AndroidSchedulers.mainThread()).doOnError { err ->
-                Log.d("signUp error", err.message)
+                Log.d("registerUser error", err.message)
             }
     }
 
@@ -59,21 +60,120 @@ class DiabetipsService {
             }
     }
 
-    fun getUsers(uid: String) : FuelResponse<Array<AccountObject>> {
+    fun getAllUsers(uid: String) : FuelResponse<Array<AccountObject>> {
         return ("v1/users/" + uid).httpGet()
             .rx_responseObject(AccountObject.ArrayDeserializer())
             .subscribeOn(Schedulers.newThread())
             .observeOn(AndroidSchedulers.mainThread()).doOnError { err ->
-                Log.d("getUsers error", err.message)
+                Log.d("getAllUsers error", err.message)
             }
     }
 
-    fun putUser(account: AccountObject) : FuelResponse<AccountObject> {
+    fun updateUser(account: AccountObject) : FuelResponse<AccountObject> {
         return ("v1/users/" + account.uid).httpPut().body(customGson.toJson(account))
             .rx_responseObject(AccountObject.Deserializer())
             .subscribeOn(Schedulers.newThread())
             .observeOn(AndroidSchedulers.mainThread()).doOnError { err ->
-                Log.d("changeEmail error", err.message)
+                Log.d("updateUser error", err.message)
+            }
+    }
+
+    fun getAllUserMeals(uid: String) : FuelResponse<Array<MealObject>> {
+        return ("/" + uid + "/meals/").httpGet()
+            .rx_responseObject(MealObject.ArrayDeserializer())
+            .subscribeOn(Schedulers.newThread())
+            .observeOn(AndroidSchedulers.mainThread()).doOnError { err ->
+                Log.d("getAllUserMeals error", err.message)
+            }
+    }
+
+    fun getUserMeal(uid: String, id: String) : FuelResponse<MealObject> {
+        return ("/" + uid + "/meals/" + id).httpGet()
+            .rx_responseObject(MealObject.Deserializer())
+            .subscribeOn(Schedulers.newThread())
+            .observeOn(AndroidSchedulers.mainThread()).doOnError { err ->
+                Log.d("getUserMeal error", err.message)
+            }
+    }
+
+    fun addUserMeal(uid: String, meal: MealObject) : FuelResponse<MealObject> {
+        return ("/" + uid + "/meals/").httpPost().body(customGson.toJson(meal))
+            .rx_responseObject(MealObject.Deserializer())
+            .subscribeOn(Schedulers.newThread())
+            .observeOn(AndroidSchedulers.mainThread()).doOnError { err ->
+                Log.d("addUserMeal error", err.message)
+            }
+    }
+
+    fun updateUserMeal(uid: String, meal: MealObject) : FuelResponse<MealObject> {
+        return ("/" + uid + "/meals/" + meal.uid).httpPut().body(customGson.toJson(meal))
+            .rx_responseObject(MealObject.Deserializer())
+            .subscribeOn(Schedulers.newThread())
+            .observeOn(AndroidSchedulers.mainThread()).doOnError { err ->
+                Log.d("updateUserMeal error", err.message)
+            }
+    }
+
+    fun getAllRecipes() : FuelResponse<Array<RecipeObject>> {
+        return ("/").httpGet()
+            .rx_responseObject(RecipeObject.ArrayDeserializer())
+            .subscribeOn(Schedulers.newThread())
+            .observeOn(AndroidSchedulers.mainThread()).doOnError { err ->
+                Log.d("getAllRecipes error", err.message)
+            }
+    }
+
+    fun getRecipe(id: String) : FuelResponse<RecipeObject> {
+        return ("/" + id).httpGet()
+            .rx_responseObject(RecipeObject.Deserializer())
+            .subscribeOn(Schedulers.newThread())
+            .observeOn(AndroidSchedulers.mainThread()).doOnError { err ->
+                Log.d("getFood error", err.message)
+            }
+    }
+
+    fun createRecipe(recipe: RecipeObject) : FuelResponse<RecipeObject> {
+        return ("/").httpPost().body(customGson.toJson(recipe))
+            .rx_responseObject(RecipeObject.Deserializer())
+            .subscribeOn(Schedulers.newThread())
+            .observeOn(AndroidSchedulers.mainThread()).doOnError { err ->
+                Log.d("createRecipe error", err.message)
+            }
+    }
+
+    fun updateRecipe(recipe: RecipeObject) : FuelResponse<RecipeObject> {
+        return ("/" + recipe.uid).httpPut().body(customGson.toJson(recipe))
+            .rx_responseObject(RecipeObject.Deserializer())
+            .subscribeOn(Schedulers.newThread())
+            .observeOn(AndroidSchedulers.mainThread()).doOnError { err ->
+                Log.d("updateRecipe error", err.message)
+            }
+    }
+
+    fun getAllFood() : FuelResponse<Array<FoodObject>> {
+        return ("/").httpGet()
+            .rx_responseObject(FoodObject.ArrayDeserializer())
+            .subscribeOn(Schedulers.newThread())
+            .observeOn(AndroidSchedulers.mainThread()).doOnError { err ->
+                Log.d("getAllFood error", err.message)
+            }
+    }
+
+    fun getFood(id: String) : FuelResponse<FoodObject> {
+        return ("/" + id).httpGet()
+            .rx_responseObject(FoodObject.Deserializer())
+            .subscribeOn(Schedulers.newThread())
+            .observeOn(AndroidSchedulers.mainThread()).doOnError { err ->
+                Log.d("getFood error", err.message)
+            }
+    }
+
+    fun addFood(food: FoodObject) : FuelResponse<FoodObject> {
+        return ("/").httpPost().body(customGson.toJson(food))
+            .rx_responseObject(FoodObject.Deserializer())
+            .subscribeOn(Schedulers.newThread())
+            .observeOn(AndroidSchedulers.mainThread()).doOnError { err ->
+                Log.d("addFood error", err.message)
             }
     }
 

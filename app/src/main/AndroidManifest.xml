@@ -15,7 +15,7 @@
         <activity android:name=".Activities.NewRecipeActivity"></activity>
         <activity android:name=".Activities.FoodActivity" />
         <activity android:name=".Activities.RecipeActivity" />
-        <activity android:name=".Activities.MealActivity" />
+        <activity android:name=".Activities.NewMealActivity" />
         <activity android:name=".Activities.ProfileActivity" />
         <activity android:name=".Activities.HomeActivity" />
         <activity android:name=".Activities.StyleActivity" />
