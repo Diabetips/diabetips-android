@@ -43,19 +43,23 @@ class MainActivity : AppCompatActivity() {
                     Toast.makeText(this, getString(R.string.password_incorrect_error), Toast.LENGTH_SHORT).show()
                 } else {
                     var account = getAccountFromFields() //TODO : change to val when using real connection with the API
-                    DiabetipsService.instance.login(account).subscribe()
+                    //DiabetipsService.instance.login(account).subscribe() //TODO : uncomment when using real connection with the API
 
                     //TODO : Remove when using real connection with the API
+                    var login = false
                     DiabetipsService.instance.getAllUsers().doOnSuccess {
                         if (it.second.component2() == null) {
                             for (user in it.second.component1()!!) {
                                 if (user.email == account.email) {
-                                    account = user
+                                    login = true
+                                    AccountManager.instance.saveObject(this, account)
+                                    startActivity(Intent(this, HomeActivity::class.java))
                                 }
                             }
+                            if (!login) {
+                                Toast.makeText(this, getString(R.string.login_invalid), Toast.LENGTH_SHORT).show()
+                            }
                         }
-                        AccountManager.instance.saveObject(this, account)
-                        startActivity(Intent(this, HomeActivity::class.java))
                     }.subscribe()
 
                     //TODO : Uncomment when using real connection with the API

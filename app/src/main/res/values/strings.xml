@@ -4,6 +4,9 @@
     <string name="client_id" translatable="false">diabetips-android</string>
     <string name="client_secret" translatable="false">5rJANZsEWaOdTIdqYx3yti8HKnLFfzgH</string>
 
+    <string name="param_food" translatable="false">Food</string>
+    <string name="param_recipe" translatable="false">Recipe</string>
+
     <string name="profile_title">Profile</string>
 
     <string name="mail_input">Email</string>
@@ -13,7 +16,7 @@
     <string name="name_input">Name</string>
     <string name="first_name_input">Firstname</string>
 
-    <string name="login_button">Connexion</string>
+    <string name="login_button">Connection</string>
     <string name="sign_up_button">Sign Up</string>
     <string name="new_password_button">Change Password</string>
 
@@ -28,5 +31,6 @@
     <string name="new_recipe">New recipe</string>
     <string name="validate">Validate</string>
     <string name="email_already_taken">This email is already linked to another account</string>
+    <string name="login_invalid">Invalid email or password</string>
 
 </resources>
