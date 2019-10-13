@@ -1,7 +1,7 @@
 package com.epitech.diabetips
 
-import com.epitech.diabetips.Services.DiabetipsService
-import com.epitech.diabetips.Storages.AccountObject
+import com.epitech.diabetips.services.DiabetipsService
+import com.epitech.diabetips.storages.AccountObject
 import org.junit.Test
 
 import org.junit.Assert.*

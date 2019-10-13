@@ -3,9 +3,9 @@ package com.epitech.diabetips
 import android.content.Context
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
-import com.epitech.diabetips.Managers.AccountManager
-import com.epitech.diabetips.Managers.AuthManager
-import com.epitech.diabetips.Storages.AccountObject
+import com.epitech.diabetips.managers.AccountManager
+import com.epitech.diabetips.managers.AuthManager
+import com.epitech.diabetips.storages.AccountObject
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith

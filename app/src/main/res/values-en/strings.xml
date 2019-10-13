@@ -22,4 +22,9 @@
     <string name="validate">Validate</string>
     <string name="email_already_taken">This email is already linked to another account</string>
     <string name="login_invalid">Invalid email or password</string>
+    <string name="recipe_empty">Recipe must have at least 1 ingredient</string>
+    <string name="recipe_name_empty">Recipe name mustn\'t be empty</string>
+    <string name="meal_empty">Meal must have at least 1 recipe</string>
+    <string name="view_meal">My meals</string>
+    <string name="view_recipe">Recipes</string>
 </resources>
