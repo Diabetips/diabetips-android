@@ -38,7 +38,7 @@ class NewMealActivity : AppCompatActivity() {
             adapter = MealRecipeAdapter()
         }
         validateMealButton.setOnClickListener {
-            val meal = MealObject(mealId, Date(), "Ceci est un repas",
+            val meal = MealObject(mealId, Date(), newMealDescription.text.toString(),
                 (recipeList.adapter as MealRecipeAdapter).getRecipes().toTypedArray())
             if (meal.recipes.isNullOrEmpty()) {
                 Toast.makeText(this, getString(R.string.meal_empty), Toast.LENGTH_SHORT).show()
@@ -59,6 +59,7 @@ class NewMealActivity : AppCompatActivity() {
         if (intent.hasExtra(getString(R.string.param_meal))) {
             val meal = (intent.getSerializableExtra(getString(R.string.param_meal)) as MealObject)
             mealId = meal.id
+            newMealDescription.setText(meal.description)
             if (mealId > 0) {
                 (recipeList.adapter as MealRecipeAdapter).setRecipes(meal.recipes)
             }

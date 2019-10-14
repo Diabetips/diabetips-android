@@ -1,10 +1,9 @@
 package com.epitech.diabetips
 
-import com.epitech.diabetips.services.DiabetipsService
-import com.epitech.diabetips.storages.AccountObject
 import org.junit.Test
 
 import org.junit.Assert.*
+import java.util.*
 
 /**
  * Local unit test, which will execute on the development machine.
@@ -13,26 +12,8 @@ import org.junit.Assert.*
  */
 class UnitTests {
 
-    private val expectedAccount = AccountObject("nom.prenom@test.com", "password","NOM", "Prénom")
-
     @Test
-    fun login() {
-        DiabetipsService.instance.login(expectedAccount).doOnSuccess { res ->
-            assertEquals(expectedAccount, res.second.component2())
-        }
-    }
-
-    @Test
-    fun signUp() {
-        DiabetipsService.instance.signUp(expectedAccount).doOnSuccess { res ->
-            assertEquals(expectedAccount, res.second.component2())
-        }
-    }
-
-    @Test
-    fun getAccount() {
-        DiabetipsService.instance.getAccount().doOnSuccess { res ->
-            assertEquals(expectedAccount, res.second.component2())
-        }
+    fun exampleTest() {
+        assertEquals(2,1 + 1)
     }
 }

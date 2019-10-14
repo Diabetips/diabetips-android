@@ -35,6 +35,7 @@
     <string name="add_food">Add some food</string>
     <string name="new_recipe">New recipe</string>
     <string name="validate">Validate</string>
+    <string name="description">Description</string>
     <!--meal / recipe / food screen end-->
 
     <!--login / sign up errors start-->

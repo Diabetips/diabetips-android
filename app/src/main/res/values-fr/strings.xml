@@ -27,4 +27,5 @@
     <string name="meal_empty">Le repas doit avoir au moins 1 recette</string>
     <string name="view_meal">Mes repas</string>
     <string name="view_recipe">Recettes</string>
+    <string name="description">Description</string>
 </resources>

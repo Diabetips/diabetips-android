@@ -30,15 +30,9 @@ class RecipeActivity : AppCompatActivity() {
         newRecipeButton.setOnClickListener {
             startActivityForResult(Intent(this, NewRecipeActivity::class.java), RequestCode.NEW_RECIPE.ordinal)
         }
-        //TODO remove variable when using the API
-        val recipes : ArrayList<RecipeObject> = arrayListOf(
-            RecipeObject(0, "Nuggets", "Top Tier"),
-            RecipeObject(0, "Ramen", ""),
-            RecipeObject(0, "Hamburger", "USA!")
-        )
         recipeSearchList.apply {
             layoutManager = LinearLayoutManager(this@RecipeActivity)
-            adapter = RecipeAdapter(recipes) { recipe : RecipeObject ->
+            adapter = RecipeAdapter { recipe : RecipeObject ->
                 if (activityMode == ActivityMode.UPDATE) {
                     startActivityForResult(Intent(this@RecipeActivity, NewRecipeActivity::class.java)
                         .putExtra(getString(R.string.param_recipe), recipe),

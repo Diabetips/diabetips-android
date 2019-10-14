@@ -46,7 +46,7 @@ class RecipeFoodAdapter(private val foods: ArrayList<FoodObject> = arrayListOf()
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
 
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-                foods[position].quantity = s.toString().toFloat()
+                foods[position].quantity = if (s.toString().toFloatOrNull() == null) 0.0f else s.toString().toFloat()
             }
         })
         holder.getRecipeFoodRemove()?.setOnClickListener {

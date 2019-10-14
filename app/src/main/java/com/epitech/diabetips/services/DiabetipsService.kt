@@ -117,7 +117,7 @@ class DiabetipsService {
     }
 
     fun getAllRecipes() : FuelResponse<Array<RecipeObject>> {
-        return ("/recipe").httpGet()
+        return ("/recipes").httpGet()
             .rx_responseObject(RecipeObject.ArrayDeserializer())
             .subscribeOn(Schedulers.newThread())
             .observeOn(AndroidSchedulers.mainThread()).doOnError { err ->
@@ -126,7 +126,7 @@ class DiabetipsService {
     }
 
     fun getRecipe(id: String) : FuelResponse<RecipeObject> {
-        return ("/recipe/" + id).httpGet()
+        return ("/recipes/" + id).httpGet()
             .rx_responseObject(RecipeObject.Deserializer())
             .subscribeOn(Schedulers.newThread())
             .observeOn(AndroidSchedulers.mainThread()).doOnError { err ->
@@ -142,7 +142,7 @@ class DiabetipsService {
     }
 
     private fun createRecipe(recipe: RecipeObject) : FuelResponse<RecipeObject> {
-        return ("/recipe").httpPost().body(customGson.toJson(recipe))
+        return ("/recipes").httpPost().body(customGson.toJson(recipe))
             .rx_responseObject(RecipeObject.Deserializer())
             .subscribeOn(Schedulers.newThread())
             .observeOn(AndroidSchedulers.mainThread()).doOnError { err ->
@@ -151,7 +151,7 @@ class DiabetipsService {
     }
 
     private fun updateRecipe(recipe: RecipeObject) : FuelResponse<RecipeObject> {
-        return ("/recipe/" + recipe.id).httpPut().body(customGson.toJson(recipe))
+        return ("/recipes/" + recipe.id).httpPut().body(customGson.toJson(recipe))
             .rx_responseObject(RecipeObject.Deserializer())
             .subscribeOn(Schedulers.newThread())
             .observeOn(AndroidSchedulers.mainThread()).doOnError { err ->

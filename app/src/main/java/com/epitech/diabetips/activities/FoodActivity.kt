@@ -22,14 +22,9 @@ class FoodActivity : AppCompatActivity() {
         }
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_food)
-        //TODO remove variable when using the API
-        val foods : ArrayList<FoodObject> = arrayListOf(FoodObject(0, "Poulet", "Kg"),
-            FoodObject(0, "Patate", "U"), FoodObject(0, "Riz", "g"),
-            FoodObject(0, "Eau", "L")
-        )
         foodSearchList.apply {
             layoutManager = LinearLayoutManager(this@FoodActivity)
-            adapter = FoodAdapter(foods) { food : FoodObject ->
+            adapter = FoodAdapter { food : FoodObject ->
                 setResult(Activity.RESULT_OK, Intent().putExtra(getString(R.string.param_food), food))
                 finish()
             }

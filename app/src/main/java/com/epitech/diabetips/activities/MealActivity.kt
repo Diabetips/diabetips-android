@@ -32,7 +32,8 @@ class MealActivity : AppCompatActivity() {
         }
         //TODO remove variable when using the API
         val meals : ArrayList<MealObject> = arrayListOf(
-            MealObject(0, Date(), "Repas d'aujourd'hui")
+            MealObject(0, Date(), "Repas d'aujourd'hui"),
+            MealObject(0, Date(), "Second Repas")
         )
         mealSearchList.apply {
             layoutManager = LinearLayoutManager(this@MealActivity)
