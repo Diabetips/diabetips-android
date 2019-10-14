@@ -6,7 +6,7 @@ import android.widget.EditText
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.epitech.diabetips.R
-import com.epitech.diabetips.storages.FoodObject
+import com.epitech.diabetips.storages.IngredientObject
 import kotlinx.android.synthetic.main.item_recipe_food.view.*
 import ru.dimorinny.floatingtextbutton.FloatingTextButton
 
@@ -32,9 +32,9 @@ class RecipeFoodItemViewHolder(inflater: LayoutInflater, parent: ViewGroup)
         return recipeFoodRemove
     }
 
-    fun bind(food: FoodObject) {
-        recipeFoodText?.text = food.name
-        recipeFoodUnit?.text = food.unit
+    fun bind(food: IngredientObject) {
+        recipeFoodText?.text = food.food.name
+        recipeFoodUnit?.text = food.food.unit
         recipeFoodQuantity?.setText(food.quantity.toString())
     }
 }

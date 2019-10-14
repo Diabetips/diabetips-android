@@ -5,24 +5,24 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.epitech.diabetips.storages.FoodObject
+import com.epitech.diabetips.storages.IngredientObject
 
-class RecipeFoodAdapter(private val foods: ArrayList<FoodObject> = arrayListOf())
+class RecipeFoodAdapter(private val foods: ArrayList<IngredientObject> = arrayListOf())
     : RecyclerView.Adapter<RecipeFoodItemViewHolder>() {
 
     override fun getItemCount(): Int = foods.size
 
-    fun getFoods() : ArrayList<FoodObject> {
+    fun getFoods() : ArrayList<IngredientObject> {
         return foods
     }
 
-    fun setFoods(foodList: Array<FoodObject>) {
+    fun setFoods(foodList: Array<IngredientObject>) {
         foods.clear()
         foods.addAll(foodList)
         notifyDataSetChanged()
     }
 
-    fun addFood(food: FoodObject) {
+    fun addFood(food: IngredientObject) {
         foods.add(food)
         notifyItemInserted(foods.size)
     }

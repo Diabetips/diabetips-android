@@ -46,7 +46,7 @@ class NewMealActivity : AppCompatActivity() {
                 DiabetipsService.instance.createOrUpdateUserMeal(AccountManager.instance.getAccountUid(this), meal).doOnSuccess {
                     if (it.second.component2() == null) {
                         setResult(Activity.RESULT_OK, Intent().putExtra(
-                            getString(R.string.param_recipe), it.second.component1()))
+                            getString(R.string.param_meal), it.second.component1()))
                         finish()
                     }
                 }.subscribe()
@@ -60,7 +60,7 @@ class NewMealActivity : AppCompatActivity() {
             val meal = (intent.getSerializableExtra(getString(R.string.param_meal)) as MealObject)
             mealId = meal.id
             newMealDescription.setText(meal.description)
-            if (mealId > 0) {
+            if (mealId > 0 && meal.recipes.isNotEmpty()) {
                 (recipeList.adapter as MealRecipeAdapter).setRecipes(meal.recipes)
             }
         }

@@ -50,6 +50,7 @@ class MainActivity : AppCompatActivity() {
                         if (it.second.component2() == null) {
                             for (user in it.second.component1()!!) {
                                 if (user.email == account.email) {
+                                    account.uid = user.uid
                                     login = true
                                     AccountManager.instance.saveObject(this, account)
                                     startActivity(Intent(this, HomeActivity::class.java))

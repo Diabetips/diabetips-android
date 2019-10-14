@@ -6,16 +6,25 @@
         android:layout_height="wrap_content"
         android:theme="@style/BackgroundTheme">
 
+    <ImageView
+            android:id="@+id/recipeImage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/param_recipe"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/recipeText"
+            app:layout_constraintBottom_toBottomOf="@+id/recipeText"
+            app:srcCompat="@drawable/ic_recipe"
+            android:layout_margin="8dp" />
+
     <TextView
             android:id="@+id/recipeText"
             android:theme="@style/TitleTheme"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="8dp"
-            android:layout_marginBottom="8dp"
-            android:layout_marginTop="8dp"/>
+            app:layout_constraintStart_toEndOf="@+id/recipeImage"
+            android:layout_margin="8dp"/>
 
     <TextView
             android:id="@+id/recipeDescription"
@@ -23,9 +32,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@+id/recipeText"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="8dp"
-            android:layout_marginBottom="8dp"
-            android:layout_marginTop="8dp"/>
+            app:layout_constraintStart_toEndOf="@+id/recipeImage"
+            android:layout_margin="8dp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

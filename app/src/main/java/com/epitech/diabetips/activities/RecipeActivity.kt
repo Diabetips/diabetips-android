@@ -62,7 +62,7 @@ class RecipeActivity : AppCompatActivity() {
             if (requestCode == RequestCode.NEW_RECIPE.ordinal) {
                     selectRecipe(data?.getSerializableExtra(getString(R.string.param_recipe)) as RecipeObject)
             } else if (requestCode == RequestCode.UPDATE_RECIPE.ordinal) {
-                (recipeSearchList.adapter as RecipeAdapter).addRecipe(
+                (recipeSearchList.adapter as RecipeAdapter).updateRecipe(
                     data?.getSerializableExtra(getString(R.string.param_recipe)) as RecipeObject)
             }
         }

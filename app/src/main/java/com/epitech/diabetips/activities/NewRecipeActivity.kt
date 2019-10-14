@@ -11,6 +11,7 @@ import com.epitech.diabetips.adapters.RecipeFoodAdapter
 import com.epitech.diabetips.R
 import com.epitech.diabetips.services.DiabetipsService
 import com.epitech.diabetips.storages.FoodObject
+import com.epitech.diabetips.storages.IngredientObject
 import com.epitech.diabetips.storages.RecipeObject
 import kotlinx.android.synthetic.main.activity_new_meal.*
 import kotlinx.android.synthetic.main.activity_new_recipe.*
@@ -62,8 +63,8 @@ class NewRecipeActivity : AppCompatActivity() {
             recipeId = recipe.id
             newRecipeName.setText(recipe.name)
             newRecipeDescription.setText(recipe.description)
-            if (recipeId > 0) {
-                (recipeList.adapter as RecipeFoodAdapter).setFoods(recipe.ingredients)
+            if (recipeId > 0 && recipe.ingredients.isNotEmpty()) {
+                (foodList.adapter as RecipeFoodAdapter).setFoods(recipe.ingredients)
             }
         }
     }
@@ -72,8 +73,11 @@ class NewRecipeActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK) {
             if (requestCode == RequestCode.SEARCH_FOOD.ordinal) {
-                (foodList.adapter as RecipeFoodAdapter).addFood(
-                    data?.getSerializableExtra(getString(R.string.param_food)) as FoodObject)
+                val ingredientObject = IngredientObject()
+                ingredientObject.food = data?.getSerializableExtra(getString(R.string.param_food)) as FoodObject
+                ingredientObject.id = ingredientObject.food.id
+                ingredientObject.quantity = 1f
+                (foodList.adapter as RecipeFoodAdapter).addFood(ingredientObject)
             }
         }
     }

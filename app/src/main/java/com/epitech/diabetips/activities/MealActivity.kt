@@ -30,14 +30,9 @@ class MealActivity : AppCompatActivity() {
         newMealButton.setOnClickListener {
             startActivityForResult(Intent(this, NewMealActivity::class.java), RequestCode.NEW_MEAL.ordinal)
         }
-        //TODO remove variable when using the API
-        val meals : ArrayList<MealObject> = arrayListOf(
-            MealObject(0, Date(), "Repas d'aujourd'hui"),
-            MealObject(0, Date(), "Second Repas")
-        )
         mealSearchList.apply {
             layoutManager = LinearLayoutManager(this@MealActivity)
-            adapter = MealAdapter(meals) { meal : MealObject ->
+            adapter = MealAdapter { meal : MealObject ->
                 startActivityForResult(
                     Intent(this@MealActivity, NewMealActivity::class.java)
                         .putExtra(getString(R.string.param_meal), meal),

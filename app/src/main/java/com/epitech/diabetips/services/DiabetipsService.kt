@@ -20,6 +20,8 @@ class DiabetipsService {
 
     val customGson = GsonBuilder()
         .registerTypeAdapter(AccountObject::class.java, AccountObjectAdapter())
+        .registerTypeAdapter(RecipeObject::class.java, RecipeObjectAdapter())
+        .registerTypeAdapter(MealObject::class.java, MealObjectAdapter())
         .create()
 
     private object Holder { val INSTANCE = DiabetipsService() }
@@ -74,7 +76,7 @@ class DiabetipsService {
     }
 
     fun getAllUserMeals(uid: String) : FuelResponse<Array<MealObject>> {
-        return ("/" + uid + "/meals/").httpGet()
+        return ("users/" + uid + "/meals").httpGet()
             .rx_responseObject(MealObject.ArrayDeserializer())
             .subscribeOn(Schedulers.newThread())
             .observeOn(AndroidSchedulers.mainThread()).doOnError { err ->
@@ -83,7 +85,7 @@ class DiabetipsService {
     }
 
     fun getUserMeal(uid: String, id: String) : FuelResponse<MealObject> {
-        return ("/" + uid + "/meals/" + id).httpGet()
+        return ("users/" + uid + "/meals/" + id).httpGet()
             .rx_responseObject(MealObject.Deserializer())
             .subscribeOn(Schedulers.newThread())
             .observeOn(AndroidSchedulers.mainThread()).doOnError { err ->
@@ -99,7 +101,7 @@ class DiabetipsService {
     }
 
     private fun addUserMeal(uid: String, meal: MealObject) : FuelResponse<MealObject> {
-        return ("/" + uid + "/meals/").httpPost().body(customGson.toJson(meal))
+        return ("users/" + uid + "/meals").httpPost().body(customGson.toJson(meal))
             .rx_responseObject(MealObject.Deserializer())
             .subscribeOn(Schedulers.newThread())
             .observeOn(AndroidSchedulers.mainThread()).doOnError { err ->
@@ -108,7 +110,7 @@ class DiabetipsService {
     }
 
     private fun updateUserMeal(uid: String, meal: MealObject) : FuelResponse<MealObject> {
-        return ("/" + uid + "/meals/" + meal.id).httpPut().body(customGson.toJson(meal))
+        return ("users/" + uid + "/meals/" + meal.id).httpPut().body(customGson.toJson(meal))
             .rx_responseObject(MealObject.Deserializer())
             .subscribeOn(Schedulers.newThread())
             .observeOn(AndroidSchedulers.mainThread()).doOnError { err ->
