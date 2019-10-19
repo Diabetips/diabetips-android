@@ -1,7 +1,7 @@
 <resources>
     <!--application data start-->
     <string name="app_name" translatable="false">Diabetips</string>
-    <string name="api_base_url" translatable="false">https://api.diabetips.fr/v1/</string>
+    <string name="api_base_url" translatable="false">https://api.diabetips.fr/v1</string>
     <string name="client_id" translatable="false">diabetips-android</string>
     <string name="client_secret" translatable="false">5rJANZsEWaOdTIdqYx3yti8HKnLFfzgH</string>
     <!--application data end-->

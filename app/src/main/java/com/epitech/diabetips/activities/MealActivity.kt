@@ -9,11 +9,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.epitech.diabetips.adapters.MealAdapter
 import com.epitech.diabetips.R
 import com.epitech.diabetips.managers.AccountManager
-import com.epitech.diabetips.services.DiabetipsService
+import com.epitech.diabetips.services.MealService
 import com.epitech.diabetips.storages.MealObject
 import kotlinx.android.synthetic.main.activity_meal.*
-import java.util.*
-import kotlin.collections.ArrayList
 
 class MealActivity : AppCompatActivity() {
 
@@ -39,7 +37,7 @@ class MealActivity : AppCompatActivity() {
                     RequestCode.UPDATE_MEAL.ordinal)
             }
         }
-        DiabetipsService.instance.getAllUserMeals(AccountManager.instance.getAccountUid(this)).doOnSuccess {
+        MealService.instance.getAllUserMeals().doOnSuccess {
             if (it.second.component2() == null) {
                 (mealSearchList.adapter as MealAdapter).setMeals(it.second.component1()!!)
             }

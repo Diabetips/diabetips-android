@@ -4,8 +4,8 @@ import android.content.Context
 
 class AuthManager : AManager("auth_token") {
 
-    val ACCESS_TOKEN : String = "access_token"
-    val REFRESH_TOKEN : String = "refresh_token"
+    private val ACCESS_TOKEN : String = "access_token"
+    private val REFRESH_TOKEN : String = "refresh_token"
 
     private object Holder {
         val INSTANCE = AuthManager()

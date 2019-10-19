@@ -10,7 +10,7 @@ import androidx.appcompat.app.AppCompatDelegate
 import com.epitech.diabetips.managers.AccountManager
 import com.epitech.diabetips.managers.ModeManager
 import com.epitech.diabetips.R
-import com.epitech.diabetips.services.DiabetipsService
+import com.epitech.diabetips.services.UserService
 import com.epitech.diabetips.storages.AccountObject
 import com.github.kittinunf.fuel.core.FuelManager
 import kotlinx.android.synthetic.main.activity_main.*
@@ -42,17 +42,17 @@ class MainActivity : AppCompatActivity() {
                     Toast.makeText(this, getString(R.string.password_incorrect_error), Toast.LENGTH_SHORT).show()
                 } else {
                     var account = getAccountFromFields() //TODO : change to val when using real connection with the API
-                    //DiabetipsService.instance.login(account).subscribe() //TODO : uncomment when using real connection with the API
+                    //UserService.instance.login(account).subscribe() //TODO : uncomment when using real connection with the API
 
                     //TODO : Remove when using real connection with the API
                     var login = false
-                    DiabetipsService.instance.getAllUsers().doOnSuccess {
+                    UserService.instance.getAllUsers().doOnSuccess {
                         if (it.second.component2() == null) {
                             for (user in it.second.component1()!!) {
                                 if (user.email == account.email) {
-                                    account.uid = user.uid
+                                    account = user
                                     login = true
-                                    AccountManager.instance.saveObject(this, account)
+                                    AccountManager.instance.saveAccount(this, account)
                                     startActivity(Intent(this, HomeActivity::class.java))
                                 }
                             }
@@ -63,7 +63,7 @@ class MainActivity : AppCompatActivity() {
                     }.subscribe()
 
                     //TODO : Uncomment when using real connection with the API
-                    //AccountManager.instance.saveObject(this, account)
+                    //AccountManager.instance.saveAccount(this, account)
                     //startActivity(Intent(this, HomeActivity::class.java))
                 }
             }
@@ -84,9 +84,9 @@ class MainActivity : AppCompatActivity() {
                     Toast.makeText(this, getString(R.string.password_match_error), Toast.LENGTH_SHORT).show()
                 } else {
                     val account = getAccountFromFields()
-                    DiabetipsService.instance.registerUser(account).doOnSuccess {
+                    UserService.instance.registerUser(account).doOnSuccess {
                         if (it.second.component2() == null) {
-                            AccountManager.instance.saveObject(this, it.second.component1()!!)
+                            AccountManager.instance.saveAccount(this, it.second.component1()!!)
                             startActivity(Intent(this, HomeActivity::class.java))
                         } else if (it.second.component2()!!.response.statusCode == HTTP_CONFLICT) {
                             Toast.makeText(this, getString(R.string.email_already_taken), Toast.LENGTH_SHORT).show()

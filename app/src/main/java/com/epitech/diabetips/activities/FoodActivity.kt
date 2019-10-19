@@ -8,7 +8,7 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.epitech.diabetips.adapters.FoodAdapter
 import com.epitech.diabetips.R
-import com.epitech.diabetips.services.DiabetipsService
+import com.epitech.diabetips.services.FoodService
 import com.epitech.diabetips.storages.FoodObject
 import kotlinx.android.synthetic.main.activity_food.*
 
@@ -29,7 +29,7 @@ class FoodActivity : AppCompatActivity() {
                 finish()
             }
         }
-        DiabetipsService.instance.getAllFood().doOnSuccess {
+        FoodService.instance.getAllFood().doOnSuccess {
             if (it.second.component2() == null) {
                 (foodSearchList.adapter as FoodAdapter).setFoods(it.second.component1()!!)
             }

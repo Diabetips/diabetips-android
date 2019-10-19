@@ -8,7 +8,7 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.epitech.diabetips.adapters.RecipeAdapter
 import com.epitech.diabetips.R
-import com.epitech.diabetips.services.DiabetipsService
+import com.epitech.diabetips.services.RecipeService
 import com.epitech.diabetips.storages.RecipeObject
 import kotlinx.android.synthetic.main.activity_recipe.*
 
@@ -42,7 +42,7 @@ class RecipeActivity : AppCompatActivity() {
                 }
             }
         }
-        DiabetipsService.instance.getAllRecipes().doOnSuccess {
+        RecipeService.instance.getAllRecipes().doOnSuccess {
             if (it.second.component2() == null) {
                 (recipeSearchList.adapter as RecipeAdapter).setRecipes(it.second.component1()!!)
             }

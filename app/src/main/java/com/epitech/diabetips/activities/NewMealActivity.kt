@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.epitech.diabetips.adapters.MealRecipeAdapter
 import com.epitech.diabetips.R
 import com.epitech.diabetips.managers.AccountManager
-import com.epitech.diabetips.services.DiabetipsService
+import com.epitech.diabetips.services.MealService
 import com.epitech.diabetips.storages.MealObject
 import com.epitech.diabetips.storages.RecipeObject
 import kotlinx.android.synthetic.main.activity_new_meal.*
@@ -43,7 +43,7 @@ class NewMealActivity : AppCompatActivity() {
             if (meal.recipes.isNullOrEmpty()) {
                 Toast.makeText(this, getString(R.string.meal_empty), Toast.LENGTH_SHORT).show()
             } else {
-                DiabetipsService.instance.createOrUpdateUserMeal(AccountManager.instance.getAccountUid(this), meal).doOnSuccess {
+                MealService.instance.createOrUpdateUserMeal(meal).doOnSuccess {
                     if (it.second.component2() == null) {
                         setResult(Activity.RESULT_OK, Intent().putExtra(
                             getString(R.string.param_meal), it.second.component1()))

@@ -1,8 +1,5 @@
 package com.epitech.diabetips.storages
 
-import com.github.kittinunf.fuel.core.ResponseDeserializable
-import com.google.gson.Gson
-import com.google.gson.GsonBuilder
 import com.google.gson.TypeAdapter
 import com.google.gson.stream.JsonReader
 import com.google.gson.stream.JsonWriter
@@ -12,16 +9,7 @@ data class RecipeObject (
     var id: Int = 0,
     var name: String = "",
     var description: String = "",
-    var ingredients: Array<IngredientObject> = arrayOf()) : Serializable {
-
-    class Deserializer : ResponseDeserializable<RecipeObject> {
-        override fun deserialize(content: String) = Gson().fromJson(content, RecipeObject::class.java)
-    }
-
-    class ArrayDeserializer : ResponseDeserializable<Array<RecipeObject>> {
-        override fun deserialize(content: String) = Gson().fromJson(content, Array<RecipeObject>::class.java)
-    }
-}
+    var ingredients: Array<IngredientObject> = arrayOf()) : Serializable
 
 class RecipeObjectAdapter : TypeAdapter<RecipeObject>() {
 

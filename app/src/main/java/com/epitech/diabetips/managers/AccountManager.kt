@@ -1,6 +1,7 @@
 package com.epitech.diabetips.managers
 
 import android.content.Context
+import com.epitech.diabetips.services.MealService
 import com.epitech.diabetips.storages.AccountObject
 
 class AccountManager : AObjectManager<AccountObject>("account_object")  {
@@ -11,11 +12,12 @@ class AccountManager : AObjectManager<AccountObject>("account_object")  {
         val instance: AccountManager by lazy { Holder.INSTANCE }
     }
 
-    fun getAccount(context: Context) : AccountObject {
-        return getObject(context, AccountObject::class.java)
+    fun saveAccount(context: Context, account: AccountObject) {
+        saveObject(context, account)
+        MealService.instance.changeRoute(account.uid)
     }
 
-    fun getAccountUid(context: Context) : String {
-        return getAccount(context).uid
+    fun getAccount(context: Context) : AccountObject {
+        return getObject(context, AccountObject::class.java)
     }
 }

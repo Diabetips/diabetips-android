@@ -5,7 +5,7 @@ import androidx.appcompat.app.AppCompatDelegate
 
 class ModeManager : AManager("mode_preference") {
 
-    val DARK_MODE : String = "dark_mode"
+    private val DARK_MODE : String = "dark_mode"
 
     private object Holder {
         val INSTANCE = ModeManager()

@@ -13,7 +13,7 @@ import androidx.core.content.ContextCompat
 import com.epitech.diabetips.managers.AccountManager
 import com.epitech.diabetips.managers.ModeManager
 import com.epitech.diabetips.R
-import com.epitech.diabetips.services.DiabetipsService
+import com.epitech.diabetips.services.UserService
 import com.epitech.diabetips.storages.AccountObject
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_profile.*
@@ -77,9 +77,9 @@ class ProfileActivity : AppCompatActivity() {
             emailText.text = emailInput.text
             val account : AccountObject = AccountManager.instance.getAccount(this)
             account.email = emailInput.text.toString()
-            DiabetipsService.instance.updateUser(account).doOnSuccess {
+            UserService.instance.updateUser(account).doOnSuccess {
                 if (it.second.component2() == null) {
-                    AccountManager.instance.saveObject(this, it.second.component1()!!)
+                    AccountManager.instance.saveAccount(this, it.second.component1()!!)
                 } else {
                     Toast.makeText(this, it.second.component2()!!.exception.message, Toast.LENGTH_SHORT).show()
                 }
@@ -111,9 +111,9 @@ class ProfileActivity : AppCompatActivity() {
             } else {
                 val account : AccountObject = AccountManager.instance.getAccount(this)
                 account.password = newPasswordInput.text.toString()
-                DiabetipsService.instance.updateUser(account).doOnSuccess {
+                UserService.instance.updateUser(account).doOnSuccess {
                     if (it.second.component2() == null) {
-                        AccountManager.instance.saveObject(this, it.second.component1()!!)
+                        AccountManager.instance.saveAccount(this, it.second.component1()!!)
                     } else {
                         Toast.makeText(this, it.second.component2()!!.exception.message, Toast.LENGTH_SHORT).show()
                     }

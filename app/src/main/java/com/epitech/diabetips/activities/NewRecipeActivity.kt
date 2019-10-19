@@ -9,11 +9,10 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.epitech.diabetips.adapters.RecipeFoodAdapter
 import com.epitech.diabetips.R
-import com.epitech.diabetips.services.DiabetipsService
+import com.epitech.diabetips.services.RecipeService
 import com.epitech.diabetips.storages.FoodObject
 import com.epitech.diabetips.storages.IngredientObject
 import com.epitech.diabetips.storages.RecipeObject
-import kotlinx.android.synthetic.main.activity_new_meal.*
 import kotlinx.android.synthetic.main.activity_new_recipe.*
 
 class NewRecipeActivity : AppCompatActivity() {
@@ -45,7 +44,7 @@ class NewRecipeActivity : AppCompatActivity() {
             } else if (recipe.ingredients.isNullOrEmpty()) {
                 Toast.makeText(this, getString(R.string.recipe_empty), Toast.LENGTH_SHORT).show()
             } else {
-                DiabetipsService.instance.createOrUpdateRecipe(recipe).doOnSuccess {
+                RecipeService.instance.createOrUpdateRecipe(recipe).doOnSuccess {
                     if (it.second.component2() == null) {
                         setResult(Activity.RESULT_OK, Intent().putExtra(
                             getString(R.string.param_recipe), it.second.component1()))
