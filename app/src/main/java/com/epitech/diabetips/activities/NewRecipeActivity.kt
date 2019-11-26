@@ -22,7 +22,7 @@ class NewRecipeActivity : AppCompatActivity() {
     private var recipeId: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        if(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
+        if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
             setTheme(R.style.DarkTheme)
         } else {
             setTheme(R.style.AppTheme)

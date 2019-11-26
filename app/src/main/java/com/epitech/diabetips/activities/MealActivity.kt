@@ -18,7 +18,7 @@ class MealActivity : AppCompatActivity() {
     enum class RequestCode {NEW_MEAL, UPDATE_MEAL}
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        if(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
+        if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
             setTheme(R.style.DarkTheme)
         } else {
             setTheme(R.style.AppTheme)

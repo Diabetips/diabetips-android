@@ -19,6 +19,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".activities.SignUpActivity" />
         <activity android:name=".activities.HomeActivity" />
         <activity android:name=".activities.ProfileActivity" />
         <activity android:name=".activities.MealActivity" />

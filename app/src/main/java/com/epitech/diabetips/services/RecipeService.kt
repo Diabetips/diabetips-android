@@ -10,8 +10,8 @@ class RecipeService : AService("/recipes") {
         val instance: RecipeService by lazy { Holder.INSTANCE }
     }
 
-    fun getAllRecipes() : FuelResponse<Array<RecipeObject>> {
-        return getRequest()
+    fun getAllRecipes(name: String = "") : FuelResponse<Array<RecipeObject>> {
+        return getRequest("?name=" + name)
     }
 
     fun getRecipe(id: String) : FuelResponse<RecipeObject> {

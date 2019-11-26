@@ -9,7 +9,7 @@
         android:theme="@style/BackgroundTheme">
 
     <TextView
-            android:id="@+id/titleText"
+            android:id="@+id/titleProfileText"
             android:theme="@style/TitleTheme"
             android:text="@string/profile_title"
             android:layout_width="wrap_content"
@@ -32,76 +32,48 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-            android:id="@+id/nameText"
-            android:theme="@style/TextTheme"
-            android:text="@string/name_input"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="8dp"
-            app:layout_constraintEnd_toStartOf="@+id/titleText"
-            app:layout_constraintBottom_toTopOf="@+id/emailText"/>
-
-    <TextView
-            android:id="@+id/firstNameText"
-            android:theme="@style/TextTheme"
-            android:text="@string/first_name_input"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginStart="8dp"
-            android:layout_marginBottom="8dp"
-            app:layout_constraintBottom_toTopOf="@+id/emailText"
-            app:layout_constraintStart_toEndOf="@+id/titleText"/>
-
-    <TextView
-            android:id="@+id/emailText"
-            android:theme="@style/TextTheme"
-            android:hint="@string/mail_input"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginBottom="8dp"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/nameProfileInput"
+        android:theme="@style/TextInputTheme"
+        android:hint="@string/name_input"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/titleProfileText"
+        app:layout_constraintBottom_toTopOf="@+id/firstNameProfileInput"
+        android:layout_marginBottom="8dp"/>
 
     <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/emailInput"
-            android:theme="@style/TextInputTheme"
-            android:visibility="invisible"
-            android:hint="@string/mail_input"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:inputType="textEmailAddress"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginBottom="8dp"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+        android:id="@+id/firstNameProfileInput"
+        android:theme="@style/TextInputTheme"
+        android:hint="@string/first_name_input"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/nameProfileInput"
+        app:layout_constraintBottom_toTopOf="@+id/emailProfileInput"
+        android:layout_marginBottom="8dp"/>
 
-    <ru.dimorinny.floatingtextbutton.FloatingTextButton
-            android:id="@+id/emailButton"
-            android:theme="@style/FloatingTextButtonTheme"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:floating_right_icon="@drawable/ic_edit"
-            android:layout_marginEnd="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginStart="8dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/emailInput"
-            app:layout_constraintStart_toEndOf="@+id/emailInput"
-            app:layout_constraintBottom_toBottomOf="@+id/emailInput">
-
-    </ru.dimorinny.floatingtextbutton.FloatingTextButton>
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/emailProfileInput"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:hint="@string/mail_input"
+        android:inputType="textEmailAddress"
+        android:theme="@style/TextInputTheme"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/newPasswordInput"
             android:theme="@style/TextInputTheme"
-            android:visibility="invisible"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:hint="@string/new_password_input"
@@ -111,12 +83,11 @@
             android:layout_marginBottom="8dp"
             app:layout_constraintBottom_toTopOf="@+id/newPasswordConfirmInput"
             android:layout_marginTop="8dp"
-            app:layout_constraintTop_toBottomOf="@+id/emailInput"/>
+            app:layout_constraintTop_toBottomOf="@+id/emailProfileInput"/>
 
     <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/newPasswordConfirmInput"
             android:theme="@style/TextInputTheme"
-            android:visibility="invisible"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:hint="@string/password_confirm_input"
@@ -124,17 +95,17 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginBottom="8dp"
-            app:layout_constraintBottom_toTopOf="@+id/newPasswordButton"
+            app:layout_constraintBottom_toTopOf="@+id/updateProfileButton"
             android:layout_marginTop="8dp"
             app:layout_constraintTop_toBottomOf="@+id/newPasswordInput"/>
 
     <ru.dimorinny.floatingtextbutton.FloatingTextButton
-            android:id="@+id/newPasswordButton"
+            android:id="@+id/updateProfileButton"
             android:theme="@style/FloatingTextButtonTheme"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:floating_right_icon="@drawable/ic_edit"
-            app:floating_title="@string/new_password_button"
+            app:floating_title="@string/update"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             app:layout_constraintEnd_toEndOf="parent"

@@ -10,9 +10,10 @@ import com.epitech.diabetips.adapters.RecipeAdapter
 import com.epitech.diabetips.R
 import com.epitech.diabetips.services.RecipeService
 import com.epitech.diabetips.storages.RecipeObject
+import com.mancj.materialsearchbar.MaterialSearchBar
 import kotlinx.android.synthetic.main.activity_recipe.*
 
-class RecipeActivity : AppCompatActivity() {
+class RecipeActivity : AppCompatActivity(), MaterialSearchBar.OnSearchActionListener {
 
     enum class ActivityMode {SELECT, UPDATE}
     enum class RequestCode {NEW_RECIPE, UPDATE_RECIPE}
@@ -20,13 +21,14 @@ class RecipeActivity : AppCompatActivity() {
     private var activityMode: ActivityMode = ActivityMode.SELECT
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        if(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
+        if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
             setTheme(R.style.DarkTheme)
         } else {
             setTheme(R.style.AppTheme)
         }
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_recipe)
+        recipeSearchBar.setOnSearchActionListener(this)
         newRecipeButton.setOnClickListener {
             startActivityForResult(Intent(this, NewRecipeActivity::class.java), RequestCode.NEW_RECIPE.ordinal)
         }
@@ -42,10 +44,18 @@ class RecipeActivity : AppCompatActivity() {
                 }
             }
         }
-        RecipeService.instance.getAllRecipes().doOnSuccess {
+        recipeSwipeRefresh.setOnRefreshListener {
+            getRecipe()
+        }
+        getRecipe()
+    }
+    private fun getRecipe() {
+        recipeSwipeRefresh.isRefreshing = true
+        RecipeService.instance.getAllRecipes(recipeSearchBar.text.toString()).doOnSuccess {
             if (it.second.component2() == null) {
                 (recipeSearchList.adapter as RecipeAdapter).setRecipes(it.second.component1()!!)
             }
+            recipeSwipeRefresh.isRefreshing = false
         }.subscribe()
         getParams()
     }
@@ -71,5 +81,12 @@ class RecipeActivity : AppCompatActivity() {
     private fun selectRecipe(recipe: RecipeObject) {
         setResult(Activity.RESULT_OK, Intent().putExtra(getString(R.string.param_recipe), recipe))
                 finish()
+    }
+
+    override fun onButtonClicked(buttonCode: Int) {}
+    override fun onSearchStateChanged(enabled: Boolean) {}
+    override fun onSearchConfirmed(text: CharSequence?) {
+        getRecipe()
+        recipeSearchBar.clearFocus()
     }
 }

@@ -28,4 +28,8 @@
     <string name="view_meal">My meals</string>
     <string name="view_recipe">Recipes</string>
     <string name="description">Description</string>
+    <string name="update">Update</string>
+    <string name="update_profile">Profile updated</string>
+    <string name="search_food">Search food</string>
+    <string name="search_recipe">Search a recipe</string>
 </resources>
