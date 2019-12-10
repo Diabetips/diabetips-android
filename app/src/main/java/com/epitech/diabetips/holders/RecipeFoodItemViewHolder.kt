@@ -7,15 +7,15 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.epitech.diabetips.R
 import com.epitech.diabetips.storages.IngredientObject
+import com.google.android.material.button.MaterialButton
 import kotlinx.android.synthetic.main.item_recipe_food.view.*
-import ru.dimorinny.floatingtextbutton.FloatingTextButton
 
 class RecipeFoodItemViewHolder(inflater: LayoutInflater, parent: ViewGroup)
     : RecyclerView.ViewHolder(inflater.inflate(R.layout.item_recipe_food, parent, false)) {
     private var recipeFoodText: TextView? = null
     private var recipeFoodUnit: TextView? = null
     private var recipeFoodQuantity: EditText? = null
-    private var recipeFoodRemove: FloatingTextButton? = null
+    private var recipeFoodRemove: MaterialButton? = null
 
     init {
         recipeFoodText = itemView.recipeFoodText
@@ -28,7 +28,7 @@ class RecipeFoodItemViewHolder(inflater: LayoutInflater, parent: ViewGroup)
         return recipeFoodQuantity
     }
 
-    fun getRecipeFoodRemove() : FloatingTextButton? {
+    fun getRecipeFoodRemove() : MaterialButton? {
         return recipeFoodRemove
     }
 

@@ -5,49 +5,65 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".activities.NewMealActivity"
-        android:theme="@style/BackgroundTheme">
+        style="@style/BackgroundTheme">
 
-    <com.google.android.material.textfield.TextInputEditText
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/newMealDescriptionLayout"
+        style="@style/TextInputLayoutTheme"
+        android:layout_width="match_parent"
+        android:layout_marginTop="@dimen/margin_size"
+        android:hint="@string/description"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/newMealDescription"
-            android:theme="@style/TextInputTheme"
-            android:hint="@string/description"
-            android:inputType="textMultiLine"
-            android:layout_margin="8dp"
-            android:layout_width="wrap_content"
+            style="@style/TextInputTheme"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            android:inputType="textMultiLine" />
+
+    </com.google.android.material.textfield.TextInputLayout>
 
     <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recipeList"
+            style="@style/EmptyBackgroundTheme"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            app:layout_constraintBottom_toTopOf="@+id/validateMealButton"
-            app:layout_constraintTop_toBottomOf="@+id/newMealDescription"
+            app:layout_constraintBottom_toTopOf="@+id/newMealButtonLayout"
+            app:layout_constraintTop_toBottomOf="@+id/newMealDescriptionLayout"
             tools:layout_editor_absoluteX="0dp" />
 
-    <ru.dimorinny.floatingtextbutton.FloatingTextButton
+    <LinearLayout
+        android:id="@+id/newMealButtonLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="@dimen/margin_size"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/addRecipeButton"
+            style="@style/MaterialButtonTheme"
             android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:theme="@style/FloatingTextButtonTheme"
-            app:floating_left_icon="@drawable/ic_recipe"
-            app:floating_title="@string/add_recipe"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginEnd="0dp"
+            android:layout_weight="0.5"
+            app:icon="@drawable/ic_recipe"
+            android:text="@string/add_recipe"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
-    <ru.dimorinny.floatingtextbutton.FloatingTextButton
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/validateMealButton"
+            style="@style/MaterialButtonTheme"
             android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:theme="@style/FloatingTextButtonTheme"
-            app:floating_left_icon="@drawable/ic_check"
-            app:floating_title="@string/validate"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            android:layout_marginStart="@dimen/half_margin_size"
+            android:layout_weight="0.5"
+            app:icon="@drawable/ic_check"
+            android:text="@string/validate"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

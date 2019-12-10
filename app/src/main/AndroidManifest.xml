@@ -27,7 +27,6 @@
         <activity android:name=".activities.FoodActivity" />
         <activity android:name=".activities.NewMealActivity" />
         <activity android:name=".activities.NewRecipeActivity"/>
-        <activity android:name=".activities.StyleActivity" />
     </application>
 
 </manifest>

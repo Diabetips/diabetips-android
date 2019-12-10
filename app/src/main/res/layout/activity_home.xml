@@ -6,59 +6,49 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".activities.HomeActivity"
-        android:theme="@style/BackgroundTheme">
+        style="@style/BackgroundHomeTheme">
 
-    <ru.dimorinny.floatingtextbutton.FloatingTextButton
-            android:id="@+id/profileButton"
-            android:theme="@style/FloatingTextButtonTheme"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:floating_right_icon="@drawable/ic_person"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginStart="8dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/profileButton"
+        style="@style/MaterialButtonAltTheme"
+        android:layout_width="wrap_content"
+        android:layout_marginTop="@dimen/half_margin_size"
+        android:layout_marginEnd="@dimen/half_margin_size"
+        app:icon="@drawable/ic_person"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/viewMealButton"
+        style="@style/MaterialButtonTheme"
+        android:layout_width="match_parent"
+        android:text="@string/view_meal"
+        app:icon="@drawable/ic_meal"
+        android:layout_marginBottom="@dimen/margin_size"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/newMealButton" />
 
-    <ru.dimorinny.floatingtextbutton.FloatingTextButton
-            android:id="@+id/viewMealButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:theme="@style/FloatingTextButtonTheme"
-            app:floating_left_icon="@drawable/ic_meal"
-            app:floating_title="@string/view_meal"
-            app:layout_constraintBottom_toTopOf="@+id/newMealButton"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/newMealButton"
+        style="@style/MaterialButtonTheme"
+        android:layout_width="match_parent"
+        app:icon="@drawable/ic_meal"
+        android:text="@string/add_meal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <ru.dimorinny.floatingtextbutton.FloatingTextButton
-            android:id="@+id/newMealButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:theme="@style/FloatingTextButtonTheme"
-            app:floating_left_icon="@drawable/ic_meal"
-            app:floating_title="@string/add_meal"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-    <ru.dimorinny.floatingtextbutton.FloatingTextButton
-            android:id="@+id/viewRecipeButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:theme="@style/FloatingTextButtonTheme"
-            app:floating_left_icon="@drawable/ic_recipe"
-            app:floating_title="@string/view_recipe"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/newMealButton" />
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/viewRecipeButton"
+        style="@style/MaterialButtonTheme"
+        android:layout_width="match_parent"
+        android:text="@string/view_recipe"
+        app:icon="@drawable/ic_recipe"
+        android:layout_marginTop="@dimen/margin_size"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/newMealButton" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

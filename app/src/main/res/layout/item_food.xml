@@ -4,10 +4,11 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:theme="@style/BackgroundTheme">
+        style="@style/EmptyBackgroundTheme">
 
     <ImageView
             android:id="@+id/foodImage"
+            style="@style/ImageTheme"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:contentDescription="@string/param_food"
@@ -18,7 +19,7 @@
 
     <TextView
             android:id="@+id/foodText"
-            android:theme="@style/TextTheme"
+            style="@style/TextTheme"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toTopOf="@+id/foodImage"

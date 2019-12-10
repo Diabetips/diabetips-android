@@ -6,11 +6,11 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".activities.ProfileActivity"
-        android:theme="@style/BackgroundTheme">
+        style="@style/BackgroundTheme">
 
     <TextView
             android:id="@+id/titleProfileText"
-            android:theme="@style/TitleTheme"
+            style="@style/TitleTheme"
             android:text="@string/profile_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -21,20 +21,19 @@
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginStart="8dp"/>
 
-    <ru.dimorinny.floatingtextbutton.FloatingTextButton
-            android:id="@+id/darkModeButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginTop="8dp"
-            android:theme="@style/FloatingTextButtonTheme"
-            app:floating_right_icon="@drawable/ic_sun"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/darkModeButton"
+        style="@style/MaterialButtonAltTheme"
+        android:layout_width="wrap_content"
+        android:layout_marginTop="@dimen/half_margin_size"
+        android:layout_marginEnd="@dimen/half_margin_size"
+        app:icon="@drawable/ic_sun"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/nameProfileInput"
-        android:theme="@style/TextInputTheme"
+        style="@style/TextInputTheme"
         android:hint="@string/name_input"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -47,7 +46,7 @@
 
     <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/firstNameProfileInput"
-        android:theme="@style/TextInputTheme"
+        style="@style/TextInputTheme"
         android:hint="@string/first_name_input"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -65,7 +64,7 @@
         android:layout_marginBottom="8dp"
         android:hint="@string/mail_input"
         android:inputType="textEmailAddress"
-        android:theme="@style/TextInputTheme"
+        style="@style/TextInputTheme"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -73,7 +72,7 @@
 
     <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/newPasswordInput"
-            android:theme="@style/TextInputTheme"
+            style="@style/TextInputTheme"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:hint="@string/new_password_input"
@@ -87,7 +86,7 @@
 
     <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/newPasswordConfirmInput"
-            android:theme="@style/TextInputTheme"
+            style="@style/TextInputTheme"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:hint="@string/password_confirm_input"
@@ -99,18 +98,15 @@
             android:layout_marginTop="8dp"
             app:layout_constraintTop_toBottomOf="@+id/newPasswordInput"/>
 
-    <ru.dimorinny.floatingtextbutton.FloatingTextButton
-            android:id="@+id/updateProfileButton"
-            android:theme="@style/FloatingTextButtonTheme"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:floating_right_icon="@drawable/ic_edit"
-            app:floating_title="@string/update"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginBottom="8dp"
-            app:layout_constraintStart_toStartOf="parent"/>
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/updateProfileButton"
+        style="@style/MaterialButtonTheme"
+        android:layout_width="match_parent"
+        android:layout_marginBottom="@dimen/margin_size"
+        android:text="@string/update"
+        app:icon="@drawable/ic_edit"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

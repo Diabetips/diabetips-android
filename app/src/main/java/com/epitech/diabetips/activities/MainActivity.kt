@@ -13,6 +13,11 @@ import com.epitech.diabetips.services.UserService
 import com.epitech.diabetips.storages.AccountObject
 import com.github.kittinunf.fuel.core.FuelManager
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.activity_main.emailInput
+import kotlinx.android.synthetic.main.activity_main.emailInputLayout
+import kotlinx.android.synthetic.main.activity_main.passwordInput
+import kotlinx.android.synthetic.main.activity_main.passwordInputLayout
+import kotlinx.android.synthetic.main.activity_sign_up.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -28,11 +33,7 @@ class MainActivity : AppCompatActivity() {
         FuelManager.instance.basePath = getString(R.string.api_base_url)
         FuelManager.instance.baseHeaders = mapOf("Content-Type" to "application/json; charset=utf-8")
         loginButton.setOnClickListener {
-            if (emailInput.text.toString().isEmpty() || !Patterns.EMAIL_ADDRESS.matcher(emailInput.text.toString()).matches()) {
-                Toast.makeText(this, getString(R.string.email_invalid_error), Toast.LENGTH_SHORT).show()
-            } else if (passwordInput.text.toString().isEmpty()) {
-                Toast.makeText(this, getString(R.string.password_incorrect_error), Toast.LENGTH_SHORT).show()
-            } else {
+            if (validateFields()) {
                 var account = getAccountFromFields() //TODO : change to val when using real connection with the API
                 //UserService.instance.login(account).subscribe() //TODO : uncomment when using real connection with the API
 
@@ -49,7 +50,8 @@ class MainActivity : AppCompatActivity() {
                             }
                         }
                         if (!login) {
-                            Toast.makeText(this, getString(R.string.login_invalid), Toast.LENGTH_SHORT).show()
+                            emailInputLayout.error = getString(R.string.login_invalid)
+                            passwordInputLayout.error = getString(R.string.login_invalid)
                         }
                     }
                 }.subscribe()
@@ -62,9 +64,23 @@ class MainActivity : AppCompatActivity() {
         signUpLinkButton.setOnClickListener {
             startActivity(Intent(this, SignUpActivity::class.java))
         }
-        themeButton.setOnClickListener {
-            startActivity(Intent(this, StyleActivity::class.java))
+    }
+
+    private fun validateFields() : Boolean {
+        var error = false
+        if (emailInput.text.toString().isEmpty() || !Patterns.EMAIL_ADDRESS.matcher(emailInput.text.toString()).matches()) {
+            emailInputLayout.error = getString(R.string.email_invalid_error)
+            error = true
+        } else {
+            emailInputLayout.error = null
         }
+        if (passwordInput.text.toString().isEmpty()) {
+            passwordInputLayout.error = getString(R.string.password_incorrect_error)
+            error = true
+        } else {
+            passwordInputLayout.error = null
+        }
+        return !error
     }
 
     private fun getAccountFromFields() : AccountObject {

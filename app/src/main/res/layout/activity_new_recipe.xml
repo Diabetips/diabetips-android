@@ -5,60 +5,82 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".activities.NewRecipeActivity"
-        android:theme="@style/BackgroundTheme">
+        style="@style/BackgroundTheme">
 
-    <com.google.android.material.textfield.TextInputEditText
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/newRecipeNameLayout"
+        style="@style/TextInputLayoutTheme"
+        android:layout_width="match_parent"
+        android:layout_marginTop="@dimen/margin_size"
+        android:hint="@string/new_recipe"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/newRecipeName"
-            android:layout_width="wrap_content"
+            style="@style/TextInputTheme"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/new_recipe"
-            android:inputType="text"
-            android:theme="@style/TextInputTheme"
-            android:layout_margin="8dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            android:inputType="text" />
 
-    <com.google.android.material.textfield.TextInputEditText
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/newRecipeDescriptionLayout"
+        style="@style/TextInputLayoutTheme"
+        android:layout_width="match_parent"
+        android:hint="@string/description"
+        android:layout_marginTop="@dimen/half_margin_size"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/newRecipeNameLayout">
+
+        <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/newRecipeDescription"
-            android:theme="@style/TextInputTheme"
-            android:hint="@string/description"
-            android:inputType="textMultiLine"
-            android:layout_width="wrap_content"
+            style="@style/TextInputTheme"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/newRecipeName"/>
+            android:inputType="textMultiLine" />
+
+    </com.google.android.material.textfield.TextInputLayout>
 
     <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/foodList"
+            style="@style/EmptyBackgroundTheme"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            app:layout_constraintBottom_toTopOf="@+id/validateRecipeButton"
-            app:layout_constraintTop_toBottomOf="@+id/newRecipeDescription" />
+            app:layout_constraintBottom_toTopOf="@+id/newRecipeButtonLayout"
+            app:layout_constraintTop_toBottomOf="@+id/newRecipeDescriptionLayout" />
 
-    <ru.dimorinny.floatingtextbutton.FloatingTextButton
+    <LinearLayout
+        android:id="@+id/newRecipeButtonLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="@dimen/margin_size"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/addFoodButton"
+            style="@style/MaterialButtonTheme"
             android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:theme="@style/FloatingTextButtonTheme"
-            app:floating_left_icon="@drawable/ic_food"
-            app:floating_title="@string/add_food"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginEnd="0dp"
+            android:layout_weight="0.5"
+            app:icon="@drawable/ic_food"
+            android:text="@string/add_food"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
-    <ru.dimorinny.floatingtextbutton.FloatingTextButton
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/validateRecipeButton"
+            style="@style/MaterialButtonTheme"
             android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:theme="@style/FloatingTextButtonTheme"
-            app:floating_left_icon="@drawable/ic_check"
-            app:floating_title="@string/validate"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            android:layout_marginStart="@dimen/half_margin_size"
+            android:layout_weight="0.5"
+            app:icon="@drawable/ic_check"
+            android:text="@string/validate"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
