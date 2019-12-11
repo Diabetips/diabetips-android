@@ -1,0 +1,40 @@
+package com.epitech.diabetips.services
+
+import com.epitech.diabetips.storages.*
+
+class MealService : AService("/users//meals") {
+
+    private object Holder { val INSTANCE = MealService() }
+
+    companion object {
+        val instance: MealService by lazy { Holder.INSTANCE }
+    }
+
+    fun changeRoute(uid: String) {
+        baseRoute = "/users/" + uid + "/meals"
+    }
+
+    fun getAllUserMeals() : FuelResponse<Array<MealObject>> {
+        return getRequest()
+    }
+
+    fun getUserMeal(id: String) : FuelResponse<MealObject> {
+        return getRequest("/" + id)
+    }
+
+    fun createOrUpdateUserMeal(meal: MealObject) : FuelResponse<MealObject> {
+        if (meal.id > 0) {
+            return updateUserMeal(meal)
+        }
+        return addUserMeal(meal)
+    }
+
+    private fun addUserMeal(meal: MealObject) : FuelResponse<MealObject> {
+        return postRequest(meal)
+    }
+
+    private fun updateUserMeal(meal: MealObject) : FuelResponse<MealObject> {
+        return putRequest(meal, "/" + meal.id)
+    }
+
+}

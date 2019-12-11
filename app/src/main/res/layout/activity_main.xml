@@ -5,7 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Activities.MainActivity"
+    tools:context=".activities.MainActivity"
     android:theme="@style/BackgroundTheme">
 
     <com.google.android.material.textfield.TextInputEditText
@@ -21,30 +21,6 @@
             app:layout_constraintTop_toTopOf="parent"/>
 
     <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/nameInput"
-            android:theme="@style/TextInputTheme"
-            android:visibility="invisible"
-            android:hint="@string/name_input"
-            android:inputType="textPersonName"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="@+id/emailInput"
-            app:layout_constraintBottom_toTopOf="@+id/passwordInput"
-            app:layout_constraintTop_toBottomOf="@+id/emailInput"/>
-
-    <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/firstNameInput"
-            android:theme="@style/TextInputTheme"
-            android:visibility="invisible"
-            android:hint="@string/first_name_input"
-            android:inputType="textPersonName"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toTopOf="@+id/passwordInput"
-            app:layout_constraintTop_toBottomOf="@+id/emailInput"
-            app:layout_constraintEnd_toEndOf="@+id/emailInput"/>
-
-    <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/passwordInput"
             android:theme="@style/TextInputTheme"
             android:layout_width="200dp"
@@ -56,56 +32,41 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"/>
 
-    <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/passwordConfirmInput"
-            android:theme="@style/TextInputTheme"
-            android:visibility="invisible"
-            android:layout_width="200dp"
-            android:layout_height="wrap_content"
-            android:hint="@string/password_confirm_input"
-            android:inputType="textPassword"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginBottom="8dp"
-            app:layout_constraintBottom_toTopOf="@+id/loginButton"
-            android:layout_marginTop="8dp"
-            app:layout_constraintTop_toBottomOf="@+id/passwordInput"/>
-
     <ru.dimorinny.floatingtextbutton.FloatingTextButton
-            android:id="@+id/signUpButton"
-            android:theme="@style/FloatingTextButtonTheme"
+            android:id="@+id/signUpLinkButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:floating_left_icon="@drawable/ic_person"
-            app:floating_title="@string/sign_up_button"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
-            app:layout_constraintTop_toBottomOf="@+id/passwordInput"
+            app:layout_constraintHorizontal_bias=".85"
+            android:theme="@style/TransparentFloatingTextButtonTheme"
+            app:floating_left_icon="@drawable/ic_person"
+            app:floating_title="@string/sign_up_button"
             app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginStart="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginEnd="8dp"
-            app:layout_constraintEnd_toStartOf="@+id/firstNameInput"/>
+            app:layout_constraintTop_toBottomOf="@+id/passwordInput" />
 
     <ru.dimorinny.floatingtextbutton.FloatingTextButton
             android:id="@+id/loginButton"
-            android:theme="@style/FloatingTextButtonTheme"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:floating_left_icon="@drawable/ic_person"
-            app:floating_title="@string/login_button"
-            app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
-            app:layout_constraintTop_toBottomOf="@+id/passwordInput"
+            app:layout_constraintHorizontal_bias=".15"
+            android:theme="@style/FloatingTextButtonTheme"
+            app:floating_left_icon="@drawable/ic_person"
+            app:floating_title="@string/login_button"
             app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginStart="8dp"
-            app:layout_constraintStart_toStartOf="@+id/firstNameInput"/>
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/passwordInput" />
 
     <Button
             android:id="@+id/themeButton"
             android:theme="@style/ButtonTheme"
             android:text="Styles"
+            android:visibility="invisible"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="parent"

@@ -4,19 +4,41 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".Activities.NewRecipeActivity"
+        tools:context=".activities.NewRecipeActivity"
         android:theme="@style/BackgroundTheme">
+
+    <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/newRecipeName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="@string/new_recipe"
+            android:inputType="text"
+            android:theme="@style/TextInputTheme"
+            android:layout_margin="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+    <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/newRecipeDescription"
+            android:theme="@style/TextInputTheme"
+            android:hint="@string/description"
+            android:inputType="textMultiLine"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/newRecipeName"/>
 
     <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/foodList"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            app:layout_constraintBottom_toTopOf="@+id/validateMealButton"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:layout_editor_absoluteX="0dp" />
+            app:layout_constraintBottom_toTopOf="@+id/validateRecipeButton"
+            app:layout_constraintTop_toBottomOf="@+id/newRecipeDescription" />
 
     <ru.dimorinny.floatingtextbutton.FloatingTextButton
-            android:id="@+id/foodButton"
+            android:id="@+id/addFoodButton"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"

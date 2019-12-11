@@ -2,7 +2,7 @@
 <resources>
     <string name="first_name_input">Firstname</string>
     <string name="name_input">Name</string>
-    <string name="login_button">Connexion</string>
+    <string name="login_button">Connection</string>
     <string name="mail_input">Email</string>
     <string name="new_password_button">Change Password</string>
     <string name="new_password_input">New Password</string>
@@ -21,4 +21,15 @@
     <string name="new_recipe">New recipe</string>
     <string name="validate">Validate</string>
     <string name="email_already_taken">This email is already linked to another account</string>
+    <string name="login_invalid">Invalid email or password</string>
+    <string name="recipe_empty">Recipe must have at least 1 ingredient</string>
+    <string name="recipe_name_empty">Recipe name mustn\'t be empty</string>
+    <string name="meal_empty">Meal must have at least 1 recipe</string>
+    <string name="view_meal">My meals</string>
+    <string name="view_recipe">Recipes</string>
+    <string name="description">Description</string>
+    <string name="update">Update</string>
+    <string name="update_profile">Profile updated</string>
+    <string name="search_food">Search food</string>
+    <string name="search_recipe">Search a recipe</string>
 </resources>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="first_name_input">Prénom</string>
-    <string name="login_button">Connection</string>
+    <string name="login_button">"Connexion "</string>
     <string name="mail_input">Email</string>
     <string name="name_input">Nom</string>
     <string name="new_password_button">Changer de mot de passe</string>
@@ -21,4 +21,15 @@
     <string name="new_recipe">Nouvelle recette</string>
     <string name="validate">Valider</string>
     <string name="email_already_taken">Cet email est déjà lié à un autre compte</string>
+    <string name="login_invalid">Email ou mot de passe invalide</string>
+    <string name="recipe_empty">La recette doit avoir au moins 1 ingrédient</string>
+    <string name="recipe_name_empty">Le nom de la recette ne doit pas être vide</string>
+    <string name="meal_empty">Le repas doit avoir au moins 1 recette</string>
+    <string name="view_meal">Mes repas</string>
+    <string name="view_recipe">Recettes</string>
+    <string name="description">Description</string>
+    <string name="update">Mettre à jour</string>
+    <string name="update_profile">Profil mis à jour</string>
+    <string name="search_recipe">Rechercher une recette</string>
+    <string name="search_food">Rechercher un aliment</string>
 </resources>

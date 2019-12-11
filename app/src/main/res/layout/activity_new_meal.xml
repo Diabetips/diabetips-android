@@ -4,19 +4,30 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".Activities.NewMealActivity"
+        tools:context=".activities.NewMealActivity"
         android:theme="@style/BackgroundTheme">
+
+    <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/newMealDescription"
+            android:theme="@style/TextInputTheme"
+            android:hint="@string/description"
+            android:inputType="textMultiLine"
+            android:layout_margin="8dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
 
     <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recipeList"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             app:layout_constraintBottom_toTopOf="@+id/validateMealButton"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/newMealDescription"
             tools:layout_editor_absoluteX="0dp" />
 
     <ru.dimorinny.floatingtextbutton.FloatingTextButton
-            android:id="@+id/recipeButton"
+            android:id="@+id/addRecipeButton"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"

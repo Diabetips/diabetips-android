@@ -4,16 +4,32 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".Activities.RecipeActivity"
+        tools:context=".activities.RecipeActivity"
         android:theme="@style/BackgroundTheme">
 
-    <androidx.recyclerview.widget.RecyclerView
+    <com.mancj.materialsearchbar.MaterialSearchBar
+        android:id="@+id/recipeSearchBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        android:theme="@style/SearchBarTheme"
+        app:mt_hint="@string/search_recipe" />
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/recipeSwipeRefresh"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@+id/recipeSearchBar"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recipeSearchList"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            app:layout_constraintBottom_toTopOf="@+id/newRecipeButton"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:layout_editor_absoluteX="0dp" />
+            android:layout_height="match_parent"
+            app:layout_constraintTop_toTopOf="@+id/recipeSwipeRefresh"
+            app:layout_constraintBottom_toBottomOf="@+id/recipeSwipeRefresh"/>
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <ru.dimorinny.floatingtextbutton.FloatingTextButton
             android:id="@+id/newRecipeButton"
