@@ -41,34 +41,43 @@
         <item name="imageBackground">@drawable/ic_background_white</item>
         <item name="imageMainBackground">@drawable/ic_background_blue</item>
         <item name="imageHomeBackground">@drawable/ic_background_logo_white</item>
+        <item name="circleToolbar">@drawable/circle_toolbar_blue</item>
     </style>
 
     <style name="DarkTheme" parent="AppTheme">
         <item name="colorBackground">@color/colorBackgroundDark</item>
-        <item name="colorBackgroundText">@color/colorTextDark</item>>
+        <item name="colorBackgroundText">@color/colorText</item>>
         <item name="imageBackground">@drawable/ic_background_black</item>
         <item name="imageMainBackground">@drawable/ic_background_black</item>
         <item name="imageHomeBackground">@drawable/ic_background_logo_black</item>
+        <item name="circleToolbar">@drawable/circle_toolbar_black</item>
     </style>
 
-    <style name="EmptyBackgroundTheme" parent="ThemeOverlay.AppCompat.Dark">
+    <style name="EmptyBackgroundTheme" parent="BackgroundTheme">
         <item name="android:background">@null</item>
     </style>
 
-    <style name="ClearBackgroundTheme" parent="ThemeOverlay.AppCompat.Dark">
+    <style name="ClearBackgroundTheme" parent="BackgroundTheme">
         <item name="android:background">?attr/colorBackground</item>
     </style>
 
     <style name="BackgroundTheme" parent="ThemeOverlay.AppCompat.Dark">
         <item name="android:background">?attr/imageBackground</item>
+        <item name="android:clipChildren">false</item>
     </style>
 
-    <style name="BackgroundMainTheme" parent="ThemeOverlay.AppCompat.Dark">
+    <style name="BackgroundMainTheme" parent="BackgroundTheme">
         <item name="android:background">?attr/imageMainBackground</item>
     </style>
 
-    <style name="BackgroundHomeTheme" parent="ThemeOverlay.AppCompat.Dark">
+    <style name="BackgroundHomeTheme" parent="BackgroundTheme">
         <item name="android:background">?attr/imageHomeBackground</item>
+    </style>
+
+    <style name="circleToolbar" parent="ThemeOverlay.AppCompat.Dark">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">120dp</item>
+        <item name="android:background">?attr/circleToolbar</item>
     </style>
 
     <style name="ButtonTheme" parent="ThemeOverlay.AppCompat.Dark">
@@ -88,6 +97,7 @@
         <item name="android:insetBottom">@dimen/button_inset</item>
         <item name="android:textAppearance">@style/TextAppearance</item>
         <item name="android:textColor">?attr/colorTextButton</item>
+        <item name="android:elevation">@dimen/shadow_size</item>
         <item name="iconGravity">textStart</item>
         <item name="iconTint">?attr/colorTextButton</item>
         <item name="iconSize">@dimen/text_size</item>
@@ -102,6 +112,7 @@
 
     <style name="MaterialButtonEmptyTheme" parent="MaterialButtonTheme">
         <item name="backgroundTint">@color/material_button_transparent_color_selector</item>
+        <item name="android:elevation">0dp</item>
     </style>
 
     <style name="MaterialButtonTransparentTheme" parent="MaterialButtonEmptyTheme">
@@ -111,12 +122,19 @@
 
     <style name="TextInputTheme" parent="@style/Widget.AppCompat.EditText">
         <item name="android:textAppearance">@style/TextAppearance</item>
+        <item name="android:textColor">?attr/colorText</item>
+    </style>
+
+    <style name="ElevationTheme" parent="ThemeOverlay.AppCompat.Dark">
+        <item name="android:elevation">@dimen/shadow_size</item>
     </style>
 
     <style name="TextInputLayoutTheme" parent="Widget.MaterialComponents.TextInputLayout.FilledBox.Dense">
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginStart">@dimen/margin_size</item>
         <item name="android:layout_marginEnd">@dimen/margin_size</item>
+        <item name="android:clipChildren">false</item>
+        <item name="android:theme">@style/ElevationTheme</item>
         <item name="boxBackgroundColor">?attr/colorInputBackground</item>
         <item name="boxStrokeWidth">0dp</item>
         <item name="boxStrokeWidthFocused">0dp</item>
@@ -129,7 +147,7 @@
         <item name="android:textColorHint">?attr/colorHint</item>
         <item name="hintTextColor">?attr/colorHint</item>
         <item name="errorEnabled">true</item>
-        <item name="errorTextAppearance">@style/ErrorTexAppearance</item>
+        <item name="errorTextAppearance">@style/ErrorTextAppearance</item>
         <item name="errorTextColor">?attr/colorWarm</item>
         <item name="errorIconTint">?attr/colorWarm</item>
     </style>
@@ -147,7 +165,12 @@
         <item name="counterMaxLength">@integer/password_length</item>
     </style>
 
-    <style name="TextAppearance" parent="TextAppearance.MaterialComponents.Subtitle1">
+    <style name="TitleAppearance" parent="TextAppearance.MaterialComponents.Headline1">
+        <item name="android:textSize">@dimen/title_size</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="TextAppearance" parent="TextAppearance.MaterialComponents.Body1">
         <item name="android:textSize">@dimen/text_size</item>
     </style>
 
@@ -155,7 +178,7 @@
         <item name="android:textSize">@dimen/hint_size</item>
     </style>
 
-    <style name="ErrorTexAppearance" parent="TextAppearance.MaterialComponents.Subtitle2">
+    <style name="ErrorTextAppearance" parent="TextAppearance.MaterialComponents.Subtitle2">
         <item name="android:textSize">@dimen/error_size</item>
     </style>
 
@@ -165,12 +188,26 @@
         <item name="android:textColorHintInverse">?attr/colorPrimary</item>
     </style>
 
+    <style name="TextViewAltTheme" parent="ThemeOverlay.AppCompat.Dark">
+        <item name="android:textColor">?attr/colorBackgroundText</item>
+        <item name="android:textColorHint">?attr/colorBackgroundText</item>
+        <item name="android:textColorHintInverse">?attr/colorBackgroundText</item>
+    </style>
+
     <style name="TitleTheme" parent="TextViewTheme">
-        <item name="android:textSize">32sp</item>
+        <item name="android:textAppearance">@style/TitleAppearance</item>
+    </style>
+
+    <style name="TitleAltTheme" parent="TextViewAltTheme">
+        <item name="android:textAppearance">@style/TitleAppearance</item>
     </style>
 
     <style name="TextTheme" parent="TextViewTheme">
-        <item name="android:textSize">18sp</item>
+        <item name="android:textAppearance">@style/TextAppearance</item>
+    </style>
+
+    <style name="TextAltTheme" parent="TextViewAltTheme">
+        <item name="android:textAppearance">@style/TextAppearance</item>
     </style>
 
     <style name="SearchBarTheme" parent="MaterialSearchBarLight">

@@ -11,5 +11,6 @@
         <attr name="imageBackground" format="reference" />
         <attr name="imageMainBackground" format="reference" />
         <attr name="imageHomeBackground" format="reference" />
+        <attr name="circleToolbar" format="reference" />
     </declare-styleable>
 </resources>

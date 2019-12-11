@@ -47,35 +47,67 @@ class ProfileActivity : AppCompatActivity() {
     }
 
     private fun updateProfile() {
-        val account : AccountObject = AccountManager.instance.getAccount(this)
-        if (nameProfileInput.text.toString().isEmpty() || firstNameProfileInput.text.toString().isEmpty()) {
-            Toast.makeText(this, getString(R.string.name_invalid_error), Toast.LENGTH_SHORT).show()
-            return
+        if (validateFields()) {
+            val account: AccountObject = AccountManager.instance.getAccount(this)
+            account.last_name = nameProfileInput.text.toString()
+            account.first_name = firstNameProfileInput.text.toString()
+            account.email = emailProfileInput.text.toString()
+            if (newPasswordInput.text.toString().isNotEmpty()) {
+                account.password = newPasswordInput.text.toString()
+            }
+            UserService.instance.updateUser(account).doOnSuccess {
+                if (it.second.component2() == null) {
+                    AccountManager.instance.saveAccount(this, it.second.component1()!!)
+                    Toast.makeText(this, getString(R.string.update_profile), Toast.LENGTH_SHORT)
+                        .show()
+                } else {
+                    Toast.makeText(
+                        this,
+                        it.second.component2()!!.exception.message,
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }.subscribe()
+        }
+    }
+
+    private fun validateFields() : Boolean {
+        var error = false
+        if (nameProfileInput.text.toString().isEmpty()) {
+            nameProfileInputLayout.error = getString(R.string.name_invalid_error)
+            error = true
+        } else {
+            nameProfileInputLayout.error = null
+        }
+        if (firstNameProfileInput.text.toString().isEmpty()) {
+            firstNameProfileInputLayout.error = getString(R.string.first_name_invalid_error)
+            error = true
+        } else {
+            firstNameProfileInputLayout.error = null
         }
         if (emailProfileInput.text.toString().isEmpty() || !Patterns.EMAIL_ADDRESS.matcher(emailProfileInput.text.toString()).matches()) {
-            Toast.makeText(this, getString(R.string.email_invalid_error), Toast.LENGTH_SHORT).show()
-            return
+            emailProfileInputLayout.error = getString(R.string.email_invalid_error)
+            error = true
+        } else {
+            emailProfileInputLayout.error = null
         }
         if (newPasswordInput.text.toString().isNotEmpty()) {
             if (newPasswordInput.text.toString().length < resources.getInteger(R.integer.password_length)) {
-                Toast.makeText(this, getString(R.string.password_length_error), Toast.LENGTH_SHORT).show()
-                return
-            } else if (newPasswordInput.text.toString() != newPasswordConfirmInput.text.toString()) {
-                Toast.makeText(this, getString(R.string.password_match_error), Toast.LENGTH_SHORT).show()
-                return
+                newPasswordInputLayout.error = getString(R.string.password_length_error)
+                error = true
+            } else {
+                newPasswordInputLayout.error = null
             }
-            account.password = newPasswordInput.text.toString()
-        }
-        account.last_name = nameProfileInput.text.toString()
-        account.first_name = firstNameProfileInput.text.toString()
-        account.email = emailProfileInput.text.toString()
-        UserService.instance.updateUser(account).doOnSuccess {
-        if (it.second.component2() == null) {
-            AccountManager.instance.saveAccount(this, it.second.component1()!!)
-            Toast.makeText(this, getString(R.string.update_profile), Toast.LENGTH_SHORT).show()
+            if (newPasswordInput.text.toString() != newPasswordConfirmInput.text.toString()) {
+                newPasswordConfirmInputLayout.error = getString(R.string.password_match_error)
+                error = true
+            } else {
+                newPasswordConfirmInputLayout.error = null
+            }
         } else {
-            Toast.makeText(this, it.second.component2()!!.exception.message, Toast.LENGTH_SHORT).show()
+            newPasswordInputLayout.error = null
+            newPasswordConfirmInputLayout.error = null
         }
-        }.subscribe()
+        return !error
     }
 }
