@@ -13,15 +13,18 @@ class MealItemViewHolder(inflater: LayoutInflater, parent: ViewGroup)
     : RecyclerView.ViewHolder(inflater.inflate(R.layout.item_meal, parent, false)) {
     private var mealDescription: TextView? = null
     private var mealDate: TextView? = null
+    private var mealUnit: TextView? = null
 
     init {
         mealDescription = itemView.mealDescription
         mealDate = itemView.mealDate
+        mealUnit = itemView.mealUnitText
     }
 
     fun bind(meal: MealObject, onItemClickListener : ((MealObject) -> Unit)? = null) {
         mealDescription?.text = meal.description
         mealDate?.text = SimpleDateFormat("HH:mm dd/MM/yyyy", java.util.Locale.getDefault()).format(meal.time)
+        mealUnit?.text = "0u"
         itemView.setOnClickListener {onItemClickListener?.invoke(meal)}
     }
 }

@@ -44,6 +44,8 @@ class FoodActivity : AppCompatActivity(), MaterialSearchBar.OnSearchActionListen
                 (foodSearchList.adapter as FoodAdapter).setFoods(it.second.component1()!!)
             }
             foodSwipeRefresh.isRefreshing = false
+            //TODO remove next line
+            (foodSearchList.adapter as FoodAdapter).setFoods(arrayOf(FoodObject(0, "Pâtes", "kg"), FoodObject(1, "Pommes", "U"), FoodObject(2, "Eau", "L")))
         }.subscribe()
     }
 

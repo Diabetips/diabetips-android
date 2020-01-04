@@ -8,34 +8,34 @@ import androidx.recyclerview.widget.RecyclerView
 import com.epitech.diabetips.R
 import com.epitech.diabetips.storages.RecipeObject
 import com.google.android.material.button.MaterialButton
+import com.google.android.material.textfield.TextInputEditText
+import com.google.android.material.textfield.TextInputLayout
 import kotlinx.android.synthetic.main.item_meal_recipe.view.*
 
 class MealRecipeItemViewHolder(inflater: LayoutInflater, parent: ViewGroup)
     : RecyclerView.ViewHolder(inflater.inflate(R.layout.item_meal_recipe, parent, false)) {
     private var mealRecipeText: TextView? = null
-    private var mealRecipeUnit: TextView? = null
-    private var mealRecipeQuantity: EditText? = null
-    private var mealRecipeRemove: MaterialButton? = null
+    private var mealRecipeQuantityInput: TextInputEditText? = null
+    private var mealRecipeQuantityInputLayout: TextInputLayout? = null
 
     init {
         mealRecipeText = itemView.mealRecipeText
-        mealRecipeUnit = itemView.mealRecipeUnit
-        mealRecipeQuantity = itemView.mealRecipeQuantity
-        mealRecipeRemove = itemView.mealRecipeRemove
+        mealRecipeQuantityInput = itemView.mealRecipeQuantityInput
+        mealRecipeQuantityInputLayout = itemView.mealRecipeQuantityInputLayout
     }
 
-    fun getMealRecipeQuantity() : EditText? {
-        return mealRecipeQuantity
+    fun getMealRecipeQuantityInput() : TextInputEditText? {
+        return mealRecipeQuantityInput
     }
 
-    fun getMealRecipeRemove() : MaterialButton? {
-        return mealRecipeRemove
+    fun getMealRecipeQuantityInputLayout() : TextInputLayout? {
+        return mealRecipeQuantityInputLayout
     }
 
     fun bind(recipe: RecipeObject) {
         mealRecipeText?.text = recipe.name
-        //mealRecipeUnit?.text = recipe.unit //TODO add unit in recipes
-        //mealRecipeQuantity?.setText(recipe.quantity.toString()) //TODO add quantity in recipes
+        //recipeFoodQuantityInputLayout?.suffixText = recipe.unit //TODO add unit in recipes
+        // recipeFoodQuantityInput?.setText(recipe.quantity.toString()) //TODO add quantity in recipes
     }
 }
 

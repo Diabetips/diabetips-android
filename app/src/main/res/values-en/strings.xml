@@ -34,4 +34,6 @@
     <string name="search_recipe">Search a recipe</string>
     <string name="forgot_password_button">Forgot Password</string>
     <string name="first_name_invalid_error">Invalid firstname</string>
+    <string name="home_title">Home</string>
+    <string name="settings_title">Settings</string>
 </resources>

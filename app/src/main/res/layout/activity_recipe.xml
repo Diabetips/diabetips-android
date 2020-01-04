@@ -1,37 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".activities.RecipeActivity"
-        style="@style/BackgroundTheme">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/BackgroundTheme"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.RecipeActivity">
 
     <com.mancj.materialsearchbar.MaterialSearchBar
         android:id="@+id/recipeSearchBar"
+        style="@style/SearchBarTheme"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
-        style="@style/SearchBarTheme"
         app:mt_hint="@string/search_recipe" />
 
-    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        android:id="@+id/recipeSwipeRefresh"
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/recipeSearchCard"
+        style="@style/BackgroundCardTheme"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        style="@style/EmptyBackgroundTheme"
         app:layout_constraintBottom_toTopOf="@+id/newRecipeButton"
         app:layout_constraintTop_toBottomOf="@+id/recipeSearchBar">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recipeSearchList"
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/recipeSwipeRefresh"
+            style="@style/EmptyBackgroundTheme"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            style="@style/EmptyBackgroundTheme"
-            app:layout_constraintBottom_toBottomOf="@+id/recipeSwipeRefresh"
-            app:layout_constraintTop_toTopOf="@+id/recipeSwipeRefresh" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recipeSearchList"
+                style="@style/EmptyBackgroundTheme"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+    </com.google.android.material.card.MaterialCardView>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/newRecipeButton"

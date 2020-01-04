@@ -3,7 +3,6 @@ package com.epitech.diabetips.activities
 import android.content.Intent
 import android.os.Bundle
 import android.util.Patterns
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import com.epitech.diabetips.managers.AccountManager
@@ -17,7 +16,6 @@ import kotlinx.android.synthetic.main.activity_main.emailInput
 import kotlinx.android.synthetic.main.activity_main.emailInputLayout
 import kotlinx.android.synthetic.main.activity_main.passwordInput
 import kotlinx.android.synthetic.main.activity_main.passwordInputLayout
-import kotlinx.android.synthetic.main.activity_sign_up.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -46,7 +44,7 @@ class MainActivity : AppCompatActivity() {
                                 account = user
                                 login = true
                                 AccountManager.instance.saveAccount(this, account)
-                                startActivity(Intent(this, HomeActivity::class.java))
+                                startActivity(Intent(this, NavigationActivity::class.java))
                             }
                         }
                         if (!login) {

@@ -13,7 +13,13 @@
     <string name="param_food" translatable="false">Food</string>
     <!--parameters name end-->
 
+    <string name="placeholder_text" translatable="false">Placeholder Text</string>
+    <string name="placeholder_number" translatable="false">X</string>
+
+
+    <string name="home_title">Home</string>
     <string name="profile_title">Profile</string>
+    <string name="settings_title">Settings</string>
 
     <!--login / sign up screen start-->
     <string name="mail_input">Email</string>

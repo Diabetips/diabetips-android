@@ -5,17 +5,18 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".activities.HomeActivity"
+        tools:context=".activities.HomeFragment"
         style="@style/BackgroundHomeTheme">
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/profileButton"
-        style="@style/MaterialButtonAltTheme"
+    <TextView
+        android:id="@+id/titleHomeText"
+        style="@style/TitleTheme"
         android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/half_margin_size"
         android:layout_marginTop="@dimen/half_margin_size"
-        android:layout_marginEnd="@dimen/half_margin_size"
-        app:icon="@drawable/ic_person"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:text="@string/home_title"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.button.MaterialButton

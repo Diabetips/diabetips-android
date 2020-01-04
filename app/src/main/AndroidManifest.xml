@@ -1,32 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-        package="com.epitech.diabetips">
+    package="com.epitech.diabetips">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
-            android:allowBackup="true"
-            android:icon="@mipmap/ic_launcher"
-            android:label="@string/app_name"
-            android:roundIcon="@mipmap/ic_launcher_round"
-            android:supportsRtl="true"
-            android:theme="@style/AppTheme">
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
         <activity android:name=".activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity android:name=".activities.SignUpActivity" />
-        <activity android:name=".activities.HomeActivity" />
-        <activity android:name=".activities.ProfileActivity" />
+        <activity android:name=".activities.NavigationActivity" />
+        <activity android:name=".activities.HomeFragment" />
+        <activity android:name=".activities.SettingsFragment" />
+        <activity android:name=".activities.ProfileFragment" />
         <activity android:name=".activities.MealActivity" />
         <activity android:name=".activities.RecipeActivity" />
         <activity android:name=".activities.FoodActivity" />
         <activity android:name=".activities.NewMealActivity" />
-        <activity android:name=".activities.NewRecipeActivity"/>
+        <activity android:name=".activities.NewRecipeActivity" />
     </application>
 
 </manifest>

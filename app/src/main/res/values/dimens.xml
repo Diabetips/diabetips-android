@@ -3,6 +3,7 @@
     <dimen name="input_size">36dp</dimen>
     <dimen name="margin_size">28dp</dimen>
     <dimen name="half_margin_size">14dp</dimen>
+    <dimen name="quarter_margin_size">7dp</dimen>
     <dimen name="input_corner_size">25dp</dimen>
     <dimen name="shadow_size">2dp</dimen>
     <dimen name="button_inset">0dp</dimen>

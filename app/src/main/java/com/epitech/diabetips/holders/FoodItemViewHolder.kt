@@ -11,13 +11,16 @@ import kotlinx.android.synthetic.main.item_food.view.*
 class FoodItemViewHolder(inflater: LayoutInflater, parent: ViewGroup)
     : RecyclerView.ViewHolder(inflater.inflate(R.layout.item_food, parent, false)) {
     private var foodText: TextView? = null
+    private var unitText: TextView? = null
 
     init {
         foodText = itemView.foodText
+        unitText = itemView.foodUnitText
     }
 
     fun bind(food: FoodObject, onItemClickListener : ((FoodObject) -> Unit)? = null) {
         foodText?.text = food.name
+        unitText?.text = food.unit
         itemView.setOnClickListener {onItemClickListener?.invoke(food)}
     }
 }

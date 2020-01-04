@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".activities.NewMealActivity"
-        style="@style/BackgroundTheme">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/BackgroundTheme"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.NewMealActivity">
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/newMealDescriptionLayout"
@@ -25,21 +25,30 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/mealRecipeCard"
+        style="@style/BackgroundCardTheme"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@+id/newMealDescriptionLayout"
+        app:layout_constraintBottom_toTopOf="@+id/newMealButtonLayout">
+
+        <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recipeList"
             style="@style/EmptyBackgroundTheme"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            app:layout_constraintBottom_toTopOf="@+id/newMealButtonLayout"
-            app:layout_constraintTop_toBottomOf="@+id/newMealDescriptionLayout"
-            tools:layout_editor_absoluteX="0dp" />
+            android:layout_height="match_parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+    </com.google.android.material.card.MaterialCardView>
 
     <LinearLayout
         android:id="@+id/newMealButtonLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:layout_marginBottom="@dimen/margin_size"
+        android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent">
 
         <com.google.android.material.button.MaterialButton
@@ -48,8 +57,8 @@
             android:layout_width="0dp"
             android:layout_marginEnd="0dp"
             android:layout_weight="0.5"
-            app:icon="@drawable/ic_recipe"
             android:text="@string/add_recipe"
+            app:icon="@drawable/ic_recipe"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
@@ -59,8 +68,8 @@
             android:layout_width="0dp"
             android:layout_marginStart="@dimen/half_margin_size"
             android:layout_weight="0.5"
-            app:icon="@drawable/ic_check"
             android:text="@string/validate"
+            app:icon="@drawable/ic_check"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 

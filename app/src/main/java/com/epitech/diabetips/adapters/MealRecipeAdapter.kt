@@ -39,17 +39,17 @@ class MealRecipeAdapter(private val recipes: ArrayList<RecipeObject> = arrayList
 
     override fun onBindViewHolder(holder: MealRecipeItemViewHolder, position: Int) {
         holder.bind(recipes[position])
-        holder.getMealRecipeQuantity()?.addTextChangedListener(object : TextWatcher {
+        holder.getMealRecipeQuantityInput()?.addTextChangedListener(object : TextWatcher {
 
             override fun afterTextChanged(s: Editable) {}
 
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
 
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-                //recipes[position].quantity = s.toString().toFloat() //TODO add quantity in recipes
+                //recipes[position].quantity = if (s.toString().toFloatOrNull() == null) 0.0f else s.toString().toFloat() //TODO add quantity in recipes
             }
         })
-        holder.getMealRecipeRemove()?.setOnClickListener {
+        holder.getMealRecipeQuantityInputLayout()?.setEndIconOnClickListener {
             removeRecipe(position)
         }
     }

@@ -34,4 +34,6 @@
     <string name="search_food">Rechercher un aliment</string>
     <string name="forgot_password_button">Mot de Passe oublié</string>
     <string name="first_name_invalid_error">Prénom invalide</string>
+    <string name="home_title">Accueil</string>
+    <string name="settings_title">Paramètres</string>
 </resources>
