@@ -11,13 +11,15 @@
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/imageDiabiSignUp"
         android:layout_width="match_parent"
-        android:layout_height="128dp"
+        android:layout_height="216dp"
         android:layout_margin="@dimen/margin_size"
         android:src="@drawable/ic_diabi"
         app:civ_circle_background_color="?attr/colorInputBackground"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.1" />
 
     <LinearLayout
         android:id="@+id/signUpNamesLayout"
@@ -68,11 +70,9 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/emailInputLayout"
-        android:layout_marginTop="@dimen/half_margin_size"
         style="@style/TextInputLayoutTheme"
         android:layout_width="match_parent"
         android:hint="@string/mail_input"
-        android:layout_weight="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/signUpNamesLayout">
 
@@ -88,7 +88,6 @@
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/passwordInputLayout"
         style="@style/PasswordInputLayoutTheme"
-        android:layout_marginTop="@dimen/half_margin_size"
         android:layout_width="match_parent"
         android:hint="@string/password_input"
         app:layout_constraintStart_toStartOf="parent"
@@ -106,7 +105,6 @@
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/passwordConfirmInputLayout"
         style="@style/PasswordInputLayoutTheme"
-        android:layout_marginTop="@dimen/half_margin_size"
         android:layout_width="match_parent"
         android:hint="@string/password_confirm_input"
         app:layout_constraintStart_toStartOf="parent"
@@ -125,7 +123,7 @@
         android:id="@+id/signUpButton"
         style="@style/MaterialButtonTheme"
         android:layout_width="0dp"
-        android:layout_marginTop="@dimen/margin_size"
+        android:layout_marginTop="@dimen/quarter_margin_size"
         android:text="@string/sign_up_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

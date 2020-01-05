@@ -11,6 +11,7 @@ import com.epitech.diabetips.managers.AccountManager
 import com.epitech.diabetips.R
 import com.epitech.diabetips.services.UserService
 import com.epitech.diabetips.storages.AccountObject
+import com.epitech.diabetips.utils.MaterialHandler
 import kotlinx.android.synthetic.main.fragment_profile.view.*
 
 class ProfileFragment : Fragment() {
@@ -18,6 +19,7 @@ class ProfileFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_profile, container, false)
+        MaterialHandler.instance.handleTextInputLayoutSize(view as ViewGroup)
         view.updateProfileButton.setOnClickListener {
             updateProfile()
         }

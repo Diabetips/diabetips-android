@@ -10,6 +10,7 @@ import com.epitech.diabetips.adapters.FoodAdapter
 import com.epitech.diabetips.R
 import com.epitech.diabetips.services.FoodService
 import com.epitech.diabetips.storages.FoodObject
+import com.epitech.diabetips.utils.MaterialHandler
 import com.mancj.materialsearchbar.MaterialSearchBar
 import kotlinx.android.synthetic.main.activity_food.*
 
@@ -23,6 +24,7 @@ class FoodActivity : AppCompatActivity(), MaterialSearchBar.OnSearchActionListen
         }
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_food)
+        MaterialHandler.instance.handleTextInputLayoutSize(this.findViewById(android.R.id.content))
         foodSearchBar.setOnSearchActionListener(this)
         foodSearchList.apply {
             layoutManager = LinearLayoutManager(this@FoodActivity)
@@ -44,8 +46,6 @@ class FoodActivity : AppCompatActivity(), MaterialSearchBar.OnSearchActionListen
                 (foodSearchList.adapter as FoodAdapter).setFoods(it.second.component1()!!)
             }
             foodSwipeRefresh.isRefreshing = false
-            //TODO remove next line
-            (foodSearchList.adapter as FoodAdapter).setFoods(arrayOf(FoodObject(0, "Pâtes", "kg"), FoodObject(1, "Pommes", "U"), FoodObject(2, "Eau", "L")))
         }.subscribe()
     }
 

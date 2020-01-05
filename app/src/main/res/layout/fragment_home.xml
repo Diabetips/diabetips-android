@@ -19,37 +19,67 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/viewMealButton"
-        style="@style/MaterialButtonTheme"
-        android:layout_width="match_parent"
-        android:text="@string/view_meal"
-        app:icon="@drawable/ic_meal"
-        android:layout_marginBottom="@dimen/margin_size"
+    <ImageButton
+        android:id="@+id/viewRecipeButton"
+        style="@style/ImageButtonTheme"
+        android:layout_width="@dimen/input_size"
+        android:layout_height="@dimen/input_size"
+        android:contentDescription="@string/placeholder_text"
+        android:src="@drawable/ic_recipe"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/newMealButton" />
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/newMealButton"
-        style="@style/MaterialButtonTheme"
-        android:layout_width="match_parent"
-        app:icon="@drawable/ic_meal"
-        android:text="@string/add_meal"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/viewRecipeButton"
-        style="@style/MaterialButtonTheme"
+
+
+    <LinearLayout
+        android:id="@+id/homeLayout"
+        style="@style/EmptyBackgroundTheme"
         android:layout_width="match_parent"
-        android:text="@string/view_recipe"
-        app:icon="@drawable/ic_recipe"
-        android:layout_marginTop="@dimen/margin_size"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        android:weightSum="100"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/newMealButton" />
+        app:layout_constraintTop_toBottomOf="@id/titleHomeText"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/sugarChartCard"
+            style="@style/BackgroundCardTheme"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="40"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:layout_editor_absoluteX="14dp">
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/newMealButton"
+            style="@style/MaterialButtonTheme"
+            android:layout_width="wrap_content"
+            android:text="@string/add_meal"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="0"
+            android:layout_marginTop="-33dp"/>
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/mealHomeCard"
+            style="@style/BackgroundCardTheme"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="45">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/mealHomeList"
+                style="@style/EmptyBackgroundTheme"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </com.google.android.material.card.MaterialCardView>
+
+    </LinearLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -13,6 +13,7 @@ import com.epitech.diabetips.managers.AccountManager
 import com.epitech.diabetips.services.MealService
 import com.epitech.diabetips.storages.MealObject
 import com.epitech.diabetips.storages.RecipeObject
+import com.epitech.diabetips.utils.MaterialHandler
 import kotlinx.android.synthetic.main.activity_new_meal.*
 import java.util.*
 
@@ -30,6 +31,7 @@ class NewMealActivity : AppCompatActivity() {
         }
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_new_meal)
+        MaterialHandler.instance.handleTextInputLayoutSize(this.findViewById(android.R.id.content))
         addRecipeButton.setOnClickListener {
             startActivityForResult(Intent(this, RecipeActivity::class.java), RequestCode.SEARCH_RECIPE.ordinal)
         }

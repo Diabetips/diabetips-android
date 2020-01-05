@@ -10,6 +10,7 @@ import com.epitech.diabetips.managers.AccountManager
 import com.epitech.diabetips.R
 import com.epitech.diabetips.services.UserService
 import com.epitech.diabetips.storages.AccountObject
+import com.epitech.diabetips.utils.MaterialHandler
 import kotlinx.android.synthetic.main.activity_sign_up.*
 import java.net.HttpURLConnection.HTTP_CONFLICT
 
@@ -23,6 +24,7 @@ class SignUpActivity : AppCompatActivity() {
         }
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sign_up)
+        MaterialHandler.instance.handleTextInputLayoutSize(this.findViewById(android.R.id.content))
         signUpButton.setOnClickListener {
             if (validateFields()) {
                 val account = getAccountFromFields()

@@ -10,6 +10,7 @@ import com.epitech.diabetips.adapters.RecipeAdapter
 import com.epitech.diabetips.R
 import com.epitech.diabetips.services.RecipeService
 import com.epitech.diabetips.storages.RecipeObject
+import com.epitech.diabetips.utils.MaterialHandler
 import com.mancj.materialsearchbar.MaterialSearchBar
 import kotlinx.android.synthetic.main.activity_recipe.*
 
@@ -28,6 +29,7 @@ class RecipeActivity : AppCompatActivity(), MaterialSearchBar.OnSearchActionList
         }
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_recipe)
+        MaterialHandler.instance.handleTextInputLayoutSize(this.findViewById(android.R.id.content))
         recipeSearchBar.setOnSearchActionListener(this)
         newRecipeButton.setOnClickListener {
             startActivityForResult(Intent(this, NewRecipeActivity::class.java), RequestCode.NEW_RECIPE.ordinal)

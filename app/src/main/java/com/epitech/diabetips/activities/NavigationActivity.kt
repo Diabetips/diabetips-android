@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.Fragment
 import com.epitech.diabetips.R
+import com.epitech.diabetips.utils.MaterialHandler
 import kotlinx.android.synthetic.main.activity_navigation.*
 
 class NavigationActivity : AppCompatActivity(), me.ibrahimsn.lib.OnItemSelectedListener  {
@@ -17,6 +18,7 @@ class NavigationActivity : AppCompatActivity(), me.ibrahimsn.lib.OnItemSelectedL
         }
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_navigation)
+        MaterialHandler.instance.handleTextInputLayoutSize(this.findViewById(android.R.id.content))
         smoothBottomBaBar.setOnItemSelectedListener(this)
         onItemSelect(0)
     }

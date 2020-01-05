@@ -1,21 +1,25 @@
 package com.epitech.diabetips.activities
 
+import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.AttributeSet
 import android.util.Patterns
+import android.view.View
+import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
+import com.epitech.diabetips.R
 import com.epitech.diabetips.managers.AccountManager
 import com.epitech.diabetips.managers.ModeManager
-import com.epitech.diabetips.R
 import com.epitech.diabetips.services.UserService
 import com.epitech.diabetips.storages.AccountObject
+import com.epitech.diabetips.utils.MaterialHandler
 import com.github.kittinunf.fuel.core.FuelManager
+import com.google.android.material.internal.CheckableImageButton
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.activity_main.emailInput
-import kotlinx.android.synthetic.main.activity_main.emailInputLayout
-import kotlinx.android.synthetic.main.activity_main.passwordInput
-import kotlinx.android.synthetic.main.activity_main.passwordInputLayout
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -28,6 +32,7 @@ class MainActivity : AppCompatActivity() {
         }
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        MaterialHandler.instance.handleTextInputLayoutSize(this.findViewById(android.R.id.content))
         FuelManager.instance.basePath = getString(R.string.api_base_url)
         FuelManager.instance.baseHeaders = mapOf("Content-Type" to "application/json; charset=utf-8")
         loginButton.setOnClickListener {
