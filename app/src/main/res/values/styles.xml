@@ -3,32 +3,95 @@
         <item name="statusBarBackground">@null</item>
     </style>
 
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="MaterialTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimaryVariant">@color/colorPrimary</item>
+        <item name="colorSecondaryVariant">@color/colorAccent</item>
+        <item name="colorSurface">@color/colorBackground</item>
+        <item name="colorOnPrimary">@color/colorPrimary</item>
+        <item name="colorOnSecondary">@color/colorAccent</item>
+        <item name="colorOnBackground">@color/colorBackground</item>
+        <item name="colorOnError">@color/colorWarm</item>
+        <item name="colorOnSurface">@color/colorBackground</item>
+        <item name="scrimBackground">@color/materialScrimColor</item>
+        <item name="textAppearanceHeadline1">@style/TextAppearance.MaterialComponents.Headline1</item>
+        <item name="textAppearanceHeadline2">@style/TextAppearance.MaterialComponents.Headline2</item>
+        <item name="textAppearanceHeadline3">@style/TextAppearance.MaterialComponents.Headline3</item>
+        <item name="textAppearanceHeadline4">@style/TextAppearance.MaterialComponents.Headline4</item>
+        <item name="textAppearanceHeadline5">@style/TextAppearance.MaterialComponents.Headline5</item>
+        <item name="textAppearanceHeadline6">@style/TextAppearance.MaterialComponents.Headline6</item>
+        <item name="textAppearanceSubtitle1">@style/TextAppearance.MaterialComponents.Subtitle1</item>
+        <item name="textAppearanceSubtitle2">@style/TextAppearance.MaterialComponents.Subtitle2</item>
+        <item name="textAppearanceBody1">@style/TextAppearance.MaterialComponents.Body1</item>
+        <item name="textAppearanceBody2">@style/TextAppearance.MaterialComponents.Body2</item>
+        <item name="textAppearanceCaption">@style/TextAppearance.MaterialComponents.Caption</item>
+        <item name="textAppearanceButton">@style/TextAppearance.MaterialComponents.Button</item>
+        <item name="textAppearanceOverline">@style/TextAppearance.MaterialComponents.Overline</item>
+    </style>
+
+    <style name="AppTheme" parent="MaterialTheme">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="colorWarm">@color/colorWarm</item>
         <item name="colorBackground">@color/colorBackground</item>
-        <item name="colorBackgroundFloating">@color/colorPrimary</item>
-        <item name="colorText">@color/colorText</item>
-        <item name="colorTextButton">@color/colorTextDark</item>
+        <item name="colorInputBackground">@color/colorBackground</item>
+        <item name="colorNavigationBackground">@color/colorPrimaryLight</item>
+        <item name="colorCardBackground">@color/colorBackgroundCard</item>
+        <item name="colorText">@color/colorTextDark</item>
+        <item name="colorBackgroundText">@color/colorTextDark</item>
+        <item name="colorNavigationText">@color/colorPrimary</item>
+        <item name="colorHint">@color/colorHint</item>
+        <item name="colorTextButton">@color/colorText</item>
+        <item name="imageBackground">@drawable/ic_background_white</item>
+        <item name="imageMainBackground">@drawable/ic_background_blue</item>
+        <item name="imageHomeBackground">@drawable/ic_background_logo_white</item>
+        <item name="circleBackground">@drawable/circle_background_blue</item>
+        <item name="circleToolbar">@drawable/circle_toolbar_blue</item>
     </style>
 
-    <style name="DarkTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorAccent">@color/colorAccent</item>
-        <item name="colorWarm">@color/colorWarm</item>
+    <style name="DarkTheme" parent="AppTheme">
         <item name="colorBackground">@color/colorBackgroundDark</item>
-        <item name="colorBackgroundFloating">@color/colorBackgroundDark</item>
-        <item name="colorText">@color/colorTextDark</item>>
-        <item name="colorTextButton">@color/colorTextDark</item>
+        <item name="colorNavigationBackground">@color/colorBackgroundDarkLight</item>
+        <item name="colorCardBackground">@color/colorBackgroundDarkLight</item>
+        <item name="colorBackgroundText">@color/colorText</item>
+        <item name="colorNavigationText">@color/colorText</item>
+        <item name="imageBackground">@drawable/ic_background_black</item>
+        <item name="imageMainBackground">@drawable/ic_background_black</item>
+        <item name="imageHomeBackground">@drawable/ic_background_logo_black</item>
+        <item name="circleBackground">@drawable/circle_background_black</item>
+        <item name="circleToolbar">@drawable/circle_toolbar_black</item>
     </style>
 
-    <style name="BackgroundTheme" parent="ThemeOverlay.AppCompat.Dark">
+    <style name="EmptyBackgroundTheme" parent="BackgroundTheme">
+        <item name="android:background">@null</item>
+    </style>
+
+    <style name="ClearBackgroundTheme" parent="BackgroundTheme">
         <item name="android:background">?attr/colorBackground</item>
     </style>
 
-    <style name="BackgroundFloatingTheme" parent="ThemeOverlay.AppCompat.Dark">
-        <item name="android:background">?attr/colorBackgroundFloating</item>
+    <style name="BackgroundTheme" parent="ThemeOverlay.AppCompat.Dark">
+        <item name="android:background">?attr/imageBackground</item>
+        <item name="android:clipChildren">false</item>
+    </style>
+
+    <style name="BackgroundMainTheme" parent="BackgroundTheme">
+        <item name="android:background">?attr/imageMainBackground</item>
+    </style>
+
+    <style name="BackgroundHomeTheme" parent="BackgroundTheme">
+        <item name="android:background">?attr/imageHomeBackground</item>
+    </style>
+
+    <style name="BackgroundCardTheme" parent="BackgroundTheme">
+        <item name="android:layout_margin">@dimen/half_margin_size</item>
+        <item name="cardBackgroundColor">?attr/colorCardBackground</item>
+        <item name="cardCornerRadius">@dimen/margin_size</item>
+    </style>
+
+    <style name="circleToolbar" parent="ThemeOverlay.AppCompat.Dark">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">128dp</item>
+        <item name="android:background">?attr/circleToolbar</item>
     </style>
 
     <style name="ButtonTheme" parent="ThemeOverlay.AppCompat.Dark">
@@ -39,30 +102,127 @@
         <item name="colorControlHighlight">?attr/colorPrimary</item>
     </style>
 
-    <style name="FloatingTextButtonTheme" parent="ThemeOverlay.AppCompat.Dark">
-        <item name="android:background">@null</item>
-        <item name="tint">?attr/colorTextButton</item>
-        <item name="floating_background_color">?attr/colorPrimary</item>
-        <item name="floating_title_color">?attr/colorTextButton</item>
+    <style name="MaterialButtonTheme" parent="Widget.MaterialComponents.Button.OutlinedButton">
+        <item name="android:layout_height">@dimen/input_size</item>
+        <item name="android:height">@dimen/input_size</item>
+        <item name="android:layout_marginStart">@dimen/margin_size</item>
+        <item name="android:layout_marginEnd">@dimen/margin_size</item>
+        <item name="android:insetTop">@dimen/button_inset</item>
+        <item name="android:insetBottom">@dimen/button_inset</item>
+        <item name="android:textAppearance">@style/TextAppearance</item>
+        <item name="android:textColor">?attr/colorTextButton</item>
+        <item name="android:elevation">@dimen/shadow_size</item>
+        <item name="iconGravity">textStart</item>
+        <item name="iconTint">?attr/colorTextButton</item>
+        <item name="iconSize">@dimen/text_size</item>
+        <item name="backgroundTint">@color/material_button_color_selector</item>
+        <item name="cornerRadius">@dimen/input_corner_size</item>
+        <item name="strokeWidth">0dp</item>
     </style>
 
-    <style name="TransparentFloatingTextButtonTheme" parent="ThemeOverlay.AppCompat.Dark">
-        <item name="android:background">@null</item>
-        <item name="android:strokeColor">?attr/colorTextButton</item>
+    <style name="MaterialButtonAltTheme" parent="MaterialButtonTheme">
+        <item name="backgroundTint">@color/material_button_alt_color_selector</item>
+    </style>
+
+    <style name="MaterialButtonEmptyTheme" parent="MaterialButtonTheme">
+        <item name="backgroundTint">@color/material_button_transparent_color_selector</item>
+        <item name="android:elevation">0dp</item>
+    </style>
+
+    <style name="MaterialButtonTransparentTheme" parent="MaterialButtonEmptyTheme">
+        <item name="strokeColor">?attr/colorTextButton</item>
+        <item name="strokeWidth">2dp</item>
+    </style>
+
+    <style name="ImageButtonTheme" parent="ThemeOverlay.AppCompat.Dark">
+        <item name="android:layout_margin">@dimen/half_margin_size</item>
+        <item name="android:background">@drawable/ripple_image_button</item>
+        <item name="tint">?attr/colorPrimary</item>
+    </style>
+
+    <style name="ImageButtonAltTheme" parent="ImageButtonTheme">
         <item name="tint">?attr/colorTextButton</item>
-        <item name="floating_background_color">@android:color/transparent</item>
-        <item name="floating_title_color">?attr/colorText</item>
     </style>
 
     <style name="TextInputTheme" parent="@style/Widget.AppCompat.EditText">
-        <item name="android:textColorHint">?attr/colorAccent</item>
-        <item name="android:textColorHintInverse">?attr/colorAccent</item>
-        <item name="android:textColor">?attr/colorPrimary</item>
-        <item name="colorControlNormal">?attr/colorPrimary</item>
-        <item name="colorControlActivated">?attr/colorPrimary</item>
-        <item name="colorControlHighlight">?attr/colorPrimary</item>
-        <item name="android:editTextColor">?attr/colorText</item>
-        <item name="android:textSize">18sp</item>
+        <item name="android:textAppearance">@style/TextAppearance</item>
+        <item name="android:textColor">?attr/colorText</item>
+    </style>
+
+    <style name="ElevationTheme" parent="ThemeOverlay.AppCompat.Dark">
+        <item name="android:elevation">@dimen/shadow_size</item>
+    </style>
+
+    <style name="TextInputLayoutTheme" parent="Widget.MaterialComponents.TextInputLayout.FilledBox.Dense">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">@dimen/margin_size</item>
+        <item name="android:layout_marginEnd">@dimen/margin_size</item>
+        <item name="android:clipChildren">false</item>
+        <item name="android:theme">@style/ElevationTheme</item>
+        <item name="materialThemeOverlay">@style/TextInputLayoutTheme.MaterialThemeOverlay</item>
+        <item name="boxBackgroundColor">?attr/colorInputBackground</item>
+        <item name="android:paddingStart">0dp</item>
+        <item name="android:paddingEnd">0dp</item>
+        <item name="boxCollapsedPaddingTop">-10dp</item>
+        <item name="boxStrokeWidth">0dp</item>
+        <item name="boxStrokeWidthFocused">0dp</item>
+        <item name="boxCornerRadiusBottomStart">@dimen/input_corner_size</item>
+        <item name="boxCornerRadiusBottomEnd">@dimen/input_corner_size</item>
+        <item name="boxCornerRadiusTopEnd">@dimen/input_corner_size</item>
+        <item name="boxCornerRadiusTopStart">@dimen/input_corner_size</item>
+        <item name="endIconTint">?attr/colorText</item>
+        <item name="hintTextAppearance">@style/HintTextAppearance</item>
+        <item name="android:textColorHint">?attr/colorHint</item>
+        <item name="hintTextColor">?attr/colorHint</item>
+        <item name="errorEnabled">true</item>
+        <item name="errorTextAppearance">@style/ErrorTextAppearance</item>
+        <item name="errorTextColor">?attr/colorWarm</item>
+        <item name="errorIconTint">?attr/colorWarm</item>
+    </style>
+
+    <style name="PasswordInputLayoutTheme" parent="TextInputLayoutTheme">
+        <item name="endIconMode">password_toggle</item>
+    </style>
+
+    <style name="RemoveInputLayoutTheme" parent="TextInputLayoutTheme">
+        <item name="endIconDrawable">@drawable/ic_remove</item>
+        <item name="endIconMode">custom</item>
+    </style>
+
+    <style name="PasswordCounterInputLayoutTheme" parent="PasswordInputLayoutTheme">
+        <item name="counterOverflowTextAppearance">@style/HintTextAppearance</item>
+        <item name="counterTextAppearance">@style/HintTextAppearance</item>
+        <item name="counterTextColor">?attr/colorBackgroundText</item>
+        <item name="counterOverflowTextColor">?attr/colorBackgroundText</item>
+        <item name="counterEnabled">true</item>
+        <item name="counterMaxLength">@integer/password_length</item>
+    </style>
+
+    <style name="TextInputLayoutTheme.MaterialThemeOverlay" parent="ThemeOverlay.MaterialComponents.TextInputEditText.FilledBox.Dense">
+        <item name="editTextStyle">@style/TextInputLayoutTheme.MaterialThemeOverlay.EditTextStyle</item>
+        <item name="textInputStyle">@style/TextInputLayoutTheme.MaterialThemeOverlay.EditTextStyle</item>
+    </style>
+
+    <style name="TextInputLayoutTheme.MaterialThemeOverlay.EditTextStyle" parent="Widget.MaterialComponents.TextInputEditText.FilledBox.Dense">
+        <item name="android:paddingTop">@dimen/quarter_margin_size</item>
+        <item name="android:paddingBottom">@dimen/quarter_margin_size</item>
+    </style>
+
+    <style name="TitleAppearance" parent="TextAppearance.MaterialComponents.Headline1">
+        <item name="android:textSize">@dimen/title_size</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="TextAppearance" parent="TextAppearance.MaterialComponents.Body1">
+        <item name="android:textSize">@dimen/text_size</item>
+    </style>
+
+    <style name="HintTextAppearance" parent="TextAppearance.MaterialComponents.Subtitle1">
+        <item name="android:textSize">@dimen/hint_size</item>
+    </style>
+
+    <style name="ErrorTextAppearance" parent="TextAppearance.MaterialComponents.Subtitle2">
+        <item name="android:textSize">@dimen/error_size</item>
     </style>
 
     <style name="TextViewTheme" parent="ThemeOverlay.AppCompat.Dark">
@@ -71,12 +231,57 @@
         <item name="android:textColorHintInverse">?attr/colorPrimary</item>
     </style>
 
+    <style name="TextViewAltTheme" parent="ThemeOverlay.AppCompat.Dark">
+        <item name="android:textColor">?attr/colorBackgroundText</item>
+        <item name="android:textColorHint">?attr/colorBackgroundText</item>
+        <item name="android:textColorHintInverse">?attr/colorBackgroundText</item>
+    </style>
+
+    <style name="TextViewReverseTheme" parent="ThemeOverlay.AppCompat.Dark">
+        <item name="android:textColor">?attr/colorTextButton</item>
+        <item name="android:textColorHint">?attr/colorTextButton</item>
+        <item name="android:textColorHintInverse">?attr/colorTextButton</item>
+    </style>
+
     <style name="TitleTheme" parent="TextViewTheme">
-        <item name="android:textSize">32sp</item>
+        <item name="android:textAppearance">@style/TitleAppearance</item>
+    </style>
+
+    <style name="TitleAltTheme" parent="TextViewAltTheme">
+        <item name="android:textAppearance">@style/TitleAppearance</item>
+    </style>
+
+    <style name="TitleReverseTheme" parent="TextViewReverseTheme">
+        <item name="android:textAppearance">@style/TitleAppearance</item>
     </style>
 
     <style name="TextTheme" parent="TextViewTheme">
-        <item name="android:textSize">18sp</item>
+        <item name="android:textAppearance">@style/TextAppearance</item>
+    </style>
+
+    <style name="TextAltTheme" parent="TextViewAltTheme">
+        <item name="android:textAppearance">@style/TextAppearance</item>
+    </style>
+
+    <style name="TextReverseTheme" parent="TextViewReverseTheme">
+        <item name="android:textAppearance">@style/TextAppearance</item>
+    </style>
+
+    <style name="HintTheme" parent="TextViewTheme">
+        <item name="android:textAppearance">@style/HintTextAppearance</item>
+    </style>
+
+    <style name="HintAltTheme" parent="TextViewAltTheme">
+        <item name="android:textAppearance">@style/HintTextAppearance</item>
+    </style>
+
+    <style name="HintReverseTheme" parent="TextViewReverseTheme">
+        <item name="android:textAppearance">@style/HintTextAppearance</item>
+    </style>
+
+    <style name="CircularTextTheme" parent="TextReverseTheme">
+        <item name="android:gravity">center</item>
+        <item name="android:background">?attr/circleBackground</item>
     </style>
 
     <style name="SearchBarTheme" parent="MaterialSearchBarLight">
@@ -90,8 +295,23 @@
         <item name="mt_menuIconTint">?attr/colorText</item>
     </style>
 
+    <style name="SmoothBottomBarTheme" parent="ThemeOverlay.AppCompat.Dark">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/input_size</item>
+        <item name="android:layout_margin">@dimen/margin_size</item>
+        <item name="backgroundColor">@android:color/transparent</item>
+        <item name="indicatorColor">?attr/colorNavigationBackground</item>
+        <item name="iconTint">?attr/colorBackgroundText</item>
+        <item name="iconTintActive">?attr/colorNavigationText</item>
+        <item name="textColor">?attr/colorNavigationText</item>
+        <item name="menu">@menu/navigation</item>
+    </style>
+
+    <style name="ImageTheme" parent="ThemeOverlay.AppCompat.Dark">
+    </style>
+
     <style name="SwitchTheme" parent="ThemeOverlay.AppCompat.Dark">
-        <item name="android:textColorPrimaryDisableOnly">?attr/colorText</item>
+        <item name="android:textColor">?attr/colorBackgroundText</item>
     </style>
 
     <style name="CheckBoxTheme" parent="ThemeOverlay.AppCompat.Dark">

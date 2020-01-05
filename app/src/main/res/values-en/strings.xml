@@ -13,7 +13,7 @@
     <string name="sign_up_button">Sign Up</string>
     <string name="password_incorrect_error">Incorrect password</string>
     <string name="email_invalid_error">Invalid email</string>
-    <string name="name_invalid_error">Invalid name or firstname</string>
+    <string name="name_invalid_error">Invalid name</string>
     <string name="password_length_error">Password must be at least 8 caracters long</string>
     <string name="add_meal">Add a new meal</string>
     <string name="add_recipe">Add a recipe</string>
@@ -32,4 +32,9 @@
     <string name="update_profile">Profile updated</string>
     <string name="search_food">Search food</string>
     <string name="search_recipe">Search a recipe</string>
+    <string name="forgot_password_button">Forgot Password</string>
+    <string name="first_name_invalid_error">Invalid firstname</string>
+    <string name="home_title">Home</string>
+    <string name="settings_title">Settings</string>
+    <string name="dark_mode">Dark mode</string>
 </resources>

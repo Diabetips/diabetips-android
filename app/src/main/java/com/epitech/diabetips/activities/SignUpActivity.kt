@@ -10,6 +10,7 @@ import com.epitech.diabetips.managers.AccountManager
 import com.epitech.diabetips.R
 import com.epitech.diabetips.services.UserService
 import com.epitech.diabetips.storages.AccountObject
+import com.epitech.diabetips.utils.MaterialHandler
 import kotlinx.android.synthetic.main.activity_sign_up.*
 import java.net.HttpURLConnection.HTTP_CONFLICT
 
@@ -23,30 +24,57 @@ class SignUpActivity : AppCompatActivity() {
         }
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sign_up)
+        MaterialHandler.instance.handleTextInputLayoutSize(this.findViewById(android.R.id.content))
         signUpButton.setOnClickListener {
-            if (nameInput.text.toString().isEmpty() || firstNameInput.text.toString().isEmpty()) {
-                Toast.makeText(this, getString(R.string.name_invalid_error), Toast.LENGTH_SHORT).show()
-            } else if (emailInput.text.toString().isEmpty() || !Patterns.EMAIL_ADDRESS.matcher(emailInput.text.toString()).matches()) {
-                Toast.makeText(this, getString(R.string.email_invalid_error), Toast.LENGTH_SHORT).show()
-            } else if (passwordInput.text.toString().length < resources.getInteger(R.integer.password_length)) {
-                Toast.makeText(this, getString(R.string.password_length_error), Toast.LENGTH_SHORT).show()
-            } else if (passwordInput.text.toString().isEmpty() ||
-                passwordInput.text.toString() != passwordConfirmInput.text.toString()) {
-                Toast.makeText(this, getString(R.string.password_match_error), Toast.LENGTH_SHORT).show()
-            } else {
+            if (validateFields()) {
                 val account = getAccountFromFields()
                 UserService.instance.registerUser(account).doOnSuccess {
                     if (it.second.component2() == null) {
                         AccountManager.instance.saveAccount(this, it.second.component1()!!)
-                        startActivity(Intent(this, HomeActivity::class.java))
+                        startActivity(Intent(this, NavigationActivity::class.java))
                     } else if (it.second.component2()!!.response.statusCode == HTTP_CONFLICT) {
-                        Toast.makeText(this, getString(R.string.email_already_taken), Toast.LENGTH_SHORT).show()
+                        emailInputLayout.error = getString(R.string.email_already_taken)
                     } else {
                         Toast.makeText(this, it.second.component2()!!.exception.message, Toast.LENGTH_SHORT).show()
                     }
                 }.subscribe()
             }
         }
+    }
+
+    private fun validateFields() : Boolean {
+        var error = false
+        if (nameInput.text.toString().isEmpty()) {
+            nameInputLayout.error = getString(R.string.name_invalid_error)
+            error = true
+        } else {
+            nameInputLayout.error = null
+        }
+        if (firstNameInput.text.toString().isEmpty()) {
+            firstNameInputLayout.error = getString(R.string.first_name_invalid_error)
+            error = true
+        } else {
+            firstNameInputLayout.error = null
+        }
+        if (emailInput.text.toString().isEmpty() || !Patterns.EMAIL_ADDRESS.matcher(emailInput.text.toString()).matches()) {
+            emailInputLayout.error = getString(R.string.email_invalid_error)
+            error = true
+        } else {
+            emailInputLayout.error = null
+        }
+        if (passwordInput.text.toString().length < resources.getInteger(R.integer.password_length)) {
+            passwordInputLayout.error = getString(R.string.password_length_error)
+            error = true
+        } else {
+            passwordInputLayout.error = null
+        }
+        if (passwordInput.text.toString().isNotEmpty() && passwordInput.text.toString() != passwordConfirmInput.text.toString()) {
+            passwordConfirmInputLayout.error = getString(R.string.password_match_error)
+            error = true
+        } else {
+            passwordConfirmInputLayout.error = null
+        }
+        return !error
     }
 
     private fun getAccountFromFields() : AccountObject {

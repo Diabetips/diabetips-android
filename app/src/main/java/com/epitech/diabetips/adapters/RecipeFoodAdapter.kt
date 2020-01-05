@@ -7,12 +7,12 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.epitech.diabetips.storages.IngredientObject
 
-class RecipeFoodAdapter(private val foods: ArrayList<IngredientObject> = arrayListOf())
-    : RecyclerView.Adapter<RecipeFoodItemViewHolder>() {
+class RecipeFoodAdapter(private val foods: ArrayList<IngredientObject> = arrayListOf()) :
+    RecyclerView.Adapter<RecipeFoodItemViewHolder>() {
 
     override fun getItemCount(): Int = foods.size
 
-    fun getFoods() : ArrayList<IngredientObject> {
+    fun getFoods(): ArrayList<IngredientObject> {
         return foods
     }
 
@@ -39,7 +39,7 @@ class RecipeFoodAdapter(private val foods: ArrayList<IngredientObject> = arrayLi
 
     override fun onBindViewHolder(holder: RecipeFoodItemViewHolder, position: Int) {
         holder.bind(foods[position])
-        holder.getRecipeFoodQuantity()?.addTextChangedListener(object : TextWatcher {
+        holder.getRecipeFoodQuantityInput()?.addTextChangedListener(object : TextWatcher {
 
             override fun afterTextChanged(s: Editable) {}
 
@@ -49,7 +49,7 @@ class RecipeFoodAdapter(private val foods: ArrayList<IngredientObject> = arrayLi
                 foods[position].quantity = if (s.toString().toFloatOrNull() == null) 0.0f else s.toString().toFloat()
             }
         })
-        holder.getRecipeFoodRemove()?.setOnClickListener {
+        holder.getRecipeFoodQuantityInputLayout()?.setEndIconOnClickListener {
             removeFood(position)
         }
     }

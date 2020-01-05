@@ -13,7 +13,15 @@
     <string name="param_food" translatable="false">Food</string>
     <!--parameters name end-->
 
+    <!--placeholder start-->
+    <string name="placeholder_text" translatable="false">Placeholder Text</string>
+    <string name="placeholder_number" translatable="false">X</string>
+    <!--placeholder end-->
+
+    <string name="home_title">Home</string>
     <string name="profile_title">Profile</string>
+    <string name="settings_title">Settings</string>
+    <string name="dark_mode">Dark mode</string>
 
     <!--login / sign up screen start-->
     <string name="mail_input">Email</string>
@@ -24,6 +32,7 @@
     <string name="first_name_input">Firstname</string>
     <string name="login_button">Connection</string>
     <string name="sign_up_button">Sign Up</string>
+    <string name="forgot_password_button">Forgot Password</string>
     <string name="new_password_button">Change Password</string>
     <string name="update">Update</string>
     <string name="update_profile">Profile updated</string>
@@ -47,7 +56,8 @@
     <string name="password_incorrect_error">Incorrect password</string>
     <string name="password_length_error">Password must be at least 8 caracters long</string>
     <string name="email_invalid_error">Invalid email</string>
-    <string name="name_invalid_error">Invalid name or firstname</string>
+    <string name="name_invalid_error">Invalid name</string>
+    <string name="first_name_invalid_error">Invalid firstname</string>
     <string name="email_already_taken">This email is already linked to another account</string>
     <string name="login_invalid">Invalid email or password</string>
     <!--login / sign up errors end-->

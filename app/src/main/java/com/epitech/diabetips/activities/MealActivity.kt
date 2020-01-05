@@ -11,6 +11,7 @@ import com.epitech.diabetips.R
 import com.epitech.diabetips.managers.AccountManager
 import com.epitech.diabetips.services.MealService
 import com.epitech.diabetips.storages.MealObject
+import com.epitech.diabetips.utils.MaterialHandler
 import kotlinx.android.synthetic.main.activity_meal.*
 
 class MealActivity : AppCompatActivity() {
@@ -25,6 +26,7 @@ class MealActivity : AppCompatActivity() {
         }
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_meal)
+        MaterialHandler.instance.handleTextInputLayoutSize(this.findViewById(android.R.id.content))
         newMealButton.setOnClickListener {
             startActivityForResult(Intent(this, NewMealActivity::class.java), RequestCode.NEW_MEAL.ordinal)
         }

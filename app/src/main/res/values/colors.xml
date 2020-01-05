@@ -1,10 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#00A1E1</color>
-    <color name="colorAccent">#FFB200</color>
-    <color name="colorWarm">#D93C34</color>
-    <color name="colorBackground">#E6E7E9</color>
-    <color name="colorBackgroundDark">#333333</color>
-    <color name="colorText">#333333</color>
-    <color name="colorTextDark">#E6E7E9</color>
+    <color name="colorPrimary">#01B1E6</color>
+    <color name="colorPrimaryLight">#5501B1E6</color>
+    <!--color name="colorPrimaryLight">#B5E7F6</color--> <!-- Use this when nav bar indicator is behind the text -->
+    <color name="colorAccent">#FFA300</color>
+    <color name="colorWarm">#FFD93C34</color>
+    <color name="colorBackground">#FFFFFF</color>
+    <color name="colorBackgroundCard">#F2F2F2</color>
+    <color name="colorBackgroundDark">#000000</color>
+    <color name="colorBackgroundDarkLight">#88242424</color>
+    <!--color name="colorBackgroundDarkLight">#242424</color--> <!-- Use this when nav bar indicator is behind the text -->
+    <color name="colorText">#FFFFFF</color>
+    <color name="colorTextDark">#141414</color>
+    <color name="colorHint">#575757</color>
+    <color name="materialScrimColor">#52000000</color>
 </resources>

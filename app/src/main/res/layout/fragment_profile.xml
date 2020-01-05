@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".activities.ProfileFragment"
+        style="@style/BackgroundTheme">
+
+    <View
+        android:id="@+id/circleToolbarView"
+        style="@style/circleToolbar"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/titleProfileText"
+        style="@style/TitleReverseTheme"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/half_margin_size"
+        android:layout_marginTop="@dimen/half_margin_size"
+        android:text="@string/profile_title"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+    
+    <ImageButton
+        android:id="@+id/signOutButton"
+        style="@style/ImageButtonAltTheme"
+        android:contentDescription="@string/placeholder_text"
+        android:layout_height="@dimen/input_size"
+        android:layout_width="@dimen/input_size"
+        android:src="@drawable/ic_power"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/imagePhotoProfile"
+        android:layout_width="match_parent"
+        android:layout_height="96dp"
+        android:layout_margin="@dimen/margin_size"
+        android:src="@drawable/ic_photo_camera"
+        android:elevation="@dimen/shadow_size"
+        app:civ_border_width="20dp"
+        app:civ_border_color="?attr/colorInputBackground"
+        app:civ_circle_background_color="?attr/colorInputBackground"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/titleProfileText" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/nameProfileInputLayout"
+        style="@style/TextInputLayoutTheme"
+        android:layout_width="match_parent"
+        android:layout_marginTop="@dimen/half_margin_size"
+        android:hint="@string/name_input"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imagePhotoProfile">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/nameProfileInput"
+            style="@style/TextInputTheme"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/firstNameProfileInputLayout"
+            style="@style/TextInputLayoutTheme"
+            android:layout_width="match_parent"
+            android:hint="@string/first_name_input"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/nameProfileInputLayout">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/firstNameProfileInput"
+                style="@style/TextInputTheme"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPersonName" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/emailProfileInputLayout"
+        style="@style/TextInputLayoutTheme"
+        android:layout_width="match_parent"
+        android:hint="@string/mail_input"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/firstNameProfileInputLayout">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/emailProfileInput"
+            style="@style/TextInputTheme"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textEmailAddress" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/newPasswordInputLayout"
+        style="@style/PasswordInputLayoutTheme"
+        android:layout_width="match_parent"
+        android:layout_marginTop="@dimen/quarter_margin_size"
+        android:hint="@string/new_password_input"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/emailProfileInputLayout">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/newPasswordInput"
+            style="@style/TextInputTheme"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/newPasswordConfirmInputLayout"
+        style="@style/PasswordInputLayoutTheme"
+        android:layout_width="match_parent"
+        android:hint="@string/password_confirm_input"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/newPasswordInputLayout">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/newPasswordConfirmInput"
+            style="@style/TextInputTheme"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/updateProfileButton"
+        style="@style/MaterialButtonTheme"
+        android:layout_width="match_parent"
+        android:layout_marginTop="@dimen/quarter_margin_size"
+        android:text="@string/update"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/newPasswordConfirmInputLayout" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

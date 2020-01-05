@@ -6,70 +6,95 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activities.MainActivity"
-    android:theme="@style/BackgroundTheme">
+    style="@style/BackgroundMainTheme">
 
-    <com.google.android.material.textfield.TextInputEditText
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/imageDiabiConnection"
+        android:layout_width="match_parent"
+        android:layout_height="216dp"
+        android:layout_margin="@dimen/margin_size"
+        android:src="@drawable/ic_diabi"
+        app:civ_circle_background_color="?attr/colorInputBackground"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.25" />
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/emailInputLayout"
+        android:layout_marginTop="@dimen/margin_size"
+        style="@style/TextInputLayoutTheme"
+        android:layout_width="match_parent"
+        android:hint="@string/mail_input"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageDiabiConnection">
+
+        <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/emailInput"
-            android:theme="@style/TextInputTheme"
-            android:hint="@string/mail_input"
-            android:layout_width="200dp"
+            style="@style/TextInputTheme"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textEmailAddress"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toTopOf="@+id/passwordInput"
-            app:layout_constraintTop_toTopOf="parent"/>
+            android:inputType="textEmailAddress" />
 
-    <com.google.android.material.textfield.TextInputEditText
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/passwordInputLayout"
+        style="@style/PasswordInputLayoutTheme"
+        android:layout_width="match_parent"
+        android:hint="@string/password_input"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/emailInputLayout">
+
+        <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/passwordInput"
-            android:theme="@style/TextInputTheme"
-            android:layout_width="200dp"
+            style="@style/TextInputTheme"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/password_input"
-            android:inputType="textPassword"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"/>
+            android:inputType="textPassword" />
 
-    <ru.dimorinny.floatingtextbutton.FloatingTextButton
-            android:id="@+id/signUpLinkButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
-            app:layout_constraintHorizontal_bias=".85"
-            android:theme="@style/TransparentFloatingTextButtonTheme"
-            app:floating_left_icon="@drawable/ic_person"
-            app:floating_title="@string/sign_up_button"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/passwordInput" />
+    </com.google.android.material.textfield.TextInputLayout>
 
-    <ru.dimorinny.floatingtextbutton.FloatingTextButton
+    <LinearLayout
+        android:id="@+id/connectionSignUpLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/quarter_margin_size"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@+id/passwordInputLayout">
+
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/loginButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
-            app:layout_constraintHorizontal_bias=".15"
-            android:theme="@style/FloatingTextButtonTheme"
-            app:floating_left_icon="@drawable/ic_person"
-            app:floating_title="@string/login_button"
-            app:layout_constraintBottom_toBottomOf="parent"
+            style="@style/MaterialButtonTheme"
+            android:layout_width="0dp"
+            android:layout_marginEnd="0dp"
+            android:layout_weight="0.5"
+            android:text="@string/login_button"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/passwordInput" />
+            app:layout_constraintStart_toStartOf="parent" />
 
-    <Button
-            android:id="@+id/themeButton"
-            android:theme="@style/ButtonTheme"
-            android:text="Styles"
-            android:visibility="invisible"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/signUpLinkButton"
+            style="@style/MaterialButtonTransparentTheme"
+            android:layout_width="0dp"
+            android:layout_marginStart="@dimen/half_margin_size"
+            android:layout_weight="0.5"
+            android:text="@string/sign_up_button"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+    </LinearLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/forgotPasswordButton"
+        style="@style/MaterialButtonEmptyTheme"
+        android:layout_width="match_parent"
+        android:layout_marginTop="@dimen/quarter_margin_size"
+        android:text="@string/forgot_password_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/connectionSignUpLayout" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
