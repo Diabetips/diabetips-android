@@ -39,10 +39,19 @@ class MealActivity : AppCompatActivity() {
                     RequestCode.UPDATE_MEAL.ordinal)
             }
         }
+        mealSwipeRefresh.setOnRefreshListener {
+            getMeal()
+        }
+        getMeal()
+    }
+
+    private fun getMeal() {
+        mealSwipeRefresh.isRefreshing = true
         MealService.instance.getAllUserMeals().doOnSuccess {
             if (it.second.component2() == null) {
                 (mealSearchList.adapter as MealAdapter).setMeals(it.second.component1()!!)
             }
+            mealSwipeRefresh.isRefreshing = false
         }.subscribe()
     }
 

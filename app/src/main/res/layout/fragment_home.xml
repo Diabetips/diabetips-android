@@ -43,13 +43,19 @@
         app:layout_constraintBottom_toBottomOf="parent">
 
         <com.google.android.material.card.MaterialCardView
-            android:id="@+id/sugarChartCard"
+            android:id="@+id/sugarLineChartCard"
             style="@style/BackgroundCardTheme"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="40"
             app:layout_constraintTop_toTopOf="parent"
             tools:layout_editor_absoluteX="14dp">
+
+            <com.github.mikephil.charting.charts.LineChart
+                android:id="@+id/sugarLineChart"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:contentDescription=""/>
 
         </com.google.android.material.card.MaterialCardView>
 
@@ -69,13 +75,23 @@
             android:layout_height="0dp"
             android:layout_weight="45">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/mealHomeList"
+            <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+                android:id="@+id/mealHomeSwipeRefresh"
                 style="@style/EmptyBackgroundTheme"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/mealHomeList"
+                    style="@style/EmptyBackgroundTheme"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
+
+            </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
         </com.google.android.material.card.MaterialCardView>
 
