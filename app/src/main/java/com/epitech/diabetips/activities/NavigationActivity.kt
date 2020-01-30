@@ -10,6 +10,12 @@ import kotlinx.android.synthetic.main.activity_navigation.*
 
 class NavigationActivity : AppCompatActivity(), me.ibrahimsn.lib.OnItemSelectedListener  {
 
+    enum class NavigationFragment {HOME, PROFILE, SETTINGS}
+
+    companion object {
+        var defaultFragmentSelect = NavigationFragment.HOME
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
             setTheme(R.style.DarkTheme)
@@ -20,7 +26,9 @@ class NavigationActivity : AppCompatActivity(), me.ibrahimsn.lib.OnItemSelectedL
         setContentView(R.layout.activity_navigation)
         MaterialHandler.instance.handleTextInputLayoutSize(this.findViewById(android.R.id.content))
         smoothBottomBaBar.setOnItemSelectedListener(this)
-        onItemSelect(0)
+        smoothBottomBaBar.setActiveItem(defaultFragmentSelect.ordinal)
+        onItemSelect(defaultFragmentSelect.ordinal)
+        setDefaultFragmentSelect()
     }
 
     private fun loadFragment(fragment: Fragment?) : Boolean {
@@ -31,15 +39,18 @@ class NavigationActivity : AppCompatActivity(), me.ibrahimsn.lib.OnItemSelectedL
             return true
         }
         return false
-
     }
 
     override fun onItemSelect(pos: Int) {
         when (pos) {
-            0 -> loadFragment(HomeFragment())
-            1 -> loadFragment(ProfileFragment())
-            2 -> loadFragment(SettingsFragment())
+            NavigationFragment.HOME.ordinal -> loadFragment(HomeFragment())
+            NavigationFragment.PROFILE.ordinal -> loadFragment(ProfileFragment())
+            NavigationFragment.SETTINGS.ordinal -> loadFragment(SettingsFragment())
         }
+    }
+
+    fun setDefaultFragmentSelect(navigationFragment: NavigationFragment = NavigationFragment.HOME) {
+        defaultFragmentSelect = navigationFragment
     }
 
 }

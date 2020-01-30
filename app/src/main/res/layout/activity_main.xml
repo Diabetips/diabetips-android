@@ -25,35 +25,37 @@
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/emailInputLayout"
         android:layout_marginTop="@dimen/margin_size"
-        style="@style/TextInputLayoutTheme"
+        style="@style/TextInputNoHintLayoutTheme"
         android:layout_width="match_parent"
-        android:hint="@string/mail_input"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageDiabiConnection">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/emailInput"
             style="@style/TextInputTheme"
+            android:hint="@string/mail_input"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textEmailAddress" />
+            android:inputType="textEmailAddress"
+            android:imeOptions="actionNext"
+            android:nextFocusForward="@+id/passwordInput"/>
 
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/passwordInputLayout"
-        style="@style/PasswordInputLayoutTheme"
+        style="@style/PasswordInputNoHintLayoutTheme"
         android:layout_width="match_parent"
-        android:hint="@string/password_input"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/emailInputLayout">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/passwordInput"
             style="@style/TextInputTheme"
+            android:hint="@string/password_input"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textPassword" />
+            android:inputType="textPassword"/>
 
     </com.google.android.material.textfield.TextInputLayout>
 

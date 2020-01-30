@@ -2,7 +2,7 @@ package com.epitech.diabetips.services
 
 import com.epitech.diabetips.storages.*
 
-class MealService : AService("/users//meals") {
+class MealService : AService("/users/me/meals") {
 
     private object Holder { val INSTANCE = MealService() }
 
@@ -10,12 +10,8 @@ class MealService : AService("/users//meals") {
         val instance: MealService by lazy { Holder.INSTANCE }
     }
 
-    fun changeRoute(uid: String) {
-        baseRoute = "/users/" + uid + "/meals"
-    }
-
-    fun getAllUserMeals() : FuelResponse<Array<MealObject>> {
-        return getRequest()
+    fun getAllUserMeals(page: PaginationObject) : FuelResponse<Array<MealObject>> {
+        return getRequest("?page=" + page.current + "&size=" + page.size)
     }
 
     fun getUserMeal(id: String) : FuelResponse<MealObject> {

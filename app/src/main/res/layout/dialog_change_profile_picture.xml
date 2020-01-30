@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/half_margin_size"
+    style="@style/ClearBackgroundTheme">
+
+    <TextView
+        android:id="@+id/changePictureText"
+        style="@style/TitleTheme"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/half_margin_size"
+        android:layout_marginTop="@dimen/half_margin_size"
+        android:text="@string/change_profile_picture"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/newPictureButton"
+        style="@style/MaterialButtonTheme"
+        android:layout_width="match_parent"
+        android:layout_marginTop="@dimen/quarter_margin_size"
+        android:text="@string/new_picture"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/changePictureText" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/pictureGalleryButton"
+        style="@style/MaterialButtonTheme"
+        android:layout_width="match_parent"
+        android:layout_marginTop="@dimen/quarter_margin_size"
+        android:text="@string/picture_gallery"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/newPictureButton" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

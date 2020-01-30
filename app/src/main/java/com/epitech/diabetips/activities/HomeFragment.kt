@@ -11,22 +11,22 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.epitech.diabetips.R
 import com.epitech.diabetips.adapters.MealAdapter
 import com.epitech.diabetips.services.MealService
-import com.epitech.diabetips.storages.MealObject
+import com.epitech.diabetips.storages.*
 import com.epitech.diabetips.utils.ChartHandler
 import com.epitech.diabetips.utils.MaterialHandler
+import com.epitech.diabetips.utils.PaginationScrollListener
 import com.github.mikephil.charting.data.Entry
-import com.github.mikephil.charting.data.LineData
-import com.github.mikephil.charting.data.LineDataSet
-import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.fragment_home.view.*
-
 
 class HomeFragment : Fragment() {
 
     enum class RequestCode {NEW_MEAL, UPDATE_MEAL}
 
+    private lateinit var page: PaginationObject
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_home, container, false)
+        page = PaginationObject(resources.getInteger(R.integer.pagination_size), resources.getInteger(R.integer.pagination_default))
         MaterialHandler.instance.handleTextInputLayoutSize(view as ViewGroup)
         ChartHandler.instance.handleLineChartStyle(view.sugarLineChart)
         view.newMealButton.setOnClickListener {
@@ -45,6 +45,19 @@ class HomeFragment : Fragment() {
                     RequestCode.UPDATE_MEAL.ordinal)
             }
         }
+        view.mealHomeList.addOnScrollListener(object : PaginationScrollListener(view.mealHomeList.layoutManager as LinearLayoutManager) {
+            override fun isLastPage(): Boolean {
+                return page.isLast()
+            }
+
+            override fun isLoading(): Boolean {
+                return view.mealHomeSwipeRefresh.isRefreshing
+            }
+
+            override fun loadMoreItems() {
+                getMeal(this@HomeFragment.view, false)
+            }
+        })
         view.mealHomeSwipeRefresh.setOnRefreshListener {
             getMeal()
         }
@@ -53,13 +66,19 @@ class HomeFragment : Fragment() {
         return view
     }
 
-    private fun getMeal(view: View? = this.view) {
+    private fun getMeal(view: View? = this.view, resetPage: Boolean = true) {
         view?.mealHomeSwipeRefresh?.isRefreshing = true
-        MealService.instance.getAllUserMeals().doOnSuccess {
-            if (it.second.component2() == null) {
+        if (resetPage)
+            page.reset()
+        else
+            page.nextPage()
+        MealService.instance.getAllUserMeals(page).doOnSuccess {
+            page.updateFromHeader(it.first.headers[getString(R.string.pagination_header)]?.get(0))
+            if (it.second.component2() == null)
                 (view?.mealHomeList?.adapter as MealAdapter).setMeals(it.second.component1()!!)
-            }
-            view?.mealHomeSwipeRefresh?.isRefreshing = false
+            else
+                (view?.mealHomeList?.adapter as MealAdapter).addMeals(it.second.component1()!!)
+            view.mealHomeSwipeRefresh?.isRefreshing = false
         }.subscribe()
     }
 

@@ -15,7 +15,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name=".activities.MainActivity">
+        <activity android:name=".activities.MainActivity" android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW" />
@@ -32,16 +32,16 @@
                 android:name="android.nfc.action.TECH_DISCOVERED"
                 android:resource="@xml/nfc_tech_filter" />
         </activity>
-        <activity android:name=".activities.SignUpActivity" />
-        <activity android:name=".activities.NavigationActivity" />
+        <activity android:name=".activities.SignUpActivity" android:windowSoftInputMode="adjustPan" />
+        <activity android:name=".activities.NavigationActivity" android:windowSoftInputMode="adjustPan" />
         <activity android:name=".activities.HomeFragment" />
-        <activity android:name=".activities.SettingsFragment" />
         <activity android:name=".activities.ProfileFragment" />
-        <activity android:name=".activities.MealActivity" />
-        <activity android:name=".activities.RecipeActivity" />
-        <activity android:name=".activities.FoodActivity" />
-        <activity android:name=".activities.NewMealActivity" />
-        <activity android:name=".activities.NewRecipeActivity" />
+        <activity android:name=".activities.SettingsFragment" />
+        <activity android:name=".activities.MealActivity" android:windowSoftInputMode="adjustPan" />
+        <activity android:name=".activities.RecipeActivity" android:windowSoftInputMode="adjustPan" />
+        <activity android:name=".activities.FoodActivity" android:windowSoftInputMode="adjustPan" />
+        <activity android:name=".activities.NewMealActivity" android:windowSoftInputMode="adjustPan" />
+        <activity android:name=".activities.NewRecipeActivity" android:windowSoftInputMode="adjustPan" />
     </application>
 
 </manifest>

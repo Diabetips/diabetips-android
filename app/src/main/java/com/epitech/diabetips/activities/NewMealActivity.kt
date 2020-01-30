@@ -50,6 +50,8 @@ class NewMealActivity : AppCompatActivity() {
                         setResult(Activity.RESULT_OK, Intent().putExtra(
                             getString(R.string.param_meal), it.second.component1()))
                         finish()
+                    } else {
+                        Toast.makeText(this, it.second.component2()!!.exception.message, Toast.LENGTH_SHORT).show()
                     }
                 }.subscribe()
             }

@@ -19,6 +19,7 @@ class ChartHandler {
     fun handleLineChartStyle(lineChart: LineChart) {
         lineChart.setDrawGridBackground(false)
         lineChart.setDrawBorders(false)
+        lineChart.setViewPortOffsets(0f, 0f, 0f, 0f)
         lineChart.description.isEnabled = false
         lineChart.legend.isEnabled = false
         lineChart.axisLeft.isEnabled = false

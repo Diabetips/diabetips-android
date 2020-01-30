@@ -37,4 +37,12 @@
     <string name="home_title">Accueil</string>
     <string name="settings_title">Paramètres</string>
     <string name="dark_mode">Mode sombre</string>
+    <string name="created_account">Un email vous à été envoyé pour valider votre compte</string>
+    <string name="change_profile_picture">Changer de photo de profil</string>
+    <string name="new_picture">Prendre une nouvelle photo</string>
+    <string name="picture_gallery">Ouvrir la gallerie</string>
+    <string name="reset_password">Un email avec un nouveau mot de passe à été envoyé</string>
+    <string name="reset_password_button">Réinitialiser le mot de passe</string>
+    <string name="update_profile_picture">Photo de profil mis à jour</string>
+    <string name="registration_incomplete">Adresse email non confirmée</string>
 </resources>

@@ -20,6 +20,11 @@ class MealAdapter(private val meals: ArrayList<MealObject> = arrayListOf(),
         notifyItemInserted(meals.size)
     }
 
+    fun addMeals(mealList: Array<MealObject>) {
+        meals.addAll(mealList)
+        notifyItemRangeInserted(meals.size - mealList.size, mealList.size)
+    }
+
     fun updateMeal(meal: MealObject) {
         meals.forEachIndexed { index, mealObject ->
             if (mealObject.id == meal.id) {

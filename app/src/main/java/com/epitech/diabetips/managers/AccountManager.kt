@@ -14,10 +14,14 @@ class AccountManager : AObjectManager<AccountObject>("account_object")  {
 
     fun saveAccount(context: Context, account: AccountObject) {
         saveObject(context, account)
-        MealService.instance.changeRoute(account.uid)
     }
 
     fun getAccount(context: Context) : AccountObject {
         return getObject(context, AccountObject::class.java)
     }
+
+    fun removeAccount(context: Context) {
+        return removePreferenceKey(context)
+    }
+
 }

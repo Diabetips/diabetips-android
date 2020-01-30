@@ -10,11 +10,15 @@ import com.epitech.diabetips.adapters.FoodAdapter
 import com.epitech.diabetips.R
 import com.epitech.diabetips.services.FoodService
 import com.epitech.diabetips.storages.FoodObject
+import com.epitech.diabetips.storages.PaginationObject
 import com.epitech.diabetips.utils.MaterialHandler
+import com.epitech.diabetips.utils.PaginationScrollListener
 import com.mancj.materialsearchbar.MaterialSearchBar
 import kotlinx.android.synthetic.main.activity_food.*
 
 class FoodActivity : AppCompatActivity(), MaterialSearchBar.OnSearchActionListener {
+
+    private lateinit var page: PaginationObject
 
     override fun onCreate(savedInstanceState: Bundle?) {
         if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
@@ -24,6 +28,7 @@ class FoodActivity : AppCompatActivity(), MaterialSearchBar.OnSearchActionListen
         }
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_food)
+        page = PaginationObject(resources.getInteger(R.integer.pagination_size), resources.getInteger(R.integer.pagination_default))
         MaterialHandler.instance.handleTextInputLayoutSize(this.findViewById(android.R.id.content))
         foodSearchBar.setOnSearchActionListener(this)
         foodSearchList.apply {
@@ -33,17 +38,38 @@ class FoodActivity : AppCompatActivity(), MaterialSearchBar.OnSearchActionListen
                 finish()
             }
         }
+        foodSearchList.addOnScrollListener(object : PaginationScrollListener(foodSearchList.layoutManager as LinearLayoutManager) {
+            override fun isLastPage(): Boolean {
+                return page.isLast()
+            }
+
+            override fun isLoading(): Boolean {
+                return foodSwipeRefresh.isRefreshing
+            }
+
+            override fun loadMoreItems() {
+                getFood(false)
+            }
+        })
         foodSwipeRefresh.setOnRefreshListener {
             getFood()
         }
         getFood()
     }
 
-    private fun getFood() {
+    private fun getFood(resetPage: Boolean = true) {
         foodSwipeRefresh.isRefreshing = true
-        FoodService.instance.getAllFood(foodSearchBar.text.toString()).doOnSuccess {
+        if (resetPage)
+            page.reset()
+        else
+            page.nextPage()
+        FoodService.instance.getAllFood(page, foodSearchBar.text.toString()).doOnSuccess {
             if (it.second.component2() == null) {
-                (foodSearchList.adapter as FoodAdapter).setFoods(it.second.component1()!!)
+                page.updateFromHeader(it.first.headers[getString(R.string.pagination_header)]?.get(0))
+                if (resetPage)
+                    (foodSearchList.adapter as FoodAdapter).setFoods(it.second.component1()!!)
+                else
+                    (foodSearchList.adapter as FoodAdapter).addFoods(it.second.component1()!!)
             }
             foodSwipeRefresh.isRefreshing = false
         }.subscribe()

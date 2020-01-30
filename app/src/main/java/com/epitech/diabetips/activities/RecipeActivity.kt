@@ -9,8 +9,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.epitech.diabetips.adapters.RecipeAdapter
 import com.epitech.diabetips.R
 import com.epitech.diabetips.services.RecipeService
+import com.epitech.diabetips.storages.PaginationObject
 import com.epitech.diabetips.storages.RecipeObject
 import com.epitech.diabetips.utils.MaterialHandler
+import com.epitech.diabetips.utils.PaginationScrollListener
 import com.mancj.materialsearchbar.MaterialSearchBar
 import kotlinx.android.synthetic.main.activity_recipe.*
 
@@ -18,6 +20,8 @@ class RecipeActivity : AppCompatActivity(), MaterialSearchBar.OnSearchActionList
 
     enum class ActivityMode {SELECT, UPDATE}
     enum class RequestCode {NEW_RECIPE, UPDATE_RECIPE}
+
+    private lateinit var page: PaginationObject
 
     private var activityMode: ActivityMode = ActivityMode.SELECT
 
@@ -29,6 +33,7 @@ class RecipeActivity : AppCompatActivity(), MaterialSearchBar.OnSearchActionList
         }
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_recipe)
+        page = PaginationObject(resources.getInteger(R.integer.pagination_size), resources.getInteger(R.integer.pagination_default))
         MaterialHandler.instance.handleTextInputLayoutSize(this.findViewById(android.R.id.content))
         recipeSearchBar.setOnSearchActionListener(this)
         newRecipeButton.setOnClickListener {
@@ -46,17 +51,36 @@ class RecipeActivity : AppCompatActivity(), MaterialSearchBar.OnSearchActionList
                 }
             }
         }
+        recipeSearchList.addOnScrollListener(object : PaginationScrollListener(recipeSearchList.layoutManager as LinearLayoutManager) {
+            override fun isLastPage(): Boolean {
+                return page.isLast()
+            }
+
+            override fun isLoading(): Boolean {
+                return recipeSwipeRefresh.isRefreshing
+            }
+
+            override fun loadMoreItems() {
+                getRecipe(false)
+            }
+        })
         recipeSwipeRefresh.setOnRefreshListener {
             getRecipe()
         }
         getRecipe()
     }
-    private fun getRecipe() {
+    private fun getRecipe(resetPage: Boolean = true) {
         recipeSwipeRefresh.isRefreshing = true
-        RecipeService.instance.getAllRecipes(recipeSearchBar.text.toString()).doOnSuccess {
-            if (it.second.component2() == null) {
+        if (resetPage)
+            page.reset()
+        else
+            page.nextPage()
+        RecipeService.instance.getAllRecipes(page, recipeSearchBar.text.toString()).doOnSuccess {
+            page.updateFromHeader(it.first.headers[getString(R.string.pagination_header)]?.get(0))
+            if (it.second.component2() == null)
                 (recipeSearchList.adapter as RecipeAdapter).setRecipes(it.second.component1()!!)
-            }
+            else
+                (recipeSearchList.adapter as RecipeAdapter).addRecipes(it.second.component1()!!)
             recipeSwipeRefresh.isRefreshing = false
         }.subscribe()
         getParams()

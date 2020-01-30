@@ -10,8 +10,8 @@ class RecipeService : AService("/recipes") {
         val instance: RecipeService by lazy { Holder.INSTANCE }
     }
 
-    fun getAllRecipes(name: String = "") : FuelResponse<Array<RecipeObject>> {
-        return getRequest("?name=" + name)
+    fun getAllRecipes(page: PaginationObject, name: String = "") : FuelResponse<Array<RecipeObject>> {
+        return getRequest("?name=" + name + "&page=" + page.current + "&size=" + page.size)
     }
 
     fun getRecipe(id: String) : FuelResponse<RecipeObject> {

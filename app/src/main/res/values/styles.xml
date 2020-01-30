@@ -147,6 +147,7 @@
     <style name="TextInputTheme" parent="@style/Widget.AppCompat.EditText">
         <item name="android:textAppearance">@style/TextAppearance</item>
         <item name="android:textColor">?attr/colorText</item>
+        <item name="android:textColorHint">?attr/colorHint</item>
     </style>
 
     <style name="ElevationTheme" parent="ThemeOverlay.AppCompat.Dark">
@@ -180,13 +181,24 @@
         <item name="errorIconTint">?attr/colorWarm</item>
     </style>
 
-    <style name="PasswordInputLayoutTheme" parent="TextInputLayoutTheme">
-        <item name="endIconMode">password_toggle</item>
+    <style name="TextInputNoHintLayoutTheme" parent="TextInputLayoutTheme">
+        <item name="android:paddingTop">0dp</item>
+        <item name="hintEnabled">false</item>
+        <item name="hintAnimationEnabled">false</item>
+        <item name="boxCollapsedPaddingTop">0dp</item>
     </style>
 
     <style name="RemoveInputLayoutTheme" parent="TextInputLayoutTheme">
         <item name="endIconDrawable">@drawable/ic_remove</item>
         <item name="endIconMode">custom</item>
+    </style>
+
+    <style name="PasswordInputLayoutTheme" parent="TextInputLayoutTheme">
+        <item name="endIconMode">password_toggle</item>
+    </style>
+
+    <style name="PasswordInputNoHintLayoutTheme" parent="TextInputNoHintLayoutTheme">
+        <item name="endIconMode">password_toggle</item>
     </style>
 
     <style name="PasswordCounterInputLayoutTheme" parent="PasswordInputLayoutTheme">
@@ -298,7 +310,7 @@
     <style name="SmoothBottomBarTheme" parent="ThemeOverlay.AppCompat.Dark">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">@dimen/input_size</item>
-        <item name="android:layout_margin">@dimen/margin_size</item>
+        <item name="android:layout_marginBottom">@dimen/margin_size</item>
         <item name="backgroundColor">@android:color/transparent</item>
         <item name="indicatorColor">?attr/colorNavigationBackground</item>
         <item name="iconTint">?attr/colorBackgroundText</item>
