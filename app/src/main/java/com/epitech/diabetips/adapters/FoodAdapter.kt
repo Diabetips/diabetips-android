@@ -29,6 +29,7 @@ class FoodAdapter(private val foods: ArrayList<FoodObject> = arrayListOf(),
 
     override fun onBindViewHolder(holder: FoodItemViewHolder, position: Int) {
         holder.bind(foods[position], onItemClickListener)
+
     }
 
 }

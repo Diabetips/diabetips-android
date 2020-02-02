@@ -1,6 +1,7 @@
 package com.epitech.diabetips.services
 
 import com.epitech.diabetips.storages.*
+import com.github.kittinunf.fuel.core.FuelManager
 
 class FoodService : AService("/food") {
 
@@ -14,8 +15,12 @@ class FoodService : AService("/food") {
         return getRequest("?name=" + name + "&page=" + page.current + "&size=" + page.size)
     }
 
-    fun getFood(id: String) : FuelResponse<FoodObject> {
+    fun getFood(id: Int) : FuelResponse<FoodObject> {
         return getRequest("/" + id)
+    }
+
+    fun getFoodPictureUrl(id: Int) : String {
+        return FuelManager.instance.basePath + baseRoute + "/" + id + "/picture"
     }
 
 }

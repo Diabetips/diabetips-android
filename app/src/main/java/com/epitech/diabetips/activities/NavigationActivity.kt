@@ -6,14 +6,14 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.Fragment
 import com.epitech.diabetips.R
 import com.epitech.diabetips.utils.MaterialHandler
+import com.epitech.diabetips.utils.NavigationFragment
 import kotlinx.android.synthetic.main.activity_navigation.*
+import kotlinx.android.synthetic.main.activity_navigation.view.*
 
 class NavigationActivity : AppCompatActivity(), me.ibrahimsn.lib.OnItemSelectedListener  {
 
-    enum class NavigationFragment {HOME, PROFILE, SETTINGS}
-
     companion object {
-        var defaultFragmentSelect = NavigationFragment.HOME
+        var defaultFragmentSelect = NavigationFragment.FragmentType.HOME
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,14 +42,19 @@ class NavigationActivity : AppCompatActivity(), me.ibrahimsn.lib.OnItemSelectedL
     }
 
     override fun onItemSelect(pos: Int) {
+        val fragment = supportFragmentManager.findFragmentById(R.id.navigationFragment) as NavigationFragment?
+        if (fragment != null && fragment.isLoading()) {
+            smoothBottomBaBar.setActiveItem(fragment.fragmentType.ordinal)
+            return
+        }
         when (pos) {
-            NavigationFragment.HOME.ordinal -> loadFragment(HomeFragment())
-            NavigationFragment.PROFILE.ordinal -> loadFragment(ProfileFragment())
-            NavigationFragment.SETTINGS.ordinal -> loadFragment(SettingsFragment())
+            NavigationFragment.FragmentType.HOME.ordinal -> loadFragment(HomeFragment())
+            NavigationFragment.FragmentType.PROFILE.ordinal -> loadFragment(ProfileFragment())
+            NavigationFragment.FragmentType.SETTINGS.ordinal -> loadFragment(SettingsFragment())
         }
     }
 
-    fun setDefaultFragmentSelect(navigationFragment: NavigationFragment = NavigationFragment.HOME) {
+    fun setDefaultFragmentSelect(navigationFragment: NavigationFragment.FragmentType = NavigationFragment.FragmentType.HOME) {
         defaultFragmentSelect = navigationFragment
     }
 

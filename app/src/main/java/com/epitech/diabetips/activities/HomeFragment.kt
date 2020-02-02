@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.epitech.diabetips.R
 import com.epitech.diabetips.adapters.MealAdapter
@@ -14,11 +13,12 @@ import com.epitech.diabetips.services.MealService
 import com.epitech.diabetips.storages.*
 import com.epitech.diabetips.utils.ChartHandler
 import com.epitech.diabetips.utils.MaterialHandler
+import com.epitech.diabetips.utils.NavigationFragment
 import com.epitech.diabetips.utils.PaginationScrollListener
 import com.github.mikephil.charting.data.Entry
 import kotlinx.android.synthetic.main.fragment_home.view.*
 
-class HomeFragment : Fragment() {
+class HomeFragment : NavigationFragment(FragmentType.HOME) {
 
     enum class RequestCode {NEW_MEAL, UPDATE_MEAL}
 
@@ -101,5 +101,9 @@ class HomeFragment : Fragment() {
                 (view?.mealHomeList?.adapter as MealAdapter).updateMeal(data?.getSerializableExtra(getString(R.string.param_meal)) as MealObject)
             }
         }
+    }
+
+    override fun isLoading(): Boolean {
+        return view?.mealHomeSwipeRefresh?.isRefreshing!!
     }
 }

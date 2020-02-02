@@ -37,6 +37,10 @@ abstract class AService(protected var baseRoute : String = "") {
         return subscribeToRequest((baseRoute + route).httpPost().body(customGson.toJson(postObject)))
     }
 
+    protected inline fun <reified T : Any> postData(data : ByteArray, route : String = "") : FuelResponse<T> {
+        return subscribeToRequest((baseRoute + route).httpPost().body(data))
+    }
+
     protected inline fun <reified T : Any> postUrlEncodedRequest(parameters : List<Pair<String, String>>, route : String = "") : FuelResponse<T> {
         return subscribeToRequest((baseRoute + route).httpPost(parameters).header())
     }
@@ -45,7 +49,7 @@ abstract class AService(protected var baseRoute : String = "") {
         return subscribeToRequest((baseRoute + route).httpPut().body(customGson.toJson(putObject)))
     }
 
-    protected inline fun <reified T : Any> subscribeToRequest(request: Request) : FuelResponse<T>  {
+    protected inline fun <reified T : Any> subscribeToRequest(request: Request, responseObject: Boolean = true) : FuelResponse<T>  {
         return request.rx_responseObject(ObjectDeserializer<T>())
             .subscribeOn(Schedulers.newThread())
             .observeOn(AndroidSchedulers.mainThread()).doOnError { err ->

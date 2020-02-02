@@ -1,6 +1,15 @@
 package com.epitech.diabetips.services
 
+import android.graphics.Bitmap
 import com.epitech.diabetips.storages.*
+import com.epitech.diabetips.utils.ImageHandler
+import com.github.kittinunf.fuel.Fuel
+import com.github.kittinunf.fuel.core.DataPart
+import com.github.kittinunf.fuel.core.FuelManager
+import com.github.kittinunf.fuel.core.Method
+import com.github.kittinunf.fuel.httpPost
+import java.io.File
+import java.io.FileOutputStream
 
 class UserService : AService("/users") {
 
@@ -26,13 +35,12 @@ class UserService : AService("/users") {
         return putRequest(account, "/" + account.uid)
     }
 
-    fun getPicture(uid: String = "me"): FuelResponse<AccountObject>  {
-        return getRequest("/" + uid + "/picture")
-
+    fun updatePicture(image: Bitmap, uid: String = "me") : FuelResponse<AccountObject> {
+        return postData(ImageHandler.instance.encodeImage(image, 300), "/" + uid + "/picture")
     }
 
-    fun updatePicture(account: AccountObject) : FuelResponse<AccountObject> {
-        return postRequest(account, "/" + account.uid + "/picture")
+    fun getPictureUrl(uid: String = "me") : String  {
+        return FuelManager.instance.basePath + baseRoute + "/" + uid + "/picture"
     }
 
 }

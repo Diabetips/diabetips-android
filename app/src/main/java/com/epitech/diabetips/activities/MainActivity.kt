@@ -59,6 +59,7 @@ class MainActivity : AppCompatActivity() {
             val view = layoutInflater.inflate(R.layout.dialog_password_forgot, null)
             MaterialHandler.instance.handleTextInputLayoutSize(view as ViewGroup)
             val dialog = AlertDialog.Builder(this).setView(view).create()
+            view.emailResetPasswordInput.setText(emailInput.text.toString())
             view.resetPasswordButton.setOnClickListener {
                 if (view.emailResetPasswordInput.text.toString().isEmpty() || !Patterns.EMAIL_ADDRESS.matcher(view.emailResetPasswordInput.text.toString()).matches()) {
                     view.emailResetPasswordInputLayout.error = getString(R.string.email_invalid_error)
