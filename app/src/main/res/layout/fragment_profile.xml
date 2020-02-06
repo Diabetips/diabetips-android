@@ -6,7 +6,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".activities.ProfileFragment"
-        style="@style/BackgroundTheme">
+        style="@style/ClearBackgroundTheme">
 
     <View
         android:id="@+id/circleToolbarView"
@@ -27,11 +27,10 @@
         app:layout_constraintTop_toTopOf="parent" />
     
     <ImageButton
-        android:id="@+id/signOutButton"
-        style="@style/ImageButtonAltTheme"
+        android:id="@+id/logoutButton"
+        style="@style/ImageButtonTransparentAltTheme"
+        android:layout_margin="@dimen/half_margin_size"
         android:contentDescription="@string/placeholder_text"
-        android:layout_height="@dimen/input_size"
-        android:layout_width="@dimen/input_size"
         android:src="@drawable/ic_power"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

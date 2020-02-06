@@ -40,7 +40,7 @@ class NewMealActivity : AppCompatActivity() {
             adapter = MealRecipeAdapter()
         }
         validateMealButton.setOnClickListener {
-            val meal = MealObject(mealId, Date(), newMealDescription.text.toString(),
+            val meal = MealObject(mealId, Date(), newMealDescription.text.toString(), 0f,
                 (recipeList.adapter as MealRecipeAdapter).getRecipes().toTypedArray())
             if (meal.recipes.isNullOrEmpty()) {
                 Toast.makeText(this, getString(R.string.meal_empty), Toast.LENGTH_SHORT).show()

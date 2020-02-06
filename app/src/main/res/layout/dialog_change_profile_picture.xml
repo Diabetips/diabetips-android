@@ -3,39 +3,65 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingBottom="@dimen/half_margin_size"
-    style="@style/ClearBackgroundTheme">
+    android:layout_height="wrap_content"
+    style="@style/EmptyBackgroundTheme">
 
-    <TextView
-        android:id="@+id/changePictureText"
-        style="@style/TitleTheme"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/changePictureLayout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/half_margin_size"
-        android:layout_marginTop="@dimen/half_margin_size"
-        android:text="@string/change_profile_picture"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:orientation="vertical"
+        style="@style/EmptyBackgroundTheme">
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/newPictureButton"
-        style="@style/MaterialButtonTheme"
-        android:layout_width="match_parent"
-        android:layout_marginTop="@dimen/quarter_margin_size"
-        android:text="@string/new_picture"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/changePictureText" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/changePictureTextLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="@dimen/margin_size"
+            style="@style/BackgroundDialogTheme">
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/pictureGalleryButton"
-        style="@style/MaterialButtonTheme"
-        android:layout_width="match_parent"
-        android:layout_marginTop="@dimen/quarter_margin_size"
-        android:text="@string/picture_gallery"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/newPictureButton" />
+            <TextView
+                android:id="@+id/changePictureText"
+                style="@style/SubtitleTheme"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/half_margin_size"
+                android:layout_marginTop="@dimen/half_margin_size"
+                android:text="@string/change_profile_picture"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <LinearLayout
+            android:id="@+id/changePictureButtonLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="end"
+            android:layout_marginTop="@dimen/negative_margin_size"
+            android:padding="@dimen/half_margin_size"
+            style="@style/EmptyBackgroundTheme">
+
+            <ImageButton
+                android:id="@+id/newPictureButton"
+                style="@style/ImageButtonTheme"
+                android:layout_marginEnd="@dimen/half_margin_size"
+                android:contentDescription="@string/new_picture"
+                android:src="@drawable/ic_photo_camera"/>
+
+            <ImageButton
+                android:id="@+id/pictureGalleryButton"
+                style="@style/ImageButtonTheme"
+                android:layout_marginEnd="@dimen/half_margin_size"
+                android:contentDescription="@string/picture_gallery"
+                android:src="@drawable/ic_photo_library"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

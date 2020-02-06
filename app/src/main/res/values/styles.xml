@@ -82,6 +82,10 @@
         <item name="android:background">?attr/imageHomeBackground</item>
     </style>
 
+    <style name="BackgroundDialogTheme" parent="BackgroundTheme">
+        <item name="android:background">@drawable/dialog_background</item>
+    </style>
+
     <style name="BackgroundCardTheme" parent="BackgroundTheme">
         <item name="android:layout_margin">@dimen/half_margin_size</item>
         <item name="cardBackgroundColor">?attr/colorCardBackground</item>
@@ -135,12 +139,20 @@
     </style>
 
     <style name="ImageButtonTheme" parent="ThemeOverlay.AppCompat.Dark">
-        <item name="android:layout_margin">@dimen/half_margin_size</item>
+        <item name="android:layout_height">@dimen/input_size</item>
+        <item name="android:layout_width">@dimen/input_size</item>
+        <item name="android:background">@drawable/image_button_background</item>
+        <item name="tint">?attr/colorTextButton</item>
+        <item name="android:padding">5dp</item>
+        <item name="android:scaleType">centerInside</item>
+    </style>
+
+    <style name="ImageButtonTransparentTheme" parent="ImageButtonTheme">
         <item name="android:background">@drawable/ripple_image_button</item>
         <item name="tint">?attr/colorPrimary</item>
     </style>
 
-    <style name="ImageButtonAltTheme" parent="ImageButtonTheme">
+    <style name="ImageButtonTransparentAltTheme" parent="ImageButtonTransparentTheme">
         <item name="tint">?attr/colorTextButton</item>
     </style>
 
@@ -221,19 +233,27 @@
     </style>
 
     <style name="TitleAppearance" parent="TextAppearance.MaterialComponents.Headline1">
+        <item name="fontFamily">@font/muli_black</item>
         <item name="android:textSize">@dimen/title_size</item>
-        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="SubtitleAppearance" parent="TextAppearance.MaterialComponents.Headline1">
+        <item name="fontFamily">@font/muli_bold</item>
+        <item name="android:textSize">@dimen/subtitle_size</item>
     </style>
 
     <style name="TextAppearance" parent="TextAppearance.MaterialComponents.Body1">
+        <item name="fontFamily">@font/rubik_regular</item>
         <item name="android:textSize">@dimen/text_size</item>
     </style>
 
     <style name="HintTextAppearance" parent="TextAppearance.MaterialComponents.Subtitle1">
+        <item name="fontFamily">@font/rubik_regular</item>
         <item name="android:textSize">@dimen/hint_size</item>
     </style>
 
     <style name="ErrorTextAppearance" parent="TextAppearance.MaterialComponents.Subtitle2">
+        <item name="fontFamily">@font/rubik_regular</item>
         <item name="android:textSize">@dimen/error_size</item>
     </style>
 
@@ -257,6 +277,10 @@
 
     <style name="TitleTheme" parent="TextViewTheme">
         <item name="android:textAppearance">@style/TitleAppearance</item>
+    </style>
+
+    <style name="SubtitleTheme" parent="TextViewAltTheme">
+        <item name="android:textAppearance">@style/SubtitleAppearance</item>
     </style>
 
     <style name="TitleAltTheme" parent="TextViewAltTheme">
@@ -320,6 +344,7 @@
     </style>
 
     <style name="ImageTheme" parent="ThemeOverlay.AppCompat.Dark">
+        <item name="android:scaleType">centerCrop</item>
     </style>
 
     <style name="SwitchTheme" parent="ThemeOverlay.AppCompat.Dark">

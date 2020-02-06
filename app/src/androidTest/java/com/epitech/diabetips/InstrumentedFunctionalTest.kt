@@ -85,7 +85,7 @@ class InstrumentedFunctionalTest {
     fun foodAdapters() {
         //Values
         val foodArray = arrayOf(FoodObject(1, "Food"), FoodObject(2), FoodObject(3))
-        val ingredientArray = arrayOf(IngredientObject(1, 1f, FoodObject(1, "Food")), IngredientObject(1, 2f, FoodObject(2, "Ingredient")), IngredientObject(1, 3f, FoodObject(3)))
+        val ingredientArray = arrayOf(IngredientObject(1, 1f, 10f, FoodObject(1, "Food")), IngredientObject(1, 2f, 15f, FoodObject(2, "Ingredient")), IngredientObject(1, 3f, 7f, FoodObject(3)))
         val foodAdapter = FoodAdapter()
         val recipeFoodAdapter = RecipeFoodAdapter()
         //Operations

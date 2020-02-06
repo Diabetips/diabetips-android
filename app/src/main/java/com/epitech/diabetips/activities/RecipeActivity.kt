@@ -76,11 +76,13 @@ class RecipeActivity : AppCompatActivity(), MaterialSearchBar.OnSearchActionList
         else
             page.nextPage()
         RecipeService.instance.getAllRecipes(page, recipeSearchBar.text.toString()).doOnSuccess {
-            page.updateFromHeader(it.first.headers[getString(R.string.pagination_header)]?.get(0))
-            if (it.second.component2() == null)
-                (recipeSearchList.adapter as RecipeAdapter).setRecipes(it.second.component1()!!)
-            else
-                (recipeSearchList.adapter as RecipeAdapter).addRecipes(it.second.component1()!!)
+            if (it.second.component2() == null) {
+                page.updateFromHeader(it.first.headers[getString(R.string.pagination_header)]?.get(0))
+                if (resetPage)
+                    (recipeSearchList.adapter as RecipeAdapter).setRecipes(it.second.component1()!!)
+                else
+                    (recipeSearchList.adapter as RecipeAdapter).addRecipes(it.second.component1()!!)
+            }
             recipeSwipeRefresh.isRefreshing = false
         }.subscribe()
         getParams()

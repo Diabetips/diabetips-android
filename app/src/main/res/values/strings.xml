@@ -42,6 +42,7 @@
     <string name="update_profile_picture">Profile picture updated</string>
     <string name="update">Update</string>
     <string name="update_profile">Profile updated</string>
+    <string name="logout">Logged out</string>
     <!--login / sign up screen end-->
 
     <!--meal / recipe / food screen start-->

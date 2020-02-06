@@ -73,12 +73,14 @@ class HomeFragment : NavigationFragment(FragmentType.HOME) {
         else
             page.nextPage()
         MealService.instance.getAllUserMeals(page).doOnSuccess {
-            page.updateFromHeader(it.first.headers[getString(R.string.pagination_header)]?.get(0))
-            if (it.second.component2() == null)
-                (view?.mealHomeList?.adapter as MealAdapter).setMeals(it.second.component1()!!)
-            else
-                (view?.mealHomeList?.adapter as MealAdapter).addMeals(it.second.component1()!!)
-            view.mealHomeSwipeRefresh?.isRefreshing = false
+            if (it.second.component2() == null) {
+                page.updateFromHeader(it.first.headers[getString(R.string.pagination_header)]?.get(0))
+                if (resetPage)
+                    (view?.mealHomeList?.adapter as MealAdapter).setMeals(it.second.component1()!!)
+                else
+                    (view?.mealHomeList?.adapter as MealAdapter).addMeals(it.second.component1()!!)
+            }
+            view?.mealHomeSwipeRefresh?.isRefreshing = false
         }.subscribe()
     }
 

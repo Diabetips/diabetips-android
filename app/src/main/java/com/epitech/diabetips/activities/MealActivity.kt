@@ -8,7 +8,6 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.epitech.diabetips.adapters.MealAdapter
 import com.epitech.diabetips.R
-import com.epitech.diabetips.managers.AccountManager
 import com.epitech.diabetips.services.MealService
 import com.epitech.diabetips.storages.MealObject
 import com.epitech.diabetips.storages.PaginationObject
@@ -70,11 +69,13 @@ class MealActivity : AppCompatActivity() {
         else
             page.nextPage()
         MealService.instance.getAllUserMeals(page).doOnSuccess {
-            page.updateFromHeader(it.first.headers[getString(R.string.pagination_header)]?.get(0))
-            if (it.second.component2() == null)
-                (mealSearchList.adapter as MealAdapter).setMeals(it.second.component1()!!)
-            else
-                (mealSearchList.adapter as MealAdapter).addMeals(it.second.component1()!!)
+            if (it.second.component2() == null) {
+                page.updateFromHeader(it.first.headers[getString(R.string.pagination_header)]?.get(0))
+                if (resetPage)
+                    (mealSearchList.adapter as MealAdapter).setMeals(it.second.component1()!!)
+                else
+                    (mealSearchList.adapter as MealAdapter).addMeals(it.second.component1()!!)
+            }
             mealSwipeRefresh.isRefreshing = false
         }.subscribe()
     }

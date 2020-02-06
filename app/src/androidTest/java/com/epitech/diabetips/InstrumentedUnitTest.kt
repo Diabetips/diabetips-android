@@ -27,7 +27,7 @@ class InstrumentedUnitTest {
     private lateinit var instrumentationContext: Context
 
     private val foodArray = arrayOf(FoodObject(1, "Food"), FoodObject(2), FoodObject(3))
-    private val ingredientArray = arrayOf(IngredientObject(1, 1f, FoodObject(1, "Food")), IngredientObject(1, 2f, FoodObject(2, "Ingredient")), IngredientObject(1, 3f, FoodObject(3)))
+    private val ingredientArray = arrayOf(IngredientObject(1, 1f, 5f, FoodObject(1, "Food")), IngredientObject(1, 2f, 1f, FoodObject(2, "Ingredient")), IngredientObject(1, 3f, 8f, FoodObject(3)))
     private val recipeArray = arrayOf(RecipeObject(1, "Recipe"), RecipeObject(2), RecipeObject(3))
     private val mealArray = arrayOf(MealObject(1, Date(), "Meal"), MealObject(2), MealObject(3))
 

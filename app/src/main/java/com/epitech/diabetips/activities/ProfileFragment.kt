@@ -5,6 +5,8 @@ import android.app.AlertDialog
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Patterns
@@ -15,6 +17,7 @@ import android.widget.ImageView
 import android.widget.Toast
 import com.epitech.diabetips.managers.AccountManager
 import com.epitech.diabetips.R
+import com.epitech.diabetips.managers.AuthManager
 import com.epitech.diabetips.services.UserService
 import com.epitech.diabetips.storages.AccountObject
 import com.epitech.diabetips.utils.ImageHandler
@@ -36,10 +39,16 @@ class ProfileFragment : NavigationFragment(FragmentType.PROFILE) {
         view.updateProfileButton.setOnClickListener {
             updateProfile()
         }
+        view.logoutButton.setOnClickListener {
+            AuthManager.instance.removePreferences(context!!)
+            Toast.makeText(context, getString(R.string.logout), Toast.LENGTH_SHORT).show()
+            activity?.finish()
+        }
         view.imagePhotoProfile.setOnClickListener {
             val dialogView = layoutInflater.inflate(R.layout.dialog_change_profile_picture, null)
             MaterialHandler.instance.handleTextInputLayoutSize(dialogView as ViewGroup)
             val dialog = AlertDialog.Builder(context).setView(dialogView).create()
+            dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
             dialogView.newPictureButton.setOnClickListener {
                 val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
                 startActivityForResult(intent, RequestCode.GET_PHOTO.ordinal)

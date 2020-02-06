@@ -2,6 +2,8 @@ package com.epitech.diabetips.activities
 
 import android.app.AlertDialog
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.util.Patterns
 import android.view.ViewGroup
@@ -9,6 +11,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import com.epitech.diabetips.R
+import com.epitech.diabetips.managers.AuthManager
 import com.epitech.diabetips.managers.ModeManager
 import com.epitech.diabetips.services.TokenService
 import com.epitech.diabetips.storages.AccountObject
@@ -59,6 +62,7 @@ class MainActivity : AppCompatActivity() {
             val view = layoutInflater.inflate(R.layout.dialog_password_forgot, null)
             MaterialHandler.instance.handleTextInputLayoutSize(view as ViewGroup)
             val dialog = AlertDialog.Builder(this).setView(view).create()
+            dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
             view.emailResetPasswordInput.setText(emailInput.text.toString())
             view.resetPasswordButton.setOnClickListener {
                 if (view.emailResetPasswordInput.text.toString().isEmpty() || !Patterns.EMAIL_ADDRESS.matcher(view.emailResetPasswordInput.text.toString()).matches()) {
@@ -76,6 +80,13 @@ class MainActivity : AppCompatActivity() {
                 }
             }
             dialog.show()
+        }
+        if (AuthManager.instance.hasRefreshToken(this)) {
+            TokenService.instance.refreshToken(this).doAfterSuccess {
+                if (it.second.component2() == null) {
+                    startActivity(Intent(this, NavigationActivity::class.java))
+                }
+            }.subscribe()
         }
     }
 

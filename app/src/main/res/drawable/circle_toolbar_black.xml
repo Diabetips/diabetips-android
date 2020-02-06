@@ -5,9 +5,9 @@
     </item>
     <item
         android:bottom="0dp"
-        android:left="-100dp"
-        android:right="-100dp"
-        android:top="-100dp">
+        android:left="-75dp"
+        android:right="-75dp"
+        android:top="-200dp">
         <shape android:shape="oval">
             <solid android:color="@color/colorBackgroundDarkLight" />
         </shape>

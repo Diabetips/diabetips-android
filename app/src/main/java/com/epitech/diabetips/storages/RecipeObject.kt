@@ -9,6 +9,7 @@ data class RecipeObject (
     var id: Int = 0,
     var name: String = "",
     var description: String = "",
+    var total_sugar: Float = 0f,
     var ingredients: Array<IngredientObject> = arrayOf()) : Serializable
 
 class RecipeObjectAdapter : TypeAdapter<RecipeObject>() {
