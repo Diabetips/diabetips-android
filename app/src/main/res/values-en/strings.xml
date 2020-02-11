@@ -37,4 +37,13 @@
     <string name="home_title">Home</string>
     <string name="settings_title">Settings</string>
     <string name="dark_mode">Dark mode</string>
+    <string name="created_account">An email has been sent to validate your account</string>
+    <string name="change_profile_picture">Change profile picture</string>
+    <string name="new_picture">Take a new picture</string>
+    <string name="picture_gallery">Open gallery</string>
+    <string name="reset_password">An email with a new password has been sent</string>
+    <string name="reset_password_button">Reset password</string>
+    <string name="update_profile_picture">Profile picture updated</string>
+    <string name="registration_incomplete">Email address not confirmed</string>
+    <string name="logout">Logged out</string>
 </resources>

@@ -8,15 +8,18 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.epitech.diabetips.adapters.MealAdapter
 import com.epitech.diabetips.R
-import com.epitech.diabetips.managers.AccountManager
 import com.epitech.diabetips.services.MealService
 import com.epitech.diabetips.storages.MealObject
+import com.epitech.diabetips.storages.PaginationObject
 import com.epitech.diabetips.utils.MaterialHandler
+import com.epitech.diabetips.utils.PaginationScrollListener
 import kotlinx.android.synthetic.main.activity_meal.*
 
 class MealActivity : AppCompatActivity() {
 
     enum class RequestCode {NEW_MEAL, UPDATE_MEAL}
+
+    private lateinit var page: PaginationObject
 
     override fun onCreate(savedInstanceState: Bundle?) {
         if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
@@ -26,6 +29,7 @@ class MealActivity : AppCompatActivity() {
         }
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_meal)
+        page = PaginationObject(resources.getInteger(R.integer.pagination_size), resources.getInteger(R.integer.pagination_default))
         MaterialHandler.instance.handleTextInputLayoutSize(this.findViewById(android.R.id.content))
         newMealButton.setOnClickListener {
             startActivityForResult(Intent(this, NewMealActivity::class.java), RequestCode.NEW_MEAL.ordinal)
@@ -39,10 +43,40 @@ class MealActivity : AppCompatActivity() {
                     RequestCode.UPDATE_MEAL.ordinal)
             }
         }
-        MealService.instance.getAllUserMeals().doOnSuccess {
-            if (it.second.component2() == null) {
-                (mealSearchList.adapter as MealAdapter).setMeals(it.second.component1()!!)
+        mealSearchList.addOnScrollListener(object : PaginationScrollListener(mealSearchList.layoutManager as LinearLayoutManager) {
+            override fun isLastPage(): Boolean {
+                return page.isLast()
             }
+
+            override fun isLoading(): Boolean {
+                return mealSwipeRefresh.isRefreshing
+            }
+
+            override fun loadMoreItems() {
+                getMeal(false)
+            }
+        })
+        mealSwipeRefresh.setOnRefreshListener {
+            getMeal()
+        }
+        getMeal()
+    }
+
+    private fun getMeal(resetPage: Boolean = true) {
+        mealSwipeRefresh.isRefreshing = true
+        if (resetPage)
+            page.reset()
+        else
+            page.nextPage()
+        MealService.instance.getAllUserMeals(page).doOnSuccess {
+            if (it.second.component2() == null) {
+                page.updateFromHeader(it.first.headers[getString(R.string.pagination_header)]?.get(0))
+                if (resetPage)
+                    (mealSearchList.adapter as MealAdapter).setMeals(it.second.component1()!!)
+                else
+                    (mealSearchList.adapter as MealAdapter).addMeals(it.second.component1()!!)
+            }
+            mealSwipeRefresh.isRefreshing = false
         }.subscribe()
     }
 

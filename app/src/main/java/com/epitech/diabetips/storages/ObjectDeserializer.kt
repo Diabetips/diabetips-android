@@ -5,7 +5,7 @@ import com.google.gson.Gson
 
 open class ObjectDeserializer<T : Any>(private val clazz: Class<T>) : ResponseDeserializable<T> {
 
-     override fun deserialize(content: String) = Gson().fromJson(content, clazz)
+     override fun deserialize(content: String) = Gson().fromJson(content, clazz) ?: clazz.newInstance()
 
 }
 

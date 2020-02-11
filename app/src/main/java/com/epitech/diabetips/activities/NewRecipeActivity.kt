@@ -39,7 +39,7 @@ class NewRecipeActivity : AppCompatActivity() {
             adapter = RecipeFoodAdapter()
         }
         validateRecipeButton.setOnClickListener {
-            val recipe = RecipeObject(recipeId, newRecipeName.text.toString(), newRecipeDescription.text.toString(),
+            val recipe = RecipeObject(recipeId, newRecipeName.text.toString(), newRecipeDescription.text.toString(), 0f,
                 (foodList.adapter as RecipeFoodAdapter).getFoods().toTypedArray())
             if (recipe.name.isBlank()) {
                 Toast.makeText(this, getString(R.string.recipe_name_empty), Toast.LENGTH_SHORT).show()

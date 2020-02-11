@@ -31,4 +31,8 @@ class AuthManager : AManager("auth_token") {
         return getString(context, REFRESH_TOKEN)
     }
 
+    fun hasRefreshToken(context: Context) : Boolean {
+        return getString(context, REFRESH_TOKEN).isNotBlank()
+    }
+
 }

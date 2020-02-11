@@ -2,8 +2,7 @@
     <!--application data start-->
     <string name="app_name" translatable="false">Diabetips</string>
     <string name="api_base_url" translatable="false">https://api.diabetips.fr/v1</string>
-    <string name="client_id" translatable="false">diabetips-android</string>
-    <string name="client_secret" translatable="false">5rJANZsEWaOdTIdqYx3yti8HKnLFfzgH</string>
+    <string name="pagination_header" translatable="false">X-Pages</string>
     <!--application data end-->
 
     <!--parameters name start-->
@@ -33,9 +32,17 @@
     <string name="login_button">Connection</string>
     <string name="sign_up_button">Sign Up</string>
     <string name="forgot_password_button">Forgot Password</string>
+    <string name="reset_password_button">Reset password</string>
+    <string name="reset_password">An email with a new password has been sent</string>
     <string name="new_password_button">Change Password</string>
+    <string name="created_account">An email has been sent to validate your account</string>
+    <string name="change_profile_picture">Change profile picture</string>
+    <string name="new_picture">Take a new picture</string>
+    <string name="picture_gallery">Open gallery</string>
+    <string name="update_profile_picture">Profile picture updated</string>
     <string name="update">Update</string>
     <string name="update_profile">Profile updated</string>
+    <string name="logout">Logged out</string>
     <!--login / sign up screen end-->
 
     <!--meal / recipe / food screen start-->
@@ -60,6 +67,7 @@
     <string name="first_name_invalid_error">Invalid firstname</string>
     <string name="email_already_taken">This email is already linked to another account</string>
     <string name="login_invalid">Invalid email or password</string>
+    <string name="registration_incomplete">Email address not confirmed</string>
     <!--login / sign up errors end-->
 
     <!--meal / recipe / food errors start-->

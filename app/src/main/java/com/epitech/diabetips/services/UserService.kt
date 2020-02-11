@@ -1,6 +1,15 @@
 package com.epitech.diabetips.services
 
+import android.graphics.Bitmap
 import com.epitech.diabetips.storages.*
+import com.epitech.diabetips.utils.ImageHandler
+import com.github.kittinunf.fuel.Fuel
+import com.github.kittinunf.fuel.core.DataPart
+import com.github.kittinunf.fuel.core.FuelManager
+import com.github.kittinunf.fuel.core.Method
+import com.github.kittinunf.fuel.httpPost
+import java.io.File
+import java.io.FileOutputStream
 
 class UserService : AService("/users") {
 
@@ -10,24 +19,28 @@ class UserService : AService("/users") {
         val instance: UserService by lazy { Holder.INSTANCE }
     }
 
-    fun login(account: AccountObject) : FuelResponse<AccountObject> {
-        return postRequest(account, "/login")
-    }
-
     fun registerUser(account: AccountObject) : FuelResponse<AccountObject> {
         return postRequest(account)
     }
 
-    fun getUser(uid: String) : FuelResponse<AccountObject> {
+    fun getUser(uid: String = "me") : FuelResponse<AccountObject> {
         return getRequest("/" + uid)
     }
 
-    fun getAllUsers() : FuelResponse<Array<AccountObject>> {
-        return getRequest()
+    fun getAllUsers(page: PaginationObject) : FuelResponse<Array<AccountObject>> {
+        return getRequest("?page=" + page.current + "&size=" + page.size)
     }
 
     fun updateUser(account: AccountObject) : FuelResponse<AccountObject> {
         return putRequest(account, "/" + account.uid)
+    }
+
+    fun updatePicture(image: Bitmap, uid: String = "me") : FuelResponse<AccountObject> {
+        return postData(ImageHandler.instance.encodeImage(image, 300), "/" + uid + "/picture")
+    }
+
+    fun getPictureUrl(uid: String = "me") : String  {
+        return FuelManager.instance.basePath + baseRoute + "/" + uid + "/picture"
     }
 
 }

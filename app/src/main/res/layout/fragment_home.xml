@@ -21,14 +21,12 @@
 
     <ImageButton
         android:id="@+id/viewRecipeButton"
-        style="@style/ImageButtonTheme"
-        android:layout_width="@dimen/input_size"
-        android:layout_height="@dimen/input_size"
+        style="@style/ImageButtonTransparentTheme"
+        android:layout_margin="@dimen/half_margin_size"
         android:contentDescription="@string/placeholder_text"
         android:src="@drawable/ic_recipe"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
 
 
     <LinearLayout
@@ -43,13 +41,19 @@
         app:layout_constraintBottom_toBottomOf="parent">
 
         <com.google.android.material.card.MaterialCardView
-            android:id="@+id/sugarChartCard"
+            android:id="@+id/sugarLineChartCard"
             style="@style/BackgroundCardTheme"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="40"
             app:layout_constraintTop_toTopOf="parent"
             tools:layout_editor_absoluteX="14dp">
+
+            <com.github.mikephil.charting.charts.LineChart
+                android:id="@+id/sugarLineChart"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:contentDescription=""/>
 
         </com.google.android.material.card.MaterialCardView>
 
@@ -60,7 +64,7 @@
             android:text="@string/add_meal"
             android:layout_gravity="center_horizontal"
             android:layout_weight="0"
-            android:layout_marginTop="-33dp"/>
+            android:layout_marginTop="@dimen/negative_margin_size"/>
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/mealHomeCard"
@@ -69,13 +73,23 @@
             android:layout_height="0dp"
             android:layout_weight="45">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/mealHomeList"
+            <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+                android:id="@+id/mealHomeSwipeRefresh"
                 style="@style/EmptyBackgroundTheme"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/mealHomeList"
+                    style="@style/EmptyBackgroundTheme"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
+
+            </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
         </com.google.android.material.card.MaterialCardView>
 

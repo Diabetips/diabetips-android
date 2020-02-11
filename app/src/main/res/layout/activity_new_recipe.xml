@@ -74,9 +74,8 @@
             style="@style/MaterialButtonTheme"
             android:layout_width="0dp"
             android:layout_marginEnd="0dp"
-            android:layout_weight="0.5"
+            android:layout_weight="0.6"
             android:text="@string/add_food"
-            app:icon="@drawable/ic_food"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
@@ -85,9 +84,8 @@
             style="@style/MaterialButtonTheme"
             android:layout_width="0dp"
             android:layout_marginStart="@dimen/half_margin_size"
-            android:layout_weight="0.5"
+            android:layout_weight="0.4"
             android:text="@string/validate"
-            app:icon="@drawable/ic_check"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 

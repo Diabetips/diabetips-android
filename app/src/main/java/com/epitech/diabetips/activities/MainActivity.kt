@@ -1,24 +1,26 @@
 package com.epitech.diabetips.activities
 
-import android.app.Activity
-import android.content.Context
+import android.app.AlertDialog
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.util.AttributeSet
 import android.util.Patterns
-import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import com.epitech.diabetips.R
-import com.epitech.diabetips.managers.AccountManager
+import com.epitech.diabetips.managers.AuthManager
 import com.epitech.diabetips.managers.ModeManager
-import com.epitech.diabetips.services.UserService
+import com.epitech.diabetips.services.TokenService
 import com.epitech.diabetips.storages.AccountObject
 import com.epitech.diabetips.utils.MaterialHandler
 import com.github.kittinunf.fuel.core.FuelManager
-import com.google.android.material.internal.CheckableImageButton
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.dialog_password_forgot.view.*
+import org.json.JSONObject
+import java.nio.charset.Charset
 
 
 class MainActivity : AppCompatActivity() {
@@ -37,35 +39,54 @@ class MainActivity : AppCompatActivity() {
         FuelManager.instance.baseHeaders = mapOf("Content-Type" to "application/json; charset=utf-8")
         loginButton.setOnClickListener {
             if (validateFields()) {
-                var account = getAccountFromFields() //TODO : change to val when using real connection with the API
-                //UserService.instance.login(account).subscribe() //TODO : uncomment when using real connection with the API
-
-                //TODO : Remove when using real connection with the API
-                var login = false
-                UserService.instance.getAllUsers().doOnSuccess {
+                val account = getAccountFromFields()
+                TokenService.instance.getToken(this, account.email, account.password).doAfterSuccess {
                     if (it.second.component2() == null) {
-                        for (user in it.second.component1()!!) {
-                            if (user.email == account.email) {
-                                account = user
-                                login = true
-                                AccountManager.instance.saveAccount(this, account)
-                                startActivity(Intent(this, NavigationActivity::class.java))
-                            }
-                        }
-                        if (!login) {
+                        startActivity(Intent(this, NavigationActivity::class.java))
+                    } else {
+                        val error = JSONObject(it.first.data.toString(Charset.defaultCharset())).getString("error")
+                        if (error == "registration_incomplete") {
+                            emailInputLayout.error = getString(R.string.registration_incomplete)
+                        } else {
                             emailInputLayout.error = getString(R.string.login_invalid)
                             passwordInputLayout.error = getString(R.string.login_invalid)
                         }
                     }
                 }.subscribe()
-
-                //TODO : Uncomment when using real connection with the API
-                //AccountManager.instance.saveAccount(this, account)
-                //startActivity(Intent(this, HomeActivity::class.java))
             }
         }
         signUpLinkButton.setOnClickListener {
             startActivity(Intent(this, SignUpActivity::class.java))
+        }
+        forgotPasswordButton.setOnClickListener {
+            val view = layoutInflater.inflate(R.layout.dialog_password_forgot, null)
+            MaterialHandler.instance.handleTextInputLayoutSize(view as ViewGroup)
+            val dialog = AlertDialog.Builder(this).setView(view).create()
+            dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            view.emailResetPasswordInput.setText(emailInput.text.toString())
+            view.resetPasswordButton.setOnClickListener {
+                if (view.emailResetPasswordInput.text.toString().isEmpty() || !Patterns.EMAIL_ADDRESS.matcher(view.emailResetPasswordInput.text.toString()).matches()) {
+                    view.emailResetPasswordInputLayout.error = getString(R.string.email_invalid_error)
+                } else {
+                    view.emailResetPasswordInputLayout.error = null
+                    TokenService.instance.resetPassword(view.emailResetPasswordInput.text.toString()).doOnSuccess {
+                        if (it.second.component2() == null) {
+                            Toast.makeText(this, getString(R.string.reset_password), Toast.LENGTH_LONG).show()
+                            dialog.dismiss()
+                        } else {
+                            Toast.makeText(this, it.second.component2()!!.exception.message, Toast.LENGTH_SHORT).show()
+                        }
+                    }.subscribe()
+                }
+            }
+            dialog.show()
+        }
+        if (AuthManager.instance.hasRefreshToken(this)) {
+            TokenService.instance.refreshToken(this).doAfterSuccess {
+                if (it.second.component2() == null) {
+                    startActivity(Intent(this, NavigationActivity::class.java))
+                }
+            }.subscribe()
         }
     }
 

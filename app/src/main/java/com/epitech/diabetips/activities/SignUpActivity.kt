@@ -30,8 +30,8 @@ class SignUpActivity : AppCompatActivity() {
                 val account = getAccountFromFields()
                 UserService.instance.registerUser(account).doOnSuccess {
                     if (it.second.component2() == null) {
-                        AccountManager.instance.saveAccount(this, it.second.component1()!!)
-                        startActivity(Intent(this, NavigationActivity::class.java))
+                        Toast.makeText(this, getString(R.string.created_account), Toast.LENGTH_SHORT).show()
+                        finish()
                     } else if (it.second.component2()!!.response.statusCode == HTTP_CONFLICT) {
                         emailInputLayout.error = getString(R.string.email_already_taken)
                     } else {

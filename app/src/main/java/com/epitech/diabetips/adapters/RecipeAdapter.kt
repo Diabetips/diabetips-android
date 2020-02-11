@@ -20,6 +20,11 @@ class RecipeAdapter(private val recipes: ArrayList<RecipeObject> = arrayListOf()
         notifyItemInserted(recipes.size)
     }
 
+    fun addRecipes(recipeList: Array<RecipeObject>) {
+        recipes.addAll(recipeList)
+        notifyItemRangeInserted(recipes.size - recipeList.size, recipeList.size)
+    }
+
     fun updateRecipe(recipe: RecipeObject) {
         recipes.forEachIndexed { index, recipeObject ->
             if (recipeObject.id == recipe.id) {

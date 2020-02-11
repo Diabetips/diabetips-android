@@ -15,6 +15,11 @@ class FoodAdapter(private val foods: ArrayList<FoodObject> = arrayListOf(),
         notifyDataSetChanged()
     }
 
+    fun addFoods(foodList: Array<FoodObject>) {
+        foods.addAll(foodList)
+        notifyItemRangeInserted(foods.size - foodList.size, foodList.size)
+    }
+
     override fun getItemCount(): Int = foods.size
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FoodItemViewHolder {
@@ -24,6 +29,7 @@ class FoodAdapter(private val foods: ArrayList<FoodObject> = arrayListOf(),
 
     override fun onBindViewHolder(holder: FoodItemViewHolder, position: Int) {
         holder.bind(foods[position], onItemClickListener)
+
     }
 
 }
