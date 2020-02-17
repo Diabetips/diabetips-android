@@ -12,7 +12,7 @@ class FoodService : AService("/food") {
     }
 
     fun getAllFood(page: PaginationObject, name: String = "") : FuelResponse<Array<FoodObject>> {
-        return getRequest("?name=" + name + "&page=" + page.current + "&size=" + page.size)
+        return getRequest("?name=" + name + "&" + page.getRequestParameters())
     }
 
     fun getFood(id: Int) : FuelResponse<FoodObject> {

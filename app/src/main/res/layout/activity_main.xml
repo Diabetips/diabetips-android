@@ -8,8 +8,25 @@
     tools:context=".activities.MainActivity"
     style="@style/BackgroundMainTheme">
 
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/mainSwipeRefresh"
+        style="@style/EmptyBackgroundTheme"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:enabled="false"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/imageDiabiConnection"
+        android:maxHeight="216dp"
+        android:maxWidth="216dp"
         android:layout_width="match_parent"
         android:layout_height="216dp"
         android:layout_margin="@dimen/margin_size"

@@ -14,8 +14,23 @@
 
     <!--placeholder start-->
     <string name="placeholder_text" translatable="false">Placeholder Text</string>
+    <string name="placeholder_hour" translatable="false">XX:XX</string>
     <string name="placeholder_number" translatable="false">X</string>
     <!--placeholder end-->
+
+    <!--format start-->
+    <string name="format_hour_12" translatable="false">h:mm a</string>
+    <string name="format_hour_24" translatable="false">HH:mm</string>
+    <string name="format_date">EEE, MMM d yyyy</string>
+    <!--format end-->
+
+    <!--dialog start-->
+    <string name="change_picture">Change picture</string>
+    <string name="save_change">Save ?</string>
+    <string name="unsaved_change">Some changes haven\'t been saved, do you want to save them ?</string>
+    <string name="select_quantity">Select quantity</string>
+    <string name="select_quantity_input">Quantity</string>
+    <!--dialog end-->
 
     <string name="home_title">Home</string>
     <string name="profile_title">Profile</string>
@@ -31,6 +46,7 @@
     <string name="first_name_input">Firstname</string>
     <string name="login_button">Connection</string>
     <string name="sign_up_button">Sign Up</string>
+    <string name="back_to_login_button">Back to login page</string>
     <string name="forgot_password_button">Forgot Password</string>
     <string name="reset_password_button">Reset password</string>
     <string name="reset_password">An email with a new password has been sent</string>
@@ -46,14 +62,21 @@
     <!--login / sign up screen end-->
 
     <!--meal / recipe / food screen start-->
+    <string name="meal_title">My meal</string>
+    <string name="recipe_title">My recipe</string>
+    <string name="meal_recipe_subtitle">Recipes</string>
+    <string name="recipe_food_subtitle">Foods</string>
+    <string name="recipe_name">Recipe name</string>
     <string name="view_meal">My meals</string>
     <string name="view_recipe">Recipes</string>
     <string name="add_meal">Add a new meal</string>
     <string name="add_recipe">Add a recipe</string>
     <string name="add_food">Add some food</string>
     <string name="search_food">Search food</string>
-    <string name="search_recipe">Search a recipe</string>
     <string name="new_recipe">New recipe</string>
+    <string name="search_recipe">Search a recipe</string>
+    <string name="recipe_not_found">Sorry, but we don\'t know this recipe yet.</string>
+    <string name="food_not_found">Sorry, but no food with that name has been found.</string>
     <string name="validate">Validate</string>
     <string name="description">Description</string>
     <!--meal / recipe / food screen end-->
@@ -72,8 +95,11 @@
 
     <!--meal / recipe / food errors start-->
     <string name="meal_empty">Meal must have at least 1 recipe</string>
+    <string name="meal_recipe_empty">No recipe yet, add some with the button below</string>
     <string name="recipe_empty">Recipe must have at least 1 ingredient</string>
+    <string name="recipe_food_empty">No food yet, add some with the button below</string>
     <string name="recipe_name_empty">Recipe name mustn\'t be empty</string>
+    <string name="quantity_null">Quantity must be greater than 0</string>
     <!--meal / recipe / food errors end-->
 
 </resources>

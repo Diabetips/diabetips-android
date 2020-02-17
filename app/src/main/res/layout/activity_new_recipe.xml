@@ -2,26 +2,67 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    style="@style/BackgroundTheme"
+    style="@style/BackgroundHomeTheme"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activities.NewRecipeActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/newRecipeActionBar"
+        style="@style/ActionBarheme"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <ImageButton
+            android:id="@+id/closeNewRecipeButton"
+            style="@style/ImageButtonTransparentTheme"
+            android:layout_marginStart="@dimen/half_margin_size"
+            android:contentDescription="@string/placeholder_text"
+            android:src="@drawable/ic_close"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+        <TextView
+            android:id="@+id/titleNewRecipeText"
+            style="@style/SubtitleTheme"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/half_margin_size"
+            android:text="@string/recipe_title"
+            app:layout_constraintStart_toEndOf="@+id/closeNewRecipeButton"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+        <ImageButton
+            android:id="@+id/saveNewRecipeButton"
+            style="@style/ImageButtonTransparentTheme"
+            android:layout_marginEnd="@dimen/half_margin_size"
+            android:contentDescription="@string/placeholder_text"
+            android:src="@drawable/ic_save"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/newRecipeNameLayout"
         style="@style/TextInputLayoutTheme"
         android:layout_width="match_parent"
         android:layout_marginTop="@dimen/margin_size"
-        android:hint="@string/new_recipe"
+        android:hint="@string/recipe_name"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@+id/newRecipeActionBar">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/newRecipeName"
             style="@style/TextInputTheme"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="text" />
+            android:inputType="text"
+            android:imeOptions="actionNext"
+            android:nextFocusForward="@+id/newRecipeDescription" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -29,7 +70,7 @@
         android:id="@+id/newRecipeDescriptionLayout"
         style="@style/TextInputLayoutTheme"
         android:layout_width="match_parent"
-        android:layout_marginTop="@dimen/half_margin_size"
+        android:layout_marginTop="@dimen/quarter_margin_size"
         android:hint="@string/description"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/newRecipeNameLayout">
@@ -43,51 +84,88 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/recipeFoodCard"
-        style="@style/BackgroundCardTheme"
+    <LinearLayout
+        android:id="@+id/homeLayout"
+        style="@style/EmptyBackgroundTheme"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/newRecipeButtonLayout"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/newRecipeDescriptionLayout">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/foodList"
-            style="@style/EmptyBackgroundTheme"
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/recipeFoodCard"
+            style="@style/BackgroundCardTheme"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            android:layout_height="wrap_content">
 
-    </com.google.android.material.card.MaterialCardView>
+            <LinearLayout
+                android:id="@+id/recipeFoodCardLayout"
+                style="@style/EmptyClipBackgroundTheme"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginBottom="@dimen/margin_size"
+                app:layout_constraintBottom_toBottomOf="parent">
 
-    <LinearLayout
-        android:id="@+id/newRecipeButtonLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/margin_size"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="parent">
+                <TextView
+                    android:id="@+id/foodListSubtitle"
+                    style="@style/SubtitleTheme"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_size"
+                    android:layout_marginTop="@dimen/half_margin_size"
+                    android:layout_marginBottom="@dimen/quarter_margin_size"
+                    android:text="@string/recipe_food_subtitle" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/foodList"
+                    android:visibility="visible"
+                    style="@style/EmptyBackgroundTheme"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <LinearLayout
+                    android:id="@+id/foodListEmptyLayout"
+                    style="@style/EmptyBackgroundTheme"
+                    android:visibility="gone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:id="@+id/foodListEmptyImage"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:layout_gravity="center"
+                        android:contentDescription="@string/placeholder_text"
+                        android:src="@drawable/ic_groceries"/>
+
+                    <TextView
+                        android:id="@+id/foodListEmptyText"
+                        style="@style/TextAltTheme"
+                        android:gravity="center"
+                        android:layout_gravity="center"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/margin_size"
+                        android:layout_marginEnd="@dimen/margin_size"
+                        android:layout_marginTop="@dimen/quarter_margin_size"
+                        android:text="@string/recipe_food_empty" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </com.google.android.material.card.MaterialCardView>
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/addFoodButton"
             style="@style/MaterialButtonTheme"
-            android:layout_width="0dp"
-            android:layout_marginEnd="0dp"
-            android:layout_weight="0.6"
+            android:layout_width="wrap_content"
             android:text="@string/add_food"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/validateRecipeButton"
-            style="@style/MaterialButtonTheme"
-            android:layout_width="0dp"
-            android:layout_marginStart="@dimen/half_margin_size"
-            android:layout_weight="0.4"
-            android:text="@string/validate"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/negative_margin_size"/>
 
     </LinearLayout>
 

@@ -1,14 +1,12 @@
 package com.epitech.diabetips.adapters
 
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.recyclerview.widget.RecyclerView
+import com.epitech.diabetips.holders.MealRecipeItemViewHolder
 import com.epitech.diabetips.storages.RecipeObject
 
 class MealRecipeAdapter(private val recipes: ArrayList<RecipeObject> = arrayListOf())
-    : RecyclerView.Adapter<MealRecipeItemViewHolder>() {
+    : AVisibilityAdapter<MealRecipeItemViewHolder>() {
 
     override fun getItemCount(): Int = recipes.size
 
@@ -20,16 +18,19 @@ class MealRecipeAdapter(private val recipes: ArrayList<RecipeObject> = arrayList
         recipes.clear()
         recipes.addAll(recipeList)
         notifyDataSetChanged()
+        updateVisibility()
     }
 
     fun addRecipe(recipe: RecipeObject) {
         recipes.add(recipe)
         notifyItemInserted(recipes.size)
+        updateVisibility()
     }
 
     private fun removeRecipe(position: Int) {
         recipes.removeAt(position)
         notifyDataSetChanged()
+        updateVisibility()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MealRecipeItemViewHolder {
@@ -39,17 +40,7 @@ class MealRecipeAdapter(private val recipes: ArrayList<RecipeObject> = arrayList
 
     override fun onBindViewHolder(holder: MealRecipeItemViewHolder, position: Int) {
         holder.bind(recipes[position])
-        holder.getMealRecipeQuantityInput()?.addTextChangedListener(object : TextWatcher {
-
-            override fun afterTextChanged(s: Editable) {}
-
-            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
-
-            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-                //recipes[position].quantity = if (s.toString().toFloatOrNull() == null) 0.0f else s.toString().toFloat() //TODO add quantity in recipes
-            }
-        })
-        holder.getMealRecipeQuantityInputLayout()?.setEndIconOnClickListener {
+        holder.getMealRecipeButton()?.setOnClickListener {
             removeRecipe(position)
         }
     }

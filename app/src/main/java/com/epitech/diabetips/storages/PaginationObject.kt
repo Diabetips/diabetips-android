@@ -33,6 +33,10 @@ data class PaginationObject (
         return current >= last
     }
 
+    fun getRequestParameters() : String {
+        return "page=" + current + "&size=" + size
+    }
+
     fun updateFromHeader(header: String?) {
         if (header == null)
             return
@@ -49,4 +53,5 @@ data class PaginationObject (
         if (values["last"] != null)
             last = values["last"]!!
     }
+
 }

@@ -3,13 +3,7 @@ package com.epitech.diabetips.services
 import android.graphics.Bitmap
 import com.epitech.diabetips.storages.*
 import com.epitech.diabetips.utils.ImageHandler
-import com.github.kittinunf.fuel.Fuel
-import com.github.kittinunf.fuel.core.DataPart
 import com.github.kittinunf.fuel.core.FuelManager
-import com.github.kittinunf.fuel.core.Method
-import com.github.kittinunf.fuel.httpPost
-import java.io.File
-import java.io.FileOutputStream
 
 class UserService : AService("/users") {
 
@@ -28,7 +22,7 @@ class UserService : AService("/users") {
     }
 
     fun getAllUsers(page: PaginationObject) : FuelResponse<Array<AccountObject>> {
-        return getRequest("?page=" + page.current + "&size=" + page.size)
+        return getRequest("?" + page.getRequestParameters())
     }
 
     fun updateUser(account: AccountObject) : FuelResponse<AccountObject> {

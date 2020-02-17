@@ -11,7 +11,7 @@ class MealService : AService("/users/me/meals") {
     }
 
     fun getAllUserMeals(page: PaginationObject) : FuelResponse<Array<MealObject>> {
-        return getRequest("?page=" + page.current + "&size=" + page.size)
+        return getRequest("?" + page.getRequestParameters())
     }
 
     fun getUserMeal(id: String) : FuelResponse<MealObject> {

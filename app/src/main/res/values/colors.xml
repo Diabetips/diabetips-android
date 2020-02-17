@@ -5,11 +5,13 @@
     <color name="colorAccent">#FFA300</color>
     <color name="colorWarm">#FFD93C34</color>
     <color name="colorBackground">#FFFFFF</color>
+    <color name="colorBackgroundSearch">#EBEBEB</color>
     <color name="colorBackgroundCard">#F2F2F2</color>
     <color name="colorBackgroundDark">#000000</color>
     <color name="colorBackgroundDarkLight">#242424</color>
     <color name="colorText">#FFFFFF</color>
     <color name="colorTextDark">#141414</color>
-    <color name="colorHint">#575757</color>
+    <color name="colorHint">#707070</color>
+    <color name="colorDivider">#E1E1E1</color>
     <color name="materialScrimColor">#52000000</color>
 </resources>

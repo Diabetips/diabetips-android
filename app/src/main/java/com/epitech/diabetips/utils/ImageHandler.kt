@@ -2,7 +2,6 @@ package com.epitech.diabetips.utils
 
 import android.content.Context
 import android.graphics.Bitmap
-import android.util.Base64
 import android.widget.ImageView
 import androidx.core.graphics.scale
 import com.bumptech.glide.Glide

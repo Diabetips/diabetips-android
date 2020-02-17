@@ -106,6 +106,6 @@ class HomeFragment : NavigationFragment(FragmentType.HOME) {
     }
 
     override fun isLoading(): Boolean {
-        return view?.mealHomeSwipeRefresh?.isRefreshing!!
+        return view?.mealHomeSwipeRefresh?.isRefreshing ?: false
     }
 }
