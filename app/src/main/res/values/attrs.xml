@@ -5,12 +5,14 @@
         <attr name="colorBackground" format="color" />
         <attr name="colorNavigationBackground" format="color" />
         <attr name="colorInputBackground" format="color" />
+        <attr name="colorSearchBackground" format="color" />
         <attr name="colorCardBackground" format="color" />
         <attr name="colorText" format="color" />
         <attr name="colorNavigationText" format="color" />
         <attr name="colorBackgroundText" format="color" />
         <attr name="colorHint" format="color" />
         <attr name="colorTextButton" format="color" />
+        <attr name="colorDivider" format="color" />
         <attr name="imageBackground" format="reference" />
         <attr name="imageMainBackground" format="reference" />
         <attr name="imageHomeBackground" format="reference" />

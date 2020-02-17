@@ -1,4 +1,4 @@
-package com.epitech.diabetips.adapters
+package com.epitech.diabetips.holders
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -23,7 +23,7 @@ class MealItemViewHolder(inflater: LayoutInflater, parent: ViewGroup)
 
     fun bind(meal: MealObject, onItemClickListener : ((MealObject) -> Unit)? = null) {
         mealDescription?.text = meal.description
-        mealDate?.text = SimpleDateFormat("HH:mm dd/MM/yyyy", java.util.Locale.getDefault()).format(meal.time)
+        mealDate?.text = SimpleDateFormat("HH:mm dd/MM/yyyy", java.util.Locale.getDefault()).format(meal.timestamp)
         mealUnit?.text = "0u"
         itemView.setOnClickListener {onItemClickListener?.invoke(meal)}
     }

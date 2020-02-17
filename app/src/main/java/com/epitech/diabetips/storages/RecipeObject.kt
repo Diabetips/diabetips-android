@@ -22,7 +22,7 @@ class RecipeObjectAdapter : TypeAdapter<RecipeObject>() {
         writer?.beginArray()
         recipeObject?.ingredients?.forEach {
             writer?.beginObject()
-            writer?.name("foodID")?.value(it.id)
+            writer?.name("food_id")?.value(it.food.id)
             writer?.name("quantity")?.value(it.quantity)
             writer?.endObject()
         }

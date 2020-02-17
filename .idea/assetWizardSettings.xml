@@ -137,7 +137,7 @@
                                 <PersistentState>
                                   <option name="values">
                                     <map>
-                                      <entry key="url" value="jar:file:/E:/Program%20Files/Android/Android%20Studio/plugins/android/lib/android.jar!/images/material_design_icons/content/ic_send_black_24dp.xml" />
+                                      <entry key="url" value="jar:file:/E:/Program%20Files/Android/Android%20Studio/plugins/android/lib/android.jar!/images/material_design_icons/navigation/ic_check_black_24dp.xml" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -147,8 +147,9 @@
                         </option>
                         <option name="values">
                           <map>
-                            <entry key="outputName" value="ic_send" />
-                            <entry key="sourceFile" value="C:\Users\Out-Feu\Downloads\power-button-off.svg" />
+                            <entry key="assetSourceType" value="FILE" />
+                            <entry key="outputName" value="ic_background_white" />
+                            <entry key="sourceFile" value="C:\Users\Out-Feu\Downloads\Backgrounds – 2.svg" />
                           </map>
                         </option>
                       </PersistentState>

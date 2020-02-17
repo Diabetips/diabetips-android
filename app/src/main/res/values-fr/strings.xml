@@ -46,4 +46,21 @@
     <string name="update_profile_picture">Photo de profil mis à jour</string>
     <string name="registration_incomplete">Adresse email non confirmée</string>
     <string name="logout">Déconnecté</string>
+    <string name="meal_recipe_empty">Pas encore de recettes, ajoutez en en cliquant juste en dessous.</string>
+    <string name="recipe_food_empty">Pas encore d\'ingredients, ajoutez en en appuyant juste en dessous.</string>
+    <string name="meal_recipe_subtitle">Recettes</string>
+    <string name="meal_title">Mon repas</string>
+    <string name="recipe_food_subtitle">Ingredients</string>
+    <string name="recipe_title">Ma recette</string>
+    <string name="recipe_name">Nom de la recette</string>
+    <string name="format_date">EEE d MMM yyyy</string>
+    <string name="change_picture">Changer de photo</string>
+    <string name="save_change">Enregistrer ?</string>
+    <string name="unsaved_change">Des modifications n\'ont pas étés sauvegardées, voulez vous les enregistrer ?</string>
+    <string name="select_quantity">Entrez la quantité</string>
+    <string name="food_not_found">Désolé, mais aucun ingrédient avec ce nom n\'a été trouvé.</string>
+    <string name="recipe_not_found">Désolé mais on ne connait pas encore cette recette.</string>
+    <string name="select_quantity_input">Quantité</string>
+    <string name="quantity_null">La quantité doit-être supérieur à 0</string>
+    <string name="back_to_login_button">Retour à la page de connexion</string>
 </resources>

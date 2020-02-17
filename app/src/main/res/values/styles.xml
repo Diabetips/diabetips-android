@@ -35,12 +35,14 @@
         <item name="colorBackground">@color/colorBackground</item>
         <item name="colorInputBackground">@color/colorBackground</item>
         <item name="colorNavigationBackground">@color/colorPrimaryLight</item>
+        <item name="colorSearchBackground">@color/colorBackgroundSearch</item>
         <item name="colorCardBackground">@color/colorBackgroundCard</item>
         <item name="colorText">@color/colorTextDark</item>
         <item name="colorBackgroundText">@color/colorTextDark</item>
         <item name="colorNavigationText">@color/colorPrimary</item>
         <item name="colorHint">@color/colorHint</item>
         <item name="colorTextButton">@color/colorText</item>
+        <item name="colorDivider">@color/colorDivider</item>
         <item name="imageBackground">@drawable/ic_background_white</item>
         <item name="imageMainBackground">@drawable/ic_background_blue</item>
         <item name="imageHomeBackground">@drawable/ic_background_logo_white</item>
@@ -61,17 +63,26 @@
         <item name="circleToolbar">@drawable/circle_toolbar_black</item>
     </style>
 
+    <style name="ClipBackgroundTheme" parent="ThemeOverlay.AppCompat.Dark">
+        <item name="android:background">?attr/imageBackground</item>
+        <item name="android:clipChildren">true</item>
+    </style>
+
+    <style name="EmptyClipBackgroundTheme" parent="ClipBackgroundTheme">
+        <item name="android:background">@null</item>
+    </style>
+
+    <style name="BackgroundTheme" parent="ThemeOverlay.AppCompat.Dark">
+        <item name="android:background">?attr/imageBackground</item>
+        <item name="android:clipChildren">false</item>
+    </style>
+
     <style name="EmptyBackgroundTheme" parent="BackgroundTheme">
         <item name="android:background">@null</item>
     </style>
 
     <style name="ClearBackgroundTheme" parent="BackgroundTheme">
         <item name="android:background">?attr/colorBackground</item>
-    </style>
-
-    <style name="BackgroundTheme" parent="ThemeOverlay.AppCompat.Dark">
-        <item name="android:background">?attr/imageBackground</item>
-        <item name="android:clipChildren">false</item>
     </style>
 
     <style name="BackgroundMainTheme" parent="BackgroundTheme">
@@ -90,6 +101,22 @@
         <item name="android:layout_margin">@dimen/half_margin_size</item>
         <item name="cardBackgroundColor">?attr/colorCardBackground</item>
         <item name="cardCornerRadius">@dimen/margin_size</item>
+    </style>
+
+    <style name="BackgroundSearchViewCardTheme" parent="BackgroundTheme">
+        <item name="cardBackgroundColor">?attr/colorSearchBackground</item>
+        <item name="android:layout_marginTop">@dimen/search_bar_margin</item>
+        <item name="android:layout_marginBottom">@dimen/search_bar_margin</item>
+        <item name="android:paddingStart">0dp</item>
+        <item name="android:paddingEnd">0dp</item>
+        <item name="cardCornerRadius">@dimen/search_bar_corner</item>
+        <item name="cardElevation">0dp</item>
+    </style>
+
+    <style name="ActionBarheme" parent="ClearBackgroundTheme">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/action_bar_height</item>
+        <item name="android:elevation">@dimen/shadow_size</item>
     </style>
 
     <style name="circleToolbar" parent="ThemeOverlay.AppCompat.Dark">
@@ -147,13 +174,29 @@
         <item name="android:scaleType">centerInside</item>
     </style>
 
+    <style name="ImageButtonAltTheme" parent="ImageButtonTheme">
+        <item name="android:background">@drawable/image_button_alt_background</item>
+    </style>
+
     <style name="ImageButtonTransparentTheme" parent="ImageButtonTheme">
         <item name="android:background">@drawable/ripple_image_button</item>
-        <item name="tint">?attr/colorPrimary</item>
+        <item name="tint">?attr/colorBackgroundText</item>
     </style>
 
     <style name="ImageButtonTransparentAltTheme" parent="ImageButtonTransparentTheme">
         <item name="tint">?attr/colorTextButton</item>
+    </style>
+
+    <style name="FloatingActionButtonStyle" parent="Widget.MaterialComponents.FloatingActionButton">
+        <item name="android:layout_width">@dimen/floating_button_size</item>
+        <item name="android:layout_height">@dimen/floating_button_size</item>
+        <item name="android:backgroundTint">?attr/colorPrimary</item>
+        <item name="android:elevation">@dimen/shadow_size</item>
+        <item name="rippleColor">?android:colorControlHighlight</item>
+        <item name="tint">?attr/colorTextButton</item>
+        <item name="maxImageSize">@dimen/floating_button_image_size</item>
+        <item name="fabCustomSize">@dimen/floating_button_size</item>
+        <item name="borderWidth">0dp</item>
     </style>
 
     <style name="TextInputTheme" parent="@style/Widget.AppCompat.EditText">
@@ -202,7 +245,7 @@
 
     <style name="RemoveInputLayoutTheme" parent="TextInputLayoutTheme">
         <item name="endIconDrawable">@drawable/ic_remove</item>
-        <item name="endIconMode">custom</item>
+        <item name="endIconMode">clear_text</item>
     </style>
 
     <style name="PasswordInputLayoutTheme" parent="TextInputLayoutTheme">
@@ -263,6 +306,12 @@
         <item name="android:textColorHintInverse">?attr/colorPrimary</item>
     </style>
 
+    <style name="HintViewTheme" parent="ThemeOverlay.AppCompat.Dark">
+        <item name="android:textColor">?attr/colorHint</item>
+        <item name="android:textColorHint">?attr/colorHint</item>
+        <item name="android:textColorHintInverse">?attr/colorHint</item>
+    </style>
+
     <style name="TextViewAltTheme" parent="ThemeOverlay.AppCompat.Dark">
         <item name="android:textColor">?attr/colorBackgroundText</item>
         <item name="android:textColorHint">?attr/colorBackgroundText</item>
@@ -303,15 +352,15 @@
         <item name="android:textAppearance">@style/TextAppearance</item>
     </style>
 
-    <style name="HintTheme" parent="TextViewTheme">
+    <style name="HintTheme" parent="HintViewTheme">
         <item name="android:textAppearance">@style/HintTextAppearance</item>
     </style>
 
-    <style name="HintAltTheme" parent="TextViewAltTheme">
+    <style name="HintAltTheme" parent="HintViewTheme">
         <item name="android:textAppearance">@style/HintTextAppearance</item>
     </style>
 
-    <style name="HintReverseTheme" parent="TextViewReverseTheme">
+    <style name="HintReverseTheme" parent="HintViewTheme">
         <item name="android:textAppearance">@style/HintTextAppearance</item>
     </style>
 
@@ -320,10 +369,18 @@
         <item name="android:background">?attr/circleBackground</item>
     </style>
 
+    <style name="SearchViewTheme" parent="Widget.AppCompat.Light.SearchView">
+        <item name="android:queryBackground">@android:color/transparent</item>
+        <item name="queryBackground">@android:color/transparent</item>
+        <item name="iconifiedByDefault">false</item>
+    </style>
+
     <style name="SearchBarTheme" parent="MaterialSearchBarLight">
+        <item name="android:layout_height">@dimen/action_bar_height</item>
         <item name="mt_maxSuggestionsCount">10</item>
         <item name="mt_searchBarColor">?attr/colorBackground</item>
         <item name="mt_textColor">?attr/colorText</item>
+        <item name="mt_backIconDrawable">@null</item>
         <item name="mt_backIconTint">?attr/colorText</item>
         <item name="mt_navIconTint">?attr/colorText</item>
         <item name="mt_searchIconTint">?attr/colorText</item>

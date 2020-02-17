@@ -1,4 +1,4 @@
-package com.epitech.diabetips.adapters
+package com.epitech.diabetips.holders
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

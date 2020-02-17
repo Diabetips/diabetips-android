@@ -23,7 +23,7 @@ import com.epitech.diabetips.storages.AccountObject
 import com.epitech.diabetips.utils.ImageHandler
 import com.epitech.diabetips.utils.MaterialHandler
 import com.epitech.diabetips.utils.NavigationFragment
-import kotlinx.android.synthetic.main.dialog_change_profile_picture.view.*
+import kotlinx.android.synthetic.main.dialog_change_picture.view.*
 import kotlinx.android.synthetic.main.fragment_profile.view.*
 import java.io.InputStream
 
@@ -45,7 +45,7 @@ class ProfileFragment : NavigationFragment(FragmentType.PROFILE) {
             activity?.finish()
         }
         view.imagePhotoProfile.setOnClickListener {
-            val dialogView = layoutInflater.inflate(R.layout.dialog_change_profile_picture, null)
+            val dialogView = layoutInflater.inflate(R.layout.dialog_change_picture, null)
             MaterialHandler.instance.handleTextInputLayoutSize(dialogView as ViewGroup)
             val dialog = AlertDialog.Builder(context).setView(dialogView).create()
             dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))

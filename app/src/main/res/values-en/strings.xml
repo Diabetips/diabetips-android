@@ -46,4 +46,21 @@
     <string name="update_profile_picture">Profile picture updated</string>
     <string name="registration_incomplete">Email address not confirmed</string>
     <string name="logout">Logged out</string>
+    <string name="meal_recipe_empty">No recipe yet, add some with the button below</string>
+    <string name="recipe_food_empty">No food yet, add some with the button below</string>
+    <string name="meal_recipe_subtitle">Recipes</string>
+    <string name="meal_title">My meal</string>
+    <string name="recipe_food_subtitle">Foods</string>
+    <string name="recipe_title">My recipe</string>
+    <string name="recipe_name">Recipe name</string>
+    <string name="format_date">EEE, MMM d yyyy</string>
+    <string name="change_picture">Change picture</string>
+    <string name="save_change">Save ?</string>
+    <string name="unsaved_change">Some changes haven\'t been saved, do you want to save them ?</string>
+    <string name="select_quantity">Select quantity</string>
+    <string name="food_not_found">Sorry, but no food with that name has been found.</string>
+    <string name="recipe_not_found">Sorry, but we don\'t know this recipe yet.</string>
+    <string name="select_quantity_input">Quantity</string>
+    <string name="quantity_null">Quantity must be greater than 0</string>
+    <string name="back_to_login_button">Back to login page</string>
 </resources>

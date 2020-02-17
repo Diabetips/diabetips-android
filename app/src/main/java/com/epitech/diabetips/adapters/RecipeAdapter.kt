@@ -3,11 +3,12 @@ package com.epitech.diabetips.adapters
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.epitech.diabetips.holders.RecipeItemViewHolder
 import com.epitech.diabetips.storages.RecipeObject
 
 class RecipeAdapter(private val recipes: ArrayList<RecipeObject> = arrayListOf(),
-                  private val onItemClickListener : ((RecipeObject) -> Unit)? = null)
-    : RecyclerView.Adapter<RecipeItemViewHolder>() {
+                    private val onItemClickListener : ((RecipeObject) -> Unit)? = null)
+    : AVisibilityAdapter<RecipeItemViewHolder>() {
 
     fun setRecipes(recipeList: Array<RecipeObject>) {
         recipes.clear()

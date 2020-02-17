@@ -4,7 +4,6 @@ import android.util.Log
 import com.epitech.diabetips.storages.*
 import com.github.kittinunf.fuel.*
 import com.github.kittinunf.fuel.core.FuelError
-import com.github.kittinunf.fuel.core.FuelManager
 import com.github.kittinunf.fuel.core.Request
 import com.github.kittinunf.fuel.core.Response
 import com.github.kittinunf.fuel.rx.rx_responseObject
@@ -23,6 +22,7 @@ abstract class AService(protected var baseRoute : String = "") {
         .registerTypeAdapter(AccountObject::class.java, AccountObjectAdapter())
         .registerTypeAdapter(RecipeObject::class.java, RecipeObjectAdapter())
         .registerTypeAdapter(MealObject::class.java, MealObjectAdapter())
+        .registerTypeAdapter(IngredientObject::class.java, IngredientObjectAdapter())
         .create()
 
     protected inline fun <reified T : Any> getRequest(route : String = "") : FuelResponse<T> {
@@ -49,7 +49,7 @@ abstract class AService(protected var baseRoute : String = "") {
         return subscribeToRequest((baseRoute + route).httpPut().body(customGson.toJson(putObject)))
     }
 
-    protected inline fun <reified T : Any> subscribeToRequest(request: Request, responseObject: Boolean = true) : FuelResponse<T>  {
+    protected inline fun <reified T : Any> subscribeToRequest(request: Request) : FuelResponse<T>  {
         return request.rx_responseObject(ObjectDeserializer<T>())
             .subscribeOn(Schedulers.newThread())
             .observeOn(AndroidSchedulers.mainThread()).doOnError { err ->

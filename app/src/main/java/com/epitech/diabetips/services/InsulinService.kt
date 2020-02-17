@@ -11,7 +11,7 @@ class InsulinService : AService("/users/me/insulin") {
     }
 
     fun getAllUserInsulin(page: PaginationObject) : FuelResponse<Array<InsulinObject>> {
-        return getRequest("?page=" + page.current + "&size=" + page.size)
+        return getRequest("?" + page.getRequestParameters())
     }
 
     fun getUserInsulin(id: Int) : FuelResponse<InsulinObject> {

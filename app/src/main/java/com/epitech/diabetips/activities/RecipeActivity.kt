@@ -5,6 +5,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.epitech.diabetips.adapters.RecipeAdapter
 import com.epitech.diabetips.R
@@ -13,10 +14,9 @@ import com.epitech.diabetips.storages.PaginationObject
 import com.epitech.diabetips.storages.RecipeObject
 import com.epitech.diabetips.utils.MaterialHandler
 import com.epitech.diabetips.utils.PaginationScrollListener
-import com.mancj.materialsearchbar.MaterialSearchBar
 import kotlinx.android.synthetic.main.activity_recipe.*
 
-class RecipeActivity : AppCompatActivity(), MaterialSearchBar.OnSearchActionListener {
+class RecipeActivity : AppCompatActivity() {
 
     enum class ActivityMode {SELECT, UPDATE}
     enum class RequestCode {NEW_RECIPE, UPDATE_RECIPE}
@@ -35,9 +35,25 @@ class RecipeActivity : AppCompatActivity(), MaterialSearchBar.OnSearchActionList
         setContentView(R.layout.activity_recipe)
         page = PaginationObject(resources.getInteger(R.integer.pagination_size), resources.getInteger(R.integer.pagination_default))
         MaterialHandler.instance.handleTextInputLayoutSize(this.findViewById(android.R.id.content))
-        recipeSearchBar.setOnSearchActionListener(this)
+        closeRecipeButton.setOnClickListener {
+            finish()
+        }
+        recipeSearchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+
+            override fun onQueryTextChange(s: String): Boolean {
+                return true
+            }
+
+            override fun onQueryTextSubmit(s: String): Boolean {
+                getRecipe()
+                return true
+            }
+        })
         newRecipeButton.setOnClickListener {
             startActivityForResult(Intent(this, NewRecipeActivity::class.java), RequestCode.NEW_RECIPE.ordinal)
+        }
+        recipeNotFoundButton.setOnClickListener {
+            newRecipeButton.callOnClick()
         }
         recipeSearchList.apply {
             layoutManager = LinearLayoutManager(this@RecipeActivity)
@@ -50,6 +66,7 @@ class RecipeActivity : AppCompatActivity(), MaterialSearchBar.OnSearchActionList
                         selectRecipe(recipe)
                 }
             }
+            (adapter as RecipeAdapter).setVisibilityElements(recipeNotFoundLayout, recipeSwipeRefresh, false)
         }
         recipeSearchList.addOnScrollListener(object : PaginationScrollListener(recipeSearchList.layoutManager as LinearLayoutManager) {
             override fun isLastPage(): Boolean {
@@ -69,13 +86,14 @@ class RecipeActivity : AppCompatActivity(), MaterialSearchBar.OnSearchActionList
         }
         getRecipe()
     }
+
     private fun getRecipe(resetPage: Boolean = true) {
         recipeSwipeRefresh.isRefreshing = true
         if (resetPage)
             page.reset()
         else
             page.nextPage()
-        RecipeService.instance.getAllRecipes(page, recipeSearchBar.text.toString()).doOnSuccess {
+        RecipeService.instance.getAllRecipes(page, recipeSearchView.query.toString()).doOnSuccess {
             if (it.second.component2() == null) {
                 page.updateFromHeader(it.first.headers[getString(R.string.pagination_header)]?.get(0))
                 if (resetPage)
@@ -108,13 +126,7 @@ class RecipeActivity : AppCompatActivity(), MaterialSearchBar.OnSearchActionList
 
     private fun selectRecipe(recipe: RecipeObject) {
         setResult(Activity.RESULT_OK, Intent().putExtra(getString(R.string.param_recipe), recipe))
-                finish()
+        finish()
     }
 
-    override fun onButtonClicked(buttonCode: Int) {}
-    override fun onSearchStateChanged(enabled: Boolean) {}
-    override fun onSearchConfirmed(text: CharSequence?) {
-        getRecipe()
-        recipeSearchBar.clearFocus()
-    }
 }

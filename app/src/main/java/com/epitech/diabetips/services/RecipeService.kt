@@ -11,7 +11,7 @@ class RecipeService : AService("/recipes") {
     }
 
     fun getAllRecipes(page: PaginationObject, name: String = "") : FuelResponse<Array<RecipeObject>> {
-        return getRequest("?name=" + name + "&page=" + page.current + "&size=" + page.size)
+        return getRequest("?name=" + name + "&" + page.getRequestParameters())
     }
 
     fun getRecipe(id: String) : FuelResponse<RecipeObject> {

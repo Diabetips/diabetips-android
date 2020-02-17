@@ -67,8 +67,7 @@ class TokenService : AService("/auth") {
     }
 
     private fun resetRefreshTimer() {
-        if (refreshTask != null)
-            refreshTask!!.cancel()
+        refreshTask?.cancel()
         refreshTimer.purge()
     }
 

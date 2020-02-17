@@ -38,7 +38,8 @@ class MainActivity : AppCompatActivity() {
         FuelManager.instance.basePath = getString(R.string.api_base_url)
         FuelManager.instance.baseHeaders = mapOf("Content-Type" to "application/json; charset=utf-8")
         loginButton.setOnClickListener {
-            if (validateFields()) {
+            if (validateFields() && !mainSwipeRefresh.isRefreshing) {
+                changeSwipeLayoutState(true)
                 val account = getAccountFromFields()
                 TokenService.instance.getToken(this, account.email, account.password).doAfterSuccess {
                     if (it.second.component2() == null) {
@@ -52,40 +53,47 @@ class MainActivity : AppCompatActivity() {
                             passwordInputLayout.error = getString(R.string.login_invalid)
                         }
                     }
+                    changeSwipeLayoutState(false)
                 }.subscribe()
             }
         }
         signUpLinkButton.setOnClickListener {
-            startActivity(Intent(this, SignUpActivity::class.java))
+            if (!mainSwipeRefresh.isRefreshing) {
+                startActivity(Intent(this, SignUpActivity::class.java))
+            }
         }
         forgotPasswordButton.setOnClickListener {
-            val view = layoutInflater.inflate(R.layout.dialog_password_forgot, null)
-            MaterialHandler.instance.handleTextInputLayoutSize(view as ViewGroup)
-            val dialog = AlertDialog.Builder(this).setView(view).create()
-            dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-            view.emailResetPasswordInput.setText(emailInput.text.toString())
-            view.resetPasswordButton.setOnClickListener {
-                if (view.emailResetPasswordInput.text.toString().isEmpty() || !Patterns.EMAIL_ADDRESS.matcher(view.emailResetPasswordInput.text.toString()).matches()) {
-                    view.emailResetPasswordInputLayout.error = getString(R.string.email_invalid_error)
-                } else {
-                    view.emailResetPasswordInputLayout.error = null
-                    TokenService.instance.resetPassword(view.emailResetPasswordInput.text.toString()).doOnSuccess {
-                        if (it.second.component2() == null) {
-                            Toast.makeText(this, getString(R.string.reset_password), Toast.LENGTH_LONG).show()
-                            dialog.dismiss()
-                        } else {
-                            Toast.makeText(this, it.second.component2()!!.exception.message, Toast.LENGTH_SHORT).show()
-                        }
-                    }.subscribe()
+            if (!mainSwipeRefresh.isRefreshing) {
+                val view = layoutInflater.inflate(R.layout.dialog_password_forgot, null)
+                MaterialHandler.instance.handleTextInputLayoutSize(view as ViewGroup)
+                val dialog = AlertDialog.Builder(this).setView(view).create()
+                dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+                view.emailResetPasswordInput.setText(emailInput.text.toString())
+                view.resetPasswordButton.setOnClickListener {
+                    if (view.emailResetPasswordInput.text.toString().isEmpty() || !Patterns.EMAIL_ADDRESS.matcher(view.emailResetPasswordInput.text.toString()).matches()) {
+                        view.emailResetPasswordInputLayout.error = getString(R.string.email_invalid_error)
+                    } else {
+                        view.emailResetPasswordInputLayout.error = null
+                        TokenService.instance.resetPassword(view.emailResetPasswordInput.text.toString()).doOnSuccess {
+                            if (it.second.component2() == null) {
+                                Toast.makeText(this, getString(R.string.reset_password), Toast.LENGTH_LONG).show()
+                                dialog.dismiss()
+                            } else {
+                                Toast.makeText(this, it.second.component2()!!.exception.message, Toast.LENGTH_SHORT).show()
+                            }
+                        }.subscribe()
+                    }
                 }
+                dialog.show()
             }
-            dialog.show()
         }
         if (AuthManager.instance.hasRefreshToken(this)) {
+            changeSwipeLayoutState(true)
             TokenService.instance.refreshToken(this).doAfterSuccess {
                 if (it.second.component2() == null) {
                     startActivity(Intent(this, NavigationActivity::class.java))
                 }
+                changeSwipeLayoutState(false)
             }.subscribe()
         }
     }
@@ -112,5 +120,10 @@ class MainActivity : AppCompatActivity() {
         account.email = emailInput.text.toString()
         account.password = passwordInput.text.toString()
         return account
+    }
+
+    private fun changeSwipeLayoutState(state: Boolean) {
+        mainSwipeRefresh.isRefreshing = state
+        mainSwipeRefresh.isEnabled = state
     }
 }

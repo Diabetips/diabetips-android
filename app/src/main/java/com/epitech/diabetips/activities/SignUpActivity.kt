@@ -1,12 +1,10 @@
 package com.epitech.diabetips.activities
 
-import android.content.Intent
 import android.os.Bundle
 import android.util.Patterns
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
-import com.epitech.diabetips.managers.AccountManager
 import com.epitech.diabetips.R
 import com.epitech.diabetips.services.UserService
 import com.epitech.diabetips.storages.AccountObject
@@ -39,6 +37,9 @@ class SignUpActivity : AppCompatActivity() {
                     }
                 }.subscribe()
             }
+        }
+        backToLoginButton.setOnClickListener {
+            finish()
         }
     }
 
