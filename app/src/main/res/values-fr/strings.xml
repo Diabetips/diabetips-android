@@ -63,4 +63,15 @@
     <string name="select_quantity_input">Quantité</string>
     <string name="quantity_null">La quantité doit-être supérieur à 0</string>
     <string name="back_to_login_button">Retour à la page de connexion</string>
+    <string name="logout_confirm">Voulez-vous vous déconnecter ?</string>
+    <string name="empty_field_error">Ce champ doit être renseigner</string>
+    <string name="lang">fr</string>
+    <string name="password_lowercase_error">Le mot de passe doit contenir au moins 1 lettre minuscule</string>
+    <string name="password_uppercase_error">Le mot de passe doit contenir au moins 1 lettre majuscule</string>
+    <string name="password_digit_error">Le mot de passe doit contenir au moins 1 chiffre</string>
+    <string name="medical_informations">Informations médical</string>
+    <string name="diabetes_type_input">Type de diabète</string>
+    <string name="age_input">Age (année)</string>
+    <string name="height_input">Taille (cm)</string>
+    <string name="weight_input">Poids (Kg)</string>
 </resources>

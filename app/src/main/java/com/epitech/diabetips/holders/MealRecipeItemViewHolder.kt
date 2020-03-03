@@ -18,6 +18,7 @@ class MealRecipeItemViewHolder(inflater: LayoutInflater, parent: ViewGroup)
     init {
         mealRecipeText = itemView.mealRecipeText
         mealRecipeQuantity = itemView.mealRecipeQuantity
+        mealRecipeButton = itemView.mealRecipeButton
     }
 
     fun getMealRecipeButton(): ImageButton? {

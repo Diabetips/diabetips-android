@@ -36,12 +36,12 @@
     <string name="profile_title">Profile</string>
     <string name="settings_title">Settings</string>
     <string name="dark_mode">Dark mode</string>
+    <string name="lang">eng</string>
 
     <!--login / sign up screen start-->
     <string name="mail_input">Email</string>
     <string name="password_input">Password</string>
     <string name="password_confirm_input">Confirm Password</string>
-    <string name="new_password_input">New Password</string>
     <string name="name_input">Name</string>
     <string name="first_name_input">Firstname</string>
     <string name="login_button">Connection</string>
@@ -50,8 +50,17 @@
     <string name="forgot_password_button">Forgot Password</string>
     <string name="reset_password_button">Reset password</string>
     <string name="reset_password">An email with a new password has been sent</string>
-    <string name="new_password_button">Change Password</string>
     <string name="created_account">An email has been sent to validate your account</string>
+    <!--login / sign up screen end-->
+
+    <!--Profile screen start-->
+    <string name="new_password_input">New Password</string>
+    <string name="weight_input">Weight (Kg)</string>
+    <string name="height_input">Height (cm)</string>
+    <string name="age_input">Age (year)</string>
+    <string name="diabetes_type_input">Diabetes type</string>
+    <string name="medical_informations">Medical informations</string>
+    <string name="new_password_button">Change Password</string>
     <string name="change_profile_picture">Change profile picture</string>
     <string name="new_picture">Take a new picture</string>
     <string name="picture_gallery">Open gallery</string>
@@ -59,7 +68,8 @@
     <string name="update">Update</string>
     <string name="update_profile">Profile updated</string>
     <string name="logout">Logged out</string>
-    <!--login / sign up screen end-->
+    <string name="logout_confirm">Do you want to logout ?</string>
+    <!--Profile screen end-->
 
     <!--meal / recipe / food screen start-->
     <string name="meal_title">My meal</string>
@@ -82,9 +92,13 @@
     <!--meal / recipe / food screen end-->
 
     <!--login / sign up errors start-->
+    <string name="empty_field_error">This field cannot be empty</string>
     <string name="password_match_error">Password doesn\'t match</string>
     <string name="password_incorrect_error">Incorrect password</string>
     <string name="password_length_error">Password must be at least 8 caracters long</string>
+    <string name="password_lowercase_error">Password must contain at least 1 lowercase letter</string>
+    <string name="password_uppercase_error">Password must contain at least 1 uppercase letter</string>
+    <string name="password_digit_error">Password must contain at least 1 digit</string>
     <string name="email_invalid_error">Invalid email</string>
     <string name="name_invalid_error">Invalid name</string>
     <string name="first_name_invalid_error">Invalid firstname</string>
