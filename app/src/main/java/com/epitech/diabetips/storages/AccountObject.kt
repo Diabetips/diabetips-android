@@ -10,7 +10,8 @@ data class AccountObject (
     var email: String = "",
     var password: String = "",
     var first_name: String = "",
-    var last_name: String = "") : Serializable
+    var last_name: String = "",
+    var lang: String = "") : Serializable
 
 class AccountObjectAdapter : TypeAdapter<AccountObject>() {
 
@@ -19,6 +20,7 @@ class AccountObjectAdapter : TypeAdapter<AccountObject>() {
         writer?.name("email")?.value(accountObject?.email)
         writer?.name("first_name")?.value(accountObject?.first_name)
         writer?.name("last_name")?.value(accountObject?.last_name)
+        writer?.name("lang")?.value(accountObject?.lang)
         if (accountObject?.password!!.isNotEmpty()) {
             writer?.name("password")?.value(accountObject.password)
         }

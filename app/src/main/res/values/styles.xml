@@ -390,8 +390,7 @@
 
     <style name="SmoothBottomBarTheme" parent="ThemeOverlay.AppCompat.Dark">
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">@dimen/input_size</item>
-        <item name="android:layout_marginBottom">@dimen/margin_size</item>
+        <item name="android:layout_height">@dimen/navigation_height</item>
         <item name="backgroundColor">@android:color/transparent</item>
         <item name="indicatorColor">?attr/colorNavigationBackground</item>
         <item name="iconTint">?attr/colorBackgroundText</item>

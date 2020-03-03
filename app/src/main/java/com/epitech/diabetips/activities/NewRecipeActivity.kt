@@ -17,12 +17,12 @@ import com.epitech.diabetips.adapters.RecipeFoodAdapter
 import com.epitech.diabetips.services.RecipeService
 import com.epitech.diabetips.storages.IngredientObject
 import com.epitech.diabetips.storages.RecipeObject
+import com.epitech.diabetips.textWatchers.InputWatcher
 import com.epitech.diabetips.utils.DividerItemDecorator
 import com.epitech.diabetips.utils.MaterialHandler
 import kotlinx.android.synthetic.main.activity_new_recipe.*
 import kotlinx.android.synthetic.main.dialog_save_change.view.*
 import kotlinx.android.synthetic.main.dialog_select_quantity.view.*
-
 
 class NewRecipeActivity : AppCompatActivity() {
 
@@ -40,6 +40,7 @@ class NewRecipeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_new_recipe)
         MaterialHandler.instance.handleTextInputLayoutSize(this.findViewById(android.R.id.content))
+        newRecipeName.addTextChangedListener(InputWatcher(this, newRecipeNameLayout, true, R.string.recipe_name_empty))
         newRecipeName.addTextChangedListener {
             saved = false
         }
@@ -145,13 +146,8 @@ class NewRecipeActivity : AppCompatActivity() {
     }
 
     private fun validateFields() : Boolean {
-        var error = false
-        if (newRecipeName.text.toString().isBlank()) {
-            newRecipeNameLayout.error = getString(R.string.recipe_name_empty)
-            error = true
-        } else {
-            newRecipeNameLayout.error = null
-        }
+        newRecipeName.text = newRecipeName.text
+        var error = newRecipeNameLayout.error != null
         if ((foodList.adapter as RecipeFoodAdapter).getFoods().isNullOrEmpty()) {
             Toast.makeText(this, getString(R.string.recipe_empty), Toast.LENGTH_SHORT).show()
             error = true

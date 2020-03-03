@@ -20,12 +20,13 @@
     <TextView
         android:id="@+id/foodText"
         style="@style/TextAltTheme"
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_width="0dp"
         android:layout_margin="@dimen/quarter_margin_size"
         android:text="@string/placeholder_text"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/foodImage"
+        app:layout_constraintEnd_toStartOf="@+id/foodUnitText"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView

@@ -43,7 +43,7 @@ data class PaginationObject (
         val parameters = header.trim().split(";")
         val values = mutableMapOf<String, Int?>()
         parameters.forEach {
-            val parameter = it.trim().split(":")
+            val parameter = it.trim().split(":", "=")
             values[parameter[0]] = parameter[1].trim().toIntOrNull()
         }
         if (values["previous"] != null)

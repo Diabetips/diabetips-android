@@ -15,13 +15,14 @@ import com.epitech.diabetips.managers.AuthManager
 import com.epitech.diabetips.managers.ModeManager
 import com.epitech.diabetips.services.TokenService
 import com.epitech.diabetips.storages.AccountObject
+import com.epitech.diabetips.textWatchers.EmailWatcher
+import com.epitech.diabetips.textWatchers.PasswordWatcher
 import com.epitech.diabetips.utils.MaterialHandler
 import com.github.kittinunf.fuel.core.FuelManager
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.dialog_password_forgot.view.*
 import org.json.JSONObject
 import java.nio.charset.Charset
-
 
 class MainActivity : AppCompatActivity() {
 
@@ -37,6 +38,8 @@ class MainActivity : AppCompatActivity() {
         MaterialHandler.instance.handleTextInputLayoutSize(this.findViewById(android.R.id.content))
         FuelManager.instance.basePath = getString(R.string.api_base_url)
         FuelManager.instance.baseHeaders = mapOf("Content-Type" to "application/json; charset=utf-8")
+        emailInput.addTextChangedListener(EmailWatcher(this, emailInputLayout))
+        passwordInput.addTextChangedListener(PasswordWatcher(this, passwordInputLayout))
         loginButton.setOnClickListener {
             if (validateFields() && !mainSwipeRefresh.isRefreshing) {
                 changeSwipeLayoutState(true)
@@ -99,20 +102,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun validateFields() : Boolean {
-        var error = false
-        if (emailInput.text.toString().isEmpty() || !Patterns.EMAIL_ADDRESS.matcher(emailInput.text.toString()).matches()) {
-            emailInputLayout.error = getString(R.string.email_invalid_error)
-            error = true
-        } else {
-            emailInputLayout.error = null
-        }
-        if (passwordInput.text.toString().isEmpty()) {
-            passwordInputLayout.error = getString(R.string.password_incorrect_error)
-            error = true
-        } else {
-            passwordInputLayout.error = null
-        }
-        return !error
+        emailInput.text = emailInput.text
+        passwordInput.text = passwordInput.text
+        return emailInputLayout.error == null
+                && passwordInputLayout.error == null
     }
 
     private fun getAccountFromFields() : AccountObject {

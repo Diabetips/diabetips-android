@@ -19,7 +19,7 @@ class TimeHandler {
         val instance: TimeHandler by lazy { Holder.INSTANCE }
     }
 
-    private val calendar = Calendar.getInstance()
+    private val calendar: Calendar = Calendar.getInstance()
 
     fun getDatePickerDialog(context: Context, dateSetListener: DatePickerDialog.OnDateSetListener, timestamp: Long): DatePickerDialog {
         calendar.timeInMillis = timestamp
@@ -32,6 +32,9 @@ class TimeHandler {
         datePickerDialog.version = DatePickerDialog.Version.VERSION_1
         datePickerDialog.isThemeDark = AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES
         datePickerDialog.accentColor = ContextCompat.getColor(context, R.color.colorPrimary)
+        calendar.time = Calendar.getInstance().time
+        calendar.add(Calendar.DATE, 1)
+        datePickerDialog.maxDate = calendar
         return datePickerDialog
     }
 

@@ -20,10 +20,16 @@ import com.epitech.diabetips.R
 import com.epitech.diabetips.managers.AuthManager
 import com.epitech.diabetips.services.UserService
 import com.epitech.diabetips.storages.AccountObject
+import com.epitech.diabetips.textWatchers.EmailWatcher
+import com.epitech.diabetips.textWatchers.InputWatcher
+import com.epitech.diabetips.textWatchers.PasswordConfirmWatcher
+import com.epitech.diabetips.textWatchers.PasswordWatcher
 import com.epitech.diabetips.utils.ImageHandler
 import com.epitech.diabetips.utils.MaterialHandler
 import com.epitech.diabetips.utils.NavigationFragment
 import kotlinx.android.synthetic.main.dialog_change_picture.view.*
+import kotlinx.android.synthetic.main.dialog_logout.view.*
+import kotlinx.android.synthetic.main.fragment_profile.*
 import kotlinx.android.synthetic.main.fragment_profile.view.*
 import java.io.InputStream
 
@@ -31,18 +37,36 @@ class ProfileFragment : NavigationFragment(FragmentType.PROFILE) {
 
     enum class RequestCode { GET_IMAGE, GET_PHOTO }
 
-    var loading: Boolean = false
+    private var loading: Boolean = false
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_profile, container, false)
         MaterialHandler.instance.handleTextInputLayoutSize(view as ViewGroup)
+        view.nameProfileInput.addTextChangedListener(InputWatcher(context, view.nameProfileInputLayout, true, R.string.name_invalid_error))
+        view.firstNameProfileInput.addTextChangedListener(InputWatcher(context, view.firstNameProfileInputLayout, true, R.string.first_name_invalid_error))
+        view.emailProfileInput.addTextChangedListener(EmailWatcher(context, view.emailProfileInputLayout))
+        view.newPasswordInput.addTextChangedListener(PasswordWatcher(context, view.newPasswordInputLayout, true, true))
+        view.newPasswordConfirmInput.addTextChangedListener(PasswordConfirmWatcher(context, view.newPasswordConfirmInputLayout, view.newPasswordInput))
         view.updateProfileButton.setOnClickListener {
             updateProfile()
         }
         view.logoutButton.setOnClickListener {
-            AuthManager.instance.removePreferences(context!!)
-            Toast.makeText(context, getString(R.string.logout), Toast.LENGTH_SHORT).show()
-            activity?.finish()
+            val dialogView = layoutInflater.inflate(R.layout.dialog_logout, null)
+            MaterialHandler.instance.handleTextInputLayoutSize(dialogView as ViewGroup)
+            val dialog = AlertDialog.Builder(context).setView(dialogView).create()
+            dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            dialogView.logoutNegativeButton.setOnClickListener {
+                dialog.dismiss()
+            }
+            dialogView.logoutPositiveButton.setOnClickListener {
+                dialog.dismiss()
+                AuthManager.instance.removePreferences(context!!)
+                Toast.makeText(context, getString(R.string.logout), Toast.LENGTH_SHORT).show()
+                activity?.finish()
+            }
+            dialog.show()
+
+
         }
         view.imagePhotoProfile.setOnClickListener {
             val dialogView = layoutInflater.inflate(R.layout.dialog_change_picture, null)
@@ -114,43 +138,16 @@ class ProfileFragment : NavigationFragment(FragmentType.PROFILE) {
     }
 
     private fun validateFields() : Boolean {
-        var error = false
-        if (view?.nameProfileInput?.text.toString().isEmpty()) {
-            view?.nameProfileInputLayout?.error = getString(R.string.name_invalid_error)
-            error = true
-        } else {
-            view?.nameProfileInputLayout?.error = null
-        }
-        if (view?.firstNameProfileInput?.text.toString().isEmpty()) {
-            view?.firstNameProfileInputLayout?.error = getString(R.string.first_name_invalid_error)
-            error = true
-        } else {
-            view?.firstNameProfileInputLayout?.error = null
-        }
-        if (view?.emailProfileInput?.text.toString().isEmpty() || !Patterns.EMAIL_ADDRESS.matcher(view?.emailProfileInput?.text.toString()).matches()) {
-            view?.emailProfileInputLayout?.error = getString(R.string.email_invalid_error)
-            error = true
-        } else {
-            view?.emailProfileInputLayout?.error = null
-        }
-        if (view?.newPasswordInput?.text.toString().isNotEmpty()) {
-            if (view?.newPasswordInput?.text.toString().length < resources.getInteger(R.integer.password_length)) {
-                view?.newPasswordInputLayout?.error = getString(R.string.password_length_error)
-                error = true
-            } else {
-                view?.newPasswordInputLayout?.error = null
-            }
-            if (view?.newPasswordInput?.text.toString() != view?.newPasswordConfirmInput?.text.toString()) {
-                view?.newPasswordConfirmInputLayout?.error = getString(R.string.password_match_error)
-                error = true
-            } else {
-                view?.newPasswordConfirmInputLayout?.error = null
-            }
-        } else {
-            view?. newPasswordInputLayout?.error = null
-            view?.newPasswordConfirmInputLayout?.error = null
-        }
-        return !error
+        view?.nameProfileInput?.text = view?.nameProfileInput?.text
+        view?.firstNameProfileInput?.text = view?.firstNameProfileInput?.text
+        view?.emailProfileInput?.text = view?.emailProfileInput?.text
+        view?.newPasswordInput?.text = view?.newPasswordInput?.text
+        view?.newPasswordConfirmInput?.text = view?.newPasswordConfirmInput?.text
+        return view?.nameProfileInputLayout?.error == null
+                && view?.firstNameProfileInputLayout?.error == null
+                && view?.emailProfileInputLayout?.error == null
+                && view?.newPasswordInputLayout?.error == null
+                && view?.newPasswordConfirmInputLayout?.error == null
     }
 
     private fun changeProfilePicture(image: Bitmap) {
