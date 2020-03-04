@@ -17,7 +17,7 @@ class AccountManager : AObjectManager<AccountObject>("account_object")  {
     }
 
     fun getAccount(context: Context) : AccountObject {
-        return getObject(context, AccountObject::class.java)
+        return getObject(context, AccountObject::class.java) ?: AccountObject()
     }
 
     fun removeAccount(context: Context) {

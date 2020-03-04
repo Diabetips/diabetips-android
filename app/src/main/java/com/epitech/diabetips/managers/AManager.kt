@@ -20,7 +20,7 @@ abstract class AManager(private val preference : String, private val key : Strin
 
     protected fun getString(context: Context, prefKey: String = key): String {
         return context.getSharedPreferences(preference, 0)
-                .getString(prefKey, "")!!
+                .getString(prefKey, "")?: ""
     }
 
     protected fun getInt(context: Context, prefKey: String = key, defaultValue: Int = 0): Int {

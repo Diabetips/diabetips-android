@@ -91,6 +91,7 @@ class ProfileFragment : NavigationFragment(FragmentType.PROFILE) {
     }
 
     private fun getAccountInfo(view: View? = this.view) {
+        AccountManager.instance.removeAccount(context!!)
         val account = AccountManager.instance.getAccount(context!!)
         if (account.uid != "") {
             setAccountInfo(account, view)

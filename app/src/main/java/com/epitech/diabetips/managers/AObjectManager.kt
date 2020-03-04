@@ -10,8 +10,9 @@ abstract class AObjectManager<T: Any>(key: String) : AManager("saved_objects", k
         saveString(context, Gson().toJson(objectToSave))
     }
 
-    protected fun getObject(context: Context, type: Type): T {
-        return Gson().fromJson(getString(context), type)
+    protected fun getObject(context: Context, type: Type): T? {
+        val obj: String = getString(context)
+        return if (obj.isNotBlank()) Gson().fromJson(obj, type) else null
     }
 
 }
