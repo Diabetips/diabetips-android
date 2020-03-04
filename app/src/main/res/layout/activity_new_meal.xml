@@ -14,7 +14,7 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <ImageButton
-            android:id="@+id/closeNewMealButton"
+            android:id="@+id/backButton"
             style="@style/ImageButtonTransparentTheme"
             android:layout_marginStart="@dimen/half_margin_size"
             android:contentDescription="@string/placeholder_text"

@@ -59,7 +59,7 @@ class NewMealActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener,
         saveNewMealButton.setOnClickListener {
             saveMeal()
         }
-        closeNewMealButton.setOnClickListener {
+        backButton.setOnClickListener {
             if (saved == null) {
                 finish()
             } else if (saved!!) {

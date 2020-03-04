@@ -68,10 +68,18 @@
             android:id="@+id/newMealButton"
             style="@style/MaterialButtonTheme"
             android:layout_width="wrap_content"
-            android:text="@string/add_meal"
+            android:layout_height="37dp"
             android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/negative_margin_size"
             android:layout_weight="0"
-            android:layout_marginTop="@dimen/negative_margin_size"/>
+            android:text="@string/add_meal" />
+
+        <Button
+            android:id="@+id/testIa"
+            style="@style/MaterialButtonTheme"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Test IA" />
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/mealHomeCard"

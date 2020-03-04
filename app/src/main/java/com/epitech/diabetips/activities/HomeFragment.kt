@@ -45,6 +45,10 @@ class HomeFragment : NavigationFragment(FragmentType.HOME) {
                     RequestCode.UPDATE_MEAL.ordinal)
             }
         }
+        view.mealHomeList.apply {
+            layoutManager = LinearLayoutManager(context)
+            startActivity(Intent(context, AiActivity::class.java))
+        }
         view.mealHomeList.addOnScrollListener(object : PaginationScrollListener(view.mealHomeList.layoutManager as LinearLayoutManager) {
             override fun isLastPage(): Boolean {
                 return page.isLast()

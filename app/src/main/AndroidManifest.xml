@@ -14,8 +14,11 @@
         android:roundIcon="@mipmap/ic_launcher_invert_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
-        <activity android:name=".activities.MainActivity" android:windowSoftInputMode="adjustPan" android:screenOrientation="portrait">
+        <activity android:name=".activities.AiActivity"></activity>
+        <activity
+            android:name=".activities.MainActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW" />
@@ -26,21 +29,47 @@
         <activity android:name=".freestylelibre.Abbott">
             <intent-filter>
                 <action android:name="android.nfc.action.TECH_DISCOVERED" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
+
             <meta-data
                 android:name="android.nfc.action.TECH_DISCOVERED"
                 android:resource="@xml/nfc_tech_filter" />
         </activity>
-        <activity android:name=".activities.SignUpActivity" android:windowSoftInputMode="adjustPan" android:screenOrientation="portrait" />
-        <activity android:name=".activities.NavigationActivity" android:windowSoftInputMode="adjustPan" android:screenOrientation="portrait" />
-        <activity android:name=".activities.HomeFragment" android:screenOrientation="portrait" />
-        <activity android:name=".activities.ProfileFragment" android:screenOrientation="portrait" />
-        <activity android:name=".activities.SettingsFragment" android:screenOrientation="portrait" />
-        <activity android:name=".activities.RecipeActivity" android:windowSoftInputMode="adjustPan" android:screenOrientation="portrait" />
-        <activity android:name=".activities.FoodActivity" android:windowSoftInputMode="adjustPan" android:screenOrientation="portrait" />
-        <activity android:name=".activities.NewMealActivity" android:windowSoftInputMode="adjustPan" android:screenOrientation="portrait" />
-        <activity android:name=".activities.NewRecipeActivity" android:windowSoftInputMode="adjustPan" android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.SignUpActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".activities.NavigationActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".activities.HomeFragment"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.ProfileFragment"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.SettingsFragment"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.RecipeActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".activities.FoodActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".activities.NewMealActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".activities.NewRecipeActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
     </application>
 
 </manifest>
