@@ -69,6 +69,7 @@
     <string name="update_profile">Profile updated</string>
     <string name="logout">Logged out</string>
     <string name="logout_confirm">Do you want to logout ?</string>
+    <string name="deactivate_account_confirm">Are you sure to deactivate your account ?</string>
     <!--Profile screen end-->
 
     <!--meal / recipe / food screen start-->
@@ -114,6 +115,8 @@
     <string name="recipe_food_empty">No food yet, add some with the button below</string>
     <string name="recipe_name_empty">Recipe name mustn\'t be empty</string>
     <string name="quantity_null">Quantity must be greater than 0</string>
+    <string name="deactivated">Account deactivated with success</string>
+    <string name="deactivate">Deactivate account</string>
     <!--meal / recipe / food errors end-->
 
 </resources>

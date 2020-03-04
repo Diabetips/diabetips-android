@@ -28,6 +28,7 @@ import com.epitech.diabetips.utils.ImageHandler
 import com.epitech.diabetips.utils.MaterialHandler
 import com.epitech.diabetips.utils.NavigationFragment
 import kotlinx.android.synthetic.main.dialog_change_picture.view.*
+import kotlinx.android.synthetic.main.dialog_deactivate_account.view.*
 import kotlinx.android.synthetic.main.dialog_logout.view.*
 import kotlinx.android.synthetic.main.fragment_profile.*
 import kotlinx.android.synthetic.main.fragment_profile.view.*
@@ -65,9 +66,33 @@ class ProfileFragment : NavigationFragment(FragmentType.PROFILE) {
                 activity?.finish()
             }
             dialog.show()
+        }
+
+        view.deactivateAccountButton.setOnClickListener {
+            val dialogView = layoutInflater.inflate(R.layout.dialog_deactivate_account, null)
+            MaterialHandler.instance.handleTextInputLayoutSize(dialogView as ViewGroup)
+            val dialog = AlertDialog.Builder(context).setView(dialogView).create()
+            dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            dialogView.deactivateAccountNegativeButton.setOnClickListener {
+                dialog.dismiss()
+            }
+            dialogView.deactivateAccountPositiveButton.setOnClickListener {
+                dialog.dismiss()
+                UserService.instance.deactivateAccount().doOnSuccess {
+                    if (it.second.component2() == null) {
+                        AuthManager.instance.removePreferences(context!!)
+                        Toast.makeText(context, getString(R.string.deactivated), Toast.LENGTH_SHORT).show()
+                        activity?.finish()
+                    } else {
+                        Toast.makeText(context, it.second.component2()!!.exception.message, Toast.LENGTH_SHORT).show()
+                    }
+                }.subscribe()
+            }
+            dialog.show()
 
 
         }
+
         view.imagePhotoProfile.setOnClickListener {
             val dialogView = layoutInflater.inflate(R.layout.dialog_change_picture, null)
             MaterialHandler.instance.handleTextInputLayoutSize(dialogView as ViewGroup)

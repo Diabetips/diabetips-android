@@ -74,4 +74,7 @@
     <string name="age_input">Age (year)</string>
     <string name="diabetes_type_input">Diabetes type</string>
     <string name="medical_informations">Medical informations</string>
+    <string name="deactivate_account_confirm">Are you sure to deactivate your account ?</string>
+    <string name="deactivated">Account deactivated with success !</string>
+    <string name="deactivate">Deactivate account</string>
 </resources>
