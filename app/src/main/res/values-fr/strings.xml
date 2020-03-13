@@ -74,4 +74,7 @@
     <string name="age_input">Age (année)</string>
     <string name="height_input">Taille (cm)</string>
     <string name="weight_input">Poids (Kg)</string>
+    <string name="deactivate_account_confirm">Etes vous certain de vouloir désactiver votre compte ?</string>
+    <string name="deactivated">Compte desactivé avec succès !</string>
+    <string name="deactivate">Désactiver mon compte</string>
 </resources>
