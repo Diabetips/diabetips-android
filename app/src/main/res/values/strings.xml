@@ -24,6 +24,11 @@
     <string name="format_date">EEE, MMM d yyyy</string>
     <!--format end-->
 
+    <!--unit start-->
+    <string name="unit_unit">unit</string>
+    <string name="unit_minute">minutes</string>
+    <!--unit end-->
+
     <!--dialog start-->
     <string name="change_picture">Change picture</string>
     <string name="save_change">Save ?</string>
@@ -70,6 +75,15 @@
     <string name="logout">Logged out</string>
     <string name="logout_confirm">Do you want to logout ?</string>
     <!--Profile screen end-->
+
+    <!--entry screen start-->
+    <string name="entry_title">New entry</string>
+    <string name="add_entry">Add a new entry</string>
+    <string name="insulin_fast_input">Fast insulin</string>
+    <string name="insulin_slow_input">Slow insulin</string>
+    <string name="comment_input">Comment</string>
+    <string name="physical_activity_input">Duration of physical activity</string>
+    <!--entry screen end-->
 
     <!--meal / recipe / food screen start-->
     <string name="meal_title">My meal</string>

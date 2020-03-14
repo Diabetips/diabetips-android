@@ -15,7 +15,7 @@
     <string name="email_invalid_error">Email invalide</string>
     <string name="name_invalid_error">Nom invalide</string>
     <string name="password_length_error">Le mot de passe doit faire au moins 8 caractères de long</string>
-    <string name="add_meal">Ajouter un nouveau repas</string>
+    <string name="add_meal">Ajouter un repas</string>
     <string name="add_recipe">Ajouter une recette</string>
     <string name="add_food">Ajouter un aliment</string>
     <string name="new_recipe">Nouvelle recette</string>
@@ -74,4 +74,12 @@
     <string name="age_input">Age (année)</string>
     <string name="height_input">Taille (cm)</string>
     <string name="weight_input">Poids (Kg)</string>
+    <string name="add_entry">Ajouter une entrée</string>
+    <string name="entry_title">Nouvelle entrée</string>
+    <string name="physical_activity_input">Durée d\'activité physique</string>
+    <string name="comment_input">Commentaire</string>
+    <string name="insulin_slow_input">Insuline lente</string>
+    <string name="insulin_fast_input">Insuline rapide</string>
+    <string name="unit_minute">minutes</string>
+    <string name="unit_unit">unité</string>
 </resources>

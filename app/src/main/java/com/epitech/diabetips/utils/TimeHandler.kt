@@ -10,7 +10,6 @@ import com.wdullaer.materialdatetimepicker.date.DatePickerDialog
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog
 import java.util.*
 
-
 class TimeHandler {
 
     private object Holder { val INSTANCE = TimeHandler() }
@@ -21,8 +20,12 @@ class TimeHandler {
 
     private val calendar: Calendar = Calendar.getInstance()
 
+    fun currentTimeSecond() : Long {
+        return System.currentTimeMillis() / 1000
+    }
+
     fun getDatePickerDialog(context: Context, dateSetListener: DatePickerDialog.OnDateSetListener, timestamp: Long): DatePickerDialog {
-        calendar.timeInMillis = timestamp
+        calendar.timeInMillis = timestamp * 1000
         val datePickerDialog = DatePickerDialog.newInstance(
             dateSetListener,
             calendar.get(Calendar.YEAR),
@@ -39,7 +42,7 @@ class TimeHandler {
     }
 
     fun getTimePickerDialog(context: Context, timeSetListener: TimePickerDialog.OnTimeSetListener, timestamp: Long): TimePickerDialog {
-        calendar.timeInMillis = timestamp
+        calendar.timeInMillis = timestamp * 1000
         val timePickerDialog = TimePickerDialog.newInstance(
             timeSetListener,
             calendar.get(Calendar.HOUR_OF_DAY),
@@ -53,7 +56,7 @@ class TimeHandler {
     }
 
     fun changeTimestampDate(timestamp: Long, year: Int, month: Int, day: Int): Long {
-        calendar.timeInMillis = timestamp
+        calendar.timeInMillis = timestamp * 1000
         calendar.set(Calendar.YEAR, year)
         calendar.set(Calendar.MONTH, month)
         calendar.set(Calendar.DAY_OF_MONTH, day)
@@ -61,18 +64,19 @@ class TimeHandler {
     }
 
     fun changeTimestampTime(timestamp: Long, hour: Int, minute: Int): Long {
-        calendar.timeInMillis = timestamp
+        calendar.timeInMillis = timestamp * 1000
         calendar.set(Calendar.HOUR_OF_DAY, hour)
         calendar.set(Calendar.MINUTE, minute)
         return calendar.timeInMillis
     }
 
     fun updateTimeDisplay(context: Context, timestamp: Long, dateDisplay: TextView? = null, timeDisplay: TextView? = null) {
-        dateDisplay?.text = DateFormat.format(context.getString(R.string.format_date), Date(timestamp))
+        val date = Date(timestamp * 1000)
+        dateDisplay?.text = DateFormat.format(context.getString(R.string.format_date), date)
         if (DateFormat.is24HourFormat(context)) {
-            timeDisplay?.text = DateFormat.format(context.getString(R.string.format_hour_24), Date(timestamp))
+            timeDisplay?.text = DateFormat.format(context.getString(R.string.format_hour_24), date)
         } else {
-            timeDisplay?.text = DateFormat.format(context.getString(R.string.format_hour_12), Date(timestamp))
+            timeDisplay?.text = DateFormat.format(context.getString(R.string.format_hour_12), date)
         }
     }
 }
