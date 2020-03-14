@@ -18,6 +18,13 @@ class InsulinService : AService("/users/me/insulin") {
         return getRequest("/" + id)
     }
 
+    fun createOrUpdateUserInsulin(insulin: InsulinObject) : FuelResponse<InsulinObject> {
+        if (insulin.id > 0) {
+            return updateUserInsulin(insulin)
+        }
+        return addUserInsulin(insulin)
+    }
+
     private fun addUserInsulin(insulin: InsulinObject) : FuelResponse<InsulinObject> {
         return postRequest(insulin)
     }

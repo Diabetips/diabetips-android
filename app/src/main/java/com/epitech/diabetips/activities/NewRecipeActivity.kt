@@ -85,24 +85,7 @@ class NewRecipeActivity : AppCompatActivity() {
             saveRecipe()
         }
         closeNewRecipeButton.setOnClickListener {
-            if (saved == null) {
-                finish()
-            } else if (saved!!) {
-                setResult(Activity.RESULT_OK, Intent().putExtra(getString(R.string.param_recipe), getRecipe()))
-            } else {
-                val view = layoutInflater.inflate(R.layout.dialog_save_change, null)
-                MaterialHandler.instance.handleTextInputLayoutSize(view as ViewGroup)
-                val dialog = AlertDialog.Builder(this@NewRecipeActivity).setView(view).create()
-                dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-                view.saveChangeNegativeButton.setOnClickListener {
-                    finish()
-                }
-                view.saveChangePositiveButton.setOnClickListener {
-                    saveRecipe(true)
-                    dialog.dismiss()
-                }
-                dialog.show()
-            }
+            onBackPressed()
         }
         getParams()
     }
@@ -162,6 +145,28 @@ class NewRecipeActivity : AppCompatActivity() {
                 saved = false
                 (foodList.adapter as RecipeFoodAdapter).setFoods(data?.getSerializableExtra(getString(R.string.param_food)) as ArrayList<IngredientObject>)
             }
+        }
+    }
+
+    override fun onBackPressed() {
+        if (saved == null) {
+            finish()
+        } else if (saved!!) {
+            setResult(Activity.RESULT_OK, Intent().putExtra(getString(R.string.param_recipe), getRecipe()))
+            finish()
+        } else {
+            val view = layoutInflater.inflate(R.layout.dialog_save_change, null)
+            MaterialHandler.instance.handleTextInputLayoutSize(view as ViewGroup)
+            val dialog = AlertDialog.Builder(this@NewRecipeActivity).setView(view).create()
+            dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            view.saveChangeNegativeButton.setOnClickListener {
+                finish()
+            }
+            view.saveChangePositiveButton.setOnClickListener {
+                saveRecipe(true)
+                dialog.dismiss()
+            }
+            dialog.show()
         }
     }
 

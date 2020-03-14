@@ -29,7 +29,7 @@ class HomeFragment : NavigationFragment(FragmentType.HOME) {
         page = PaginationObject(resources.getInteger(R.integer.pagination_size), resources.getInteger(R.integer.pagination_default))
         MaterialHandler.instance.handleTextInputLayoutSize(view as ViewGroup)
         ChartHandler.instance.handleLineChartStyle(view.sugarLineChart)
-        view.newMealButton.setOnClickListener {
+        view.newEntryButton.setOnClickListener {
             startActivityForResult(Intent(context, NewMealActivity::class.java), RequestCode.NEW_MEAL.ordinal)
         }
         view.viewRecipeButton.setOnClickListener {

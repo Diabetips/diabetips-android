@@ -113,7 +113,7 @@
         <item name="cardElevation">0dp</item>
     </style>
 
-    <style name="ActionBarheme" parent="ClearBackgroundTheme">
+    <style name="ActionBarTheme" parent="ClearBackgroundTheme">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">@dimen/action_bar_height</item>
         <item name="android:elevation">@dimen/shadow_size</item>

@@ -10,9 +10,10 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/homeActionBar"
-        style="@style/ActionBarheme"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        style="@style/ActionBarTheme"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
 
         <TextView
             android:id="@+id/titleHomeText"
@@ -65,7 +66,7 @@
         </com.google.android.material.card.MaterialCardView>
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/newMealButton"
+            android:id="@+id/newEntryButton"
             style="@style/MaterialButtonTheme"
             android:layout_width="wrap_content"
             android:layout_gravity="center_horizontal"
