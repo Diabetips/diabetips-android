@@ -36,7 +36,10 @@ class HomeFragment : NavigationFragment(FragmentType.HOME) {
             startActivity(Intent(context, RecipeActivity::class.java)
                 .putExtra(getString(R.string.param_mode), RecipeActivity.ActivityMode.UPDATE))
         }
-        view.mealHomeList.apply {
+        view.openDashboardButton.setOnClickListener {
+            startActivity(Intent(context, DashboardActivity::class.java))
+        }
+/*        view.mealHomeList.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = MealAdapter { meal : MealObject ->
                 startActivityForResult(
@@ -61,13 +64,13 @@ class HomeFragment : NavigationFragment(FragmentType.HOME) {
         view.mealHomeSwipeRefresh.setOnRefreshListener {
             getMeal()
         }
-        getMeal(view)
+        getMeal(view) */
         setSugarLineChartData(view)
         return view
     }
 
     private fun getMeal(view: View? = this.view, resetPage: Boolean = true) {
-        view?.mealHomeSwipeRefresh?.isRefreshing = true
+/*        view?.mealHomeSwipeRefresh?.isRefreshing = true
         if (resetPage)
             page.reset()
         else
@@ -81,7 +84,7 @@ class HomeFragment : NavigationFragment(FragmentType.HOME) {
                     (view?.mealHomeList?.adapter as MealAdapter).addMeals(it.second.component1()!!)
             }
             view?.mealHomeSwipeRefresh?.isRefreshing = false
-        }.subscribe()
+        }.subscribe() */
     }
 
     private fun setSugarLineChartData(view: View? = this.view) {
@@ -96,16 +99,17 @@ class HomeFragment : NavigationFragment(FragmentType.HOME) {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode == Activity.RESULT_OK) {
+        /*if (resultCode == Activity.RESULT_OK) {
             if (requestCode == RequestCode.NEW_MEAL.ordinal) {
                 (view?.mealHomeList?.adapter as MealAdapter).addMeal(data?.getSerializableExtra(getString(R.string.param_meal)) as MealObject)
             } else if (requestCode == RequestCode.UPDATE_MEAL.ordinal) {
                 (view?.mealHomeList?.adapter as MealAdapter).updateMeal(data?.getSerializableExtra(getString(R.string.param_meal)) as MealObject)
             }
-        }
+        }*/
     }
 
     override fun isLoading(): Boolean {
-        return view?.mealHomeSwipeRefresh?.isRefreshing ?: false
+        return false;
+//        return view?.mealHomeSwipeRefresh?.isRefreshing ?: false
     }
 }
