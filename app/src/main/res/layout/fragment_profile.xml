@@ -241,7 +241,7 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/deactivateAccountButton"
-                style="@style/MaterialButtonTransparentTheme"
+                style="@style/MaterialButtonTheme"
                 android:layout_width="match_parent"
                 android:layout_marginTop="@dimen/quarter_margin_size"
                 android:layout_marginBottom="@dimen/margin_size"

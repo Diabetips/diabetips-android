@@ -30,7 +30,7 @@ class DashboardItemViewHolder(inflater: LayoutInflater, parent: ViewGroup)
         icon?.setImageDrawable(item.icon)
         title?.text = item.title
         description?.text = item.description
-        time?.text = SimpleDateFormat("HH:mm", java.util.Locale.getDefault()).format(item.time)
+        time?.text = SimpleDateFormat("HH:mm", java.util.Locale.getDefault()).format(item.time * 1000)
 //        mealDescription?.text = meal.description
 //        mealDate?.text = SimpleDateFormat("HH:mm dd/MM/yyyy", java.util.Locale.getDefault()).format(meal.timestamp)
 //        mealUnit?.text = "0u"

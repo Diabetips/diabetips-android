@@ -6,6 +6,7 @@ import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.epitech.diabetips.R
+import com.epitech.diabetips.adapters.DashboardItem2Adapter
 import com.epitech.diabetips.adapters.DashboardItemAdapter
 import com.epitech.diabetips.services.FuelResponse
 import com.epitech.diabetips.services.InsulinService
@@ -30,8 +31,8 @@ class DashboardActivity : AppCompatActivity() {
         var page = PaginationObject(resources.getInteger(R.integer.pagination_size), resources.getInteger(R.integer.pagination_default))
         itemsManagers = arrayOf(
             Pair(page.copy(), ::getMeals),
-            Pair(page.copy(), ::getSugars),
-            Pair(page.copy(), ::getComments),
+//            Pair(page.copy(), ::getSugars)//,
+//            Pair(page.copy(), ::getComments),
             Pair(page.copy(), ::getInsulins)
         )
         setContentView(R.layout.activity_dashboard)
@@ -43,6 +44,17 @@ class DashboardActivity : AppCompatActivity() {
                     Intent(context, NewMealActivity::class.java)
                         .putExtra(getString(R.string.param_meal), item),
                     HomeFragment.RequestCode.UPDATE_MEAL.ordinal)*/
+            }
+        }
+
+        itemsList2.apply {
+            layoutManager = LinearLayoutManager(context)
+            adapter = DashboardItem2Adapter {
+                    item : DashboardItemObject ->
+                startActivityForResult(
+                    Intent(context, NewMealActivity::class.java)
+                        .putExtra(getString(R.string.param_meal), item),
+                    HomeFragment.RequestCode.UPDATE_MEAL.ordinal)
             }
         }
         closeDashboardButton.setOnClickListener {
@@ -61,6 +73,21 @@ class DashboardActivity : AppCompatActivity() {
                 getItems(false)
             }
         })
+
+        itemsList2.addOnScrollListener(object : PaginationScrollListener(itemsList2.layoutManager as LinearLayoutManager) {
+            override fun isLastPage(): Boolean {
+                return itemsManagers.map{it.first.isLast()}.all{it}
+            }
+
+            override fun isLoading(): Boolean {
+                return itemsSwipeRefresh.isRefreshing
+            }
+
+            override fun loadMoreItems() {
+//                getItems(false)
+            }
+        })
+
         itemsSwipeRefresh.setOnRefreshListener {
             getItems()
         }
@@ -91,10 +118,13 @@ class DashboardActivity : AppCompatActivity() {
 //        LocalDateTime.ofEpochSecond(0).
         var newItems = items.sortedByDescending{it.time}.toTypedArray()
         val lol = ArrayList(newItems.groupBy { getDateTime(it.time)}.toList())
-        if (resetPage)
+        if (resetPage) {
+            (itemsList2?.adapter as DashboardItem2Adapter).setItems(newItems)
             (itemsList?.adapter as DashboardItemAdapter).setItems(lol)
-        else
+        } else {
+            (itemsList2?.adapter as DashboardItem2Adapter).addItems(newItems)
             (itemsList?.adapter as DashboardItemAdapter).addItems(lol)
+        }
         itemsSwipeRefresh.isRefreshing = false
     }
 
