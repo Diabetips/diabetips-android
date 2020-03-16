@@ -4,7 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 
 @Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
-abstract class AManager(private val preference : String, private val key : String = "") {
+abstract class AManager(protected val preference : String, protected val key : String = "") {
 
     @SuppressLint("ApplySharedPref")
     protected fun saveString(context: Context, string: String, prefKey: String = key) {

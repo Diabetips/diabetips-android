@@ -26,6 +26,7 @@
 
     <!--unit start-->
     <string name="unit_unit">unit</string>
+    <string name="unit_units">units</string>
     <string name="unit_minute">minutes</string>
     <!--unit end-->
 
@@ -33,6 +34,7 @@
     <string name="change_picture">Change picture</string>
     <string name="save_change">Save ?</string>
     <string name="unsaved_change">Some changes haven\'t been saved, do you want to save them ?</string>
+    <string name="saved_change">Saved</string>
     <string name="select_quantity">Select quantity</string>
     <string name="select_quantity_input">Quantity</string>
     <!--dialog end-->
@@ -93,6 +95,7 @@
     <!--entry screen start-->
     <string name="entry_title">New entry</string>
     <string name="add_entry">Add a new entry</string>
+    <string name="calculate_insulin">Predict my quantity of insulin</string>
     <string name="insulin_fast_input">Fast insulin</string>
     <string name="insulin_slow_input">Slow insulin</string>
     <string name="comment_input">Comment</string>

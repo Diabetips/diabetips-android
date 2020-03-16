@@ -106,6 +106,37 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/entryMealLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                style="@style/BackgroundDialogTheme">
+
+                <TextView
+                    android:id="@+id/entryMealTitle"
+                    style="@style/SubtitleTheme"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_size"
+                    android:layout_marginTop="@dimen/half_margin_size"
+                    android:text="@string/meal_title"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/entryMealQuantity"
+                    style="@style/TextAltTheme"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_size"
+                    android:layout_marginBottom="@dimen/half_margin_size"
+                    android:text="@string/select_quantity"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/entryMealTitle" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/newMealButton"
                 style="@style/MaterialButtonTheme"
@@ -147,6 +178,22 @@
                     android:nextFocusForward="@+id/insulinFastEntryInput" />
 
             </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/calculateInsulinButton"
+                style="@style/MaterialButtonAltTheme"
+                android:layout_width="wrap_content"
+                android:text="@string/calculate_insulin"
+                android:layout_gravity="center_horizontal"/>
+
+            <TextView
+                android:id="@+id/selectQuantityTitle"
+                style="@style/SubtitleTheme"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:text="@string/unit_units"
+                android:layout_gravity="center_horizontal" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/insulinFastEntryInputLayout"

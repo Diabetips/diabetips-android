@@ -60,14 +60,14 @@ class TimeHandler {
         calendar.set(Calendar.YEAR, year)
         calendar.set(Calendar.MONTH, month)
         calendar.set(Calendar.DAY_OF_MONTH, day)
-        return calendar.timeInMillis
+        return calendar.timeInMillis / 1000
     }
 
     fun changeTimestampTime(timestamp: Long, hour: Int, minute: Int): Long {
         calendar.timeInMillis = timestamp * 1000
         calendar.set(Calendar.HOUR_OF_DAY, hour)
         calendar.set(Calendar.MINUTE, minute)
-        return calendar.timeInMillis
+        return calendar.timeInMillis / 1000
     }
 
     fun updateTimeDisplay(context: Context, timestamp: Long, dateDisplay: TextView? = null, timeDisplay: TextView? = null) {

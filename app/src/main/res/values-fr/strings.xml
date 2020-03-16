@@ -69,7 +69,7 @@
     <string name="password_lowercase_error">Le mot de passe doit contenir au moins 1 lettre minuscule</string>
     <string name="password_uppercase_error">Le mot de passe doit contenir au moins 1 lettre majuscule</string>
     <string name="password_digit_error">Le mot de passe doit contenir au moins 1 chiffre</string>
-    <string name="medical_informations">Informations médical</string>
+    <string name="medical_informations">Informations médicales</string>
     <string name="diabetes_type_input">Type de diabète</string>
     <string name="age_input">Age (année)</string>
     <string name="height_input">Taille (cm)</string>
@@ -82,6 +82,9 @@
     <string name="insulin_fast_input">Insuline rapide</string>
     <string name="unit_minute">minutes</string>
     <string name="unit_unit">unité</string>
+    <string name="saved_change">Sauvegardé</string>
+    <string name="calculate_insulin">Prédire ma quantité d\'insuline</string>
+    <string name="unit_units">unités</string>
     <string name="deactivate_account_confirm">Etes vous certain de vouloir désactiver votre compte ?</string>
     <string name="deactivated">Compte desactivé avec succès !</string>
     <string name="deactivate">Désactiver mon compte</string>

@@ -92,4 +92,7 @@
     <string name="insulin_slow">Slow insulin</string>
     <string name="insulin_fast">Fast insulin</string>
     <string name="unit">Unit(s)</string>
+    <string name="saved_change">Saved</string>
+    <string name="calculate_insulin">Predict my quantity of insulin</string>
+    <string name="unit_units">units</string>
 </resources>

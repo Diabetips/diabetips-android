@@ -109,6 +109,7 @@ class NewRecipeActivity : AppCompatActivity() {
                 if (it.second.component2() == null) {
                     saved = true
                     recipeId = it.second.component1()?.id!!
+                    Toast.makeText(this, R.string.saved_change, Toast.LENGTH_SHORT).show()
                     if (finishView) {
                         setResult(Activity.RESULT_OK, Intent().putExtra(getString(R.string.param_recipe), it.second.component1()))
                         finish()

@@ -85,7 +85,7 @@ class NewEntryActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener
             "",
             insulinSlowEntryInput.text.toString().toIntOrNull()?: 0,
             entryTimestamp,
-            InsulinObject.InsulinType.slow.name)
+            InsulinObject.Type.slow.name)
     }
 
     private fun getFastInsulin() : InsulinObject {
@@ -93,7 +93,7 @@ class NewEntryActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener
             "",
             insulinFastEntryInput.text.toString().toIntOrNull()?: 0,
             entryTimestamp,
-            InsulinObject.InsulinType.fast.name)
+            InsulinObject.Type.fast.name)
     }
 
     private fun saveInsulin(insulin: InsulinObject) {
@@ -102,7 +102,7 @@ class NewEntryActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener
         InsulinService.instance.createOrUpdateUserInsulin(insulin).doOnSuccess {
             if (it.second.component2() == null) {
                 saved = true
-                if (insulin.type == InsulinObject.InsulinType.slow.name)
+                if (insulin.type == InsulinObject.Type.slow.name)
                     slowInsulinId = it.second.component1()?.id!!
                 else
                     fastInsulinId = it.second.component1()?.id!!
