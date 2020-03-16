@@ -2,81 +2,132 @@ package com.epitech.diabetips.activities
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.View
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.epitech.diabetips.R
-import com.epitech.diabetips.adapters.MealAdapter
+import com.epitech.diabetips.adapters.DashboardItemAdapter
+import com.epitech.diabetips.services.FuelResponse
+import com.epitech.diabetips.services.InsulinService
 import com.epitech.diabetips.services.MealService
-import com.epitech.diabetips.storages.MealObject
+import com.epitech.diabetips.storages.DashboardItemObject
 import com.epitech.diabetips.storages.PaginationObject
 import com.epitech.diabetips.utils.PaginationScrollListener
+import com.github.kittinunf.fuel.core.FuelError
+import com.github.kittinunf.fuel.core.Response
+import io.reactivex.Single
 import kotlinx.android.synthetic.main.activity_dashboard.*
+import java.text.SimpleDateFormat
+import java.time.LocalDateTime
+import java.util.*
 
 class DashboardActivity : AppCompatActivity() {
-    private lateinit var page: PaginationObject
+    private lateinit var itemsManagers:  Array<Pair<PaginationObject,(PaginationObject) -> Single<Triple<Response, Array<DashboardItemObject>?, FuelError?>>>>;
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        page = PaginationObject(resources.getInteger(R.integer.pagination_size), resources.getInteger(R.integer.pagination_default))
+        var page = PaginationObject(resources.getInteger(R.integer.pagination_size), resources.getInteger(R.integer.pagination_default))
+        itemsManagers = arrayOf(
+            Pair(page.copy(), ::getMeals),
+            Pair(page.copy(), ::getSugars),
+            Pair(page.copy(), ::getComments),
+            Pair(page.copy(), ::getInsulins)
+        )
         setContentView(R.layout.activity_dashboard)
-        mealsList.apply {
+        itemsList.apply {
             layoutManager = LinearLayoutManager(context)
-            adapter = MealAdapter { meal : MealObject ->
+            adapter = DashboardItemAdapter {
+/*                    item : DashboardItemObject ->
                 startActivityForResult(
                     Intent(context, NewMealActivity::class.java)
-                        .putExtra(getString(R.string.param_meal), meal),
-                    HomeFragment.RequestCode.UPDATE_MEAL.ordinal)
+                        .putExtra(getString(R.string.param_meal), item),
+                    HomeFragment.RequestCode.UPDATE_MEAL.ordinal)*/
             }
         }
         closeDashboardButton.setOnClickListener {
             finish()
         }
-        mealsList.addOnScrollListener(object : PaginationScrollListener(mealsList.layoutManager as LinearLayoutManager) {
+        itemsList.addOnScrollListener(object : PaginationScrollListener(itemsList.layoutManager as LinearLayoutManager) {
             override fun isLastPage(): Boolean {
-                return page.isLast()
+                return itemsManagers.map{it.first.isLast()}.all{it}
             }
 
             override fun isLoading(): Boolean {
-                return mealsSwipeRefresh.isRefreshing
+                return itemsSwipeRefresh.isRefreshing
             }
 
             override fun loadMoreItems() {
-                getMeal(false)
+                getItems(false)
             }
         })
-        mealsSwipeRefresh.setOnRefreshListener {
-            getMeal()
+        itemsSwipeRefresh.setOnRefreshListener {
+            getItems()
         }
-        getMeal()
+        getItems()
     }
 
-    private fun getMeal(resetPage: Boolean = true) {
-        mealsSwipeRefresh?.isRefreshing = true
-        if (resetPage)
-            page.reset()
+    private fun getItems(resetPage: Boolean = true, index: Int = 0, items: Array<DashboardItemObject> = arrayOf()) {
+        if (index == 0) {
+            itemsSwipeRefresh?.isRefreshing = true
+            if (resetPage)
+                itemsManagers.forEach { it.first.reset() }
+            else
+                itemsManagers.forEach { it.first.nextPage() }
+        }
+
+        if (index >= itemsManagers.size)
+            setItemsInDashBoardAdapter(resetPage, items)
         else
-            page.nextPage()
-        MealService.instance.getAllUserMeals(page).doOnSuccess {
-            if (it.second.component2() == null) {
-                page.updateFromHeader(it.first.headers[getString(R.string.pagination_header)]?.get(0))
-                if (resetPage)
-                    (mealsList?.adapter as MealAdapter).setMeals(it.second.component1()!!)
-                else
-                    (mealsList?.adapter as MealAdapter).addMeals(it.second.component1()!!)
-            }
-            mealsSwipeRefresh.isRefreshing = false
-        }.subscribe()
+            itemsManagers[index].second(itemsManagers[index].first).doOnSuccess{
+                itemsManagers[index].first.updateFromHeader(it.first.headers[getString(R.string.pagination_header)]?.get(0))
+                if (it.third == null && it.second != null) {
+                    getItems(resetPage, index + 1, items + it.second as Array<DashboardItemObject>)
+                }
+            }.subscribe();
+    }
+
+    private fun setItemsInDashBoardAdapter(resetPage: Boolean, items: Array<DashboardItemObject>) {
+//        LocalDateTime.ofEpochSecond(0).
+        var newItems = items.sortedByDescending{it.time}.toTypedArray()
+        var lol = newItems.groupBy { getDateTime(it.time)}
+        Log.d("OUI", lol.toString());
+        if (resetPage)
+            (itemsList?.adapter as DashboardItemAdapter).setItems(newItems)
+        else
+            (itemsList?.adapter as DashboardItemAdapter).addItems(newItems)
+        itemsSwipeRefresh.isRefreshing = false
+    }
+
+    private fun getDateTime(s: Long): String? {
+        try {
+            val sdf = SimpleDateFormat("MM/dd/yyyy")
+            val netDate = Date(s * 1000)
+            return sdf.format(netDate)
+        } catch (e: Exception) {
+            return e.toString()
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        /*if (resultCode == Activity.RESULT_OK) {
-            if (requestCode == RequestCode.NEW_MEAL.ordinal) {
-                (view?.mealHomeList?.adapter as MealAdapter).addMeal(data?.getSerializableExtra(getString(R.string.param_meal)) as MealObject)
-            } else if (requestCode == RequestCode.UPDATE_MEAL.ordinal) {
-                (view?.mealHomeList?.adapter as MealAdapter).updateMeal(data?.getSerializableExtra(getString(R.string.param_meal)) as MealObject)
-            }
-        }*/
+    }
+    private fun getMeals(page: PaginationObject ): Single<Triple<Response, Array<DashboardItemObject>?, FuelError?>> {
+        return MealService.instance.getAllUserMeals(page).map{Triple(it.first, it.second.component1()?.map{ item ->
+            DashboardItemObject(item, this) }?.toTypedArray(), it.second.component2())};
+    }
+
+    private fun getComments(page: PaginationObject): Single<Triple<Response, Array<DashboardItemObject>?, FuelError?>>{
+        return MealService.instance.getAllUserMeals(page).map{Triple(it.first, it.second.component1()?.map{item ->
+            DashboardItemObject(item, this) }?.toTypedArray(), it.second.component2())};
+    }
+
+    private fun getInsulins(page: PaginationObject): Single<Triple<Response, Array<DashboardItemObject>?, FuelError?>>{
+        return InsulinService.instance.getAllUserInsulin(page).map{Triple(it.first, it.second.component1()?.map{item ->
+            DashboardItemObject(item, this) }?.toTypedArray(), it.second.component2())};
+    }
+
+    private fun getSugars(page: PaginationObject): Single<Triple<Response, Array<DashboardItemObject>?, FuelError?>>{
+        return MealService.instance.getAllUserMeals(page).map{Triple(it.first, it.second.component1()?.map{item ->
+            DashboardItemObject(item, this) }?.toTypedArray(), it.second.component2())};
     }
 }

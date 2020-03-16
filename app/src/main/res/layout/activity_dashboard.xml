@@ -8,7 +8,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/DashboardActionBar"
-        style="@style/ActionBarheme"
+        style="@style/ActionBarTheme"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         app:layout_constraintStart_toStartOf="parent"
@@ -38,7 +38,7 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        android:id="@+id/mealsSwipeRefresh"
+        android:id="@+id/itemsSwipeRefresh"
         style="@style/EmptyClipBackgroundTheme"
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -47,7 +47,7 @@
         app:layout_constraintBottom_toBottomOf="parent">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/mealsList"
+        android:id="@+id/itemsList"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_constraintEnd_toEndOf="parent"

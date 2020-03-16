@@ -87,4 +87,9 @@
     <string name="deactivate">Deactivate account</string>
     <string name="open_dashboard_button">Open Dashboard</string>
     <string name="dashboard_title">Dashboard</string>
+    <string name="meal">Meal</string>
+    <string name="comment">Comment</string>
+    <string name="insulin_slow">Slow insulin</string>
+    <string name="insulin_fast">Fast insulin</string>
+    <string name="unit">Unit(s)</string>
 </resources>

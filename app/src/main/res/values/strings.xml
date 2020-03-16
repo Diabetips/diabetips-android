@@ -64,6 +64,11 @@
 
     <!--Dashboard / Dashboard start-->
     <string name="dashboard_title">Dashboard</string>
+    <string name="meal">Meal</string>
+    <string name="insulin_slow">Slow insulin</string>
+    <string name="insulin_fast">Fast insulin</string>
+    <string name="comment">Comment</string>
+    <string name="unit">Unit</string>
     <!--Dashboard / Dashboard end-->
 
     <!--Profile screen start-->

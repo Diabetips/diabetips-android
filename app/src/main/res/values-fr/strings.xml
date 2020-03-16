@@ -87,4 +87,9 @@
     <string name="deactivate">Désactiver mon compte</string>
     <string name="open_dashboard_button">Tableau de bord</string>
     <string name="dashboard_title">Tableau de bord</string>
+    <string name="meal">Repas</string>
+    <string name="comment">Commentaire</string>
+    <string name="insulin_slow">Insuline lente</string>
+    <string name="insulin_fast">Insuline rapide</string>
+    <string name="unit">Unité(s)</string>
 </resources>
