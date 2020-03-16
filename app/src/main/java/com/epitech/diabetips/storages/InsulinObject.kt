@@ -10,6 +10,6 @@ data class InsulinObject (
     var timestamp: Long = TimeHandler.instance.currentTimeSecond(),
     var type: String = "") : Serializable {
 
-    enum class InsulinType {slow, fast, very_fast}
+    enum class Type {slow, fast, very_fast}
 
 }

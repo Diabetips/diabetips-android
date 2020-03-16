@@ -82,4 +82,7 @@
     <string name="insulin_fast_input">Fast insulin</string>
     <string name="comment_input">Comment</string>
     <string name="physical_activity_input">Duration of physical activity</string>
+    <string name="saved_change">Saved</string>
+    <string name="calculate_insulin">Predict my quantity of insulin</string>
+    <string name="unit_units">units</string>
 </resources>

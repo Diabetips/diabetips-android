@@ -18,8 +18,10 @@ import android.widget.Toast
 import com.epitech.diabetips.managers.AccountManager
 import com.epitech.diabetips.R
 import com.epitech.diabetips.managers.AuthManager
+import com.epitech.diabetips.services.BiometricService
 import com.epitech.diabetips.services.UserService
 import com.epitech.diabetips.storages.AccountObject
+import com.epitech.diabetips.storages.BiometricObject
 import com.epitech.diabetips.textWatchers.EmailWatcher
 import com.epitech.diabetips.textWatchers.InputWatcher
 import com.epitech.diabetips.textWatchers.PasswordConfirmWatcher
@@ -60,6 +62,7 @@ class ProfileFragment : NavigationFragment(FragmentType.PROFILE) {
             }
             dialogView.logoutPositiveButton.setOnClickListener {
                 dialog.dismiss()
+                AccountManager.instance.removePreferences(context!!)
                 AuthManager.instance.removePreferences(context!!)
                 Toast.makeText(context, getString(R.string.logout), Toast.LENGTH_SHORT).show()
                 activity?.finish()
@@ -94,18 +97,33 @@ class ProfileFragment : NavigationFragment(FragmentType.PROFILE) {
         val account = AccountManager.instance.getAccount(context!!)
         if (account.uid != "") {
             setAccountInfo(account, view)
+            setBiometricInfo(AccountManager.instance.getBiometric(context!!), view)
         } else {
             loading = true
             UserService.instance.getUser().doOnSuccess {
                 if (it.second.component2() == null) {
                     AccountManager.instance.saveAccount(context!!, it.second.component1()!!)
                     setAccountInfo(it.second.component1()!!, view)
+                    getBiometricInfo(view)
                 } else {
                     Toast.makeText(context, it.second.component2()!!.exception.message, Toast.LENGTH_SHORT).show()
+                    loading = false
                 }
-                loading = false
             }.subscribe()
         }
+    }
+
+    private fun getBiometricInfo(view: View? = this.view) {
+        loading = true
+        BiometricService.instance.getUserBiometric().doOnSuccess {
+            if (it.second.component2() == null) {
+                AccountManager.instance.saveBiometric(context!!, it.second.component1()!!)
+                setBiometricInfo(it.second.component1()!!, view)
+            } else {
+                Toast.makeText(context, it.second.component2()!!.exception.message, Toast.LENGTH_SHORT).show()
+            }
+            loading = false
+        }.subscribe()
     }
 
     private fun setAccountInfo(account: AccountObject, view: View? = this.view) {
@@ -113,6 +131,13 @@ class ProfileFragment : NavigationFragment(FragmentType.PROFILE) {
         view?.nameProfileInput?.setText(account.last_name)
         view?.emailProfileInput?.setText(account.email)
         ImageHandler.instance.loadImage(view?.imagePhotoProfile as ImageView, context!!, UserService.instance.getPictureUrl(account.uid), R.drawable.ic_person, false)
+    }
+
+    private fun setBiometricInfo(biometric: BiometricObject, view: View? = this.view) {
+        view?.heightProfileInput?.setText(biometric.height?.toString())
+        view?.weightProfileInput?.setText(biometric.weight?.toString())
+        view?.ageProfileInput?.setText(biometric.date_of_birth)
+        //view?.sexProfileInput?.setText(biometric.sex)
     }
 
     private fun updateProfile() {
@@ -128,6 +153,26 @@ class ProfileFragment : NavigationFragment(FragmentType.PROFILE) {
             UserService.instance.updateUser(account).doOnSuccess {
                 if (it.second.component2() == null) {
                     AccountManager.instance.saveAccount(context!!, it.second.component1()!!)
+                    updateBiometric()
+                } else {
+                    Toast.makeText(context, it.second.component2()!!.exception.message, Toast.LENGTH_SHORT).show()
+                    loading = false
+                }
+            }.subscribe()
+        }
+    }
+
+    private fun updateBiometric() {
+        if (validateFields()) {
+            val biometric: BiometricObject = AccountManager.instance.getBiometric(context!!)
+            biometric.height = view?.heightProfileInput?.text.toString().toIntOrNull()
+            biometric.weight = view?.weightProfileInput?.text.toString().toIntOrNull()
+            biometric.date_of_birth = view?.ageProfileInput?.text.toString()
+            //biometric.sex = view?.sexProfileInput?.text.toString()
+            loading = true
+            BiometricService.instance.updateUserBiometric(biometric).doOnSuccess {
+                if (it.second.component2() == null) {
+                    AccountManager.instance.saveBiometric(context!!, it.second.component1()!!)
                     Toast.makeText(context, getString(R.string.update_profile), Toast.LENGTH_SHORT).show()
                 } else {
                     Toast.makeText(context, it.second.component2()!!.exception.message, Toast.LENGTH_SHORT).show()
