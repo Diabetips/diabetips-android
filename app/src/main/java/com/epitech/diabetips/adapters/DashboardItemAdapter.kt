@@ -2,32 +2,33 @@ package com.epitech.diabetips.adapters
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.epitech.diabetips.holders.DashboardItemViewHolder
+import com.epitech.diabetips.holders.DashboardGroupedItemViewHolder
 import com.epitech.diabetips.storages.DashboardItemObject
+import java.util.*
 
-class DashboardItemAdapter(private val items: ArrayList<DashboardItemObject> = arrayListOf(),
+class DashboardItemAdapter(private var items: ArrayList<Pair<String?, List<DashboardItemObject>>> = arrayListOf(),
                            private val onItemClickListener : ((DashboardItemObject) -> Unit)? = null)
-        : RecyclerView.Adapter<DashboardItemViewHolder>() {
+        : RecyclerView.Adapter<DashboardGroupedItemViewHolder>() {
 
-        fun setItems(itemList: Array<DashboardItemObject>) {
+        fun setItems(itemList: ArrayList<Pair<String?, List<DashboardItemObject>>>) {
                 items.clear()
                 items.addAll(itemList)
                 notifyDataSetChanged()
         }
 
         fun addItem(item: DashboardItemObject) {
-                items.add(item)
+//                items. add(item)
                 notifyItemInserted(items.size)
         }
 
-        fun addItems(itemList: Array<DashboardItemObject>) {
+        fun addItems(itemList: ArrayList<Pair<String?, List<DashboardItemObject>>>) {
                 items.addAll(itemList)
                 notifyItemRangeInserted(items.size - itemList.size, itemList.size)
         }
 
-        fun updateItem(item: DashboardItemObject) {
+        fun updateItem(item: Pair<String?, List<DashboardItemObject>>) {
                 items.forEachIndexed { index, DashboardItemObject ->
-                        if (DashboardItemObject.id == item.id) {
+                        if (DashboardItemObject.first == item.first) {
                                 items[index] = item
                                 notifyItemChanged(index)
                                 return
@@ -37,13 +38,13 @@ class DashboardItemAdapter(private val items: ArrayList<DashboardItemObject> = a
 
         override fun getItemCount(): Int = items.size
 
-        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DashboardItemViewHolder {
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DashboardGroupedItemViewHolder {
                 val inflater = LayoutInflater.from(parent.context)
-                return DashboardItemViewHolder(inflater, parent)
+                return DashboardGroupedItemViewHolder(inflater, parent)
         }
 
-        override fun onBindViewHolder(holder: DashboardItemViewHolder, position: Int) {
-                holder.bind(items[position], onItemClickListener)
+        override fun onBindViewHolder(holder: DashboardGroupedItemViewHolder, position: Int) {
+                holder.bind(items[position].first as String, items[position].second, onItemClickListener)
         }
 
 }

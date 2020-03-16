@@ -20,6 +20,7 @@ import kotlinx.android.synthetic.main.activity_dashboard.*
 import java.text.SimpleDateFormat
 import java.time.LocalDateTime
 import java.util.*
+import kotlin.collections.ArrayList
 
 class DashboardActivity : AppCompatActivity() {
     private lateinit var itemsManagers:  Array<Pair<PaginationObject,(PaginationObject) -> Single<Triple<Response, Array<DashboardItemObject>?, FuelError?>>>>;
@@ -89,12 +90,11 @@ class DashboardActivity : AppCompatActivity() {
     private fun setItemsInDashBoardAdapter(resetPage: Boolean, items: Array<DashboardItemObject>) {
 //        LocalDateTime.ofEpochSecond(0).
         var newItems = items.sortedByDescending{it.time}.toTypedArray()
-        var lol = newItems.groupBy { getDateTime(it.time)}
-        Log.d("OUI", lol.toString());
+        val lol = ArrayList(newItems.groupBy { getDateTime(it.time)}.toList())
         if (resetPage)
-            (itemsList?.adapter as DashboardItemAdapter).setItems(newItems)
+            (itemsList?.adapter as DashboardItemAdapter).setItems(lol)
         else
-            (itemsList?.adapter as DashboardItemAdapter).addItems(newItems)
+            (itemsList?.adapter as DashboardItemAdapter).addItems(lol)
         itemsSwipeRefresh.isRefreshing = false
     }
 

@@ -133,8 +133,8 @@
                         <option name="values">
                           <map>
                             <entry key="assetSourceType" value="FILE" />
-                            <entry key="outputName" value="ic_syringe" />
-                            <entry key="sourceFile" value="D:\Downloads\syringe.svg" />
+                            <entry key="outputName" value="ic_keyboard_arrow_down" />
+                            <entry key="sourceFile" value="D:\Downloads\keyboard_arrow_down-24px.svg" />
                           </map>
                         </option>
                       </PersistentState>
