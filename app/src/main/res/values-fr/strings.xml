@@ -73,7 +73,7 @@
     <string name="diabetes_type_input">Type de diabète</string>
     <string name="age_input">Age (année)</string>
     <string name="height_input">Taille (cm)</string>
-    <string name="weight_input">Poids (Kg)</string>
+    <string name="weight_input">Poids (kg)</string>
     <string name="add_entry">Ajouter une entrée</string>
     <string name="entry_title">Nouvelle entrée</string>
     <string name="physical_activity_input">Durée d\'activité physique</string>
@@ -85,4 +85,13 @@
     <string name="saved_change">Sauvegardé</string>
     <string name="calculate_insulin">Prédire ma quantité d\'insuline</string>
     <string name="unit_units">unités</string>
+    <string name="sex_input">Sexe</string>
+    <string name="birth_input">Date de naissance</string>
+    <string name="format_date_birth">d MMMM yyyy</string>
+    <string name="sex_male">Homme</string>
+    <string name="sex_female">Femme</string>
+    <string name="date_format_error">Date invalide</string>
+    <string name="diabetes_type_2">Type 2</string>
+    <string name="diabetes_type_1">Type 1</string>
+    <string name="total_sugar">Total glucide :</string>
 </resources>

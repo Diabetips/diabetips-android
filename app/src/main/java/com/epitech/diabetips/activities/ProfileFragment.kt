@@ -9,10 +9,10 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.provider.MediaStore
-import android.util.Patterns
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import android.widget.ImageView
 import android.widget.Toast
 import com.epitech.diabetips.managers.AccountManager
@@ -29,13 +29,15 @@ import com.epitech.diabetips.textWatchers.PasswordWatcher
 import com.epitech.diabetips.utils.ImageHandler
 import com.epitech.diabetips.utils.MaterialHandler
 import com.epitech.diabetips.utils.NavigationFragment
+import com.epitech.diabetips.utils.TimeHandler
+import com.wdullaer.materialdatetimepicker.date.DatePickerDialog
 import kotlinx.android.synthetic.main.dialog_change_picture.view.*
 import kotlinx.android.synthetic.main.dialog_logout.view.*
 import kotlinx.android.synthetic.main.fragment_profile.*
 import kotlinx.android.synthetic.main.fragment_profile.view.*
 import java.io.InputStream
 
-class ProfileFragment : NavigationFragment(FragmentType.PROFILE) {
+class ProfileFragment : NavigationFragment(FragmentType.PROFILE), DatePickerDialog.OnDateSetListener {
 
     enum class RequestCode { GET_IMAGE, GET_PHOTO }
 
@@ -49,6 +51,17 @@ class ProfileFragment : NavigationFragment(FragmentType.PROFILE) {
         view.emailProfileInput.addTextChangedListener(EmailWatcher(context, view.emailProfileInputLayout))
         view.newPasswordInput.addTextChangedListener(PasswordWatcher(context, view.newPasswordInputLayout, true, true))
         view.newPasswordConfirmInput.addTextChangedListener(PasswordConfirmWatcher(context, view.newPasswordConfirmInputLayout, view.newPasswordInput))
+        view.birthDateProfileInput.setOnFocusChangeListener { _, hasFocus ->
+            if (hasFocus) {
+                view.birthDateProfileInput.clearFocus()
+                TimeHandler.instance.getDatePickerDialog(context!!, this,
+                    TimeHandler.instance.getTimestampFromFormat(
+                        view.birthDateProfileInput.text.toString(),
+                        context!!.getString(R.string.format_date_birth))
+                        ?: TimeHandler.instance.currentTimeSecond())
+                    .show(fragmentManager!!, "DatePickerDialog")
+            }
+        }
         view.updateProfileButton.setOnClickListener {
             updateProfile()
         }
@@ -68,8 +81,6 @@ class ProfileFragment : NavigationFragment(FragmentType.PROFILE) {
                 activity?.finish()
             }
             dialog.show()
-
-
         }
         view.imagePhotoProfile.setOnClickListener {
             val dialogView = layoutInflater.inflate(R.layout.dialog_change_picture, null)
@@ -89,6 +100,16 @@ class ProfileFragment : NavigationFragment(FragmentType.PROFILE) {
             }
             dialog.show()
         }
+        ArrayAdapter.createFromResource(context!!, R.array.sex, R.layout.item_dropdown)
+            .also { adapter ->
+                adapter.setDropDownViewResource(R.layout.item_dropdown)
+                view.sexProfileDropdown.setAdapter(adapter)
+            }
+        ArrayAdapter.createFromResource(context!!, R.array.diabetes_type, R.layout.item_dropdown)
+            .also { adapter ->
+                adapter.setDropDownViewResource(R.layout.item_dropdown)
+                view.diabetesTypeProfileDropdown.setAdapter(adapter)
+            }
         getAccountInfo(view)
         return view
     }
@@ -136,8 +157,12 @@ class ProfileFragment : NavigationFragment(FragmentType.PROFILE) {
     private fun setBiometricInfo(biometric: BiometricObject, view: View? = this.view) {
         view?.heightProfileInput?.setText(biometric.height?.toString())
         view?.weightProfileInput?.setText(biometric.weight?.toString())
-        view?.ageProfileInput?.setText(biometric.date_of_birth)
-        //view?.sexProfileInput?.setText(biometric.sex)
+        view?.birthDateProfileInput?.setText(TimeHandler.instance.changeTimeFormat(
+            biometric.date_of_birth,
+            context?.getString(R.string.format_date_api)!!,
+            context?.getString(R.string.format_date_birth)!!))
+        view?.diabetesTypeProfileDropdown?.setText(biometric.getDiabetesType(context!!))
+        view?.sexProfileDropdown?.setText(biometric.getSex(context!!))
     }
 
     private fun updateProfile() {
@@ -163,23 +188,25 @@ class ProfileFragment : NavigationFragment(FragmentType.PROFILE) {
     }
 
     private fun updateBiometric() {
-        if (validateFields()) {
-            val biometric: BiometricObject = AccountManager.instance.getBiometric(context!!)
-            biometric.height = view?.heightProfileInput?.text.toString().toIntOrNull()
-            biometric.weight = view?.weightProfileInput?.text.toString().toIntOrNull()
-            biometric.date_of_birth = view?.ageProfileInput?.text.toString()
-            //biometric.sex = view?.sexProfileInput?.text.toString()
-            loading = true
-            BiometricService.instance.updateUserBiometric(biometric).doOnSuccess {
-                if (it.second.component2() == null) {
-                    AccountManager.instance.saveBiometric(context!!, it.second.component1()!!)
-                    Toast.makeText(context, getString(R.string.update_profile), Toast.LENGTH_SHORT).show()
-                } else {
-                    Toast.makeText(context, it.second.component2()!!.exception.message, Toast.LENGTH_SHORT).show()
-                }
-                loading = false
-            }.subscribe()
-        }
+        val biometric: BiometricObject = AccountManager.instance.getBiometric(context!!)
+        biometric.height = view?.heightProfileInput?.text.toString().toIntOrNull()
+        biometric.weight = view?.weightProfileInput?.text.toString().toIntOrNull()
+        biometric.date_of_birth = TimeHandler.instance.changeTimeFormat(
+            view?.birthDateProfileInput?.text.toString(),
+            context?.getString(R.string.format_date_birth)!!,
+            context?.getString(R.string.format_date_api)!!)
+        biometric.setSex(context!!, view?.sexProfileDropdown?.text.toString())
+        biometric.setDiabetesType(context!!, view?.diabetesTypeProfileDropdown?.text.toString())
+        loading = true
+        BiometricService.instance.updateUserBiometric(biometric).doOnSuccess {
+            if (it.second.component2() == null) {
+                AccountManager.instance.saveBiometric(context!!, it.second.component1()!!)
+                Toast.makeText(context, getString(R.string.update_profile), Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(context, it.second.component2()!!.exception.message, Toast.LENGTH_SHORT).show()
+            }
+            loading = false
+        }.subscribe()
     }
 
     private fun validateFields() : Boolean {
@@ -223,5 +250,11 @@ class ProfileFragment : NavigationFragment(FragmentType.PROFILE) {
 
     override fun isLoading(): Boolean {
         return loading
+    }
+
+    override fun onDateSet(view: DatePickerDialog?, year: Int, monthOfYear: Int, dayOfMonth: Int) {
+        birthDateProfileInput.setText(TimeHandler.instance.formatTimestamp(
+            TimeHandler.instance.getTimestampDate(year, monthOfYear, dayOfMonth),
+            context!!.getString(R.string.format_date_birth)))
     }
 }

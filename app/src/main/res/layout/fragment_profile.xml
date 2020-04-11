@@ -50,7 +50,7 @@
         app:layout_constraintTop_toBottomOf="@+id/titleProfileText" />
 
     <androidx.core.widget.NestedScrollView
-        android:id="@+id/newMealScrollView"
+        android:id="@+id/profilecrollView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:elevation="-1dp"
@@ -193,41 +193,52 @@
                     style="@style/TextInputTheme"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="numberDecimal"
-                    android:imeOptions="actionNext"
-                    android:nextFocusForward="@+id/ageProfileInput" />
+                    android:inputType="numberDecimal"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/ageProfileInputLayout"
+                android:id="@+id/birthDateProfileInputLayout"
                 style="@style/TextInputLayoutTheme"
                 android:layout_width="match_parent"
-                android:hint="@string/age_input">
+                android:hint="@string/birth_input">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/ageProfileInput"
+                    android:id="@+id/birthDateProfileInput"
                     style="@style/TextInputTheme"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="number"
-                    android:imeOptions="actionNext"
-                    android:nextFocusForward="@+id/diabeteTypeProfileInput" />
+                    android:inputType="none" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/sexProfileInputLayout"
+            style="@style/DropdownInputLayoutTheme"
+            android:layout_width="match_parent"
+            android:hint="@string/sex_input">
+
+                <AutoCompleteTextView
+                    android:id="@+id/sexProfileDropdown"
+                    style="@style/DropdownTheme"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:labelFor="@string/sex_input"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/diabetesTypeProfileInputLayout"
-                style="@style/TextInputLayoutTheme"
+                style="@style/DropdownInputLayoutTheme"
                 android:layout_width="match_parent"
                 android:hint="@string/diabetes_type_input">
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/diabetesTypeProfileInput"
-                    style="@style/TextInputTheme"
+                <AutoCompleteTextView
+                    android:id="@+id/diabetesTypeProfileDropdown"
+                    style="@style/DropdownTheme"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="text"/>
+                    android:labelFor="@string/diabetes_type_input"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 

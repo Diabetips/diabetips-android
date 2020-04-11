@@ -8,6 +8,8 @@ import androidx.core.content.ContextCompat
 import com.epitech.diabetips.R
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog
+import java.text.SimpleDateFormat
+import java.time.format.DateTimeFormatter
 import java.util.*
 
 class TimeHandler {
@@ -22,6 +24,25 @@ class TimeHandler {
 
     fun currentTimeSecond() : Long {
         return System.currentTimeMillis() / 1000
+    }
+
+    fun getTimestampFromFormat(date: String, format: String) : Long? {
+        if (date.isBlank())
+            return null
+        val dateVar = SimpleDateFormat(format).parse(date) ?: return null
+        return dateVar.time / 1000
+    }
+
+    fun formatTimestamp(timestamp: Long, format: String): String {
+        val date = Date(timestamp * 1000)
+        return DateFormat.format(format, date).toString()
+    }
+
+    fun changeTimeFormat(date: String?, oldFormat: String, newFormat: String) : String? {
+        if (date == null)
+            return null
+        val timestamp = getTimestampFromFormat(date, oldFormat) ?: return null
+        return formatTimestamp(timestamp, newFormat)
     }
 
     fun getDatePickerDialog(context: Context, dateSetListener: DatePickerDialog.OnDateSetListener, timestamp: Long): DatePickerDialog {
@@ -53,6 +74,10 @@ class TimeHandler {
         timePickerDialog.isThemeDark = AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES
         timePickerDialog.accentColor = ContextCompat.getColor(context, R.color.colorPrimary)
         return timePickerDialog
+    }
+
+    fun getTimestampDate(year: Int, month: Int, day: Int): Long {
+        return changeTimestampDate(currentTimeSecond(), year, month, day)
     }
 
     fun changeTimestampDate(timestamp: Long, year: Int, month: Int, day: Int): Long {
