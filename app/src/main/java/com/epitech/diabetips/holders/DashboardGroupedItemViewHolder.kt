@@ -1,29 +1,33 @@
 package com.epitech.diabetips.holders
 
 import android.graphics.PorterDuff
-import android.media.Image
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.epitech.diabetips.R
 import com.epitech.diabetips.storages.DashboardItemObject
-import com.epitech.diabetips.storages.MealObject
 import kotlinx.android.synthetic.main.grouped_items_dashboard.view.*
-import kotlinx.android.synthetic.main.item_dashboard.view.*
-import java.text.SimpleDateFormat
 
 class DashboardGroupedItemViewHolder (inflater: LayoutInflater, parent: ViewGroup)
     : RecyclerView.ViewHolder(inflater.inflate(R.layout.grouped_items_dashboard, parent, false)) {
 
     private var date: String = "OUI";
     private var items: List<DashboardItemObject> = arrayListOf();
+    var recyclerView : RecyclerView = itemView.findViewById(R.id.rv_dashboard_expanded_items)
+    var cardContainer : View = itemView.findViewById(R.id.card_container)
+    lateinit var topbar: LinearLayout
+    lateinit var more: ImageView
 
     fun bind(date: String, items: List<DashboardItemObject>, onItemClickListener : ((DashboardItemObject) -> Unit)? = null) {
         this.date = date
+        this.topbar = itemView.day_dashboard_recap
+        this.more = itemView.imageView2
         itemView.dateGroupedItems.text = date
         this.items = items
         var count = items.count { it.title == "Repas" }

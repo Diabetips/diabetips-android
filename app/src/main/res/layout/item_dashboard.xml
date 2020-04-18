@@ -21,9 +21,10 @@
             android:id="@+id/dashboardItemIcon"
             android:layout_width="24dp"
             android:layout_height="24dp"
+            android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
             app:srcCompat="@drawable/circle_background_blue"
-            tools:layout_marginLeft="8dp" />
+            tools:layout_marginLeft="16dp" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -63,6 +64,7 @@
             android:id="@+id/dashboardItemTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
             android:fontFamily="@font/rubik_regular"
             android:text="TextView"
             tools:text="12:30" />

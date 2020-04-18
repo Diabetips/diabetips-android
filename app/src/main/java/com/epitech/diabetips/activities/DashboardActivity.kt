@@ -39,6 +39,7 @@ class DashboardActivity : AppCompatActivity() {
         itemsList.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = DashboardItemAdapter {
+                context
 /*                    item : DashboardItemObject ->
                 startActivityForResult(
                     Intent(context, NewMealActivity::class.java)
@@ -47,16 +48,16 @@ class DashboardActivity : AppCompatActivity() {
             }
         }
 
-        itemsList2.apply {
-            layoutManager = LinearLayoutManager(context)
-            adapter = DashboardItem2Adapter {
-                    item : DashboardItemObject ->
-                startActivityForResult(
-                    Intent(context, NewMealActivity::class.java)
-                        .putExtra(getString(R.string.param_meal), item),
-                    HomeFragment.RequestCode.UPDATE_MEAL.ordinal)
-            }
-        }
+//        itemsList2.apply {
+//            layoutManager = LinearLayoutManager(context)
+//            adapter = DashboardItem2Adapter {
+//                    item : DashboardItemObject ->
+//                startActivityForResult(
+//                    Intent(context, NewMealActivity::class.java)
+//                        .putExtra(getString(R.string.param_meal), item),
+//                    HomeFragment.RequestCode.UPDATE_MEAL.ordinal)
+//            }
+//        }
         closeDashboardButton.setOnClickListener {
             finish()
         }
@@ -74,19 +75,19 @@ class DashboardActivity : AppCompatActivity() {
             }
         })
 
-        itemsList2.addOnScrollListener(object : PaginationScrollListener(itemsList2.layoutManager as LinearLayoutManager) {
-            override fun isLastPage(): Boolean {
-                return itemsManagers.map{it.first.isLast()}.all{it}
-            }
-
-            override fun isLoading(): Boolean {
-                return itemsSwipeRefresh.isRefreshing
-            }
-
-            override fun loadMoreItems() {
-//                getItems(false)
-            }
-        })
+//        itemsList2.addOnScrollListener(object : PaginationScrollListener(itemsList2.layoutManager as LinearLayoutManager) {
+//            override fun isLastPage(): Boolean {
+//                return itemsManagers.map{it.first.isLast()}.all{it}
+//            }
+//
+//            override fun isLoading(): Boolean {
+//                return itemsSwipeRefresh.isRefreshing
+//            }
+//
+//            override fun loadMoreItems() {
+////                getItems(false)
+//            }
+//        })
 
         itemsSwipeRefresh.setOnRefreshListener {
             getItems()
@@ -118,11 +119,12 @@ class DashboardActivity : AppCompatActivity() {
 //        LocalDateTime.ofEpochSecond(0).
         var newItems = items.sortedByDescending{it.time}.toTypedArray()
         val lol = ArrayList(newItems.groupBy { getDateTime(it.time)}.toList())
+
         if (resetPage) {
-            (itemsList2?.adapter as DashboardItem2Adapter).setItems(newItems)
+//            (itemsList2?.adapter as DashboardItem2Adapter).setItems(newItems)
             (itemsList?.adapter as DashboardItemAdapter).setItems(lol)
         } else {
-            (itemsList2?.adapter as DashboardItem2Adapter).addItems(newItems)
+//            (itemsList2?.adapter as DashboardItem2Adapter).addItems(newItems)
             (itemsList?.adapter as DashboardItemAdapter).addItems(lol)
         }
         itemsSwipeRefresh.isRefreshing = false

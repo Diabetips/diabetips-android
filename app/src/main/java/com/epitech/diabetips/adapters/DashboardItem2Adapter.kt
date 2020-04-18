@@ -9,6 +9,8 @@ class DashboardItem2Adapter(private val items: ArrayList<DashboardItemObject> = 
                            private val onItemClickListener : ((DashboardItemObject) -> Unit)? = null)
         : RecyclerView.Adapter<DashboardItemViewHolder>() {
 
+        var mitems = items;
+
         fun setItems(itemList: Array<DashboardItemObject>) {
                 items.clear()
                 items.addAll(itemList)
