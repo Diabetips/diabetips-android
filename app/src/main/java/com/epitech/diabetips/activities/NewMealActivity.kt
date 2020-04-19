@@ -30,7 +30,7 @@ class NewMealActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener,
 
     private var mealId: Int = 0
     private var saved: Boolean? = null
-    private var mealTimestamp: Long = System.currentTimeMillis()
+    private var mealTimestamp: Long = TimeHandler.instance.currentTimeSecond()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
@@ -60,25 +60,7 @@ class NewMealActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener,
             saveMeal()
         }
         closeNewMealButton.setOnClickListener {
-            if (saved == null) {
-                finish()
-            } else if (saved!!) {
-                setResult(Activity.RESULT_OK, Intent().putExtra(getString(R.string.param_meal), getMeal()))
-                finish()
-            } else {
-                val view = layoutInflater.inflate(R.layout.dialog_save_change, null)
-                MaterialHandler.instance.handleTextInputLayoutSize(view as ViewGroup)
-                val dialog = AlertDialog.Builder(this@NewMealActivity).setView(view).create()
-                dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-                view.saveChangeNegativeButton.setOnClickListener {
-                    finish()
-                }
-                view.saveChangePositiveButton.setOnClickListener {
-                    saveMeal(true)
-                    dialog.dismiss()
-                }
-                dialog.show()
-            }
+            onBackPressed()
         }
         getParams()
     }
@@ -104,6 +86,7 @@ class NewMealActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener,
                 if (it.second.component2() == null) {
                     saved = true
                     mealId = it.second.component1()?.id!!
+                    Toast.makeText(this, R.string.saved_change, Toast.LENGTH_SHORT).show()
                     if (finishView) {
                         setResult(Activity.RESULT_OK, Intent().putExtra(getString(R.string.param_meal), it.second.component1()))
                         finish()
@@ -139,5 +122,27 @@ class NewMealActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener,
     override fun onTimeSet(view: TimePickerDialog?, hourOfDay: Int, minute: Int, second: Int) {
         mealTimestamp = TimeHandler.instance.changeTimestampTime(mealTimestamp, hourOfDay, minute)
         TimeHandler.instance.updateTimeDisplay(this, mealTimestamp, newMealTimeDate, newMealTimeHour)
+    }
+
+    override fun onBackPressed() {
+        if (saved == null) {
+            finish()
+        } else if (saved!!) {
+            setResult(Activity.RESULT_OK, Intent().putExtra(getString(R.string.param_meal), getMeal()))
+            finish()
+        } else {
+            val view = layoutInflater.inflate(R.layout.dialog_save_change, null)
+            MaterialHandler.instance.handleTextInputLayoutSize(view as ViewGroup)
+            val dialog = AlertDialog.Builder(this@NewMealActivity).setView(view).create()
+            dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            view.saveChangeNegativeButton.setOnClickListener {
+                finish()
+            }
+            view.saveChangePositiveButton.setOnClickListener {
+                saveMeal(true)
+                dialog.dismiss()
+            }
+            dialog.show()
+        }
     }
 }

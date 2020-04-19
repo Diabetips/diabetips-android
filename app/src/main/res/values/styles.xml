@@ -113,7 +113,7 @@
         <item name="cardElevation">0dp</item>
     </style>
 
-    <style name="ActionBarheme" parent="ClearBackgroundTheme">
+    <style name="ActionBarTheme" parent="ClearBackgroundTheme">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">@dimen/action_bar_height</item>
         <item name="android:elevation">@dimen/shadow_size</item>
@@ -226,7 +226,7 @@
         <item name="boxCornerRadiusBottomEnd">@dimen/input_corner_size</item>
         <item name="boxCornerRadiusTopEnd">@dimen/input_corner_size</item>
         <item name="boxCornerRadiusTopStart">@dimen/input_corner_size</item>
-        <item name="endIconTint">?attr/colorText</item>
+        <item name="endIconTint">?attr/colorHint</item>
         <item name="hintTextAppearance">@style/HintTextAppearance</item>
         <item name="android:textColorHint">?attr/colorHint</item>
         <item name="hintTextColor">?attr/colorHint</item>
@@ -263,6 +263,25 @@
         <item name="counterOverflowTextColor">?attr/colorBackgroundText</item>
         <item name="counterEnabled">true</item>
         <item name="counterMaxLength">@integer/password_length</item>
+    </style>
+
+    <style name="DropdownInputLayoutTheme" parent="TextInputLayoutTheme">
+        <item name="endIconMode">dropdown_menu</item>
+    </style>
+
+    <style name="DropdownTheme" parent="@style/Widget.AppCompat.EditText">
+        <item name="android:paddingStart">@dimen/half_margin_size</item>
+        <item name="android:paddingEnd">@dimen/half_margin_size</item>
+        <item name="android:paddingTop">@dimen/quarter_margin_size</item>
+        <item name="android:paddingBottom">@dimen/quarter_margin_size</item>
+        <item name="android:textAppearance">@style/TextAppearance</item>
+        <item name="android:textColor">?attr/colorText</item>
+        <item name="android:textColorHint">?attr/colorHint</item>
+        <item name="android:inputType">none</item>
+        <item name="android:clickable">false</item>
+        <item name="android:cursorVisible">false</item>
+        <item name="android:focusable">false</item>
+        <item name="android:focusableInTouchMode">false</item>
     </style>
 
     <style name="TextInputLayoutTheme.MaterialThemeOverlay" parent="ThemeOverlay.MaterialComponents.TextInputEditText.FilledBox.Dense">
@@ -401,6 +420,22 @@
 
     <style name="ImageTheme" parent="ThemeOverlay.AppCompat.Dark">
         <item name="android:scaleType">centerCrop</item>
+    </style>
+
+    <style name="SpinnerLayoutTheme" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+        <item name="android:layout_marginStart">@dimen/margin_size</item>
+        <item name="android:layout_marginEnd">@dimen/margin_size</item>
+        <item name="android:theme">@style/ElevationTheme</item>
+        <item name="boxBackgroundColor">?attr/colorInputBackground</item>
+        <item name="android:paddingStart">0dp</item>
+        <item name="android:paddingEnd">0dp</item>
+        <item name="boxCollapsedPaddingTop">-10dp</item>
+        <item name="boxStrokeWidth">0dp</item>
+        <item name="boxStrokeWidthFocused">0dp</item>
+        <item name="boxCornerRadiusBottomStart">@dimen/input_corner_size</item>
+        <item name="boxCornerRadiusBottomEnd">@dimen/input_corner_size</item>
+        <item name="boxCornerRadiusTopEnd">@dimen/input_corner_size</item>
+        <item name="boxCornerRadiusTopStart">@dimen/input_corner_size</item>
     </style>
 
     <style name="SwitchTheme" parent="ThemeOverlay.AppCompat.Dark">

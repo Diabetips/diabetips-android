@@ -2,6 +2,7 @@ package com.epitech.diabetips.utils
 
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AutoCompleteTextView
 import com.google.android.material.internal.CheckableImageButton
 import com.google.android.material.textfield.TextInputLayout
 
