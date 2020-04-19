@@ -38,7 +38,7 @@ data class DashboardItemObject (
         time = insulin.timestamp,
         icon = context.getDrawable(R.drawable.ic_syringe)) {
             type = if (insulin.type == "fast") Type.INSULIN_FAST else Type.INSULIN_SLOW
-            icon!!.setColorFilter(ContextCompat.getColor(context, R.color.colorAccent), PorterDuff.Mode.SRC_ATOP);
+            icon!!.setColorFilter(ContextCompat.getColor(context, R.color.colorAccent), PorterDuff.Mode.SRC_ATOP)
     }
 
     enum class Type {

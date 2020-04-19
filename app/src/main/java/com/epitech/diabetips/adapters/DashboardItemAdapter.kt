@@ -21,14 +21,9 @@ class DashboardItemAdapter(val context: Context,
 
 
         private val viewPool = RecyclerView.RecycledViewPool()
-//      private val listItemExpandDuration: Long get() = (300L / animationPlaybackSpeed).toLong()
-//      private val inflater: LayoutInflater = LayoutInflater.from(context)
 
         private lateinit var recyclerView: RecyclerView
         private var expandedModel: Pair<String?, List<DashboardItemObject>>? = null
-        private var isScaledDown = false
-        private var originalHeight = -1 // will be calculated dynamically
-        private var expandedHeight = -1 // will be calculated dynamically
 
         fun setItems(itemList: ArrayList<Pair<String?, List<DashboardItemObject>>>) {
                 items.clear()
@@ -84,7 +79,6 @@ class DashboardItemAdapter(val context: Context,
                 }
 
                 expandItem(holder, model == expandedModel, animate = false)
-                scaleDownItem(holder, position, isScaledDown)
 
                 holder.more.setOnClickListener {
                         if (expandedModel == null) {
@@ -115,96 +109,5 @@ class DashboardItemAdapter(val context: Context,
 
         private fun expandItem(holder: DashboardGroupedItemViewHolder, expand: Boolean, animate: Boolean) {
                 holder.recyclerView.isVisible = expand
-//                if (animate) {
-//                        val animator = getValueAnimator(
-//                                expand, listItemExpandDuration, AccelerateDecelerateInterpolator()
-//                        ) { progress -> setExpandProgress(holder, progress) }
-//
-//                        if (expand) animator.doOnStart { holder.recyclerView.isVisible = true }
-//                        else animator.doOnEnd { holder.recyclerView.isVisible = false }
-//
-//                        animator.start()
-//                } else {
-//
-//                        // show expandView only if we have expandedHeight (onViewAttached)
-//                        holder.recyclerView.isVisible = expand && expandedHeight >= 0
-//                        setExpandProgress(holder, if (expand) 1f else 0f)
-//                }
         }
-
-        override fun onViewAttachedToWindow(holder: DashboardGroupedItemViewHolder) {
-                super.onViewAttachedToWindow(holder)
-
-//                // get originalHeight & expandedHeight if not gotten before
-//                if (expandedHeight < 0) {
-//                        expandedHeight = 0 // so that this block is only called once
-//
-//                        holder.cardContainer.doOnLayout { view ->
-//                                originalHeight = view.height
-//                                holder.recyclerView.isVisible = true
-//                                Log.i("INIT HEIGHT :", originalHeight.toString())
-//                                view.doOnPreDraw {
-//                                        expandedHeight = 145
-//                                        Log.i("INIT PREDRAW :", originalHeight.toString())
-//                                        holder.recyclerView.isVisible = false
-//                                }
-//                        }
-//                }
-        }
-
-        private fun scaleDownItem(holder: DashboardGroupedItemViewHolder, position: Int, isScaleDown: Boolean) {
-//                setScaleDownProgress(holder, position, if (isScaleDown) 1f else 0f)
-        }
-
-        ///////////////////////////////////////////////////////////////////////////
-        // Scale Down Animation
-        ///////////////////////////////////////////////////////////////////////////
-
-        private fun setExpandProgress(holder: DashboardGroupedItemViewHolder, progress: Float) {
-                if (expandedHeight > 0 && originalHeight > 0) {
-                        holder.cardContainer.layoutParams.height =
-                                (originalHeight + (expandedHeight - originalHeight) * progress).toInt()
-                        Log.i("HEIGHT 2:", holder.cardContainer.layoutParams.height.toString())
-                }
-
-                holder.cardContainer.requestLayout()
-
-                holder.more.rotation = 180 * progress
-        }
-
-        private fun setScaleDownProgress(holder: DashboardGroupedItemViewHolder, position: Int, progress: Float) {
-                val itemExpanded = position >= 0 && items[position] == expandedModel
-                holder.cardContainer.layoutParams.apply {
-                        height = ((if (itemExpanded) expandedHeight else originalHeight) * (1 - 0.1f * progress)).toInt()
-                        Log.i("HEIGHT :", height.toString())
-                }
-                holder.cardContainer.requestLayout()
-        }
-
-//        private fun expandItem(holder: DashboardGroupedItemViewHolder, expand: Boolean, animate: Boolean) {
-//                if (expand) {
-//                        holder.recyclerView.layoutParams.height = 200
-//                        holder.recyclerView.requestLayout()
-//                } else {
-//                        holder.recyclerView.layoutParams.height = 0
-//                        holder.recyclerView.requestLayout()
-//                }
-//        }
-
-
-}
-
-inline fun getValueAnimator(
-        forward: Boolean = true,
-        duration: Long,
-        interpolator: TimeInterpolator,
-        crossinline updateListener: (progress: Float) -> Unit
-): ValueAnimator {
-        val a =
-                if (forward) ValueAnimator.ofFloat(0f, 1f)
-                else ValueAnimator.ofFloat(1f, 0f)
-        a.addUpdateListener { updateListener(it.animatedValue as Float) }
-        a.duration = duration
-        a.interpolator = interpolator
-        return a
 }

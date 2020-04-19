@@ -74,20 +74,6 @@ class DashboardActivity : AppCompatActivity() {
             }
         })
 
-//        itemsList2.addOnScrollListener(object : PaginationScrollListener(itemsList2.layoutManager as LinearLayoutManager) {
-//            override fun isLastPage(): Boolean {
-//                return itemsManagers.map{it.first.isLast()}.all{it}
-//            }
-//
-//            override fun isLoading(): Boolean {
-//                return itemsSwipeRefresh.isRefreshing
-//            }
-//
-//            override fun loadMoreItems() {
-////                getItems(false)
-//            }
-//        })
-
         itemsSwipeRefresh.setOnRefreshListener {
             getItems()
         }
