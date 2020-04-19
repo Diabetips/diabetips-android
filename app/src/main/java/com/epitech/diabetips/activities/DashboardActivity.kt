@@ -38,8 +38,7 @@ class DashboardActivity : AppCompatActivity() {
         setContentView(R.layout.activity_dashboard)
         itemsList.apply {
             layoutManager = LinearLayoutManager(context)
-            adapter = DashboardItemAdapter {
-                context
+            adapter = DashboardItemAdapter(context) {
 /*                    item : DashboardItemObject ->
                 startActivityForResult(
                     Intent(context, NewMealActivity::class.java)

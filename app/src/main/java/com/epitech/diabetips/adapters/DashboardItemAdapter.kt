@@ -1,6 +1,7 @@
 package com.epitech.diabetips.adapters
 import android.animation.TimeInterpolator
 import android.animation.ValueAnimator
+import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -13,7 +14,8 @@ import java.util.*
 
 var animationPlaybackSpeed: Double = 0.8
 
-class DashboardItemAdapter(private var items: ArrayList<Pair<String?, List<DashboardItemObject>>> = arrayListOf(),
+class DashboardItemAdapter(val context: Context,
+                           private var items: ArrayList<Pair<String?, List<DashboardItemObject>>> = arrayListOf(),
                            private val onItemClickListener : ((DashboardItemObject) -> Unit)? = null)
         : RecyclerView.Adapter<DashboardGroupedItemViewHolder>() {
 
@@ -77,7 +79,7 @@ class DashboardItemAdapter(private var items: ArrayList<Pair<String?, List<Dashb
                 childLayoutManager.initialPrefetchItemCount = arrayItems.size
                 holder.recyclerView.apply {
                         layoutManager = childLayoutManager
-                        adapter = DashboardItem2Adapter(arrayItems, null)
+                        adapter = DashboardItem2Adapter(context, arrayItems, null)
                         setRecycledViewPool(viewPool)
                 }
 
