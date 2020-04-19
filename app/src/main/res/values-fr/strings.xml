@@ -97,10 +97,6 @@
     <string name="deactivate_account_confirm">Etes vous certain de vouloir désactiver votre compte ?</string>
     <string name="deactivated">Compte desactivé avec succès !</string>
     <string name="deactivate">Désactiver mon compte</string>
->>>>>>> a27e6896ca70a7a53654553f07c9e86ec00b65fa
-    <string name="deactivate_account_confirm">Etes vous certain de vouloir désactiver votre compte ?</string>
-    <string name="deactivated">Compte desactivé avec succès !</string>
-    <string name="deactivate">Désactiver mon compte</string>
     <string name="open_dashboard_button">Tableau de bord</string>
     <string name="dashboard_title">Tableau de bord</string>
     <string name="meal">Repas</string>

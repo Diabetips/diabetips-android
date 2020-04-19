@@ -9,7 +9,7 @@
 
     <LinearLayout
         android:id="@+id/day_dashboard_recap"
-        style="@style/EmptyBackgroundTheme"
+        style="@style/ClearBackgroundTheme"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
@@ -20,13 +20,14 @@
 
         <TextView
             android:id="@+id/dateGroupedItems"
+            style="@style/SoftTextAppearance"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
             android:layout_weight="1"
             android:fontFamily="@font/rubik_regular"
             android:text="TextView"
-            tools:text="12:30" />
+            tools:text="04/18/2020" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -42,12 +43,13 @@
 
             <TextView
                 android:id="@+id/foodQuantity"
+                style="@style/SoftTextAppearance"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="16dp"
-                android:text="TextView" />
+                android:text="0" />
 
             <ImageView
                 android:id="@+id/insulinIcon"
@@ -58,16 +60,35 @@
 
             <TextView
                 android:id="@+id/insulinQuantity"
+                style="@style/SoftTextAppearance"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="16dp"
-                android:text="TextView" />
+                android:text="0" />
+
+            <ImageView
+                android:id="@+id/commentIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                app:srcCompat="@drawable/ic_syringe" />
+
+            <TextView
+                android:id="@+id/commentQuantity"
+                style="@style/SoftTextAppearance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="16dp"
+                android:text="0" />
         </LinearLayout>
 
         <ImageView
             android:id="@+id/imageView2"
+            style="@style/ImageButtonTransparentTheme"
             android:layout_width="wrap_content"
             android:layout_height="48dp"
             android:layout_marginLeft="16dp"

@@ -1,9 +1,7 @@
 package com.epitech.diabetips.storages
 
 import android.content.Context
-import android.graphics.Color
 import android.graphics.PorterDuff
-import android.graphics.PorterDuffColorFilter
 import android.graphics.drawable.Drawable
 import androidx.core.content.ContextCompat
 import com.epitech.diabetips.R
@@ -26,7 +24,7 @@ data class DashboardItemObject (
         title = context.resources.getString(R.string.meal),
         time = meal.timestamp,
         icon = context.getDrawable(R.drawable.ic_fork)) {
-        type = Type.RECIPE
+        type = Type.MEAL
         icon!!.setColorFilter(ContextCompat.getColor(context, R.color.colorPrimary), PorterDuff.Mode.SRC_ATOP);
     }
 
@@ -42,7 +40,7 @@ data class DashboardItemObject (
     }
 
     enum class Type {
-        RECIPE, COMMENT, INSULIN_SLOW, INSULIN_FAST, SUGAR
+        MEAL, COMMENT, INSULIN_SLOW, INSULIN_FAST, SUGAR
     }
 
     //Rest of the code in the class

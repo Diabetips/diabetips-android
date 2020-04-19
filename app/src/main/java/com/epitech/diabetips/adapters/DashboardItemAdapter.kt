@@ -66,7 +66,7 @@ class DashboardItemAdapter(val context: Context,
         override fun onBindViewHolder(holder: DashboardGroupedItemViewHolder, position: Int) {
                 val model = items[position]
 
-                holder.bind(items[position].first as String, items[position].second, onItemClickListener)
+                holder.bind(items[position].first as String, items[position].second)
                 val parent = items[position]
 
                 val childLayoutManager = LinearLayoutManager(holder.recyclerView.context, RecyclerView.VERTICAL, false)
@@ -109,5 +109,7 @@ class DashboardItemAdapter(val context: Context,
 
         private fun expandItem(holder: DashboardGroupedItemViewHolder, expand: Boolean, animate: Boolean) {
                 holder.recyclerView.isVisible = expand
+                holder.more.rotation *= 180
+                holder.changeState(expand)
         }
 }

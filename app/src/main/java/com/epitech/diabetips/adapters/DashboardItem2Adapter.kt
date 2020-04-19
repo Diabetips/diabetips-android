@@ -55,11 +55,23 @@ class DashboardItem2Adapter(val context: Context,
                 holder.bind(items[position], onItemClickListener)
 
                 holder.itemView.setOnClickListener {
-                        val intent: Intent
-                        intent = Intent(context, NewMealActivity::class.java)
-                                .putExtra(context.getString(R.string.param_meal), items[position].orignal as MealObject)
-                        context.startActivity(intent)
+                        when(items[position].type) {
+                                DashboardItemObject.Type.MEAL -> launchMeal(items[position])
+                                DashboardItemObject.Type.COMMENT -> TODO()
+                                DashboardItemObject.Type.INSULIN_SLOW -> TODO()
+                                DashboardItemObject.Type.INSULIN_FAST -> TODO()
+                                DashboardItemObject.Type.SUGAR -> TODO()
+                        }
                 }
+        }
+
+        private fun launchMeal(item: DashboardItemObject) {
+                val intent = Intent(context, NewMealActivity::class.java)
+                        .putExtra(
+                                context.getString(R.string.param_meal),
+                                item.orignal as MealObject
+                        )
+                context.startActivity(intent)
         }
 
 }

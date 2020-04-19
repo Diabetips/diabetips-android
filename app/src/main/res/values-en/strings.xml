@@ -104,7 +104,4 @@
     <string name="diabetes_type_2">Type 2</string>
     <string name="diabetes_type_1">Type 1</string>
     <string name="total_sugar">Total sugar :</string>
-    <string name="deactivate_account_confirm">Are you sure to deactivate your account ?</string>
-    <string name="deactivated">Account deactivated with success !</string>
-    <string name="deactivate">Deactivate account</string>
 </resources>

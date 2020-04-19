@@ -8,7 +8,7 @@
     android:layout_height="wrap_content">
 
     <LinearLayout
-        style="@style/EmptyBackgroundTheme"
+        style="@style/BackgroundCardColorTheme"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
@@ -34,7 +34,7 @@
 
             <TextView
                 android:id="@+id/dashboardItemTitle"
-                style="@style/TextAltTheme"
+                style="@style/BoldTextAppearance"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/quarter_margin_size"
@@ -54,7 +54,6 @@
                 android:layout_marginBottom="@dimen/quarter_margin_size"
                 android:fontFamily="@font/rubik_regular"
                 android:text="@string/placeholder_text"
-                android:textColor="#000000"
                 android:textSize="14sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/mealDescription" />
@@ -62,6 +61,7 @@
 
         <TextView
             android:id="@+id/dashboardItemTime"
+            style="@style/SoftTextAppearance"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"

@@ -4,10 +4,12 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.epitech.diabetips.R
 import com.epitech.diabetips.adapters.DashboardItem2Adapter
 import com.epitech.diabetips.adapters.DashboardItemAdapter
+import com.epitech.diabetips.managers.ModeManager
 import com.epitech.diabetips.services.FuelResponse
 import com.epitech.diabetips.services.InsulinService
 import com.epitech.diabetips.services.MealService
@@ -27,6 +29,12 @@ class DashboardActivity : AppCompatActivity() {
     private lateinit var itemsManagers:  Array<Pair<PaginationObject,(PaginationObject) -> Single<Triple<Response, Array<DashboardItemObject>?, FuelError?>>>>;
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        AppCompatDelegate.setDefaultNightMode(ModeManager.instance.getDarkMode(this))
+        if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
+            setTheme(R.style.DarkTheme)
+        } else {
+            setTheme(R.style.AppTheme)
+        }
         super.onCreate(savedInstanceState)
         var page = PaginationObject(resources.getInteger(R.integer.pagination_size), resources.getInteger(R.integer.pagination_default))
         itemsManagers = arrayOf(
@@ -38,25 +46,8 @@ class DashboardActivity : AppCompatActivity() {
         setContentView(R.layout.activity_dashboard)
         itemsList.apply {
             layoutManager = LinearLayoutManager(context)
-            adapter = DashboardItemAdapter(context) {
-/*                    item : DashboardItemObject ->
-                startActivityForResult(
-                    Intent(context, NewMealActivity::class.java)
-                        .putExtra(getString(R.string.param_meal), item),
-                    HomeFragment.RequestCode.UPDATE_MEAL.ordinal)*/
-            }
+            adapter = DashboardItemAdapter(context)
         }
-
-//        itemsList2.apply {
-//            layoutManager = LinearLayoutManager(context)
-//            adapter = DashboardItem2Adapter {
-//                    item : DashboardItemObject ->
-//                startActivityForResult(
-//                    Intent(context, NewMealActivity::class.java)
-//                        .putExtra(getString(R.string.param_meal), item),
-//                    HomeFragment.RequestCode.UPDATE_MEAL.ordinal)
-//            }
-//        }
         closeDashboardButton.setOnClickListener {
             finish()
         }
