@@ -1,5 +1,6 @@
 package com.epitech.diabetips
 
+import com.epitech.diabetips.storages.BiometricObject
 import com.epitech.diabetips.storages.PaginationObject
 import org.junit.Test
 
@@ -13,6 +14,7 @@ import org.junit.Assert.*
 class UnitTest {
 
     private val paginationObject = PaginationObject(10, 1, 3, 2, 4, 5)
+    private val biometricObject = BiometricObject(80, 175, "", "man")
 
     @Test
     fun paginationObjectNextPage() {

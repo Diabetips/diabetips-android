@@ -156,7 +156,7 @@ class NewEntryActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener
                 if (insulin.type == InsulinObject.Type.slow.name)
                     objects[ObjectType.SLOW_INSULIN] = Pair<Int, Boolean?>(it.second.component1()?.id!!, true)
                 else
-                    objects[ObjectType.SLOW_INSULIN] = Pair<Int, Boolean?>(it.second.component1()?.id!!, true)
+                    objects[ObjectType.FAST_INSULIN] = Pair<Int, Boolean?>(it.second.component1()?.id!!, true)
                 if (finishView)
                     tryToFinishView()
             } else {

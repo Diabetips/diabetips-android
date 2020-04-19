@@ -5,7 +5,7 @@ import com.epitech.diabetips.R
 import java.io.Serializable
 
 data class BiometricObject (
-    var weight: Int? = null,
+    var mass: Int? = null,
     var height: Int? = null,
     var date_of_birth: String? = null,
     var sex: String? = null,

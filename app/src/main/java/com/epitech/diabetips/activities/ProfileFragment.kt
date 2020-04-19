@@ -9,14 +9,17 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.provider.MediaStore
+import android.text.InputFilter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import android.widget.Filter
 import android.widget.ImageView
 import android.widget.Toast
 import com.epitech.diabetips.managers.AccountManager
 import com.epitech.diabetips.R
+import com.epitech.diabetips.adapters.DropdownAdapter
 import com.epitech.diabetips.managers.AuthManager
 import com.epitech.diabetips.services.BiometricService
 import com.epitech.diabetips.services.UserService
@@ -100,16 +103,8 @@ class ProfileFragment : NavigationFragment(FragmentType.PROFILE), DatePickerDial
             }
             dialog.show()
         }
-        ArrayAdapter.createFromResource(context!!, R.array.sex, R.layout.item_dropdown)
-            .also { adapter ->
-                adapter.setDropDownViewResource(R.layout.item_dropdown)
-                view.sexProfileDropdown.setAdapter(adapter)
-            }
-        ArrayAdapter.createFromResource(context!!, R.array.diabetes_type, R.layout.item_dropdown)
-            .also { adapter ->
-                adapter.setDropDownViewResource(R.layout.item_dropdown)
-                view.diabetesTypeProfileDropdown.setAdapter(adapter)
-            }
+        view.sexProfileDropdown.setAdapter(DropdownAdapter(context!!, R.array.sex))
+        view.diabetesTypeProfileDropdown.setAdapter(DropdownAdapter(context!!, R.array.diabetes_type))
         getAccountInfo(view)
         return view
     }
@@ -156,7 +151,7 @@ class ProfileFragment : NavigationFragment(FragmentType.PROFILE), DatePickerDial
 
     private fun setBiometricInfo(biometric: BiometricObject, view: View? = this.view) {
         view?.heightProfileInput?.setText(biometric.height?.toString())
-        view?.weightProfileInput?.setText(biometric.weight?.toString())
+        view?.weightProfileInput?.setText(biometric.mass?.toString())
         view?.birthDateProfileInput?.setText(TimeHandler.instance.changeTimeFormat(
             biometric.date_of_birth,
             context?.getString(R.string.format_date_api)!!,
@@ -190,7 +185,7 @@ class ProfileFragment : NavigationFragment(FragmentType.PROFILE), DatePickerDial
     private fun updateBiometric() {
         val biometric: BiometricObject = AccountManager.instance.getBiometric(context!!)
         biometric.height = view?.heightProfileInput?.text.toString().toIntOrNull()
-        biometric.weight = view?.weightProfileInput?.text.toString().toIntOrNull()
+        biometric.mass = view?.weightProfileInput?.text.toString().toIntOrNull()
         biometric.date_of_birth = TimeHandler.instance.changeTimeFormat(
             view?.birthDateProfileInput?.text.toString(),
             context?.getString(R.string.format_date_birth)!!,
