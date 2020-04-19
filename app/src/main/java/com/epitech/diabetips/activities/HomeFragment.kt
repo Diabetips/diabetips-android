@@ -20,7 +20,6 @@ import kotlinx.android.synthetic.main.fragment_home.view.*
 
 class HomeFragment : NavigationFragment(FragmentType.HOME) {
 
-    enum class RequestCode {NEW_MEAL, UPDATE_MEAL}
 
     private lateinit var page: PaginationObject
 
@@ -30,7 +29,7 @@ class HomeFragment : NavigationFragment(FragmentType.HOME) {
         MaterialHandler.instance.handleTextInputLayoutSize(view as ViewGroup)
         ChartHandler.instance.handleLineChartStyle(view.sugarLineChart)
         view.newEntryButton.setOnClickListener {
-            startActivityForResult(Intent(context, NewMealActivity::class.java), RequestCode.NEW_MEAL.ordinal)
+            startActivity(Intent(context, NewEntryActivity::class.java))
         }
         view.viewRecipeButton.setOnClickListener {
             startActivity(Intent(context, RecipeActivity::class.java)
@@ -41,12 +40,7 @@ class HomeFragment : NavigationFragment(FragmentType.HOME) {
         }
 /*        view.mealHomeList.apply {
             layoutManager = LinearLayoutManager(context)
-            adapter = MealAdapter { meal : MealObject ->
-                startActivityForResult(
-                    Intent(context, NewMealActivity::class.java)
-                        .putExtra(getString(R.string.param_meal), meal),
-                    RequestCode.UPDATE_MEAL.ordinal)
-            }
+            adapter = MealAdapter()
         }
         view.mealHomeList.addOnScrollListener(object : PaginationScrollListener(view.mealHomeList.layoutManager as LinearLayoutManager) {
             override fun isLastPage(): Boolean {
@@ -95,17 +89,6 @@ class HomeFragment : NavigationFragment(FragmentType.HOME) {
         entries.add(Entry(15f, 15f))
         view?.sugarLineChart?.data = ChartHandler.instance.handleLineDataCreation(context!!, entries)
         view?.sugarLineChart?.invalidate()
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        /*if (resultCode == Activity.RESULT_OK) {
-            if (requestCode == RequestCode.NEW_MEAL.ordinal) {
-                (view?.mealHomeList?.adapter as MealAdapter).addMeal(data?.getSerializableExtra(getString(R.string.param_meal)) as MealObject)
-            } else if (requestCode == RequestCode.UPDATE_MEAL.ordinal) {
-                (view?.mealHomeList?.adapter as MealAdapter).updateMeal(data?.getSerializableExtra(getString(R.string.param_meal)) as MealObject)
-            }
-        }*/
     }
 
     override fun isLoading(): Boolean {

@@ -15,7 +15,7 @@ class BiometricService : AService("/users/me/biometrics") {
     }
 
     fun updateUserBiometric(biometric: BiometricObject) : FuelResponse<BiometricObject> {
-        return postRequest(biometric)
+        return putRequest(biometric)
     }
 
 }

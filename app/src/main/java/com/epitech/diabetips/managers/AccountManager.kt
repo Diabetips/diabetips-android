@@ -32,7 +32,11 @@ class AccountManager : AObjectManager<AccountObject>("account_object")  {
     }
 
     fun removeAccount(context: Context) {
-        return removePreferenceKey(context)
+        return removePreferenceKey(context, ACCOUNT)
+    }
+
+    fun removeBiometric(context: Context) {
+        return removePreferenceKey(context, BIOMETRIC)
     }
 
 }

@@ -33,7 +33,7 @@ class InstrumentedUnitTest {
 
     @Before
     fun setup() {
-        instrumentationContext = InstrumentationRegistry.getInstrumentation().context
+        instrumentationContext = InstrumentationRegistry.getInstrumentation().targetContext
     }
 
     @Test
@@ -75,6 +75,23 @@ class InstrumentedUnitTest {
         AccountManager.instance.removeAccount(instrumentationContext)
         val actualAccount =  AccountManager.instance.getAccount(instrumentationContext)
         assertNotEquals("Wrong account.", expectedAccount, actualAccount)
+    }
+
+    @Test
+    fun saveAndGetBiometric() {
+        val expectedBiometric = BiometricObject(80, 175, "2020-10-05", "male")
+        AccountManager.instance.saveBiometric(instrumentationContext, expectedBiometric)
+        val actualBiometric =  AccountManager.instance.getBiometric(instrumentationContext)
+        assertEquals("Wrong account.", expectedBiometric, actualBiometric)
+    }
+
+    @Test
+    fun removeBiometric() {
+        val expectedBiometric = BiometricObject(80, 175, "2020-10-05", "male")
+        AccountManager.instance.saveBiometric(instrumentationContext, expectedBiometric)
+        AccountManager.instance.removeBiometric(instrumentationContext)
+        val actualBiometric =  AccountManager.instance.getBiometric(instrumentationContext)
+        assertNotEquals("Wrong account.", expectedBiometric, actualBiometric)
     }
 
     @Test
@@ -159,5 +176,25 @@ class InstrumentedUnitTest {
         val mealRecipeAdapter = MealRecipeAdapter()
         mealRecipeAdapter.addRecipe(recipeArray[0])
         assertEquals(recipeArray[0], mealRecipeAdapter.getRecipes()[0])
+    }
+
+    @Test
+    fun biometricObjectSex() {
+        //Values
+        val biometric = BiometricObject(80, 175, "2020-10-05")
+        //Operations
+        biometric.setSex(instrumentationContext, instrumentationContext.resources.getStringArray(R.array.sex)[0])
+        //Asserts
+        assertEquals("Wrong sex", instrumentationContext.resources.getStringArray(R.array.sex)[0], biometric.getSex(instrumentationContext))
+    }
+
+    @Test
+    fun biometricObjectDiabetesType() {
+        //Values
+        val biometric = BiometricObject(80, 175, "2020-10-05")
+        //Operations
+        biometric.setDiabetesType(instrumentationContext, instrumentationContext.resources.getStringArray(R.array.diabetes_type)[0])
+        //Asserts
+        assertEquals("Wrong diabetes type", instrumentationContext.resources.getStringArray(R.array.diabetes_type)[0], biometric.getDiabetesType(instrumentationContext))
     }
 }
