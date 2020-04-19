@@ -94,4 +94,8 @@
     <string name="diabetes_type_2">Type 2</string>
     <string name="diabetes_type_1">Type 1</string>
     <string name="total_sugar">Total glucide :</string>
+    <string name="deactivate_account_confirm">Etes vous certain de vouloir désactiver votre compte ?</string>
+    <string name="deactivated">Compte desactivé avec succès !</string>
+    <string name="deactivate">Désactiver mon compte</string>
+>>>>>>> a27e6896ca70a7a53654553f07c9e86ec00b65fa
 </resources>

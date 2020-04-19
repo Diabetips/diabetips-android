@@ -37,4 +37,8 @@ class UserService : AService("/users") {
         return FuelManager.instance.basePath + baseRoute + "/" + uid + "/picture"
     }
 
+    fun deactivateAccount(uid: String = "me") : FuelResponse<AccountObject> {
+        return deleteRequest("/$uid");
+    }
+
 }
