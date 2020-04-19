@@ -35,7 +35,10 @@ class HomeFragment : NavigationFragment(FragmentType.HOME) {
             startActivity(Intent(context, RecipeActivity::class.java)
                 .putExtra(getString(R.string.param_mode), RecipeActivity.ActivityMode.UPDATE))
         }
-        view.mealHomeList.apply {
+        view.openDashboardButton.setOnClickListener {
+            startActivity(Intent(context, DashboardActivity::class.java))
+        }
+/*        view.mealHomeList.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = MealAdapter()
         }
@@ -55,13 +58,13 @@ class HomeFragment : NavigationFragment(FragmentType.HOME) {
         view.mealHomeSwipeRefresh.setOnRefreshListener {
             getMeal()
         }
-        getMeal(view)
+        getMeal(view) */
         setSugarLineChartData(view)
         return view
     }
 
     private fun getMeal(view: View? = this.view, resetPage: Boolean = true) {
-        view?.mealHomeSwipeRefresh?.isRefreshing = true
+/*        view?.mealHomeSwipeRefresh?.isRefreshing = true
         if (resetPage)
             page.reset()
         else
@@ -75,7 +78,7 @@ class HomeFragment : NavigationFragment(FragmentType.HOME) {
                     (view?.mealHomeList?.adapter as MealAdapter).addMeals(it.second.component1()!!)
             }
             view?.mealHomeSwipeRefresh?.isRefreshing = false
-        }.subscribe()
+        }.subscribe() */
     }
 
     private fun setSugarLineChartData(view: View? = this.view) {
@@ -89,6 +92,7 @@ class HomeFragment : NavigationFragment(FragmentType.HOME) {
     }
 
     override fun isLoading(): Boolean {
-        return view?.mealHomeSwipeRefresh?.isRefreshing ?: false
+        return false;
+//        return view?.mealHomeSwipeRefresh?.isRefreshing ?: false
     }
 }

@@ -14,8 +14,10 @@
         android:roundIcon="@mipmap/ic_launcher_invert_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
-        <activity android:name=".activities.MainActivity" android:windowSoftInputMode="adjustPan" android:screenOrientation="portrait">
+        <activity
+            android:name=".activities.MainActivity"
+            android:screenOrientation="fullSensor"
+            android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW" />
@@ -26,8 +28,10 @@
         <activity android:name=".freestylelibre.Abbott">
             <intent-filter>
                 <action android:name="android.nfc.action.TECH_DISCOVERED" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
+
             <meta-data
                 android:name="android.nfc.action.TECH_DISCOVERED"
                 android:resource="@xml/nfc_tech_filter" />
@@ -39,9 +43,13 @@
         <activity android:name=".activities.SettingsFragment" android:screenOrientation="portrait" />
         <activity android:name=".activities.RecipeActivity" android:windowSoftInputMode="adjustPan" android:screenOrientation="portrait" />
         <activity android:name=".activities.FoodActivity" android:windowSoftInputMode="adjustPan" android:screenOrientation="portrait" />
-        <activity android:name=".activities.NewEntryActivity" android:windowSoftInputMode="adjustPan" android:screenOrientation="portrait" />
         <activity android:name=".activities.NewMealActivity" android:windowSoftInputMode="adjustPan" android:screenOrientation="portrait" />
+        <activity android:name=".activities.NewEntryActivity" android:windowSoftInputMode="adjustPan" android:screenOrientation="portrait" />
         <activity android:name=".activities.NewRecipeActivity" android:windowSoftInputMode="adjustPan" android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.DashboardActivity"
+            android:screenOrientation="fullSensor"
+            android:windowSoftInputMode="adjustPan" />
     </application>
 
 </manifest>

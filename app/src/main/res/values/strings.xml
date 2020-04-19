@@ -64,6 +64,19 @@
     <string name="created_account">An email has been sent to validate your account</string>
     <!--login / sign up screen end-->
 
+    <!--Home / Dashboard start-->
+    <string name="open_dashboard_button">Open Dashboard</string>
+    <!--Home / Dashboard end-->
+
+    <!--Dashboard / Dashboard start-->
+    <string name="dashboard_title">Dashboard</string>
+    <string name="meal">Meal</string>
+    <string name="insulin_slow">Slow insulin</string>
+    <string name="insulin_fast">Fast insulin</string>
+    <string name="comment">Comment</string>
+    <string name="unit">Unit</string>
+    <!--Dashboard / Dashboard end-->
+
     <!--Profile screen start-->
     <string name="new_password_input">New Password</string>
     <string name="weight_input">Weight (kg)</string>

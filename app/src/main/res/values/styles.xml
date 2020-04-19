@@ -103,6 +103,10 @@
         <item name="cardCornerRadius">@dimen/margin_size</item>
     </style>
 
+    <style name="BackgroundCardColorTheme">
+        <item name="android:colorBackground">?attr/colorCardBackground</item>
+    </style>
+
     <style name="BackgroundSearchViewCardTheme" parent="BackgroundTheme">
         <item name="cardBackgroundColor">?attr/colorSearchBackground</item>
         <item name="android:layout_marginTop">@dimen/search_bar_margin</item>
@@ -299,12 +303,23 @@
         <item name="android:textSize">@dimen/title_size</item>
     </style>
 
+
     <style name="SubtitleAppearance" parent="TextAppearance.MaterialComponents.Headline1">
         <item name="fontFamily">@font/muli_bold</item>
         <item name="android:textSize">@dimen/subtitle_size</item>
     </style>
 
+    <style name="BoldTextAppearance" parent="TextAppearance.MaterialComponents.Body1">
+        <item name="fontFamily">@font/muli_bold</item>
+        <item name="android:textSize">@dimen/text_size</item>
+    </style>
+
     <style name="TextAppearance" parent="TextAppearance.MaterialComponents.Body1">
+        <item name="fontFamily">@font/rubik_regular</item>
+        <item name="android:textSize">@dimen/text_size</item>
+    </style>
+
+    <style name="SoftTextAppearance" parent="TextAppearance.MaterialComponents.Body1">
         <item name="fontFamily">@font/rubik_regular</item>
         <item name="android:textSize">@dimen/text_size</item>
     </style>

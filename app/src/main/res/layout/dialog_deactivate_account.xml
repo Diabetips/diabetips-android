@@ -29,7 +29,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/half_margin_size"
                 android:layout_marginEnd="@dimen/half_margin_size"
-                android:layout_marginTop="@dimen/half_margin_size"
+                android:layout_marginTop="16dp"
                 android:text="@string/deactivate_account_confirm"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

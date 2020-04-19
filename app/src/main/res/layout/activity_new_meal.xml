@@ -24,7 +24,7 @@
             app:layout_constraintBottom_toBottomOf="parent"/>
 
         <TextView
-            android:id="@+id/titleNewMealText"
+            android:id="@+id/titleDashboardText"
             style="@style/SubtitleTheme"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

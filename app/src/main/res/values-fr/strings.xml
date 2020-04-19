@@ -97,5 +97,11 @@
     <string name="deactivate_account_confirm">Etes vous certain de vouloir désactiver votre compte ?</string>
     <string name="deactivated">Compte desactivé avec succès !</string>
     <string name="deactivate">Désactiver mon compte</string>
->>>>>>> a27e6896ca70a7a53654553f07c9e86ec00b65fa
+    <string name="open_dashboard_button">Tableau de bord</string>
+    <string name="dashboard_title">Tableau de bord</string>
+    <string name="meal">Repas</string>
+    <string name="comment">Commentaire</string>
+    <string name="insulin_slow">Insuline lente</string>
+    <string name="insulin_fast">Insuline rapide</string>
+    <string name="unit">Unité(s)</string>
 </resources>
