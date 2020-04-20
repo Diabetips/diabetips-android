@@ -15,7 +15,7 @@ import kotlinx.android.synthetic.main.activity_navigation.*
 class NavigationActivity : AppCompatActivity(), me.ibrahimsn.lib.OnItemSelectedListener  {
 
     var currentFragment: Fragment? = null
-    private var nfcReader: NfcReaderService? = null
+    var nfcReader: NfcReaderService? = null
     companion object {
         var defaultFragmentSelect = NavigationFragment.FragmentType.HOME
     }

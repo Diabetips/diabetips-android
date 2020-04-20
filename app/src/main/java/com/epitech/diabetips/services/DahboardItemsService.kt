@@ -18,9 +18,9 @@ class DashboardItemsService (var context: Context, val ItemsUpdated : (Array<Das
         page = PaginationObject(context.resources.getInteger(R.integer.pagination_size), context.resources.getInteger(R.integer.pagination_default))
         itemsManagers = arrayOf(
             Pair(page.copy(), ::getMeals),
-            Pair(page.copy(), ::getSugars),
+            Pair(page.copy(), ::getInsulins),
+            Pair(page.copy(), ::getSugars)
 //            Pair(page.copy(), ::getComments),
-            Pair(page.copy(), ::getInsulins)
         )
     }
 
@@ -60,8 +60,11 @@ class DashboardItemsService (var context: Context, val ItemsUpdated : (Array<Das
     }
 
     private fun getMeals(page: PaginationObject ): Single<Triple<Response, Array<DashboardItemObject>?, FuelError?>> {
-        return MealService.instance.getAllUserMeals(page).map{Triple(it.first, it.second.component1()?.map{ item ->
-            DashboardItemObject(item, context) }?.toTypedArray(), it.second.component2())};
+        return MealService.instance.getAllUserMeals(page).map{
+            Triple(it.first, it.second.component1()?.map{
+                    item -> DashboardItemObject(item, context)
+            }?.toTypedArray(), it.second.component2())
+        };
     }
 
     private fun getComments(page: PaginationObject): Single<Triple<Response, Array<DashboardItemObject>?, FuelError?>>{

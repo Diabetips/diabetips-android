@@ -22,7 +22,7 @@ class ChartHandler {
         lineChart.description.isEnabled = false
         lineChart.legend.isEnabled = false
         lineChart.axisLeft.isEnabled = true
-//        lineChart.axisLeft.disableGridDashedLine()
+        lineChart.axisLeft.disableGridDashedLine()
         lineChart.xAxis.disableGridDashedLine()
         lineChart.axisRight.isEnabled = false
         lineChart.xAxis.isEnabled = true
@@ -32,7 +32,7 @@ class ChartHandler {
         lineChart.setDrawBorders(false)
     }
 
-    public fun updateChartData(weeklyBglMap: HashMap<String, Int>, lineChart: LineChart, context: Context) {
+    public fun updateChartData(weeklyBglMap: List<Pair<String, Int>>, lineChart: LineChart, context: Context) {
         val yValues = mutableListOf<Entry>()
         val xValues = mutableListOf<String>()
         var i = 0f
