@@ -20,7 +20,7 @@ data class DashboardItemObject (
     constructor (meal: MealObject, context: Context) : this(
         orignal = meal,
         id = meal.id,
-        description = meal.recipes.map { it.name }.joinToString(separator = ", "),
+        description = meal.recipes.map { it.recipe.name }.joinToString(separator = ", "),
         title = context.resources.getString(R.string.meal),
         time = meal.timestamp,
         icon = context.getDrawable(R.drawable.ic_fork)) {

@@ -10,14 +10,12 @@ data class RecipeObject (
     var name: String = "",
     var description: String = "",
     var total_sugar: Float = 0f,
-    var ingredients: Array<IngredientObject> = arrayOf(),
-    var customization: Array<IngredientObject> = arrayOf()) : Serializable {
+    var ingredients: Array<IngredientObject> = arrayOf()) : Serializable {
 
     fun calculateTotalSugar() : Float {
         total_sugar = 0f
         ingredients.forEach {
-            val ingredient = customization.find { custom -> custom.food.id == it.food.id } ?: it
-            total_sugar += ingredient.calculateTotalSugar()
+            total_sugar += it.calculateTotalSugar()
         }
         return total_sugar
     }

@@ -6,7 +6,7 @@ import android.widget.ImageButton
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.epitech.diabetips.R
-import com.epitech.diabetips.storages.RecipeObject
+import com.epitech.diabetips.storages.MealRecipeObject
 import kotlinx.android.synthetic.main.item_meal_recipe.view.*
 
 class MealRecipeItemViewHolder(inflater: LayoutInflater, parent: ViewGroup)
@@ -25,8 +25,8 @@ class MealRecipeItemViewHolder(inflater: LayoutInflater, parent: ViewGroup)
         return mealRecipeButton
     }
 
-    fun bind(recipe: RecipeObject) {
-        mealRecipeText?.text = recipe.name
+    fun bind(recipe: MealRecipeObject) {
+        mealRecipeText?.text = recipe.recipe.name
         //mealRecipeQuantity?.text = recipe.quantity.toString() + recipe.unit //TODO add unit and quantity in recipes
     }
 }

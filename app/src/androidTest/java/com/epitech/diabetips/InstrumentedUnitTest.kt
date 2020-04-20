@@ -29,6 +29,7 @@ class InstrumentedUnitTest {
     private val foodArray = arrayOf(FoodObject(1, "Food"), FoodObject(2), FoodObject(3))
     private val ingredientArray = arrayOf(IngredientObject(5f, 1f, FoodObject(1, "Food")), IngredientObject(1f, 2f, FoodObject(2, "Ingredient")), IngredientObject(8f, 3f, FoodObject(3)))
     private val recipeArray = arrayOf(RecipeObject(1, "Recipe"), RecipeObject(2), RecipeObject(3))
+    private val mealRecipeArray = arrayOf(MealRecipeObject(0f, RecipeObject(1, "Recipe")), MealRecipeObject(0f, RecipeObject(2)), MealRecipeObject(0f, RecipeObject(3)))
     private val mealArray = arrayOf(MealObject(1, 0, "Meal"), MealObject(2), MealObject(3))
 
     @Before
@@ -167,15 +168,15 @@ class InstrumentedUnitTest {
     @Test
     fun mealRecipeAdapterAddRecipes() {
         val mealRecipeAdapter = MealRecipeAdapter()
-        mealRecipeAdapter.addRecipe(recipeArray[0])
+        mealRecipeAdapter.addRecipe(mealRecipeArray[0])
         assertEquals(1, mealRecipeAdapter.itemCount)
     }
 
     @Test
     fun mealRecipeAdapterAddRecipe() {
         val mealRecipeAdapter = MealRecipeAdapter()
-        mealRecipeAdapter.addRecipe(recipeArray[0])
-        assertEquals(recipeArray[0], mealRecipeAdapter.getRecipes()[0])
+        mealRecipeAdapter.addRecipe(mealRecipeArray[0])
+        assertEquals(mealRecipeArray[0], mealRecipeAdapter.getRecipes()[0])
     }
 
     @Test
