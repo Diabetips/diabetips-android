@@ -8,26 +8,34 @@
         tools:context=".activities.HomeFragment"
         style="@style/BackgroundHomeTheme">
 
-    <TextView
-        android:id="@+id/titleHomeText"
-        style="@style/TitleTheme"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/half_margin_size"
-        android:layout_marginTop="@dimen/half_margin_size"
-        android:text="@string/home_title"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/homeActionBar"
+        style="@style/ActionBarTheme"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
 
-    <ImageButton
-        android:id="@+id/viewRecipeButton"
-        style="@style/ImageButtonTransparentTheme"
-        android:layout_margin="@dimen/half_margin_size"
-        android:contentDescription="@string/placeholder_text"
-        android:src="@drawable/ic_recipe"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <TextView
+            android:id="@+id/titleHomeText"
+            style="@style/TitleTheme"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/half_margin_size"
+            android:text="@string/home_title"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
+        <ImageButton
+            android:id="@+id/viewRecipeButton"
+            style="@style/ImageButtonTransparentTheme"
+            android:layout_marginEnd="@dimen/half_margin_size"
+            android:contentDescription="@string/placeholder_text"
+            android:src="@drawable/ic_recipe"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <LinearLayout
         android:id="@+id/homeLayout"
@@ -36,9 +44,9 @@
         android:layout_height="0dp"
         android:orientation="vertical"
         android:weightSum="100"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/titleHomeText"
-        app:layout_constraintBottom_toBottomOf="parent">
+        app:layout_constraintTop_toBottomOf="@+id/homeActionBar">
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/sugarLineChartCard"
@@ -46,52 +54,39 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="40"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:layout_editor_absoluteX="14dp">
+            app:layout_constraintTop_toTopOf="parent">
 
             <com.github.mikephil.charting.charts.LineChart
                 android:id="@+id/sugarLineChart"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:contentDescription=""/>
+                android:contentDescription="" />
 
         </com.google.android.material.card.MaterialCardView>
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/newMealButton"
+            android:id="@+id/newEntryButton"
             style="@style/MaterialButtonTheme"
             android:layout_width="wrap_content"
-            android:text="@string/add_meal"
+
             android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/negative_margin_size"
             android:layout_weight="0"
-            android:layout_marginTop="@dimen/negative_margin_size"/>
+            android:text="@string/add_meal" />
 
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/mealHomeCard"
-            style="@style/BackgroundCardTheme"
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/openDashboardButton"
+            style="@style/MaterialButtonTheme"
+            android:layout_gravity="center"
+            android:text="@string/open_dashboard_button"
+            tools:layout_marginTop="16dp"
+            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="45">
-
-            <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-                android:id="@+id/mealHomeSwipeRefresh"
-                style="@style/EmptyBackgroundTheme"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent">
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/mealHomeList"
-                    style="@style/EmptyBackgroundTheme"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"/>
-
-            </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-
-        </com.google.android.material.card.MaterialCardView>
+            android:layout_height="26dp"
+            android:layout_weight="1"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
+            />
 
     </LinearLayout>
 

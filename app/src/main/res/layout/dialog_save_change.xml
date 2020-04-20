@@ -23,21 +23,33 @@
             style="@style/BackgroundDialogTheme">
 
             <TextView
-                android:id="@+id/changePictureText"
+                android:id="@+id/saveChangeTitle"
                 style="@style/SubtitleTheme"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/half_margin_size"
+                android:layout_marginStart="@dimen/margin_size"
                 android:layout_marginTop="@dimen/half_margin_size"
-                android:text="@string/change_profile_picture"
-                app:layout_constraintEnd_toEndOf="parent"
+                android:text="@string/save_change"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/saveChangeText"
+                style="@style/TextAltTheme"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="@dimen/margin_size"
+                android:layout_marginEnd="@dimen/margin_size"
+                android:layout_marginTop="@dimen/half_margin_size"
+                android:text="@string/unsaved_change"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/saveChangeTitle" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <LinearLayout
-            android:id="@+id/changePictureButtonLayout"
+            android:id="@+id/saveChangeButtonLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -47,18 +59,18 @@
             style="@style/EmptyBackgroundTheme">
 
             <ImageButton
-                android:id="@+id/newPictureButton"
+                android:id="@+id/saveChangeNegativeButton"
                 style="@style/ImageButtonTheme"
                 android:layout_marginEnd="@dimen/half_margin_size"
-                android:contentDescription="@string/new_picture"
-                android:src="@drawable/ic_photo_camera"/>
+                android:contentDescription="@string/placeholder_text"
+                android:src="@drawable/ic_close"/>
 
             <ImageButton
-                android:id="@+id/pictureGalleryButton"
-                style="@style/ImageButtonTheme"
+                android:id="@+id/saveChangePositiveButton"
+                style="@style/ImageButtonAltTheme"
                 android:layout_marginEnd="@dimen/half_margin_size"
-                android:contentDescription="@string/picture_gallery"
-                android:src="@drawable/ic_photo_library"/>
+                android:contentDescription="@string/placeholder_text"
+                android:src="@drawable/ic_check"/>
 
         </LinearLayout>
 

@@ -33,13 +33,17 @@ data class PaginationObject (
         return current >= last
     }
 
+    fun getRequestParameters() : String {
+        return "page=" + current + "&size=" + size
+    }
+
     fun updateFromHeader(header: String?) {
         if (header == null)
             return
         val parameters = header.trim().split(";")
         val values = mutableMapOf<String, Int?>()
         parameters.forEach {
-            val parameter = it.trim().split(":")
+            val parameter = it.trim().split(":", "=")
             values[parameter[0]] = parameter[1].trim().toIntOrNull()
         }
         if (values["previous"] != null)
@@ -49,4 +53,5 @@ data class PaginationObject (
         if (values["last"] != null)
             last = values["last"]!!
     }
+
 }

@@ -49,115 +49,224 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/titleProfileText" />
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/nameProfileInputLayout"
-        style="@style/TextInputLayoutTheme"
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/profilecrollView"
         android:layout_width="match_parent"
-        android:layout_marginTop="@dimen/half_margin_size"
-        android:hint="@string/name_input"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imagePhotoProfile">
+        android:layout_height="0dp"
+        android:elevation="-1dp"
+        android:layout_marginBottom="@dimen/navigation_height"
+        app:layout_constraintTop_toBottomOf="@+id/imagePhotoProfile"
+        app:layout_constraintBottom_toBottomOf="parent">
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/nameProfileInput"
-            style="@style/TextInputTheme"
+        <LinearLayout
+            android:id="@+id/newMealLayout"
+            style="@style/EmptyBackgroundTheme"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textPersonName"
-            android:imeOptions="actionNext"
-            android:nextFocusForward="@+id/firstNameProfileInput" />
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-    </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/nameProfileInputLayout"
+                style="@style/TextInputLayoutTheme"
+                android:layout_width="match_parent"
+                android:layout_marginTop="@dimen/half_margin_size"
+                android:hint="@string/name_input">
 
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/nameProfileInput"
+                    style="@style/TextInputTheme"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textPersonName"
+                    android:imeOptions="actionNext"
+                    android:nextFocusForward="@+id/firstNameProfileInput" />
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/firstNameProfileInputLayout"
-        style="@style/TextInputLayoutTheme"
-        android:layout_width="match_parent"
-        android:hint="@string/first_name_input"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/nameProfileInputLayout">
+            </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/firstNameProfileInput"
-            style="@style/TextInputTheme"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/firstNameProfileInputLayout"
+                style="@style/TextInputLayoutTheme"
+                android:layout_width="match_parent"
+                android:hint="@string/first_name_input">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/firstNameProfileInput"
+                    style="@style/TextInputTheme"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textPersonName"
+                    android:imeOptions="actionNext"
+                    android:nextFocusForward="@+id/emailProfileInput" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/emailProfileInputLayout"
+                style="@style/TextInputLayoutTheme"
+                android:layout_width="match_parent"
+                android:hint="@string/mail_input">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/emailProfileInput"
+                    style="@style/TextInputTheme"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textEmailAddress"
+                    android:imeOptions="actionNext"
+                    android:nextFocusForward="@+id/newPasswordInput" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/newPasswordInputLayout"
+                style="@style/PasswordInputLayoutTheme"
+                android:layout_width="match_parent"
+                android:layout_marginTop="@dimen/quarter_margin_size"
+                android:hint="@string/new_password_input">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/newPasswordInput"
+                    style="@style/TextInputTheme"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textPassword"
+                    android:imeOptions="actionNext"
+                    android:nextFocusForward="@+id/newPasswordConfirmInput" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/newPasswordConfirmInputLayout"
+                style="@style/PasswordInputLayoutTheme"
+                android:layout_width="match_parent"
+                android:hint="@string/password_confirm_input">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/newPasswordConfirmInput"
+                    style="@style/TextInputTheme"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textPassword"
+                    android:imeOptions="actionNext"
+                    android:nextFocusForward="@+id/weightProfileInput" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:id="@+id/medicalInformationsSubtitle"
+                style="@style/SubtitleTheme"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_size"
+                android:layout_marginTop="@dimen/half_margin_size"
+                android:layout_marginBottom="@dimen/quarter_margin_size"
+                android:text="@string/medical_informations" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/weightProfileInputLayout"
+                style="@style/TextInputLayoutTheme"
+                android:layout_width="match_parent"
+                android:layout_marginTop="@dimen/half_margin_size"
+                android:hint="@string/weight_input">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/weightProfileInput"
+                    style="@style/TextInputTheme"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="numberDecimal"
+                    android:imeOptions="actionNext"
+                    android:nextFocusForward="@+id/heightProfileInput" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/heightProfileInputLayout"
+                style="@style/TextInputLayoutTheme"
+                android:layout_width="match_parent"
+                android:hint="@string/height_input">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/heightProfileInput"
+                    style="@style/TextInputTheme"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="numberDecimal"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/birthDateProfileInputLayout"
+                style="@style/TextInputLayoutTheme"
+                android:layout_width="match_parent"
+                android:hint="@string/birth_input">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/birthDateProfileInput"
+                    style="@style/TextInputTheme"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="none" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/sexProfileInputLayout"
+            style="@style/DropdownInputLayoutTheme"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textPersonName"
-            android:imeOptions="actionNext"
-            android:nextFocusForward="@+id/emailProfileInput" />
+            android:hint="@string/sex_input"
+            android:labelFor="@id/sexProfileDropdown">
 
-    </com.google.android.material.textfield.TextInputLayout>
+                <AutoCompleteTextView
+                    android:id="@+id/sexProfileDropdown"
+                    style="@style/DropdownTheme"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/emailProfileInputLayout"
-        style="@style/TextInputLayoutTheme"
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/diabetesTypeProfileInputLayout"
+                style="@style/DropdownInputLayoutTheme"
+                android:layout_width="match_parent"
+                android:hint="@string/diabetes_type_input"
+                android:labelFor="@id/diabetesTypeProfileDropdown">
+
+                <AutoCompleteTextView
+                    android:id="@+id/diabetesTypeProfileDropdown"
+                    style="@style/DropdownTheme"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/updateProfileButton"
+                style="@style/MaterialButtonTheme"
+                android:layout_width="match_parent"
+                android:layout_marginTop="@dimen/quarter_margin_size"
+                android:layout_marginBottom="@dimen/margin_size"
+                android:text="@string/update" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/deactivateAccountButton"
+                style="@style/MaterialButtonTheme"
+                android:layout_width="match_parent"
+                android:layout_marginTop="@dimen/quarter_margin_size"
+                android:layout_marginBottom="@dimen/margin_size"
+                android:text="@string/deactivate" />
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/navigationProfileLayout"
         android:layout_width="match_parent"
-        android:hint="@string/mail_input"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/firstNameProfileInputLayout">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/emailProfileInput"
-            style="@style/TextInputTheme"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textEmailAddress"
-            android:imeOptions="actionNext"
-            android:nextFocusForward="@+id/newPasswordInput" />
-
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/newPasswordInputLayout"
-        style="@style/PasswordInputLayoutTheme"
-        android:layout_width="match_parent"
-        android:layout_marginTop="@dimen/quarter_margin_size"
-        android:hint="@string/new_password_input"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/emailProfileInputLayout">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/newPasswordInput"
-            style="@style/TextInputTheme"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textPassword"
-            android:imeOptions="actionNext"
-            android:nextFocusForward="@+id/newPasswordConfirmInput" />
-
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/newPasswordConfirmInputLayout"
-        style="@style/PasswordInputLayoutTheme"
-        android:layout_width="match_parent"
-        android:hint="@string/password_confirm_input"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/newPasswordInputLayout">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/newPasswordConfirmInput"
-            style="@style/TextInputTheme"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textPassword" />
-
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/updateProfileButton"
-        style="@style/MaterialButtonTheme"
-        android:layout_width="match_parent"
-        android:layout_marginTop="@dimen/quarter_margin_size"
-        android:text="@string/update"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/newPasswordConfirmInputLayout" />
+        android:layout_height="@dimen/navigation_height"
+        app:layout_constraintBottom_toBottomOf="parent"
+        style="@style/ClearBackgroundTheme"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

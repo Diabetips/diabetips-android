@@ -4,37 +4,64 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     style="@style/EmptyBackgroundTheme"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:paddingTop="@dimen/quarter_margin_size"
+    android:paddingBottom="@dimen/quarter_margin_size">
 
-    <TextView
-        android:id="@+id/recipeFoodText"
-        style="@style/TextAltTheme"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/placeholder_text"
-        android:layout_margin="@dimen/quarter_margin_size"
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/recipeFoodImage"
+        android:layout_width="@dimen/image_size"
+        android:layout_height="@dimen/image_size"
+        android:layout_marginStart="@dimen/margin_size"
+        android:src="@drawable/ic_food"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"/>
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/recipeFoodQuantityInputLayout"
-        android:layout_margin="@dimen/quarter_margin_size"
-        style="@style/RemoveInputLayoutTheme"
+    <LinearLayout
+        style="@style/EmptyBackgroundTheme"
         android:layout_width="0dp"
-        app:layout_constraintStart_toEndOf="@+id/recipeFoodText"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent">
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintStart_toEndOf="@id/recipeFoodImage"
+        app:layout_constraintEnd_toStartOf="@id/recipeFoodButton"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/recipeFoodQuantityInput"
-            style="@style/TextInputTheme"
-            android:textAlignment="textEnd"
+        <TextView
+            android:id="@+id/recipeFoodText"
+            style="@style/TextAltTheme"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="numberDecimal" />
+            android:layout_marginTop="@dimen/half_margin_size"
+            android:layout_marginStart="@dimen/half_margin_size"
+            android:layout_marginEnd="@dimen/half_margin_size"
+            android:text="@string/placeholder_text"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    </com.google.android.material.textfield.TextInputLayout>
+        <TextView
+            android:id="@+id/recipeFoodQuantity"
+            style="@style/HintAltTheme"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/half_margin_size"
+            android:layout_marginStart="@dimen/half_margin_size"
+            android:layout_marginEnd="@dimen/half_margin_size"
+            android:text="@string/placeholder_text"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/recipeText" />
+
+    </LinearLayout>
+
+    <ImageButton
+        android:id="@+id/recipeFoodButton"
+        style="@style/ImageButtonTransparentTheme"
+        android:layout_marginEnd="@dimen/margin_size"
+        android:contentDescription="@string/placeholder_text"
+        android:src="@drawable/ic_close"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

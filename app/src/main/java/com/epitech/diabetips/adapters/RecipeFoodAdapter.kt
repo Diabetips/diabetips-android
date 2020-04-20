@@ -1,14 +1,14 @@
 package com.epitech.diabetips.adapters
 
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.recyclerview.widget.RecyclerView
+import android.widget.TextView
+import com.epitech.diabetips.holders.RecipeFoodItemViewHolder
 import com.epitech.diabetips.storages.IngredientObject
 
-class RecipeFoodAdapter(private val foods: ArrayList<IngredientObject> = arrayListOf()) :
-    RecyclerView.Adapter<RecipeFoodItemViewHolder>() {
+class RecipeFoodAdapter(private val foods: ArrayList<IngredientObject> = arrayListOf(),
+                        private val onItemClickListener : ((IngredientObject, TextView?) -> Unit)? = null) :
+    AVisibilityAdapter<RecipeFoodItemViewHolder>() {
 
     override fun getItemCount(): Int = foods.size
 
@@ -16,20 +16,27 @@ class RecipeFoodAdapter(private val foods: ArrayList<IngredientObject> = arrayLi
         return foods
     }
 
+    fun setFoods(foodList: ArrayList<IngredientObject>) {
+        setFoods(foodList.toTypedArray())
+    }
+
     fun setFoods(foodList: Array<IngredientObject>) {
         foods.clear()
         foods.addAll(foodList)
         notifyDataSetChanged()
+        updateVisibility()
     }
 
     fun addFood(food: IngredientObject) {
         foods.add(food)
         notifyItemInserted(foods.size)
+        updateVisibility()
     }
 
     private fun removeFood(position: Int) {
         foods.removeAt(position)
         notifyDataSetChanged()
+        updateVisibility()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecipeFoodItemViewHolder {
@@ -38,18 +45,8 @@ class RecipeFoodAdapter(private val foods: ArrayList<IngredientObject> = arrayLi
     }
 
     override fun onBindViewHolder(holder: RecipeFoodItemViewHolder, position: Int) {
-        holder.bind(foods[position])
-        holder.getRecipeFoodQuantityInput()?.addTextChangedListener(object : TextWatcher {
-
-            override fun afterTextChanged(s: Editable) {}
-
-            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
-
-            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-                foods[position].quantity = if (s.toString().toFloatOrNull() == null) 0.0f else s.toString().toFloat()
-            }
-        })
-        holder.getRecipeFoodQuantityInputLayout()?.setEndIconOnClickListener {
+        holder.bind(foods[position], onItemClickListener)
+        holder.getRecipeFoodButton()?.setOnClickListener {
             removeFood(position)
         }
     }

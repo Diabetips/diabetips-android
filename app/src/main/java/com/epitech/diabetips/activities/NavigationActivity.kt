@@ -26,6 +26,10 @@ class NavigationActivity : AppCompatActivity(), me.ibrahimsn.lib.OnItemSelectedL
         setContentView(R.layout.activity_navigation)
         MaterialHandler.instance.handleTextInputLayoutSize(this.findViewById(android.R.id.content))
         smoothBottomBaBar.setOnItemSelectedListener(this)
+        selectDefaultFragment()
+    }
+
+    private fun selectDefaultFragment() {
         smoothBottomBaBar.setActiveItem(defaultFragmentSelect.ordinal)
         onItemSelect(defaultFragmentSelect.ordinal)
         setDefaultFragmentSelect()
@@ -56,6 +60,17 @@ class NavigationActivity : AppCompatActivity(), me.ibrahimsn.lib.OnItemSelectedL
 
     fun setDefaultFragmentSelect(navigationFragment: NavigationFragment.FragmentType = NavigationFragment.FragmentType.HOME) {
         defaultFragmentSelect = navigationFragment
+    }
+
+    override fun onBackPressed() {
+        val fragment = supportFragmentManager.findFragmentById(R.id.navigationFragment) as NavigationFragment?
+        if (fragment != null && fragment.isLoading()) {
+            return
+        } else if (smoothBottomBaBar.getActiveItem() != defaultFragmentSelect.ordinal) {
+            selectDefaultFragment()
+        } else {
+            moveTaskToBack(true)
+        }
     }
 
 }

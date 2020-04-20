@@ -19,6 +19,7 @@ local.properties
 .idea/tasks.xml
 .idea/.name
 .idea/compiler.xml
+.idea/caches/build_file_checksums.ser
 .idea/copyright/profiles_settings.xml
 .idea/encodings.xml
 .idea/misc.xml

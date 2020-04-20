@@ -11,11 +11,18 @@ class InsulinService : AService("/users/me/insulin") {
     }
 
     fun getAllUserInsulin(page: PaginationObject) : FuelResponse<Array<InsulinObject>> {
-        return getRequest("?page=" + page.current + "&size=" + page.size)
+        return getRequest("?" + page.getRequestParameters())
     }
 
     fun getUserInsulin(id: Int) : FuelResponse<InsulinObject> {
         return getRequest("/" + id)
+    }
+
+    fun createOrUpdateUserInsulin(insulin: InsulinObject) : FuelResponse<InsulinObject> {
+        if (insulin.id > 0) {
+            return updateUserInsulin(insulin)
+        }
+        return addUserInsulin(insulin)
     }
 
     private fun addUserInsulin(insulin: InsulinObject) : FuelResponse<InsulinObject> {

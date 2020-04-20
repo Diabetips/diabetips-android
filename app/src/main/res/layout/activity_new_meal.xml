@@ -2,75 +2,195 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    style="@style/BackgroundTheme"
+    style="@style/BackgroundHomeTheme"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activities.NewMealActivity">
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/newMealDescriptionLayout"
-        style="@style/TextInputLayoutTheme"
-        android:layout_width="match_parent"
-        android:layout_marginTop="@dimen/margin_size"
-        android:hint="@string/description"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/newMealActionBar"
+        style="@style/ActionBarTheme"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/newMealDescription"
-            style="@style/TextInputTheme"
-            android:layout_width="match_parent"
+        <ImageButton
+            android:id="@+id/closeNewMealButton"
+            style="@style/ImageButtonTransparentTheme"
+            android:layout_marginStart="@dimen/half_margin_size"
+            android:contentDescription="@string/placeholder_text"
+            android:src="@drawable/ic_back"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+        <TextView
+            android:id="@+id/titleDashboardText"
+            style="@style/SubtitleTheme"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:inputType="textMultiLine" />
+            android:layout_marginStart="@dimen/half_margin_size"
+            android:text="@string/meal_title"
+            app:layout_constraintStart_toEndOf="@+id/closeNewMealButton"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
 
-    </com.google.android.material.textfield.TextInputLayout>
+        <ImageButton
+            android:id="@+id/saveNewMealButton"
+            style="@style/ImageButtonTransparentTheme"
+            android:layout_marginEnd="@dimen/half_margin_size"
+            android:contentDescription="@string/placeholder_text"
+            android:src="@drawable/ic_save"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
 
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/mealRecipeCard"
-        style="@style/BackgroundCardTheme"
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/newMealScrollView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintTop_toBottomOf="@+id/newMealDescriptionLayout"
-        app:layout_constraintBottom_toTopOf="@+id/newMealButtonLayout">
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recipeList"
-            style="@style/EmptyBackgroundTheme"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-
-    </com.google.android.material.card.MaterialCardView>
-
-    <LinearLayout
-        android:id="@+id/newMealButtonLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/margin_size"
-        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@+id/newMealActionBar"
         app:layout_constraintBottom_toBottomOf="parent">
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/addRecipeButton"
-            style="@style/MaterialButtonTheme"
-            android:layout_width="0dp"
-            android:layout_marginEnd="0dp"
-            android:layout_weight="0.6"
-            android:text="@string/add_recipe"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+        <LinearLayout
+            android:id="@+id/newMealLayout"
+            style="@style/EmptyBackgroundTheme"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/validateMealButton"
-            style="@style/MaterialButtonTheme"
-            android:layout_width="0dp"
-            android:layout_marginStart="@dimen/half_margin_size"
-            android:layout_weight="0.4"
-            android:text="@string/validate"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/newMealTimeLayout"
+                style="@style/EmptyBackgroundTheme"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="@dimen/half_margin_size">
 
-    </LinearLayout>
+                <ImageButton
+                    android:id="@+id/newMealTimeImage"
+                    style="@style/ImageButtonTransparentTheme"
+                    android:clickable="false"
+                    android:layout_marginStart="@dimen/margin_size"
+                    android:contentDescription="@string/placeholder_text"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_time" />
+
+                <TextView
+                    android:id="@+id/newMealTimeDate"
+                    style="@style/TextAltTheme"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="@dimen/margin_size"
+                    android:layout_marginStart="@dimen/half_margin_size"
+                    android:text="@string/placeholder_text"
+                    app:layout_constraintStart_toEndOf="@+id/newMealTimeImage"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"/>
+
+                <TextView
+                    android:id="@+id/newMealTimeHour"
+                    style="@style/TextAltTheme"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="@dimen/margin_size"
+                    android:text="@string/placeholder_hour"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <LinearLayout
+                android:id="@+id/homeLayout"
+                style="@style/EmptyBackgroundTheme"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/mealRecipeCard"
+                    style="@style/BackgroundCardTheme"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <LinearLayout
+                        android:id="@+id/recipeFoodCardLayout"
+                        style="@style/EmptyClipBackgroundTheme"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_marginBottom="@dimen/margin_size"
+                        app:layout_constraintBottom_toBottomOf="parent">
+
+                        <TextView
+                            android:id="@+id/recipeListSubtitle"
+                            style="@style/SubtitleTheme"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/margin_size"
+                            android:layout_marginTop="@dimen/half_margin_size"
+                            android:layout_marginBottom="@dimen/quarter_margin_size"
+                            android:text="@string/meal_recipe_subtitle" />
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/recipeList"
+                            style="@style/EmptyBackgroundTheme"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:nestedScrollingEnabled="false"/>
+
+                        <LinearLayout
+                            android:id="@+id/recipeListEmptyLayout"
+                            style="@style/EmptyBackgroundTheme"
+                            android:visibility="gone"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:id="@+id/recipeListEmptyImage"
+                                android:layout_width="100dp"
+                                android:layout_height="100dp"
+                                android:layout_gravity="center"
+                                android:contentDescription="@string/placeholder_text"
+                                android:src="@drawable/ic_diet"/>
+
+                            <TextView
+                                android:id="@+id/recipeListEmptyText"
+                                style="@style/TextAltTheme"
+                                android:gravity="center"
+                                android:layout_gravity="center"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/margin_size"
+                                android:layout_marginEnd="@dimen/margin_size"
+                                android:layout_marginTop="@dimen/quarter_margin_size"
+                                android:text="@string/meal_recipe_empty" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/addRecipeButton"
+                    style="@style/MaterialButtonTheme"
+                    android:layout_width="wrap_content"
+                    android:text="@string/add_recipe"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="@dimen/negative_margin_size"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
