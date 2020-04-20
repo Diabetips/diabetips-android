@@ -15,8 +15,9 @@ class UnitTest {
     private val paginationObject = PaginationObject(10, 1, 3, 2, 4, 5)
     private val foodObject = FoodObject(1, "Food", "g", 100f)
     private val ingredientObject = IngredientObject(10f, 10f, foodObject)
-    private val recipeObject = RecipeObject(1, "Recipe", "", 25f, arrayOf(ingredientObject), arrayOf(IngredientObject(25f, 25f, foodObject)))
-    private val mealObject = MealObject(1, 0, "", 35f, arrayOf(recipeObject), arrayOf(ingredientObject))
+    private val recipeObject = RecipeObject(1, "Recipe", "", 10f, arrayOf(ingredientObject))
+    private val mealRecipeObject = MealRecipeObject(25f, recipeObject, arrayOf(IngredientObject(25f, 25f, foodObject)))
+    private val mealObject = MealObject(1, 0, "", 35f, arrayOf(mealRecipeObject), arrayOf(ingredientObject))
 
     @Test
     fun paginationObjectNextPage() {
@@ -53,19 +54,25 @@ class UnitTest {
 
     @Test
     fun ingredientTotalSugar() {
-        val ingredient = ingredientObject;
+        val ingredient = ingredientObject
         assertEquals("Wrong ingredient total sugar", ingredientObject.total_sugar, ingredient.calculateTotalSugar())
     }
 
     @Test
     fun recipeTotalSugar() {
-        val recipe = recipeObject;
+        val recipe = recipeObject
         assertEquals("Wrong recipe total sugar", recipeObject.total_sugar, recipe.calculateTotalSugar())
     }
 
     @Test
+    fun mealRecipeTotalSugar() {
+        val mealRecipe = mealRecipeObject
+        assertEquals("Wrong mealRecipe total sugar", mealRecipeObject.total_sugar, mealRecipe.calculateTotalSugar())
+    }
+
+    @Test
     fun mealTotalSugar() {
-        val meal = mealObject;
+        val meal = mealObject
         assertEquals("Wrong meal total sugar", mealObject.total_sugar, meal.calculateTotalSugar())
     }
 }

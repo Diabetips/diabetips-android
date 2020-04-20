@@ -112,17 +112,18 @@ class InstrumentedFunctionalTest {
     fun recipeAdapters() {
         //Values
         val recipeArray = arrayOf(RecipeObject(1, "Recipe"), RecipeObject(2), RecipeObject(3))
+        val mealRecipeArray = arrayOf(MealRecipeObject(0f, RecipeObject(1, "Recipe")), MealRecipeObject(0f, RecipeObject(2)), MealRecipeObject(0f, RecipeObject(3)))
         val recipeAdapter = RecipeAdapter()
         val mealRecipeAdapter = MealRecipeAdapter()
         //Operations
         recipeAdapter.setRecipes(recipeArray)
         recipeAdapter.addRecipe(recipeArray[0])
         recipeAdapter.addRecipes(recipeArray)
-        mealRecipeAdapter.setRecipes(recipeArray)
-        mealRecipeAdapter.addRecipe(recipeArray[0])
+        mealRecipeAdapter.setRecipes(mealRecipeArray)
+        mealRecipeAdapter.addRecipe(mealRecipeArray[0])
         //Asserts
         assertEquals("Wrong recipe adapter", recipeArray.size * 2 + 1, recipeAdapter.itemCount)
-        assertEquals("Wrong meal recipe adapter", recipeArray.size + 1, mealRecipeAdapter.itemCount)
+        assertEquals("Wrong meal recipe adapter", mealRecipeArray.size + 1, mealRecipeAdapter.itemCount)
     }
 
     @Test
