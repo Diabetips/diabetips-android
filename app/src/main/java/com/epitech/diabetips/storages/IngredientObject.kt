@@ -8,7 +8,13 @@ import java.io.Serializable
 data class IngredientObject (
     var quantity: Float = 0f,
     var total_sugar: Float = 0f,
-    var food: FoodObject = FoodObject()) : Serializable
+    var food: FoodObject = FoodObject()) : Serializable {
+
+    fun calculateTotalSugar() : Float {
+        total_sugar = food.sugars_100g * quantity / 100
+        return total_sugar
+    }
+}
 
 class IngredientObjectAdapter : TypeAdapter<IngredientObject>() {
 

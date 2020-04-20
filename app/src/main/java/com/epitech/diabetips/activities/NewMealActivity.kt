@@ -79,7 +79,7 @@ class NewMealActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener,
 
     private fun saveMeal(finishView: Boolean = false) {
         val meal = getMeal()
-        if (meal.recipes.isNullOrEmpty()) {
+        if (meal.recipes.isNullOrEmpty() && meal.foods.isNullOrEmpty()) {
             Toast.makeText(this, getString(R.string.meal_empty), Toast.LENGTH_SHORT).show()
         } else {
             MealService.instance.createOrUpdateUserMeal(meal).doOnSuccess {
@@ -99,8 +99,10 @@ class NewMealActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener,
     }
 
     private fun getMeal() : MealObject {
-        return MealObject(mealId, mealTimestamp, "", 0f,
+        val meal = MealObject(mealId, mealTimestamp, "", 0f,
             (recipeList.adapter as MealRecipeAdapter).getRecipes().toTypedArray())
+        meal.calculateTotalSugar()
+        return meal;
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
