@@ -2,6 +2,7 @@ package com.epitech.diabetips.activities
 
 import android.app.Activity
 import android.content.Intent
+import android.content.Intent.getIntent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.epitech.diabetips.R
 import com.epitech.diabetips.adapters.MealAdapter
 import com.epitech.diabetips.services.MealService
+import com.epitech.diabetips.services.NfcReaderService
 import com.epitech.diabetips.storages.*
 import com.epitech.diabetips.utils.ChartHandler
 import com.epitech.diabetips.utils.MaterialHandler

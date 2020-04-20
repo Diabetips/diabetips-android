@@ -16,14 +16,14 @@ import android.widget.TextView
 import com.epitech.diabetips.freestylelibre.GlucoseData
 import com.epitech.diabetips.freestylelibre.RawTagData
 import com.epitech.diabetips.freestylelibre.SensorData
-import com.epitech.diabetips.freestylelibre.SensorData.minSensorAgeInMinutes
 import java.io.*
 import java.util.*
 import kotlin.experimental.and
 
 public var NFC_USE_MULTI_BLOCK_READ = true
+var PENDING_INTENT_TECH_DISCOVERED = 1;
 
-class NfcReaderService (var context: Context, var intent: Intent){
+class NfcReaderService(var context: Context, myIntent: Intent) {
 
     val MIME_TEXT_PLAIN = "text/plain"
 
@@ -31,7 +31,7 @@ class NfcReaderService (var context: Context, var intent: Intent){
 
 
     private val lectura: String? = null
-    private  var buffer:kotlin.String? = null
+    private var buffer: kotlin.String? = null
     private val currentGlucose = 0f
     private val tvResult: TextView? = null
     var numHistoryValues = 32
@@ -51,9 +51,14 @@ class NfcReaderService (var context: Context, var intent: Intent){
         if (!mNfcAdapter!!.isEnabled) {
             throw IOException("NFC is disabled.")
         }
-        handleIntent(intent)
+        handleIntent(myIntent)
         var glucoseDatas = ArrayList<GlucoseData>()
         try {
+            val fos: FileOutputStream = context.applicationContext.openFileOutput(
+                "glucose",
+                Context.MODE_PRIVATE
+            )
+            fos.close()
             val fis: FileInputStream = context.applicationContext.openFileInput("glucose")
             val ois = ObjectInputStream(fis)
             glucoseDatas = ois.readObject() as ArrayList<GlucoseData>
@@ -65,18 +70,19 @@ class NfcReaderService (var context: Context, var intent: Intent){
             c.printStackTrace()
         }
         Log.d("Saved data", """$glucoseDatas""".trimIndent())
-        Log.d("Saved Sensor age", """${glucoseDatas[0].ageInSensorMinutes}""".trimIndent())
+        if (glucoseDatas.size > 1)
+            Log.d("Saved Sensor age", """${glucoseDatas[0].ageInSensorMinutes}""".trimIndent())
     }
 
-    protected fun onResume() {
+    fun onResume() {
         setupForegroundDispatch(context as Activity, mNfcAdapter)
     }
 
-    protected fun pause() {
+    fun onPause() {
         stopForegroundDispatch(context as Activity, mNfcAdapter)
     }
 
-    protected fun onNewIntent(intent: Intent) {
+    fun onNewIntent(intent: Intent?) {
         /**
          * This method gets called, when a new Intent gets associated with the current activity instance.
          * Instead of creating a new activity, onNewIntent will be called. For more information have a look
@@ -84,11 +90,17 @@ class NfcReaderService (var context: Context, var intent: Intent){
          *
          * In our case this method gets called, when the user attaches a Tag to the device.
          */
-        handleIntent(intent)
+        Log.d("NfcReaderDiabetips", "NEW INTENT FOUND")
+        if (intent != null) {
+            handleIntent(intent)
+        } else {
+            Log.d("NfcReaderDiabetips", "No Intent found")
+        }
     }
 
     private fun handleIntent(intent: Intent) {
         val action = intent.action
+        Log.d("diabetips", "Action FOUND ! ! !")
         if (NfcAdapter.ACTION_TECH_DISCOVERED == action) {
             Log.d("diabetips", "NfcAdapter.ACTION_TECH_DISCOVERED")
             // In case we would still use the Tech Discovered Intent
@@ -105,19 +117,35 @@ class NfcReaderService (var context: Context, var intent: Intent){
      * @param adapter The [NfcAdapter] used for the foreground dispatch.
      */
     fun setupForegroundDispatch(activity: Activity, adapter: NfcAdapter?) {
-        val intent = Intent(activity.applicationContext, activity.javaClass)
-        intent.flags = Intent.FLAG_ACTIVITY_SINGLE_TOP
-        val pendingIntent =
-            PendingIntent.getActivity(activity.applicationContext, 0, intent, 0)
-        val filters = arrayOfNulls<IntentFilter>(1)
-        val techList =
-            arrayOf<Array<String>>()
+//        val intent = Intent(activity.applicationContext, activity.javaClass)
+//        intent.flags = Intent.FLAG_ACTIVITY_SINGLE_TOP
+//        val pendingIntent =
+//            PendingIntent.getActivity(activity.applicationContext, 0, intent, 0)
+//        val filters = arrayOfNulls<IntentFilter>(1)
+//        val techList =
+//            arrayOf<Array<String>>()
+//
+//        // Notice that this is the same filter as in our manifest.
+//        filters[0] = IntentFilter()
+//        filters[0]!!.addAction(NfcAdapter.ACTION_NDEF_DISCOVERED)
+//        filters[0]!!.addCategory(Intent.CATEGORY_DEFAULT)
+//        filters[0]!!.addDataType("*/*")
+//        adapter!!.enableForegroundDispatch(activity, pendingIntent, filters, techList)
+        val pi: PendingIntent = activity.createPendingResult(PENDING_INTENT_TECH_DISCOVERED, Intent(), 0)
+        if (pi != null) {
+            try {
+                mNfcAdapter!!.enableForegroundDispatch(
+                    activity,
+                    pi,
+                    arrayOf(IntentFilter(NfcAdapter.ACTION_TECH_DISCOVERED)),
+                    arrayOf(arrayOf("android.nfc.tech.NfcV"))
+                )
+            } catch (e: NullPointerException) {
+                // Drop NullPointerException
+            }
+        }
 
-        // Notice that this is the same filter as in our manifest.
-        filters[0] = IntentFilter()
-        filters[0]!!.addAction(NfcAdapter.ACTION_NDEF_DISCOVERED)
-        filters[0]!!.addCategory(Intent.CATEGORY_DEFAULT)
-        adapter!!.enableForegroundDispatch(activity, pendingIntent, filters, techList)
+        Log.d("TOTO", "SETUP ForegroundDispatch")
     }
 
     /**
@@ -164,7 +192,8 @@ class NfcReaderService (var context: Context, var intent: Intent){
             }
             val buffer = CharArray(2)
             for (b in src) {
-                buffer[0] = Character.forDigit(((b.toInt() ushr 4).toByte() and 0x0F.toByte()).toInt(), 16)
+                buffer[0] =
+                    Character.forDigit(((b.toInt() ushr 4).toByte() and 0x0F.toByte()).toInt(), 16)
                 buffer[1] = Character.forDigit((b and 0x0F.toByte()).toInt(), 16)
                 builder.append(buffer)
             }
@@ -189,7 +218,8 @@ class NfcReaderService (var context: Context, var intent: Intent){
             val indexHistory = raw.getIndexHistory()
             val glucoseLevels = ArrayList<Int>()
             val ageInSensorMinutesList = ArrayList<Int>()
-            val mostRecentHistoryAgeInMinutes: Int = 3 + (raw.sensorAgeInMinutes - 3) % historyIntervalInMinutes
+            val mostRecentHistoryAgeInMinutes: Int =
+                3 + (raw.sensorAgeInMinutes - 3) % historyIntervalInMinutes
             val sensor = SensorData(raw)
             val glucoseDatas = ArrayList<GlucoseData>()
             // read history values from ring buffer, starting at indexHistory (bytes 124-315)
@@ -230,8 +260,8 @@ class NfcReaderService (var context: Context, var intent: Intent){
             } catch (ioe: IOException) {
                 ioe.printStackTrace()
             }
-            Log.d("Saved data", """$glucoseDatas""".trimIndent())
-            Log.d("Saved Sensor age", """${glucoseDatas[0].ageInSensorMinutes}""".trimIndent())
+//            Log.d("Saved data", """$glucoseDatas""".trimIndent())
+//            Log.d("Saved Sensor age", """${glucoseDatas[0].ageInSensorMinutes}""".trimIndent())
             Log.d("diabetips", "Glucose values : $glucoseLevels")
             Log.d("diabetips", "Sensor Ages    : $ageInSensorMinutesList")
             return null
@@ -315,5 +345,4 @@ class NfcReaderService (var context: Context, var intent: Intent){
         Log.d(LOG_ID, Arrays.toString(data))
         return true
     }
-
 }
