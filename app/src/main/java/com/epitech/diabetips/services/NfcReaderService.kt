@@ -16,6 +16,8 @@ import android.widget.TextView
 import com.epitech.diabetips.freestylelibre.GlucoseData
 import com.epitech.diabetips.freestylelibre.RawTagData
 import com.epitech.diabetips.freestylelibre.SensorData
+import com.epitech.diabetips.storages.BiometricObject
+import com.epitech.diabetips.storages.BloodSugarObject
 import java.io.*
 import java.util.*
 import kotlin.experimental.and
@@ -264,6 +266,17 @@ class NfcReaderService(var context: Context, myIntent: Intent) {
 //            Log.d("Saved Sensor age", """${glucoseDatas[0].ageInSensorMinutes}""".trimIndent())
             Log.d("diabetips", "Glucose values : $glucoseLevels")
             Log.d("diabetips", "Sensor Ages    : $ageInSensorMinutesList")
+            var bs: BloodSugarObject = BloodSugarObject()
+            bs.interval = 15 * 60
+            bs.start = raw.date - raw.sensorAgeInMinutes * 60
+            bs.measures = glucoseLevels.map { it -> it / 10 }.toTypedArray()
+            BloodSugarService.instance.postMeasures(bs).doOnSuccess(){
+                if (it.second.component2() == null) {
+                    Log.d("BLOOD", "SUCCESS")
+                } else {
+                    Log.d("BLOOD", it.second.component2()!!.exception.message)
+                }
+            }.subscribe()
             return null
         }
     }

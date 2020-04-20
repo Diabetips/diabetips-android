@@ -10,6 +10,7 @@ import com.epitech.diabetips.R
 import com.epitech.diabetips.adapters.DashboardItem2Adapter
 import com.epitech.diabetips.adapters.DashboardItemAdapter
 import com.epitech.diabetips.managers.ModeManager
+import com.epitech.diabetips.services.DashboardItemsService
 import com.epitech.diabetips.services.FuelResponse
 import com.epitech.diabetips.services.InsulinService
 import com.epitech.diabetips.services.MealService
@@ -26,9 +27,12 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 class DashboardActivity : AppCompatActivity() {
-    private lateinit var itemsManagers:  Array<Pair<PaginationObject,(PaginationObject) -> Single<Triple<Response, Array<DashboardItemObject>?, FuelError?>>>>;
+    private lateinit var dashboardItemService: DashboardItemsService
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        dashboardItemService = DashboardItemsService(context=this){
+                items, reset -> setItemsInDashBoardAdapter(reset, items)
+        }
         AppCompatDelegate.setDefaultNightMode(ModeManager.instance.getDarkMode(this))
         if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
             setTheme(R.style.DarkTheme)
@@ -36,13 +40,6 @@ class DashboardActivity : AppCompatActivity() {
             setTheme(R.style.AppTheme)
         }
         super.onCreate(savedInstanceState)
-        var page = PaginationObject(resources.getInteger(R.integer.pagination_size), resources.getInteger(R.integer.pagination_default))
-        itemsManagers = arrayOf(
-            Pair(page.copy(), ::getMeals),
-//            Pair(page.copy(), ::getSugars)//,
-//            Pair(page.copy(), ::getComments),
-            Pair(page.copy(), ::getInsulins)
-        )
         setContentView(R.layout.activity_dashboard)
         itemsList.apply {
             layoutManager = LinearLayoutManager(context)
@@ -53,7 +50,7 @@ class DashboardActivity : AppCompatActivity() {
         }
         itemsList.addOnScrollListener(object : PaginationScrollListener(itemsList.layoutManager as LinearLayoutManager) {
             override fun isLastPage(): Boolean {
-                return itemsManagers.map{it.first.isLast()}.all{it}
+                return dashboardItemService.itemsManagers.map{it.first.isLast()}.all{it}
             }
 
             override fun isLoading(): Boolean {
@@ -61,34 +58,17 @@ class DashboardActivity : AppCompatActivity() {
             }
 
             override fun loadMoreItems() {
-                getItems(false)
+                itemsSwipeRefresh.isRefreshing = true;
+                dashboardItemService.getItems(false)
             }
         })
 
         itemsSwipeRefresh.setOnRefreshListener {
-            getItems()
+            itemsSwipeRefresh.isRefreshing = true;
+            dashboardItemService.getItems()
         }
-        getItems()
-    }
-
-    private fun getItems(resetPage: Boolean = true, index: Int = 0, items: Array<DashboardItemObject> = arrayOf()) {
-        if (index == 0) {
-            itemsSwipeRefresh?.isRefreshing = true
-            if (resetPage)
-                itemsManagers.forEach { it.first.reset() }
-            else
-                itemsManagers.forEach { it.first.nextPage() }
-        }
-
-        if (index >= itemsManagers.size)
-            setItemsInDashBoardAdapter(resetPage, items)
-        else
-            itemsManagers[index].second(itemsManagers[index].first).doOnSuccess{
-                itemsManagers[index].first.updateFromHeader(it.first.headers[getString(R.string.pagination_header)]?.get(0))
-                if (it.third == null && it.second != null) {
-                    getItems(resetPage, index + 1, items + it.second as Array<DashboardItemObject>)
-                }
-            }.subscribe();
+        itemsSwipeRefresh.isRefreshing = true;
+        dashboardItemService.getItems()
     }
 
     private fun setItemsInDashBoardAdapter(resetPage: Boolean, items: Array<DashboardItemObject>) {
@@ -118,24 +98,5 @@ class DashboardActivity : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-    }
-    private fun getMeals(page: PaginationObject ): Single<Triple<Response, Array<DashboardItemObject>?, FuelError?>> {
-        return MealService.instance.getAllUserMeals(page).map{Triple(it.first, it.second.component1()?.map{ item ->
-            DashboardItemObject(item, this) }?.toTypedArray(), it.second.component2())};
-    }
-
-    private fun getComments(page: PaginationObject): Single<Triple<Response, Array<DashboardItemObject>?, FuelError?>>{
-        return MealService.instance.getAllUserMeals(page).map{Triple(it.first, it.second.component1()?.map{item ->
-            DashboardItemObject(item, this) }?.toTypedArray(), it.second.component2())};
-    }
-
-    private fun getInsulins(page: PaginationObject): Single<Triple<Response, Array<DashboardItemObject>?, FuelError?>>{
-        return InsulinService.instance.getAllUserInsulin(page).map{Triple(it.first, it.second.component1()?.map{item ->
-            DashboardItemObject(item, this) }?.toTypedArray(), it.second.component2())};
-    }
-
-    private fun getSugars(page: PaginationObject): Single<Triple<Response, Array<DashboardItemObject>?, FuelError?>>{
-        return MealService.instance.getAllUserMeals(page).map{Triple(it.first, it.second.component1()?.map{item ->
-            DashboardItemObject(item, this) }?.toTypedArray(), it.second.component2())};
     }
 }

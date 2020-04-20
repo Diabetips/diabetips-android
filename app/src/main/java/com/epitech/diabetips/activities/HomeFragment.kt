@@ -4,19 +4,18 @@ import android.app.Activity
 import android.content.Intent
 import android.content.Intent.getIntent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.epitech.diabetips.R
 import com.epitech.diabetips.adapters.MealAdapter
+import com.epitech.diabetips.services.BloodSugarService
 import com.epitech.diabetips.services.MealService
 import com.epitech.diabetips.services.NfcReaderService
 import com.epitech.diabetips.storages.*
-import com.epitech.diabetips.utils.ChartHandler
-import com.epitech.diabetips.utils.MaterialHandler
-import com.epitech.diabetips.utils.NavigationFragment
-import com.epitech.diabetips.utils.PaginationScrollListener
+import com.epitech.diabetips.utils.*
 import com.github.mikephil.charting.data.Entry
 import kotlinx.android.synthetic.main.fragment_home.view.*
 
@@ -89,8 +88,19 @@ class HomeFragment : NavigationFragment(FragmentType.HOME) {
         entries.add(Entry(5f, 10f))
         entries.add(Entry(10f, 8f))
         entries.add(Entry(15f, 15f))
-        view?.sugarLineChart?.data = ChartHandler.instance.handleLineDataCreation(context!!, entries)
-        view?.sugarLineChart?.invalidate()
+        ChartHandler.instance.updateChartData(hashMapOf("11h25" to 120, "11h30" to 128,"11h35" to 138,"11h45" to 142,"11h50" to 130,"11h55" to 120,"12h00" to 135), view?.sugarLineChart!!, context!!)
+//        view?.sugarLineChart?.data = ChartHandler.instance.handleLineDataCreation(context!!, entries)
+//        view?.sugarLineChart?.invalidate()
+        val page: PaginationObject = PaginationObject(resources.getInteger(R.integer.pagination_size), resources.getInteger(R.integer.pagination_default))
+        var cur = TimeHandler.instance.currentTimeSecond();
+        page.setInterval(cur - 24*60*60, cur)
+        BloodSugarService.instance.getAllMeasures(page).doOnSuccess() { it ->
+            if (it.second.component2() == null) {
+                Log.d("BLOOD", "SUCCESS")
+            } else {
+                Log.d("BLOOD", it.second.component2()!!.exception.message)
+            }
+        }.subscribe()
     }
 
     override fun isLoading(): Boolean {

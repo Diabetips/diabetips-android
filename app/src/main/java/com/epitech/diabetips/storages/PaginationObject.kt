@@ -8,7 +8,10 @@ data class PaginationObject (
     var current: Int = default,
     var previous: Int = default,
     var next: Int = default,
-    var last: Int = default) : Serializable {
+    var last: Int = default,
+    var start: Long = 0,
+    var end: Long = 0,
+    var periodEnable: Boolean = false) : Serializable {
 
     fun reset() {
         current = default
@@ -34,24 +37,36 @@ data class PaginationObject (
     }
 
     fun getRequestParameters() : String {
-        return "page=" + current + "&size=" + size
+        if (periodEnable)
+            return "page=$current&size=$size&start=$start&end=$end"
+        return "page=$current&size=$size"
     }
 
     fun updateFromHeader(header: String?) {
         if (header == null)
             return
         val parameters = header.trim().split(";")
-        val values = mutableMapOf<String, Int?>()
+        val values = mutableMapOf<String, Any?>()
         parameters.forEach {
             val parameter = it.trim().split(":", "=")
             values[parameter[0]] = parameter[1].trim().toIntOrNull()
         }
         if (values["previous"] != null)
-            previous = values["previous"]!!
+            previous = values["previous"]!! as Int
         if (values["next"] != null)
-            next = values["next"]!!
+            next = values["next"]!! as Int
         if (values["last"] != null)
-            last = values["last"]!!
+            last = values["last"]!! as Int
+        if (values["start"] != null)
+            start = values["start"]!! as Long
+        if (values["end"] != null)
+            end = values["end"]!! as Long
+    }
+
+    fun setInterval(start: Long, end: Long) {
+        this.start = start;
+        this.end = end;
+        this.periodEnable = true
     }
 
 }

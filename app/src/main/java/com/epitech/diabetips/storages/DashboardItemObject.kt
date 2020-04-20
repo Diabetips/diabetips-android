@@ -39,6 +39,17 @@ data class DashboardItemObject (
             icon!!.setColorFilter(ContextCompat.getColor(context, R.color.colorAccent), PorterDuff.Mode.SRC_ATOP)
     }
 
+    constructor (bloodSugar: BloodSugarObject, context: Context) : this(
+        orignal = bloodSugar,
+        id = 0,
+        description = bloodSugar.value.toString() + " u",
+        title = "Sugar",
+        time = bloodSugar.timestamp,
+        icon = context.getDrawable(R.drawable.ic_syringe)) {
+        type = Type.SUGAR
+        icon!!.setColorFilter(ContextCompat.getColor(context, R.color.colorAccent), PorterDuff.Mode.SRC_ATOP)
+    }
+
     enum class Type {
         MEAL, COMMENT, INSULIN_SLOW, INSULIN_FAST, SUGAR
     }
