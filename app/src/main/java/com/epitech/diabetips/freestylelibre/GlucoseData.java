@@ -5,8 +5,6 @@ import java.text.DecimalFormat;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
-import static com.epitech.diabetips.freestylelibre.Abbott.GLUCOSE_UNIT_IS_MMOL;
-
 public class GlucoseData implements Comparable<GlucoseData>, Serializable {
     public static final String ID = "id";
     public static final String SENSOR = "sensor";
@@ -15,6 +13,7 @@ public class GlucoseData implements Comparable<GlucoseData>, Serializable {
     public static final String IS_TREND_DATA = "isTrendData";
     public static final String DATE = "date";
     public static final String TIMEZONE_OFFSET_IN_MINUTES = "timezoneOffsetInMinutes";
+    private static final Boolean GLUCOSE_UNIT_IS_MMOL = false;
 
     private String id;
     private SensorData sensor;

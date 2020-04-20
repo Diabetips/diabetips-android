@@ -36,11 +36,11 @@ public class RawTagData {
         this.data = data.clone();
     }
 
-    int getTrendValue(int index) {
+    public int getTrendValue(int index) {
         return getWord(offsetTrendTable + index * tableEntrySize) & 0x3FFF;
     }
 
-    int getHistoryValue(int index) {
+    public int getHistoryValue(int index) {
         return getWord(offsetHistoryTable + index * tableEntrySize) & 0x3FFF;
     }
 
@@ -64,7 +64,7 @@ public class RawTagData {
         return getByte(offsetTrendIndex);
     }
 
-    int getIndexHistory() {
+    public int getIndexHistory() {
         return getByte(offsetHistoryIndex);
     }
 
