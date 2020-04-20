@@ -1,6 +1,6 @@
 package com.epitech.diabetips
 
-import com.epitech.diabetips.storages.PaginationObject
+import com.epitech.diabetips.storages.*
 import org.junit.Test
 
 import org.junit.Assert.*
@@ -28,5 +28,20 @@ class FunctionalTest {
         assertEquals("Wrong previous page", page.current, expectedPrevious)
         page.reset()
         assertEquals("Wrong pagination", page, PaginationObject(page.size, page.default))
+    }
+
+    @Test
+    fun totalSugar() {
+        val food = FoodObject(1, "Food", "g", 100f)
+        val ingredient = IngredientObject(10f, 10f, food)
+        val recipe = RecipeObject(1, "Recipe", "", 25f, arrayOf(ingredient), arrayOf(IngredientObject(25f, 25f, food)))
+        val meal = MealObject(1, 0, "", 35f, arrayOf(recipe), arrayOf(ingredient))
+        var expectedSugar = ingredient.total_sugar
+        assertEquals("Wrong ingredient total sugar", ingredient.total_sugar, ingredient.calculateTotalSugar())
+        expectedSugar = recipe.total_sugar
+        assertEquals("Wrong ingredient total sugar", recipe.total_sugar, recipe.calculateTotalSugar())
+        expectedSugar = meal.total_sugar
+        assertEquals("Wrong ingredient total sugar", meal.total_sugar, meal.calculateTotalSugar())
+
     }
 }

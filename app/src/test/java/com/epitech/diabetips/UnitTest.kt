@@ -1,7 +1,6 @@
 package com.epitech.diabetips
 
-import com.epitech.diabetips.storages.BiometricObject
-import com.epitech.diabetips.storages.PaginationObject
+import com.epitech.diabetips.storages.*
 import org.junit.Test
 
 import org.junit.Assert.*
@@ -14,7 +13,10 @@ import org.junit.Assert.*
 class UnitTest {
 
     private val paginationObject = PaginationObject(10, 1, 3, 2, 4, 5)
-    private val biometricObject = BiometricObject(80, 175, "", "man")
+    private val foodObject = FoodObject(1, "Food", "g", 100f)
+    private val ingredientObject = IngredientObject(10f, 10f, foodObject)
+    private val recipeObject = RecipeObject(1, "Recipe", "", 25f, arrayOf(ingredientObject), arrayOf(IngredientObject(25f, 25f, foodObject)))
+    private val mealObject = MealObject(1, 0, "", 35f, arrayOf(recipeObject), arrayOf(ingredientObject))
 
     @Test
     fun paginationObjectNextPage() {
@@ -47,5 +49,23 @@ class UnitTest {
         assertEquals("Wrong previous page", page.previous, expectedPrevious)
         assertEquals("Wrong next page", page.next, expectedNext)
         assertEquals("Wrong last page", page.last, expectedLast)
+    }
+
+    @Test
+    fun ingredientTotalSugar() {
+        val ingredient = ingredientObject;
+        assertEquals("Wrong ingredient total sugar", ingredientObject.total_sugar, ingredient.calculateTotalSugar())
+    }
+
+    @Test
+    fun recipeTotalSugar() {
+        val recipe = recipeObject;
+        assertEquals("Wrong recipe total sugar", recipeObject.total_sugar, recipe.calculateTotalSugar())
+    }
+
+    @Test
+    fun mealTotalSugar() {
+        val meal = mealObject;
+        assertEquals("Wrong meal total sugar", mealObject.total_sugar, meal.calculateTotalSugar())
     }
 }
