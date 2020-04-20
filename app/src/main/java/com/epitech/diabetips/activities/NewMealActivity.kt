@@ -15,6 +15,7 @@ import com.epitech.diabetips.R
 import com.epitech.diabetips.adapters.MealRecipeAdapter
 import com.epitech.diabetips.services.MealService
 import com.epitech.diabetips.storages.MealObject
+import com.epitech.diabetips.storages.MealRecipeObject
 import com.epitech.diabetips.storages.RecipeObject
 import com.epitech.diabetips.utils.DividerItemDecorator
 import com.epitech.diabetips.utils.MaterialHandler
@@ -110,8 +111,9 @@ class NewMealActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener,
         if (resultCode == Activity.RESULT_OK) {
             if (requestCode == RequestCode.SEARCH_RECIPE.ordinal) {
                 saved = false
-                (recipeList.adapter as MealRecipeAdapter).addRecipe(
-                    data?.getSerializableExtra(getString(R.string.param_recipe)) as RecipeObject)
+                //TODO change with recipemeal
+                val mealRecipe = MealRecipeObject(0f, data?.getSerializableExtra(getString(R.string.param_recipe)) as RecipeObject)
+                (recipeList.adapter as MealRecipeAdapter).addRecipe(mealRecipe)
             }
         }
     }

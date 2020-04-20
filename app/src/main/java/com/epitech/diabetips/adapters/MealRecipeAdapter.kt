@@ -3,25 +3,26 @@ package com.epitech.diabetips.adapters
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.epitech.diabetips.holders.MealRecipeItemViewHolder
+import com.epitech.diabetips.storages.MealRecipeObject
 import com.epitech.diabetips.storages.RecipeObject
 
-class MealRecipeAdapter(private val recipes: ArrayList<RecipeObject> = arrayListOf())
+class MealRecipeAdapter(private val recipes: ArrayList<MealRecipeObject> = arrayListOf())
     : AVisibilityAdapter<MealRecipeItemViewHolder>() {
 
     override fun getItemCount(): Int = recipes.size
 
-    fun getRecipes() : ArrayList<RecipeObject> {
+    fun getRecipes() : ArrayList<MealRecipeObject> {
         return recipes
     }
 
-    fun setRecipes(recipeList: Array<RecipeObject>) {
+    fun setRecipes(recipeList: Array<MealRecipeObject>) {
         recipes.clear()
         recipes.addAll(recipeList)
         notifyDataSetChanged()
         updateVisibility()
     }
 
-    fun addRecipe(recipe: RecipeObject) {
+    fun addRecipe(recipe: MealRecipeObject) {
         recipes.add(recipe)
         notifyItemInserted(recipes.size)
         updateVisibility()
@@ -46,4 +47,3 @@ class MealRecipeAdapter(private val recipes: ArrayList<RecipeObject> = arrayList
     }
 
 }
-

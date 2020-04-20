@@ -12,7 +12,7 @@ data class MealObject (
     var timestamp: Long = TimeHandler.instance.currentTimeSecond(),
     var description: String = "",
     var total_sugar: Float = 0f,
-    var recipes: Array<RecipeObject> = arrayOf(),
+    var recipes: Array<MealRecipeObject> = arrayOf(),
     var foods: Array<IngredientObject> = arrayOf()) : Serializable {
 
     fun calculateTotalSugar() : Float {
@@ -38,7 +38,7 @@ class MealObjectAdapter : TypeAdapter<MealObject>() {
         writer?.name("recipes_ids")
         writer?.beginArray()
         mealObject?.recipes?.forEach {
-            writer?.value(it.id)
+            writer?.value(it.recipe.id)
         }
         writer?.endArray()
 
@@ -46,10 +46,10 @@ class MealObjectAdapter : TypeAdapter<MealObject>() {
         writer?.beginArray()
         mealObject?.recipes?.forEach { recipe ->
             writer?.beginObject()
-            writer?.name("id")?.value(recipe.id)
+            writer?.name("id")?.value(recipe.recipe.id)
             writer?.name("modifications")
             writer?.beginArray()
-            recipe.customization.forEach {
+            recipe.modifications.forEach {
                 writer?.beginObject()
                 writer?.name("food_id")?.value(it.food.id)
                 writer?.name("quantity")?.value(it.quantity)
