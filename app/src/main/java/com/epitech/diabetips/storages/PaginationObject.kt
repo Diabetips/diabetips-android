@@ -12,6 +12,7 @@ data class PaginationObject (
     var start: Long = 0,
     var end: Long = 0,
     var periodEnable: Boolean = false) : Serializable {
+    var triggered: Boolean = false
 
     fun reset() {
         current = default
@@ -61,6 +62,8 @@ data class PaginationObject (
             start = values["start"]!! as Long
         if (values["end"] != null)
             end = values["end"]!! as Long
+
+        triggered = true;
     }
 
     fun setInterval(start: Long, end: Long) {

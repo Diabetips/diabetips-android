@@ -7,33 +7,34 @@ import androidx.recyclerview.widget.RecyclerView
 import com.epitech.diabetips.R
 import com.epitech.diabetips.activities.NewMealActivity
 import com.epitech.diabetips.holders.DashboardItemViewHolder
-import com.epitech.diabetips.storages.DashboardItemObject
+import com.epitech.diabetips.storages.EntryObject
+import com.epitech.diabetips.storages.EntryObject.Type.*
 import com.epitech.diabetips.storages.MealObject
 
-class DashboardItem2Adapter(val context: Context,
-                            private val items: ArrayList<DashboardItemObject> = arrayListOf(),
-                            private val onItemClickListener : ((DashboardItemObject) -> Unit)? = null)
+class DashboardItemsAdapter(val context: Context,
+                            private val items: ArrayList<EntryObject> = arrayListOf(),
+                            private val onItemClickListener : ((EntryObject) -> Unit)? = null)
         : RecyclerView.Adapter<DashboardItemViewHolder>() {
 
         var mitems = items;
 
-        fun setItems(itemList: Array<DashboardItemObject>) {
+        fun setItems(itemList: Array<EntryObject>) {
                 items.clear()
                 items.addAll(itemList)
                 notifyDataSetChanged()
         }
 
-        fun addItem(item: DashboardItemObject) {
+        fun addItem(item: EntryObject) {
                 items.add(item)
                 notifyItemInserted(items.size)
         }
 
-        fun addItems(itemList: Array<DashboardItemObject>) {
+        fun addItems(itemList: Array<EntryObject>) {
                 items.addAll(itemList)
                 notifyItemRangeInserted(items.size - itemList.size, itemList.size)
         }
 
-        fun updateItem(item: DashboardItemObject) {
+        fun updateItem(item: EntryObject) {
                 items.forEachIndexed { index, DashboardItemObject ->
                         if (DashboardItemObject.id == item.id) {
                                 items[index] = item
@@ -56,22 +57,23 @@ class DashboardItem2Adapter(val context: Context,
 
                 holder.itemView.setOnClickListener {
                         when(items[position].type) {
-                                DashboardItemObject.Type.MEAL -> launchMeal(items[position])
-                                DashboardItemObject.Type.COMMENT -> TODO()
-                                DashboardItemObject.Type.INSULIN_SLOW -> TODO()
-                                DashboardItemObject.Type.INSULIN_FAST -> TODO()
-                                DashboardItemObject.Type.SUGAR -> TODO()
+                                MEAL -> launchMeal(items[position])
+                                else -> doNothing()
                         }
                 }
         }
 
-        private fun launchMeal(item: DashboardItemObject) {
+        private fun launchMeal(item: EntryObject) {
                 val intent = Intent(context, NewMealActivity::class.java)
                         .putExtra(
                                 context.getString(R.string.param_meal),
                                 item.orignal as MealObject
                         )
                 context.startActivity(intent)
+        }
+
+        private fun doNothing() {
+
         }
 
 }

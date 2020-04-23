@@ -74,7 +74,7 @@
     <string name="insulin_slow">Slow insulin</string>
     <string name="insulin_fast">Fast insulin</string>
     <string name="comment">Comment</string>
-    <string name="unit">Unit</string>
+    <string name="date_format">\"MM/dd/yyyy\"</string>
     <!--Dashboard / Dashboard end-->
 
     <!--Profile screen start-->
@@ -185,6 +185,7 @@
         <item>1</item>
         <item>2</item>
     </string-array>
+    <string name="unit">Unit(s)</string>
     <!--diabetes type end-->
 
 </resources>

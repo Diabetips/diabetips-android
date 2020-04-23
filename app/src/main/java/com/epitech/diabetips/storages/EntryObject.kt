@@ -7,7 +7,7 @@ import androidx.core.content.ContextCompat
 import com.epitech.diabetips.R
 import java.io.Serializable
 
-data class DashboardItemObject (
+data class EntryObject (
     var id: Int = 0,
     var orignal: Any,
     var description: String = "",
@@ -51,7 +51,7 @@ data class DashboardItemObject (
     }
 
     enum class Type {
-        MEAL, COMMENT, INSULIN_SLOW, INSULIN_FAST, SUGAR
+        MEAL, COMMENT, INSULIN_SLOW, INSULIN_FAST, SUGAR, INSULIN
     }
 
     //Rest of the code in the class

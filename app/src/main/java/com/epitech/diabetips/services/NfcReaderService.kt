@@ -23,7 +23,7 @@ import java.io.*
 import java.util.*
 import kotlin.experimental.and
 
-public var NFC_USE_MULTI_BLOCK_READ = true
+var NFC_USE_MULTI_BLOCK_READ = true
 var PENDING_INTENT_TECH_DISCOVERED = 1;
 
 class NfcReaderService(var context: Context, myIntent: Intent) {
@@ -37,6 +37,7 @@ class NfcReaderService(var context: Context, myIntent: Intent) {
     private var buffer: kotlin.String? = null
     private val currentGlucose = 0f
     private val tvResult: TextView? = null
+    private val last: TextView? = null
     var numHistoryValues = 32
     var historyIntervalInMinutes = 15
     var numTrendValues = 16
@@ -264,17 +265,15 @@ class NfcReaderService(var context: Context, myIntent: Intent) {
             } catch (ioe: IOException) {
                 ioe.printStackTrace()
             }
-//            Log.d("Saved data", """$glucoseDatas""".trimIndent())
-//            Log.d("Saved Sensor age", """${glucoseDatas[0].ageInSensorMinutes}""".trimIndent())
-            Log.d("diabetips", "Glucose values : $glucoseLevels")
-            Log.d("diabetips", "Sensor Ages    : $ageInSensorMinutesList")
             var bs: BloodSugarObject = BloodSugarObject()
             bs.interval = 15 * 60
             bs.start = (raw.date / 1000 - raw.sensorAgeInMinutes * 60)
             bs.measures = glucoseLevels.map { it -> it / 10 }.toTypedArray()
+            Log.d("LAST", bs.measures[bs.measures.size - 1].toString())
+            Log.d("END", bs.measures[0].toString())
+
             BloodSugarService.instance.postMeasures(bs).doOnSuccess(){
                 if (it.second.component2() == null) {
-                    Log.d("BLOOD", "SUCCESS")
                 } else {
                     Log.d("BLOOD", it.second.component2()!!.exception.message)
                 }

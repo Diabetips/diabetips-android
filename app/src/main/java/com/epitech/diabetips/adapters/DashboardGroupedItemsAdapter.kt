@@ -1,47 +1,44 @@
 package com.epitech.diabetips.adapters
-import android.animation.TimeInterpolator
-import android.animation.ValueAnimator
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.epitech.diabetips.holders.DashboardGroupedItemViewHolder
-import com.epitech.diabetips.storages.DashboardItemObject
+import com.epitech.diabetips.holders.DashboardGroupedItemsViewHolder
+import com.epitech.diabetips.storages.EntryObject
 import java.util.*
 
 var animationPlaybackSpeed: Double = 0.8
 
-class DashboardItemAdapter(val context: Context,
-                           private var items: ArrayList<Pair<String?, List<DashboardItemObject>>> = arrayListOf(),
-                           private val onItemClickListener : ((DashboardItemObject) -> Unit)? = null)
-        : RecyclerView.Adapter<DashboardGroupedItemViewHolder>() {
+class DashboardGroupedItemsAdapter(val context: Context,
+                                   private var items: ArrayList<Pair<String?, List<EntryObject>>> = arrayListOf(),
+                                   private val onItemClickListener : ((EntryObject) -> Unit)? = null)
+        : RecyclerView.Adapter<DashboardGroupedItemsViewHolder>() {
 
 
         private val viewPool = RecyclerView.RecycledViewPool()
 
         private lateinit var recyclerView: RecyclerView
-        private var expandedModel: Pair<String?, List<DashboardItemObject>>? = null
+        private var expandedModel: Pair<String?, List<EntryObject>>? = null
 
-        fun setItems(itemList: ArrayList<Pair<String?, List<DashboardItemObject>>>) {
+        fun setItems(itemList: ArrayList<Pair<String?, List<EntryObject>>>) {
                 items.clear()
                 items.addAll(itemList)
                 notifyDataSetChanged()
         }
 
-        fun addItem(item: Pair<String?, List<DashboardItemObject>>) {
+        fun addItem(item: Pair<String?, List<EntryObject>>) {
                 items. add(item)
                 notifyItemInserted(items.size)
         }
 
-        fun addItems(itemList: ArrayList<Pair<String?, List<DashboardItemObject>>>) {
+        fun addItems(itemList: ArrayList<Pair<String?, List<EntryObject>>>) {
                 items.addAll(itemList)
                 notifyItemRangeInserted(items.size - itemList.size, itemList.size)
         }
 
-        fun updateItem(item: Pair<String?, List<DashboardItemObject>>) {
+        fun updateItem(item: Pair<String?, List<EntryObject>>) {
                 items.forEachIndexed { index, DashboardItemObject ->
                         if (DashboardItemObject.first == item.first) {
                                 items[index] = item
@@ -53,9 +50,9 @@ class DashboardItemAdapter(val context: Context,
 
         override fun getItemCount(): Int = items.size
 
-        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DashboardGroupedItemViewHolder {
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DashboardGroupedItemsViewHolder {
                 val inflater = LayoutInflater.from(parent.context)
-                return DashboardGroupedItemViewHolder(inflater, parent)
+                return DashboardGroupedItemsViewHolder(inflater, parent)
         }
 
         override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
@@ -63,7 +60,7 @@ class DashboardItemAdapter(val context: Context,
                 this.recyclerView = recyclerView
         }
 
-        override fun onBindViewHolder(holder: DashboardGroupedItemViewHolder, position: Int) {
+        override fun onBindViewHolder(holder: DashboardGroupedItemsViewHolder, position: Int) {
                 val model = items[position]
 
                 holder.bind(items[position].first as String, items[position].second)
@@ -74,7 +71,7 @@ class DashboardItemAdapter(val context: Context,
                 childLayoutManager.initialPrefetchItemCount = arrayItems.size
                 holder.recyclerView.apply {
                         layoutManager = childLayoutManager
-                        adapter = DashboardItem2Adapter(context, arrayItems, null)
+                        adapter = DashboardItemsAdapter(context, arrayItems, null)
                         setRecycledViewPool(viewPool)
                 }
 
@@ -96,7 +93,7 @@ class DashboardItemAdapter(val context: Context,
                                 // collapse previously expanded view
                                 val expandedModelPosition = items.indexOf(expandedModel!!)
                                 val oldViewHolder =
-                                        recyclerView.findViewHolderForAdapterPosition(expandedModelPosition) as? DashboardGroupedItemViewHolder
+                                        recyclerView.findViewHolderForAdapterPosition(expandedModelPosition) as? DashboardGroupedItemsViewHolder
                                 if (oldViewHolder != null) expandItem(oldViewHolder, expand = false, animate = true)
 
                                 // expand clicked view
@@ -107,7 +104,7 @@ class DashboardItemAdapter(val context: Context,
 
         }
 
-        private fun expandItem(holder: DashboardGroupedItemViewHolder, expand: Boolean, animate: Boolean) {
+        private fun expandItem(holder: DashboardGroupedItemsViewHolder, expand: Boolean, animate: Boolean) {
                 holder.recyclerView.isVisible = expand
                 holder.more.rotation *= 180
                 holder.changeState(expand)

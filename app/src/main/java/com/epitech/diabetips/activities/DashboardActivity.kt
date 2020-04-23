@@ -1,56 +1,60 @@
 package com.epitech.diabetips.activities
 
-import android.content.Intent
+import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.epitech.diabetips.R
-import com.epitech.diabetips.adapters.DashboardItem2Adapter
-import com.epitech.diabetips.adapters.DashboardItemAdapter
+import com.epitech.diabetips.adapters.DashboardGroupedItemsAdapter
 import com.epitech.diabetips.managers.ModeManager
-import com.epitech.diabetips.services.DashboardItemsService
-import com.epitech.diabetips.services.FuelResponse
-import com.epitech.diabetips.services.InsulinService
-import com.epitech.diabetips.services.MealService
-import com.epitech.diabetips.storages.DashboardItemObject
-import com.epitech.diabetips.storages.PaginationObject
+import com.epitech.diabetips.managers.EntriesManager
+import com.epitech.diabetips.storages.EntryObject
 import com.epitech.diabetips.utils.PaginationScrollListener
-import com.github.kittinunf.fuel.core.FuelError
-import com.github.kittinunf.fuel.core.Response
-import io.reactivex.Single
 import kotlinx.android.synthetic.main.activity_dashboard.*
 import java.text.SimpleDateFormat
-import java.time.LocalDateTime
 import java.util.*
 import kotlin.collections.ArrayList
+import android.util.Log
 
 class DashboardActivity : AppCompatActivity() {
-    private lateinit var dashboardItemService: DashboardItemsService
+    private lateinit var entriesManager: EntriesManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        dashboardItemService = DashboardItemsService(context=this){
-                items, reset -> setItemsInDashBoardAdapter(reset, items)
-        }
+        setupView()
+
+        entriesManager =
+            EntriesManager(context = this) { items, reset ->
+                setItemsInDashBoardAdapter(reset, items)
+            }
+
+        setupItemsList()
+        getItems()
+        closeDashboardButton.setOnClickListener { finish() }
+
+        super.onCreate(savedInstanceState)
+    }
+
+    private fun setupView()
+    {
         AppCompatDelegate.setDefaultNightMode(ModeManager.instance.getDarkMode(this))
         if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
             setTheme(R.style.DarkTheme)
         } else {
             setTheme(R.style.AppTheme)
         }
-        super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_dashboard)
+    }
+
+    private fun setupItemsList()
+    {
         itemsList.apply {
             layoutManager = LinearLayoutManager(context)
-            adapter = DashboardItemAdapter(context)
-        }
-        closeDashboardButton.setOnClickListener {
-            finish()
+            adapter = DashboardGroupedItemsAdapter(context)
         }
         itemsList.addOnScrollListener(object : PaginationScrollListener(itemsList.layoutManager as LinearLayoutManager) {
             override fun isLastPage(): Boolean {
-                return dashboardItemService.itemsManagers.map{it.first.isLast()}.all{it}
+                return entriesManager.isLastPage()
             }
 
             override fun isLoading(): Boolean {
@@ -58,45 +62,42 @@ class DashboardActivity : AppCompatActivity() {
             }
 
             override fun loadMoreItems() {
-                itemsSwipeRefresh.isRefreshing = true;
-                dashboardItemService.getItems(false)
+                getItems(false)
             }
         })
 
         itemsSwipeRefresh.setOnRefreshListener {
-            itemsSwipeRefresh.isRefreshing = true;
-            dashboardItemService.getItems()
+            getItems()
         }
-        itemsSwipeRefresh.isRefreshing = true;
-        dashboardItemService.getItems()
     }
 
-    private fun setItemsInDashBoardAdapter(resetPage: Boolean, items: Array<DashboardItemObject>) {
-//        LocalDateTime.ofEpochSecond(0).
-        var newItems = items.sortedByDescending{it.time}.toTypedArray()
-        val lol = ArrayList(newItems.groupBy { getDateTime(it.time)}.toList())
+    private fun getItems(resetPage: Boolean = true)
+    {
+        Log.d("ENTRIEEES", "New one")
+        if (!itemsSwipeRefresh.isRefreshing) {
+            itemsSwipeRefresh.isRefreshing = true;
+            entriesManager.getItems(resetPage)
+        }
+    }
 
-        if (resetPage) {
-//            (itemsList2?.adapter as DashboardItem2Adapter).setItems(newItems)
-            (itemsList?.adapter as DashboardItemAdapter).setItems(lol)
-        } else {
-//            (itemsList2?.adapter as DashboardItem2Adapter).addItems(newItems)
-            (itemsList?.adapter as DashboardItemAdapter).addItems(lol)
+    private fun setItemsInDashBoardAdapter(resetPage: Boolean, items: Array<EntryObject>) {
+        val newItems = ArrayList(items.sortedByDescending{it.time}.toTypedArray().groupBy { getDateTime(it.time)}.toList())
+        val adapter: DashboardGroupedItemsAdapter = (itemsList?.adapter as DashboardGroupedItemsAdapter)
+        if (resetPage) adapter.setItems(newItems) else adapter.addItems(newItems)
+        if (!entriesManager.isLastPage()) {
+            return entriesManager.getItems(false)
         }
         itemsSwipeRefresh.isRefreshing = false
     }
 
-    private fun getDateTime(s: Long): String? {
+    @SuppressLint("SimpleDateFormat")
+    private fun getDateTime(timestamp: Long): String? {
         try {
-            val sdf = SimpleDateFormat("MM/dd/yyyy")
-            val netDate = Date(s * 1000)
+            val sdf = SimpleDateFormat(resources.getString(R.string.date_format))
+            val netDate = Date(timestamp * 1000)
             return sdf.format(netDate)
         } catch (e: Exception) {
             return e.toString()
         }
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
     }
 }

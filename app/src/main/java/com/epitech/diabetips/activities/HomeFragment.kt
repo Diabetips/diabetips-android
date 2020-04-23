@@ -6,9 +6,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.epitech.diabetips.R
-import com.epitech.diabetips.services.DashboardItemsService
+import com.epitech.diabetips.managers.EntriesManager
 import com.epitech.diabetips.storages.BloodSugarObject
-import com.epitech.diabetips.storages.DashboardItemObject
+import com.epitech.diabetips.storages.EntryObject
 import com.epitech.diabetips.storages.PaginationObject
 import com.epitech.diabetips.utils.ChartHandler
 import com.epitech.diabetips.utils.MaterialHandler
@@ -20,21 +20,18 @@ import java.util.*
 
 class HomeFragment : NavigationFragment(FragmentType.HOME) {
 
-
-    private lateinit var page: PaginationObject
-    lateinit var dashboardItemsService: DashboardItemsService
+    lateinit var entriesManager: EntriesManager
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        dashboardItemsService = DashboardItemsService(context=context!!){
-                items, reset -> itemsUpdateTrigger(reset, items)
-        }
-
-        dashboardItemsService.page = PaginationObject(1000, resources.getInteger(R.integer.pagination_default))
+        val page = PaginationObject(1000, resources.getInteger(R.integer.pagination_default))
         val cur = TimeHandler.instance.currentTimeSecond();
-        dashboardItemsService.page.setInterval(cur - 24*60*60, cur)
-        dashboardItemsService.getItems()
+        page.setInterval(cur - 24*60*60, cur)
+        entriesManager =
+            EntriesManager(context = context!!, page=page) { items, reset ->
+                itemsUpdateTrigger(reset, items)
+            }
+        entriesManager.getItems()
         val view = inflater.inflate(R.layout.fragment_home, container, false)
-        page = PaginationObject(resources.getInteger(R.integer.pagination_size), resources.getInteger(R.integer.pagination_default))
         MaterialHandler.instance.handleTextInputLayoutSize(view as ViewGroup)
         ChartHandler.instance.handleLineChartStyle(view.sugarLineChart)
         view.newEntryButton.setOnClickListener {
@@ -74,8 +71,8 @@ class HomeFragment : NavigationFragment(FragmentType.HOME) {
         return view
     }
 
-    private fun itemsUpdateTrigger(reset: Boolean, items: Array<DashboardItemObject>) {
-        val map: List<Pair<String, Int>> = items.filter{ it.type == DashboardItemObject.Type.SUGAR}
+    private fun itemsUpdateTrigger(reset: Boolean, items: Array<EntryObject>) {
+        val map: List<Pair<String, Int>> = items.filter{ it.type == EntryObject.Type.SUGAR}
             .map {Pair(
                 SimpleDateFormat("MM-dd HH:mm", Locale.getDefault()).format(it.time * 1000),
                 (it.orignal as BloodSugarObject).value)}.sortedBy { it.first }
