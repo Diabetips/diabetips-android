@@ -86,7 +86,6 @@ class ProfileFragment : NavigationFragment(FragmentType.PROFILE), DatePickerDial
             }
             dialog.show()
         }
-
         view.deactivateAccountButton.setOnClickListener {
             val dialogView = layoutInflater.inflate(R.layout.dialog_deactivate_account, null)
             MaterialHandler.instance.handleTextInputLayoutSize(dialogView as ViewGroup)
@@ -109,7 +108,6 @@ class ProfileFragment : NavigationFragment(FragmentType.PROFILE), DatePickerDial
             }
             dialog.show()
         }
-
         view.imagePhotoProfile.setOnClickListener {
             val dialogView = layoutInflater.inflate(R.layout.dialog_change_picture, null)
             MaterialHandler.instance.handleTextInputLayoutSize(dialogView as ViewGroup)
@@ -253,7 +251,6 @@ class ProfileFragment : NavigationFragment(FragmentType.PROFILE), DatePickerDial
             }
             loading = false
         }.subscribe()
-
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

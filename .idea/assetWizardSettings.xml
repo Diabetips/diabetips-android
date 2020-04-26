@@ -133,8 +133,8 @@
                         <option name="values">
                           <map>
                             <entry key="assetSourceType" value="FILE" />
-                            <entry key="outputName" value="ic_keyboard_arrow_down" />
-                            <entry key="sourceFile" value="D:\Downloads\keyboard_arrow_down-24px.svg" />
+                            <entry key="outputName" value="ic_unknown" />
+                            <entry key="sourceFile" value="C:\Users\Out-Feu\Downloads\question-button.svg" />
                           </map>
                         </option>
                       </PersistentState>

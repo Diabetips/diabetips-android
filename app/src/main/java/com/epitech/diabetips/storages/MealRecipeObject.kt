@@ -1,8 +1,5 @@
 package com.epitech.diabetips.storages
 
-import com.google.gson.TypeAdapter
-import com.google.gson.stream.JsonReader
-import com.google.gson.stream.JsonWriter
 import java.io.Serializable
 
 data class MealRecipeObject (
@@ -10,11 +7,28 @@ data class MealRecipeObject (
     var recipe: RecipeObject = RecipeObject(),
     var modifications: Array<IngredientObject> = arrayOf()) : Serializable {
 
-    fun calculateTotalSugar() : Float {
-        total_sugar = 0f
+    fun getIngredients() : Array<IngredientObject> {
+        val ingredients = ArrayList<IngredientObject>()
         recipe.ingredients.forEach {
             val ingredient = modifications.find { custom -> custom.food.id == it.food.id } ?: it
-            total_sugar += ingredient.calculateTotalSugar()
+            if (ingredient.quantity > 0) {
+                ingredients.add(ingredient)
+            }
+        }
+        modifications.forEach {
+            if (recipe.ingredients.find { ingredient -> ingredient.food.id == it.food.id } == null) {
+                if (it.quantity > 0) {
+                    ingredients.add(it)
+                }
+            }
+        }
+        return ingredients.toTypedArray()
+    }
+
+    fun calculateTotalSugar() : Float {
+        total_sugar = 0f
+        getIngredients().forEach {
+            total_sugar += it.calculateTotalSugar()
         }
         return total_sugar
     }

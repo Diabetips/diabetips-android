@@ -33,6 +33,10 @@ class UserService : AService("/users") {
         return postData(ImageHandler.instance.encodeImage(image, 300), "/" + uid + "/picture")
     }
 
+    fun removePicture(uid: String = "me") : FuelResponse<AccountObject> {
+        return deleteRequest("/" + uid + "/picture")
+    }
+
     fun getPictureUrl(uid: String = "me") : String  {
         return FuelManager.instance.basePath + baseRoute + "/" + uid + "/picture"
     }
