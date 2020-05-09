@@ -157,8 +157,7 @@ class NewEntryActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener
                     objects[ObjectType.SLOW_INSULIN] = Pair<Int, Boolean?>(it.second.component1()?.id!!, true)
                 else
                     objects[ObjectType.FAST_INSULIN] = Pair<Int, Boolean?>(it.second.component1()?.id!!, true)
-                if (finishView)
-                    tryToFinishView()
+                displaySavedMessage(finishView)
             } else {
                 Toast.makeText(this, it.second.component2()!!.exception.message, Toast.LENGTH_SHORT).show()
             }
@@ -170,8 +169,7 @@ class NewEntryActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener
         NoteService.instance.createOrUpdateUserNote(note).doOnSuccess {
             if (it.second.component2() == null) {
                 objects[ObjectType.NOTE] = Pair<Int, Boolean?>(it.second.component1()?.id!!, true)
-                if (finishView)
-                    tryToFinishView()
+                displaySavedMessage(finishView)
             } else {
                 Toast.makeText(this, it.second.component2()!!.exception.message, Toast.LENGTH_SHORT).show()
             }
@@ -184,17 +182,19 @@ class NewEntryActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener
         EventService.instance.createOrUpdateUserEvent(event).doOnSuccess {
             if (it.second.component2() == null) {
                 objects[ObjectType.EVENT] = Pair<Int, Boolean?>(it.second.component1()?.id!!, true)
-                if (finishView)
-                    tryToFinishView()
+                displaySavedMessage(finishView)
             } else {
                 Toast.makeText(this, it.second.component2()!!.exception.message, Toast.LENGTH_SHORT).show()
             }
         }.subscribe()
     }
 
-    private fun tryToFinishView() {
-        if (objects.all { obj -> obj.value.second != false })
-            finish()
+    private fun displaySavedMessage(finishView: Boolean) {
+        if (objects.all { obj -> obj.value.second != false }) {
+            Toast.makeText(this, getString(R.string.saved_change), Toast.LENGTH_SHORT).show()
+            if (finishView)
+                finish()
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

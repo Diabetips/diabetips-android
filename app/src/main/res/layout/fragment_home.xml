@@ -72,7 +72,7 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="@dimen/negative_margin_size"
             android:layout_weight="0"
-            android:text="@string/add_meal" />
+            android:text="@string/add_entry" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/openDashboardButton"

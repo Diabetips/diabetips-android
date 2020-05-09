@@ -13,7 +13,9 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.epitech.diabetips.R
 import com.epitech.diabetips.adapters.MealRecipeAdapter
+import com.epitech.diabetips.adapters.RecipeFoodAdapter
 import com.epitech.diabetips.services.MealService
+import com.epitech.diabetips.storages.IngredientObject
 import com.epitech.diabetips.storages.MealObject
 import com.epitech.diabetips.storages.MealRecipeObject
 import com.epitech.diabetips.storages.RecipeObject
@@ -24,10 +26,11 @@ import com.wdullaer.materialdatetimepicker.date.DatePickerDialog
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog
 import kotlinx.android.synthetic.main.activity_new_meal.*
 import kotlinx.android.synthetic.main.dialog_save_change.view.*
+import kotlinx.android.synthetic.main.dialog_select_quantity.view.*
 
 class NewMealActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
 
-    enum class RequestCode {SEARCH_RECIPE}
+    enum class RequestCode {SEARCH_RECIPE, EDIT_RECIPE, SEARCH_FOOD}
 
     private var mealId: Int = 0
     private var saved: Boolean? = null
@@ -53,8 +56,47 @@ class NewMealActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener,
         }
         recipeList.apply {
             layoutManager = LinearLayoutManager(this@NewMealActivity)
-            adapter = MealRecipeAdapter()
+            adapter = MealRecipeAdapter { mealRecipeObject ->
+                val intent = Intent(this@NewMealActivity, NewRecipeActivity::class.java)
+                intent.putExtra(getString(R.string.param_mode), NewRecipeActivity.ActivityMode.MEAL_RECIPE)
+                intent.putExtra(getString(R.string.param_recipe), mealRecipeObject)
+                startActivityForResult(intent, RequestCode.EDIT_RECIPE.ordinal)
+            }
             (adapter as MealRecipeAdapter).setVisibilityElements(recipeListEmptyLayout, recipeList)
+            addItemDecoration(DividerItemDecorator(getDrawable(R.drawable.list_divider)!!))
+        }
+        addMealFoodButton.setOnClickListener {
+            startActivityForResult(
+                Intent(this, FoodActivity::class.java)
+                    .putExtra(getString(R.string.param_food), (mealFoodList.adapter as RecipeFoodAdapter).getFoods()),
+                RequestCode.SEARCH_FOOD.ordinal)
+        }
+        mealFoodList.apply {
+            layoutManager = LinearLayoutManager(this@NewMealActivity)
+            adapter = RecipeFoodAdapter {ingredientObject, textQuantity ->
+                val view = layoutInflater.inflate(R.layout.dialog_select_quantity, null)
+                MaterialHandler.instance.handleTextInputLayoutSize(view as ViewGroup)
+                val dialog = AlertDialog.Builder(this@NewMealActivity).setView(view).create()
+                dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+                view.selectQuantityInputLayout.hint = view.selectQuantityInputLayout.hint.toString() + " (" + ingredientObject.food.unit + ")"
+                view.selectQuantityInput.setText(ingredientObject.quantity.toString())
+                view.selectQuantityNegativeButton.setOnClickListener {
+                    dialog.dismiss()
+                }
+                view.selectQuantityPositiveButton.setOnClickListener {
+                    val quantity: Float? = view.selectQuantityInput.text.toString().toFloatOrNull()
+                    if (quantity == null || quantity <= 0) {
+                        view.selectQuantityInputLayout.error = getString(R.string.quantity_null)
+                    } else {
+                        saved = false
+                        ingredientObject.quantity = quantity
+                        textQuantity?.text = ingredientObject.quantity.toString() + " " + ingredientObject.food.unit
+                        dialog.dismiss()
+                    }
+                }
+                dialog.show()
+            }
+            (adapter as RecipeFoodAdapter).setVisibilityElements(mealFoodListEmptyLayout, mealFoodList)
             addItemDecoration(DividerItemDecorator(getDrawable(R.drawable.list_divider)!!))
         }
         saveNewMealButton.setOnClickListener {
@@ -74,6 +116,8 @@ class NewMealActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener,
             if (mealId > 0 && meal.recipes.isNotEmpty()) {
                 (recipeList.adapter as MealRecipeAdapter).setRecipes(meal.recipes)
             }
+            if (mealId > 0 && meal.foods.isNotEmpty())
+                (mealFoodList.adapter as RecipeFoodAdapter).setFoods(meal.foods)
         }
         TimeHandler.instance.updateTimeDisplay(this, mealTimestamp, newMealTimeDate, newMealTimeHour)
     }
@@ -101,7 +145,8 @@ class NewMealActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener,
 
     private fun getMeal() : MealObject {
         val meal = MealObject(mealId, mealTimestamp, "", 0f,
-            (recipeList.adapter as MealRecipeAdapter).getRecipes().toTypedArray())
+            (recipeList.adapter as MealRecipeAdapter).getRecipes().toTypedArray(),
+            (mealFoodList.adapter as RecipeFoodAdapter).getFoods().toTypedArray())
         meal.calculateTotalSugar()
         return meal;
     }
@@ -111,9 +156,14 @@ class NewMealActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener,
         if (resultCode == Activity.RESULT_OK) {
             if (requestCode == RequestCode.SEARCH_RECIPE.ordinal) {
                 saved = false
-                //TODO change with recipemeal
                 val mealRecipe = MealRecipeObject(0f, data?.getSerializableExtra(getString(R.string.param_recipe)) as RecipeObject)
                 (recipeList.adapter as MealRecipeAdapter).addRecipe(mealRecipe)
+            } else if (requestCode == RequestCode.EDIT_RECIPE.ordinal) {
+                saved = false
+                (recipeList.adapter as MealRecipeAdapter).updateRecipe(data?.getSerializableExtra(getString(R.string.param_recipe)) as MealRecipeObject)
+            } else if (requestCode == RequestCode.SEARCH_FOOD.ordinal) {
+                saved = false
+                (mealFoodList.adapter as RecipeFoodAdapter).setFoods(data?.getSerializableExtra(getString(R.string.param_food)) as ArrayList<IngredientObject>)
             }
         }
     }

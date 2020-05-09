@@ -3,14 +3,26 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     style="@style/EmptyBackgroundTheme"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:paddingTop="@dimen/quarter_margin_size"
+    android:paddingBottom="@dimen/quarter_margin_size">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/mealRecipeImage"
+        android:layout_width="@dimen/image_size"
+        android:layout_height="@dimen/image_size"
+        android:layout_marginStart="@dimen/margin_size"
+        android:src="@drawable/ic_unknown"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
 
     <LinearLayout
         style="@style/EmptyBackgroundTheme"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@id/mealRecipeImage"
         app:layout_constraintEnd_toStartOf="@id/mealRecipeButton"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent">

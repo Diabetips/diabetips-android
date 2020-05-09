@@ -5,7 +5,6 @@ import com.google.gson.TypeAdapter
 import com.google.gson.stream.JsonReader
 import com.google.gson.stream.JsonWriter
 import java.io.Serializable
-import java.util.*
 
 data class MealObject (
     var id: Int = 0,
@@ -34,13 +33,6 @@ class MealObjectAdapter : TypeAdapter<MealObject>() {
 
         writer?.name("description")?.value(mealObject?.description)
         writer?.name("timestamp")?.value(mealObject?.timestamp)
-
-        writer?.name("recipes_ids")
-        writer?.beginArray()
-        mealObject?.recipes?.forEach {
-            writer?.value(it.recipe.id)
-        }
-        writer?.endArray()
 
         writer?.name("recipes")
         writer?.beginArray()

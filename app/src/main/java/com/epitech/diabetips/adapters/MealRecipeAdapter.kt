@@ -4,9 +4,9 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.epitech.diabetips.holders.MealRecipeItemViewHolder
 import com.epitech.diabetips.storages.MealRecipeObject
-import com.epitech.diabetips.storages.RecipeObject
 
-class MealRecipeAdapter(private val recipes: ArrayList<MealRecipeObject> = arrayListOf())
+class MealRecipeAdapter(private val recipes: ArrayList<MealRecipeObject> = arrayListOf(),
+                        private val onItemClickListener : ((MealRecipeObject) -> Unit)? = null)
     : AVisibilityAdapter<MealRecipeItemViewHolder>() {
 
     override fun getItemCount(): Int = recipes.size
@@ -28,6 +28,16 @@ class MealRecipeAdapter(private val recipes: ArrayList<MealRecipeObject> = array
         updateVisibility()
     }
 
+    fun updateRecipe(recipe: MealRecipeObject) {
+        recipes.forEachIndexed { index, mealRecipeObject ->
+            if (mealRecipeObject.recipe.id == recipe.recipe.id) {
+                recipes[index] = recipe
+                notifyItemChanged(index)
+                return
+            }
+        }
+    }
+
     private fun removeRecipe(position: Int) {
         recipes.removeAt(position)
         notifyDataSetChanged()
@@ -40,7 +50,7 @@ class MealRecipeAdapter(private val recipes: ArrayList<MealRecipeObject> = array
     }
 
     override fun onBindViewHolder(holder: MealRecipeItemViewHolder, position: Int) {
-        holder.bind(recipes[position])
+        holder.bind(recipes[position], onItemClickListener)
         holder.getMealRecipeButton()?.setOnClickListener {
             removeRecipe(position)
         }
