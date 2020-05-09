@@ -163,6 +163,8 @@ class NewRecipeActivity : AppCompatActivity() {
                         }
                     }
                 }.subscribe()
+            } else if (changedPicture) {
+                saveRecipePicture(true)
             } else {
                 endActivity()
             }
