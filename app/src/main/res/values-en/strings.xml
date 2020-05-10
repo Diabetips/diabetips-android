@@ -104,4 +104,5 @@
     <string name="diabetes_type_2">Type 2</string>
     <string name="diabetes_type_1">Type 1</string>
     <string name="total_sugar">Total sugar :</string>
+    <string name="change_comment">Edit comment</string>
 </resources>

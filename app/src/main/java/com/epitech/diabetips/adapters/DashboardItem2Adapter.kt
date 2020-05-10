@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.text.InputType
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Toast
@@ -13,10 +14,13 @@ import com.epitech.diabetips.R
 import com.epitech.diabetips.activities.NewMealActivity
 import com.epitech.diabetips.holders.DashboardItemViewHolder
 import com.epitech.diabetips.services.InsulinService
+import com.epitech.diabetips.services.NoteService
 import com.epitech.diabetips.storages.DashboardItemObject
 import com.epitech.diabetips.storages.InsulinObject
 import com.epitech.diabetips.storages.MealObject
+import com.epitech.diabetips.storages.NoteObject
 import com.epitech.diabetips.utils.MaterialHandler
+import kotlinx.android.synthetic.main.dialog_change_comment.view.*
 import kotlinx.android.synthetic.main.dialog_select_quantity.view.*
 
 class DashboardItem2Adapter(val context: Context,
@@ -95,6 +99,7 @@ class DashboardItem2Adapter(val context: Context,
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         val insulinObject = item.orignal as InsulinObject
         view.selectQuantityInputLayout.hint = view.selectQuantityInputLayout.hint.toString() + " (" + context.getString(R.string.unit_units) + ")"
+        view.selectQuantityInput.inputType = InputType.TYPE_CLASS_NUMBER
         view.selectQuantityInput.setText(insulinObject.quantity.toString())
         view.selectQuantityNegativeButton.setOnClickListener {
             dialog.dismiss()
@@ -108,6 +113,35 @@ class DashboardItem2Adapter(val context: Context,
                 InsulinService.instance.createOrUpdateUserInsulin(insulinObject).doOnSuccess {
                     if (it.second.component2() == null) {
                         setItem(DashboardItemObject(insulinObject, context), position)
+                        dialog.dismiss()
+                    } else {
+                        Toast.makeText(context, it.second.component2()!!.exception.message, Toast.LENGTH_SHORT).show()
+                    }
+                }.subscribe()
+            }
+        }
+        dialog.show()
+    }
+
+    private fun changeComment(item: DashboardItemObject, position: Int) {
+        val view = LayoutInflater.from(context).inflate(R.layout.dialog_change_comment, null)
+        MaterialHandler.instance.handleTextInputLayoutSize(view as ViewGroup)
+        val dialog = AlertDialog.Builder(context).setView(view).create()
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        val noteObject = item.orignal as NoteObject
+        view.changeCommentInput.setText(noteObject.description)
+        view.changeCommentNegativeButton.setOnClickListener {
+            dialog.dismiss()
+        }
+        view.changeCommentPositiveButton.setOnClickListener {
+            val text: String = view.changeCommentInput.text.toString()
+            if (text.isBlank()) {
+                view.selectQuantityInputLayout.error = context.getString(R.string.empty_field_error)
+            } else {
+                noteObject.description = text
+                NoteService.instance.createOrUpdateUserNote(noteObject).doOnSuccess {
+                    if (it.second.component2() == null) {
+                        setItem(DashboardItemObject(noteObject, context), position)
                         dialog.dismiss()
                     } else {
                         Toast.makeText(context, it.second.component2()!!.exception.message, Toast.LENGTH_SHORT).show()

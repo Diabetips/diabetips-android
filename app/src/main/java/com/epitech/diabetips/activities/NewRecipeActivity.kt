@@ -226,7 +226,7 @@ class NewRecipeActivity : AppCompatActivity() {
         if (resultCode == Activity.RESULT_OK) {
             if (requestCode == RequestCode.SEARCH_FOOD.ordinal) {
                 saved = false
-                (foodList.adapter as RecipeFoodAdapter).setFoods(data?.getSerializableExtra(getString(R.string.param_food)) as ArrayList<IngredientObject>)
+                (foodList.adapter as RecipeFoodAdapter).setFoods(ArrayList((data?.getSerializableExtra(getString(R.string.param_food)) as ArrayList<*>).filterIsInstance<IngredientObject>()))
             } else if (requestCode == RequestCode.GET_IMAGE.ordinal) {
                 val imageStream: InputStream? = contentResolver.openInputStream(data?.data!!)
                 setRecipePicture(BitmapFactory.decodeStream(imageStream))

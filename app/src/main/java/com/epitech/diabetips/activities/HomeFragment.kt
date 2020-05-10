@@ -63,8 +63,8 @@ class HomeFragment : NavigationFragment(FragmentType.HOME) {
         return view
     }
 
-    private fun getMeal(view: View? = this.view, resetPage: Boolean = true) {
-/*        view?.mealHomeSwipeRefresh?.isRefreshing = true
+    /* private fun getMeal(view: View? = this.view, resetPage: Boolean = true) {
+        view?.mealHomeSwipeRefresh?.isRefreshing = true
         if (resetPage)
             page.reset()
         else
@@ -78,8 +78,8 @@ class HomeFragment : NavigationFragment(FragmentType.HOME) {
                     (view?.mealHomeList?.adapter as MealAdapter).addMeals(it.second.component1()!!)
             }
             view?.mealHomeSwipeRefresh?.isRefreshing = false
-        }.subscribe() */
-    }
+        }.subscribe()
+    } */
 
     private fun setSugarLineChartData(view: View? = this.view) {
         val entries: ArrayList<Entry> = ArrayList()
@@ -87,12 +87,12 @@ class HomeFragment : NavigationFragment(FragmentType.HOME) {
         entries.add(Entry(5f, 10f))
         entries.add(Entry(10f, 8f))
         entries.add(Entry(15f, 15f))
-        view?.sugarLineChart?.data = ChartHandler.instance.handleLineDataCreation(context!!, entries)
+        view?.sugarLineChart?.data = ChartHandler.instance.handleLineDataCreation(requireContext(), entries)
         view?.sugarLineChart?.invalidate()
     }
 
     override fun isLoading(): Boolean {
-        return false;
+        return false
 //        return view?.mealHomeSwipeRefresh?.isRefreshing ?: false
     }
 }
