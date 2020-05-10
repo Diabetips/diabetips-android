@@ -8,7 +8,6 @@ import com.epitech.diabetips.R
 import com.epitech.diabetips.utils.MaterialHandler
 import com.epitech.diabetips.utils.NavigationFragment
 import kotlinx.android.synthetic.main.activity_navigation.*
-import kotlinx.android.synthetic.main.activity_navigation.view.*
 
 class NavigationActivity : AppCompatActivity(), me.ibrahimsn.lib.OnItemSelectedListener  {
 
@@ -45,17 +44,18 @@ class NavigationActivity : AppCompatActivity(), me.ibrahimsn.lib.OnItemSelectedL
         return false
     }
 
-    override fun onItemSelect(pos: Int) {
+    override fun onItemSelect(pos: Int) : Boolean {
         val fragment = supportFragmentManager.findFragmentById(R.id.navigationFragment) as NavigationFragment?
         if (fragment != null && fragment.isLoading()) {
             smoothBottomBaBar.setActiveItem(fragment.fragmentType.ordinal)
-            return
+            return false
         }
         when (pos) {
-            NavigationFragment.FragmentType.HOME.ordinal -> loadFragment(HomeFragment())
-            NavigationFragment.FragmentType.PROFILE.ordinal -> loadFragment(ProfileFragment())
-            NavigationFragment.FragmentType.SETTINGS.ordinal -> loadFragment(SettingsFragment())
+            NavigationFragment.FragmentType.HOME.ordinal -> return loadFragment(HomeFragment())
+            NavigationFragment.FragmentType.PROFILE.ordinal -> return loadFragment(ProfileFragment())
+            NavigationFragment.FragmentType.SETTINGS.ordinal -> return loadFragment(SettingsFragment())
         }
+        return false
     }
 
     fun setDefaultFragmentSelect(navigationFragment: NavigationFragment.FragmentType = NavigationFragment.FragmentType.HOME) {

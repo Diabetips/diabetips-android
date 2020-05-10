@@ -104,4 +104,5 @@
     <string name="insulin_slow">Insuline lente</string>
     <string name="insulin_fast">Insuline rapide</string>
     <string name="unit">Unité(s)</string>
+    <string name="change_comment">Modifier le commentaire</string>
 </resources>

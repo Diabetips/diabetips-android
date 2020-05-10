@@ -23,7 +23,7 @@ class SettingsFragment : NavigationFragment(FragmentType.SETTINGS) {
             } else {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
             }
-            ModeManager.instance.saveDarkMode(context!!, AppCompatDelegate.getDefaultNightMode())
+            ModeManager.instance.saveDarkMode(requireContext(), AppCompatDelegate.getDefaultNightMode())
             (activity as NavigationActivity).setDefaultFragmentSelect(FragmentType.SETTINGS)
             activity?.recreate()
         }

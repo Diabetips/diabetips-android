@@ -3,9 +3,11 @@ package com.epitech.diabetips.storages
 import android.content.Context
 import android.graphics.PorterDuff
 import android.graphics.drawable.Drawable
+import android.util.TypedValue
 import androidx.core.content.ContextCompat
 import com.epitech.diabetips.R
 import java.io.Serializable
+
 
 data class DashboardItemObject (
     var id: Int = 0,
@@ -24,8 +26,8 @@ data class DashboardItemObject (
         title = context.resources.getString(R.string.meal),
         time = meal.timestamp,
         icon = context.getDrawable(R.drawable.ic_fork)) {
-        type = Type.MEAL
-        icon!!.setColorFilter(ContextCompat.getColor(context, R.color.colorPrimary), PorterDuff.Mode.SRC_ATOP);
+            type = Type.MEAL
+            icon!!.setColorFilter(ContextCompat.getColor(context, R.color.colorPrimary), PorterDuff.Mode.SRC_ATOP);
     }
 
     constructor (insulin: InsulinObject, context: Context) : this(
@@ -37,6 +39,17 @@ data class DashboardItemObject (
         icon = context.getDrawable(R.drawable.ic_syringe)) {
             type = if (insulin.type == "fast") Type.INSULIN_FAST else Type.INSULIN_SLOW
             icon!!.setColorFilter(ContextCompat.getColor(context, R.color.colorAccent), PorterDuff.Mode.SRC_ATOP)
+    }
+
+    constructor (note: NoteObject, context: Context) : this(
+        orignal = note,
+        id = note.id,
+        description = note.description,
+        title = context.resources.getString(R.string.comment),
+        time = note.timestamp,
+        icon = context.getDrawable(R.drawable.ic_syringe)) { //TODO add an icon for comments
+            type = Type.COMMENT
+            icon!!.setColorFilter(ContextCompat.getColor(context, R.color.searchBarSearchIconTintColor), PorterDuff.Mode.SRC_ATOP)
     }
 
     enum class Type {

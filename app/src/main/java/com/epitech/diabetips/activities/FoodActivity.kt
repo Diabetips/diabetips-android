@@ -106,7 +106,7 @@ class FoodActivity : AppCompatActivity() {
 
     private fun getParams() {
         if (intent.hasExtra(getString(R.string.param_food))) {
-            (foodSearchList.adapter as FoodAdapter).setSelectedIngredients(intent.getSerializableExtra(getString(R.string.param_food)) as ArrayList<IngredientObject>)
+            (foodSearchList.adapter as FoodAdapter).setSelectedIngredients(ArrayList((intent.getSerializableExtra(getString(R.string.param_food)) as ArrayList<*>).filterIsInstance<IngredientObject>()))
         }
     }
 

@@ -163,7 +163,7 @@ class NewMealActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener,
                 (recipeList.adapter as MealRecipeAdapter).updateRecipe(data?.getSerializableExtra(getString(R.string.param_recipe)) as MealRecipeObject)
             } else if (requestCode == RequestCode.SEARCH_FOOD.ordinal) {
                 saved = false
-                (mealFoodList.adapter as RecipeFoodAdapter).setFoods(data?.getSerializableExtra(getString(R.string.param_food)) as ArrayList<IngredientObject>)
+                (mealFoodList.adapter as RecipeFoodAdapter).setFoods(ArrayList((data?.getSerializableExtra(getString(R.string.param_food)) as ArrayList<*>).filterIsInstance<IngredientObject>()))
             }
         }
     }
