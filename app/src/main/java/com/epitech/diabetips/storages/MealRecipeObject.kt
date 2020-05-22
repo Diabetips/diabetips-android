@@ -4,6 +4,7 @@ import java.io.Serializable
 
 data class MealRecipeObject (
     var total_sugar: Float = 0f,
+    var portions_eaten: Float = 0f,
     var recipe: RecipeObject = RecipeObject(),
     var modifications: Array<IngredientObject> = arrayOf()) : Serializable {
 
@@ -29,6 +30,9 @@ data class MealRecipeObject (
         total_sugar = 0f
         getIngredients().forEach {
             total_sugar += it.calculateTotalSugar()
+        }
+        if (recipe.portions != 0f) {
+            total_sugar *= (portions_eaten / recipe.portions)
         }
         return total_sugar
     }

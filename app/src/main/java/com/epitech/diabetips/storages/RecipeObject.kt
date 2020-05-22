@@ -10,6 +10,7 @@ data class RecipeObject (
     var name: String = "",
     var description: String = "",
     var total_sugar: Float = 0f,
+    var portions: Float = 0f,
     var ingredients: Array<IngredientObject> = arrayOf()) : Serializable {
 
     fun calculateTotalSugar() : Float {
@@ -27,6 +28,7 @@ class RecipeObjectAdapter : TypeAdapter<RecipeObject>() {
         writer?.beginObject()
         writer?.name("name")?.value(recipeObject?.name)
         writer?.name("description")?.value(recipeObject?.description)
+        writer?.name("portions")?.value(recipeObject?.portions)
         writer?.name("ingredients")
         writer?.beginArray()
         recipeObject?.ingredients?.forEach {

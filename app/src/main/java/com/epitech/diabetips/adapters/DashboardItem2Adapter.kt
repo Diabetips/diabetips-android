@@ -75,7 +75,7 @@ class DashboardItem2Adapter(val context: Context,
         holder.itemView.setOnClickListener {
             when (items[position].type) {
                 DashboardItemObject.Type.MEAL -> launchMeal(items[position])
-                DashboardItemObject.Type.COMMENT -> TODO()
+                DashboardItemObject.Type.COMMENT -> changeComment(items[position], position)
                 DashboardItemObject.Type.INSULIN_SLOW -> changeInsulin(items[position], position)
                 DashboardItemObject.Type.INSULIN_FAST -> changeInsulin(items[position], position)
                 DashboardItemObject.Type.SUGAR -> TODO()

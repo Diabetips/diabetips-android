@@ -13,6 +13,7 @@ import com.epitech.diabetips.managers.ModeManager
 import com.epitech.diabetips.services.FuelResponse
 import com.epitech.diabetips.services.InsulinService
 import com.epitech.diabetips.services.MealService
+import com.epitech.diabetips.services.NoteService
 import com.epitech.diabetips.storages.DashboardItemObject
 import com.epitech.diabetips.storages.PaginationObject
 import com.epitech.diabetips.utils.PaginationScrollListener
@@ -40,7 +41,7 @@ class DashboardActivity : AppCompatActivity() {
         itemsManagers = arrayOf(
             Pair(page.copy(), ::getMeals),
 //            Pair(page.copy(), ::getSugars)//,
-//            Pair(page.copy(), ::getComments),
+            Pair(page.copy(), ::getComments),
             Pair(page.copy(), ::getInsulins)
         )
         setContentView(R.layout.activity_dashboard)
@@ -119,13 +120,14 @@ class DashboardActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
     }
+
     private fun getMeals(page: PaginationObject ): Single<Triple<Response, Array<DashboardItemObject>?, FuelError?>> {
         return MealService.instance.getAllUserMeals(page).map{Triple(it.first, it.second.component1()?.map{ item ->
             DashboardItemObject(item, this) }?.toTypedArray(), it.second.component2())};
     }
 
     private fun getComments(page: PaginationObject): Single<Triple<Response, Array<DashboardItemObject>?, FuelError?>>{
-        return MealService.instance.getAllUserMeals(page).map{Triple(it.first, it.second.component1()?.map{item ->
+        return NoteService.instance.getAllUserNote(page).map{Triple(it.first, it.second.component1()?.map{ item ->
             DashboardItemObject(item, this) }?.toTypedArray(), it.second.component2())};
     }
 

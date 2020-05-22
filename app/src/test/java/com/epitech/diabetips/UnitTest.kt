@@ -15,8 +15,8 @@ class UnitTest {
     private val paginationObject = PaginationObject(10, 1, 3, 2, 4, 5)
     private val foodObject = FoodObject(1, "Food", "g", 100f)
     private val ingredientObject = IngredientObject(10f, 10f, foodObject)
-    private val recipeObject = RecipeObject(1, "Recipe", "", 10f, arrayOf(ingredientObject))
-    private val mealRecipeObject = MealRecipeObject(25f, recipeObject, arrayOf(IngredientObject(25f, 25f, foodObject)))
+    private val recipeObject = RecipeObject(1, "Recipe", "", 10f, 1f, arrayOf(ingredientObject))
+    private val mealRecipeObject = MealRecipeObject(25f, 1f, recipeObject, arrayOf(IngredientObject(25f, 25f, foodObject)))
     private val mealObject = MealObject(1, 0, "", 35f, arrayOf(mealRecipeObject), arrayOf(ingredientObject))
 
     @Test
