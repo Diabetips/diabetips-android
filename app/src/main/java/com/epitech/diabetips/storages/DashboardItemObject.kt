@@ -47,7 +47,7 @@ data class DashboardItemObject (
         description = note.description,
         title = context.resources.getString(R.string.comment),
         time = note.timestamp,
-        icon = context.getDrawable(R.drawable.ic_syringe)) { //TODO add an icon for comments
+        icon = context.getDrawable(R.drawable.ic_comment)) {
             type = Type.COMMENT
             icon!!.setColorFilter(ContextCompat.getColor(context, R.color.searchBarSearchIconTintColor), PorterDuff.Mode.SRC_ATOP)
     }

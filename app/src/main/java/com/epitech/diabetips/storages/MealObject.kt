@@ -39,6 +39,7 @@ class MealObjectAdapter : TypeAdapter<MealObject>() {
         mealObject?.recipes?.forEach { recipe ->
             writer?.beginObject()
             writer?.name("id")?.value(recipe.recipe.id)
+            writer?.name("portions_eaten")?.value(recipe.portions_eaten)
             writer?.name("modifications")
             writer?.beginArray()
             recipe.modifications.forEach {

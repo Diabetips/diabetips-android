@@ -178,7 +178,7 @@ class NewRecipeActivity : AppCompatActivity() {
                 ingredients.add(IngredientObject(0f, 0f, ingredient.food))
             }
         }
-        val mealRecipe = MealRecipeObject(0f, recipe, ingredients.toTypedArray())
+        val mealRecipe = MealRecipeObject(0f, recipe.portions, recipe, ingredients.toTypedArray())
         mealRecipe.calculateTotalSugar()
         return mealRecipe
     }
@@ -186,6 +186,7 @@ class NewRecipeActivity : AppCompatActivity() {
     private fun getRecipe(): RecipeObject {
         recipe.name = newRecipeName.text.toString()
         recipe.description = newRecipeDescription.text.toString()
+        recipe.portions = 1f
         recipe.ingredients = (foodList.adapter as RecipeFoodAdapter).getFoods().toTypedArray()
         recipe.calculateTotalSugar()
         return recipe

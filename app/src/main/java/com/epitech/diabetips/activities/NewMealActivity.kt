@@ -156,7 +156,8 @@ class NewMealActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener,
         if (resultCode == Activity.RESULT_OK) {
             if (requestCode == RequestCode.SEARCH_RECIPE.ordinal) {
                 saved = false
-                val mealRecipe = MealRecipeObject(0f, data?.getSerializableExtra(getString(R.string.param_recipe)) as RecipeObject)
+                val recipe = data?.getSerializableExtra(getString(R.string.param_recipe)) as RecipeObject
+                val mealRecipe = MealRecipeObject(0f, recipe.portions, recipe)
                 (recipeList.adapter as MealRecipeAdapter).addRecipe(mealRecipe)
             } else if (requestCode == RequestCode.EDIT_RECIPE.ordinal) {
                 saved = false
