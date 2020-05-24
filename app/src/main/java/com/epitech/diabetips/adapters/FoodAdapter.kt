@@ -49,7 +49,7 @@ class FoodAdapter(private val foods: ArrayList<FoodObject> = arrayListOf(),
     fun addSelectedIngredient(ingredient: IngredientObject) {
         selectedIngredients.forEach {ingredientObject ->
             if (ingredientObject.food.id == ingredient.food.id) {
-              ingredientObject.quantity = ingredient.quantity
+                ingredientObject.quantity = ingredient.quantity
                 return
             }
         }

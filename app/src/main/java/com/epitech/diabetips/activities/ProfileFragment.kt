@@ -121,6 +121,19 @@ class ProfileFragment : NavigationFragment(FragmentType.PROFILE), DatePickerDial
                 startActivityForResult(intent, RequestCode.GET_IMAGE.ordinal)
                 dialog.dismiss()
             }
+            dialogView.deletePictureButton.setOnClickListener {
+                loading = true
+                UserService.instance.removePicture().doOnSuccess {
+                    if (it.second.component2() == null) {
+                        Toast.makeText(requireContext(), R.string.remove_profile_picture, Toast.LENGTH_SHORT).show()
+                        setAccountInfo(AccountManager.instance.getAccount(requireContext()))
+                    } else {
+                        Toast.makeText(requireContext(), it.second.component2()!!.exception.message, Toast.LENGTH_SHORT).show()
+                    }
+                    loading = false
+                    dialog.dismiss()
+                }.subscribe()
+            }
             dialog.show()
         }
         view.sexProfileDropdown.setAdapter(DropdownAdapter(requireContext(), R.array.sex))

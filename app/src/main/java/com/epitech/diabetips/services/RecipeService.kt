@@ -21,6 +21,10 @@ class RecipeService : AService("/recipes") {
         return getRequest("/" + id)
     }
 
+    fun removeRecipe(id: String) : FuelResponse<RecipeObject> {
+        return deleteRequest("/" + id)
+    }
+
     fun createOrUpdateRecipe(recipe: RecipeObject) : FuelResponse<RecipeObject>  {
         if (recipe.id > 0) {
             return updateRecipe(recipe)
