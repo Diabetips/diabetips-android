@@ -12,13 +12,14 @@ data class PaginationObject (
     var start: Long = 0,
     var end: Long = 0,
     var periodEnable: Boolean = false) : Serializable {
-    var triggered: Boolean = false
+    var updated: Boolean = false
 
     fun reset() {
         current = default
         previous = default
         next = default
         last = default
+        updated = false
     }
 
     fun previousPage() {
@@ -34,10 +35,11 @@ data class PaginationObject (
     }
 
     fun isLast() : Boolean {
-        return current >= last
+        return current >= last && updated
     }
 
     fun getRequestParameters() : String {
+        updated = true
         if (periodEnable)
             return "page=$current&size=$size&start=$start&end=$end"
         return "page=$current&size=$size"
@@ -58,12 +60,6 @@ data class PaginationObject (
             next = values["next"]!! as Int
         if (values["last"] != null)
             last = values["last"]!! as Int
-        if (values["start"] != null)
-            start = values["start"]!! as Long
-        if (values["end"] != null)
-            end = values["end"]!! as Long
-
-        triggered = true;
     }
 
     fun setInterval(start: Long, end: Long) {

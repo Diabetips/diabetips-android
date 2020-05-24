@@ -1,13 +1,21 @@
 package com.epitech.diabetips.utils
 
 import android.content.Context
+import android.util.Log
 import android.util.TypedValue
-import androidx.core.content.ContextCompat
 import com.epitech.diabetips.R
-import com.github.mikephil.charting.charts.*
-import com.github.mikephil.charting.components.*
-import com.github.mikephil.charting.data.*
+import com.epitech.diabetips.storages.BloodSugarObject
+import com.github.mikephil.charting.charts.LineChart
+import com.github.mikephil.charting.components.AxisBase
+import com.github.mikephil.charting.data.Entry
+import com.github.mikephil.charting.data.LineData
+import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
+import org.threeten.bp.Instant
+import org.threeten.bp.LocalDateTime
+import org.threeten.bp.ZoneOffset
+import org.threeten.bp.temporal.ChronoUnit
+
 
 class ChartHandler {
 
@@ -32,24 +40,40 @@ class ChartHandler {
         lineChart.setDrawBorders(false)
     }
 
-    public fun updateChartData(weeklyBglMap: List<Pair<String, Int>>, lineChart: LineChart, context: Context) {
+    public fun updateChartData(bloodValues: List<BloodSugarObject>, intervalTimeStamp: Pair<Long, Long>, lineChart: LineChart, context: Context) {
+        Log.d("Chart", "Update")
         val yValues = mutableListOf<Entry>()
         val xValues = mutableListOf<String>()
-        var i = 0f
-        for ((time, bgl) in weeklyBglMap) {
+        for (bloodValue in bloodValues) {
             //  create list of bgl values for yAxis
-            yValues.add(Entry(i, bgl.toFloat()))
-            xValues.add(time)
-            i++
+            yValues.add(Entry((bloodValue.timestamp - intervalTimeStamp.first).toFloat(), bloodValue.value.toFloat()))
         }
-
-        lineChart.xAxis.valueFormatter = IndexAxisValueFormatter(xValues)
+        val inter = getDatesBetween(LocalDateTime.ofInstant(
+            Instant.ofEpochSecond(intervalTimeStamp.first),
+            ZoneOffset.UTC), LocalDateTime.ofInstant(
+            Instant.ofEpochSecond(intervalTimeStamp.second),
+            ZoneOffset.UTC))
+        lineChart.xAxis.axisMinimum = 0f;
+        lineChart.xAxis.axisMaximum = (intervalTimeStamp.second - intervalTimeStamp.first).toFloat()
+//
+//        val xAxisLabel: ArrayList<String> = ArrayList(initialCapacity = (intervalTimeStamp.second - intervalTimeStamp.first).toInt())
+////        xAxisLabel.addAll()
+//        inter!!.forEach {
+//            run {
+//                val timestamp = it!!.toInstant(ZoneOffset.UTC).toEpochMilli() / 1000
+//                val index: Int = (timestamp - intervalTimeStamp.first).toInt()
+//                val label: String = TimeHandler.instance.formatTimestamp(timestamp, "hh:mm")
+//                Log.d("Add time : ", label)
+//                xAxisLabel.add(index, label)
+//            }
+//        }
+//        lineChart.xAxis.valueFormatter = IndexAxisValueFormatter(xAxisLabel)
 
         val set1 = LineDataSet(yValues, "Bgl")
         set1.mode = LineDataSet.Mode.CUBIC_BEZIER
         set1.cubicIntensity = 0.2f
         set1.setDrawFilled(true)
-        set1.lineWidth = 2f
+        set1.lineWidth = 1f
         set1.fillAlpha = 50
         set1.setDrawVerticalHighlightIndicator(true)
         set1.setDrawHorizontalHighlightIndicator(true)
@@ -95,5 +119,19 @@ class ChartHandler {
         dataSet.setDrawValues(false)
         dataSet.setDrawVerticalHighlightIndicator(false)
         dataSet.setDrawHorizontalHighlightIndicator(false)
+    }
+
+    fun updateChartData(bloodValues: List<BloodSugarObject>, intervalTimeStamp: Long, lineChart: Long) {
+
+    }
+
+    fun getDatesBetween(
+        startDate: LocalDateTime, endDate: LocalDateTime
+    ): List<LocalDateTime?>? {
+
+        val numOfHoursBetween: Long = ChronoUnit.HOURS.between(startDate, endDate)
+        startDate.minusMinutes(startDate.minute.toLong());
+        startDate.minusSeconds(startDate.second.toLong());
+        return MutableList(numOfHoursBetween.toInt()) {index -> index}.map{startDate.plusHours(it.toLong() + 1)}
     }
 }

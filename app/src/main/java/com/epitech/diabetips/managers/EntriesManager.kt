@@ -1,6 +1,7 @@
 package com.epitech.diabetips.managers
 
 import android.content.Context
+import android.util.Log
 import com.epitech.diabetips.R
 import com.epitech.diabetips.services.BloodSugarService
 import com.epitech.diabetips.services.InsulinService
@@ -31,7 +32,7 @@ class EntriesManager(
         val type: EntryObject.Type,
         var activated: Boolean = true) {
          fun needRefresh(): Boolean {
-             return activated && (!page.isLast() || !page.triggered)
+             return activated && !page.isLast()
          }
     }
 
@@ -40,7 +41,9 @@ class EntriesManager(
             page = PaginationObject(
                 context.resources.getInteger(R.integer.pagination_size),
                 context.resources.getInteger(R.integer.pagination_default))
-        setupPaging()
+        if (page!!.start.toInt() == 0) {
+            setupPaging()
+        }
 
         itemsManagers = arrayOf(
             EntryManager(page!!.copy(), ::getSugars, EntryObject.Type.SUGAR),
@@ -86,10 +89,16 @@ class EntriesManager(
 
         manager.getter(manager.page).doOnSuccess{
             manager.page.updateFromHeader(it.first.headers[context.getString(R.string.pagination_header)]?.get(0))
+            manager.page.nextPage()
+            Log.d("TRYGET", manager.type.toString())
             val newIndex = index + (!manager.needRefresh()).toInt()
             val newItems = items + if (it.third == null && it.second != null) it.second as Array<EntryObject> else arrayOf()
             getItemsRec(resetPage, newIndex, newItems)
         }.subscribe();
+    }
+
+    fun getPage(): PaginationObject? {
+        return page;
     }
 
     private fun getMeals(page: PaginationObject ): DashboardItemsResponse {

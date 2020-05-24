@@ -2,11 +2,14 @@ package com.epitech.diabetips.activities
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.epitech.diabetips.R
 import com.epitech.diabetips.managers.EntriesManager
+import com.epitech.diabetips.services.BloodSugarService
+import com.epitech.diabetips.services.InsulinService
 import com.epitech.diabetips.storages.BloodSugarObject
 import com.epitech.diabetips.storages.EntryObject
 import com.epitech.diabetips.storages.PaginationObject
@@ -23,13 +26,14 @@ class HomeFragment : NavigationFragment(FragmentType.HOME) {
     lateinit var entriesManager: EntriesManager
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val page = PaginationObject(1000, resources.getInteger(R.integer.pagination_default))
+        val page = PaginationObject(100, resources.getInteger(R.integer.pagination_default))
         val cur = TimeHandler.instance.currentTimeSecond();
         page.setInterval(cur - 24*60*60, cur)
+        Log.d("PAGE INTERVAL : ",page.start.toString() + ":" + page.end.toString())
         entriesManager =
-            EntriesManager(context = context!!, page=page) { items, reset ->
+        EntriesManager(context = context!!, page=page) { items, reset ->
                 itemsUpdateTrigger(reset, items)
-            }
+        }
         entriesManager.getItems()
         val view = inflater.inflate(R.layout.fragment_home, container, false)
         MaterialHandler.instance.handleTextInputLayoutSize(view as ViewGroup)
@@ -44,39 +48,18 @@ class HomeFragment : NavigationFragment(FragmentType.HOME) {
         view.openDashboardButton.setOnClickListener {
             startActivity(Intent(context, DashboardActivity::class.java))
         }
-/*        view.mealHomeList.apply {
-            layoutManager = LinearLayoutManager(context)
-            adapter = MealAdapter()
-        }
-        view.mealHomeList.addOnScrollListener(object : PaginationScrollListener(view.mealHomeList.layoutManager as LinearLayoutManager) {
-            override fun isLastPage(): Boolean {
-                return page.isLast()
-            }
-
-            override fun isLoading(): Boolean {
-                return view.mealHomeSwipeRefresh.isRefreshing
-            }
-
-            override fun loadMoreItems() {
-                getMeal(this@HomeFragment.view, false)
-            }
-        })
-        view.mealHomeSwipeRefresh.setOnRefreshListener {
-            getMeal()
-        }
-        getMeal(view) */
-        //setSugarLineChartData(view)
-//        (activity as NavigationActivity).nfcReader.
-        ChartHandler.instance.updateChartData(listOf(), view?.sugarLineChart!!, context!!)
+        val interval: Pair<Long, Long> = Pair(entriesManager.getPage()!!.start, entriesManager.getPage()!!.end)
+        ChartHandler.instance.updateChartData(listOf(), interval, view.sugarLineChart, context!!)
         return view
     }
 
     private fun itemsUpdateTrigger(reset: Boolean, items: Array<EntryObject>) {
-        val map: List<Pair<String, Int>> = items.filter{ it.type == EntryObject.Type.SUGAR}
-            .map {Pair(
-                SimpleDateFormat("MM-dd HH:mm", Locale.getDefault()).format(it.time * 1000),
-                (it.orignal as BloodSugarObject).value)}.sortedBy { it.first }
-        ChartHandler.instance.updateChartData(map, view?.sugarLineChart!!, context!!)
+        val map: List<BloodSugarObject> = items.filter{ it.type == EntryObject.Type.SUGAR}
+            .map{it.orignal as (BloodSugarObject)}.sortedBy{ it.timestamp }
+        if (context == null)
+            Log.d("Context", "NULL")
+        val interval: Pair<Long, Long> = Pair(entriesManager.getPage()!!.start, entriesManager.getPage()!!.end)
+        view?.sugarLineChart?.let { ChartHandler.instance.updateChartData(map, interval, it,  context!!) }
     }
     private fun setSugarLineChartData(view: View? = this.view) {
 //        ChartHandler.instance.updateChartData(hashMapOf("11h25" to 120, "11h30" to 128,"11h35" to 138,"11h45" to 142,"11h50" to 130,"11h55" to 120,"12h00" to 135),
