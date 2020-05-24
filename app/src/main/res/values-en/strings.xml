@@ -113,4 +113,5 @@
     <string name="remove_profile_picture">Profile picture removed</string>
     <string name="deleted">Deleted</string>
     <string name="calculate">Predict</string>
+    <string name="sugar_100g">"Sugar for 100g: "</string>
 </resources>

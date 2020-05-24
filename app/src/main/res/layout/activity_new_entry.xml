@@ -68,7 +68,7 @@
                 style="@style/BackgroundCardTheme"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:visibility="gone">
+                android:visibility="visible">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/entryMealLayout"
@@ -76,6 +76,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/half_margin_size"
                     android:layout_marginBottom="@dimen/half_margin_size"
+                    android:paddingStart="@dimen/margin_size"
+                    android:paddingEnd="@dimen/margin_size"
                     style="@style/EmptyBackgroundTheme">
 
                     <TextView
@@ -83,7 +85,6 @@
                         style="@style/SubtitleTheme"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/margin_size"
                         android:text="@string/meal_title"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -93,8 +94,6 @@
                         style="@style/TextAltTheme"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/margin_size"
-                        android:layout_marginEnd="@dimen/margin_size"
                         android:text="@string/placeholder_hour"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="@+id/entryMealTitle"
@@ -105,8 +104,7 @@
                         style="@style/TextTheme"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/margin_size"
-                        android:layout_marginEnd="@dimen/margin_size"
+                        android:layout_marginTop="@dimen/quarter_margin_size"
                         android:text="@string/summary"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/entryMealTitle" />
@@ -114,9 +112,9 @@
                     <TextView
                         android:id="@+id/entryMealSummary"
                         style="@style/TextAltTheme"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/margin_size"
+                        android:layout_marginStart="@dimen/quarter_margin_size"
                         android:text="@string/placeholder_text"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/entryMealSummaryTitle" />
@@ -126,7 +124,7 @@
                         style="@style/TextTheme"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/margin_size"
+                        android:layout_marginTop="@dimen/quarter_margin_size"
                         android:text="@string/total_sugar"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/entryMealSummary" />
@@ -136,7 +134,6 @@
                         style="@style/TextAltTheme"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="@dimen/margin_size"
                         android:text="@string/total_sugar"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintBottom_toTopOf="@+id/entryMealQuantityTitle"

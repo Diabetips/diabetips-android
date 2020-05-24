@@ -17,17 +17,49 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
 
-    <TextView
-        android:id="@+id/foodText"
-        style="@style/TextAltTheme"
-        android:layout_height="wrap_content"
+    <LinearLayout
+        android:id="@+id/FoodNameLayout"
         android:layout_width="0dp"
-        android:layout_margin="@dimen/quarter_margin_size"
-        android:text="@string/placeholder_text"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/foodImage"
-        app:layout_constraintEnd_toStartOf="@+id/foodUnitText"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toEndOf="@id/foodImage"
+        app:layout_constraintEnd_toStartOf="@id/foodUnitText"
+        android:layout_margin="@dimen/quarter_margin_size"
+        android:orientation="vertical"
+        style="@style/EmptyBackgroundTheme">
+
+        <TextView
+            android:id="@+id/foodText"
+            style="@style/TextAltTheme"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="@string/placeholder_text"/>
+
+        <LinearLayout
+            android:id="@+id/FoodSugarLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            style="@style/EmptyBackgroundTheme">
+
+            <TextView
+                android:id="@+id/foodSugarText"
+                style="@style/HintAltTheme"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:text="@string/sugar_100g" />
+
+            <TextView
+                android:id="@+id/foodSugar100g"
+                style="@style/HintTheme"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:text="@string/sugar_100g" />
+
+        </LinearLayout>
+
+    </LinearLayout>
 
     <TextView
         android:id="@+id/foodUnitText"
