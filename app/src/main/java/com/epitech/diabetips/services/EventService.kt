@@ -18,6 +18,10 @@ class EventService : AService("/users/me/events") {
         return getRequest("/" + id)
     }
 
+    fun removeUserEvent(id: Int) : FuelResponse<EventObject> {
+        return deleteRequest("/" + id)
+    }
+
     fun createOrUpdateUserEvent(event: EventObject) : FuelResponse<EventObject> {
         if (event.id > 0) {
             return updateUserEvent(event)

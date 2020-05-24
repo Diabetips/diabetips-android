@@ -183,7 +183,7 @@
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/addFoodButton"
-                    style="@style/MaterialButtonTheme"
+                    style="@style/MaterialButtonAltTheme"
                     android:layout_width="wrap_content"
                     android:text="@string/add_food"
                     android:layout_gravity="center_horizontal"

@@ -18,6 +18,10 @@ class InsulinService : AService("/users/me/insulin") {
         return getRequest("/" + id)
     }
 
+    fun removeUserInsulin(id: Int) : FuelResponse<InsulinObject> {
+        return deleteRequest("/" + id)
+    }
+
     fun createOrUpdateUserInsulin(insulin: InsulinObject) : FuelResponse<InsulinObject> {
         if (insulin.id > 0) {
             return updateUserInsulin(insulin)

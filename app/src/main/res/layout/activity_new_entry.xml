@@ -40,6 +40,7 @@
             android:layout_marginEnd="@dimen/half_margin_size"
             android:contentDescription="@string/placeholder_text"
             android:src="@drawable/ic_save"
+            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"/>
@@ -61,6 +62,108 @@
             android:orientation="vertical"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toTopOf="parent">
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/entryMealCard"
+                style="@style/BackgroundCardTheme"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/entryMealLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/half_margin_size"
+                    android:layout_marginBottom="@dimen/half_margin_size"
+                    style="@style/EmptyBackgroundTheme">
+
+                    <TextView
+                        android:id="@+id/entryMealTitle"
+                        style="@style/SubtitleTheme"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/margin_size"
+                        android:text="@string/meal_title"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/entryMealTime"
+                        style="@style/TextAltTheme"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/margin_size"
+                        android:layout_marginEnd="@dimen/margin_size"
+                        android:text="@string/placeholder_hour"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/entryMealTitle"
+                        app:layout_constraintBottom_toBottomOf="@+id/entryMealTitle" />
+
+                    <TextView
+                        android:id="@+id/entryMealSummaryTitle"
+                        style="@style/TextTheme"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/margin_size"
+                        android:layout_marginEnd="@dimen/margin_size"
+                        android:text="@string/summary"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/entryMealTitle" />
+
+                    <TextView
+                        android:id="@+id/entryMealSummary"
+                        style="@style/TextAltTheme"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/margin_size"
+                        android:text="@string/placeholder_text"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/entryMealSummaryTitle" />
+
+                    <TextView
+                        android:id="@+id/entryMealQuantityTitle"
+                        style="@style/TextTheme"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/margin_size"
+                        android:text="@string/total_sugar"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/entryMealSummary" />
+
+                    <TextView
+                        android:id="@+id/entryMealQuantity"
+                        style="@style/TextAltTheme"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/margin_size"
+                        android:text="@string/total_sugar"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintBottom_toTopOf="@+id/entryMealQuantityTitle"
+                        app:layout_constraintTop_toBottomOf="@+id/entryMealQuantityTitle" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/newMealButton"
+                style="@style/MaterialButtonAltTheme"
+                android:layout_width="wrap_content"
+                android:layout_marginTop="@dimen/quarter_margin_size"
+                android:layout_marginBottom="@dimen/quarter_margin_size"
+                android:text="@string/add_meal"
+                app:icon="@drawable/ic_meal"
+                android:visibility="visible"
+                android:layout_gravity="center_horizontal"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="?attr/colorBackgroundText"
+                android:layout_marginTop="@dimen/quarter_margin_size"
+                android:layout_marginStart="@dimen/margin_size"
+                android:layout_marginEnd="@dimen/margin_size"/>
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/newEntryTimeLayout"
@@ -106,55 +209,6 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/entryMealCard"
-                style="@style/BackgroundCardTheme"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:visibility="gone">
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/entryMealLayout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/half_margin_size"
-                    android:layout_marginBottom="@dimen/half_margin_size"
-                    style="@style/EmptyBackgroundTheme">
-
-                    <TextView
-                        android:id="@+id/entryMealTitle"
-                        style="@style/SubtitleTheme"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/margin_size"
-                        android:text="@string/meal_title"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <TextView
-                        android:id="@+id/entryMealQuantity"
-                        style="@style/TextAltTheme"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/margin_size"
-                        android:text="@string/total_sugar"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/entryMealTitle" />
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-            </com.google.android.material.card.MaterialCardView>
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/newMealButton"
-                style="@style/MaterialButtonTheme"
-                android:layout_width="wrap_content"
-                android:layout_marginTop="@dimen/quarter_margin_size"
-                android:layout_marginBottom="@dimen/quarter_margin_size"
-                android:text="@string/add_meal"
-                android:visibility="visible"
-                android:layout_gravity="center_horizontal"/>
-
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/commentEntryInputLayout"
                 style="@style/TextInputLayoutTheme"
@@ -190,14 +244,48 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/calculateInsulinButton"
-                style="@style/MaterialButtonAltTheme"
-                android:layout_width="wrap_content"
-                android:visibility="gone"
-                android:layout_marginBottom="@dimen/quarter_margin_size"
-                android:text="@string/calculate_insulin"
-                android:layout_gravity="center_horizontal"/>
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingStart="@dimen/margin_size"
+                android:paddingEnd="@dimen/half_margin_size">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/insulinFastEntryInputLayout"
+                    style="@style/TextInputLayoutTheme"
+                    android:layout_width="0dp"
+                    android:layout_marginStart="0dp"
+                    android:layout_marginEnd="@dimen/half_margin_size"
+                    android:hint="@string/insulin_fast_input"
+                    app:suffixText="@string/unit_unit"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/calculateInsulinButton"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/insulinFastEntryInput"
+                        style="@style/TextInputTheme"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="number"
+                        android:imeOptions="actionNext"
+                        android:nextFocusForward="@+id/insulinSlowEntryInput" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/calculateInsulinButton"
+                    style="@style/MaterialButtonAltTheme"
+                    android:layout_width="wrap_content"
+                    android:visibility="gone"
+                    android:layout_marginEnd="@dimen/half_margin_size"
+                    android:layout_marginBottom="@dimen/quarter_margin_size"
+                    android:text="@string/calculate"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <TextView
                 android:id="@+id/calculateInsulinQuantity"
@@ -209,24 +297,6 @@
                 android:layout_marginBottom="@dimen/quarter_margin_size"
                 android:text="@string/unit_units"
                 android:layout_gravity="center_horizontal" />
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/insulinFastEntryInputLayout"
-                style="@style/TextInputLayoutTheme"
-                android:layout_width="match_parent"
-                android:hint="@string/insulin_fast_input"
-                app:suffixText="@string/unit_unit">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/insulinFastEntryInput"
-                    style="@style/TextInputTheme"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="number"
-                    android:imeOptions="actionNext"
-                    android:nextFocusForward="@+id/insulinSlowEntryInput" />
-
-            </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/insulinSlowEntryInputLayout"
@@ -243,6 +313,16 @@
                     android:inputType="number"/>
 
             </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/validateNewEntryButton"
+                style="@style/MaterialButtonTheme"
+                android:layout_width="wrap_content"
+                android:layout_marginTop="@dimen/quarter_margin_size"
+                android:layout_marginBottom="@dimen/quarter_margin_size"
+                android:text="@string/validate"
+                android:visibility="visible"
+                android:layout_gravity="center_horizontal"/>
 
         </LinearLayout>
 

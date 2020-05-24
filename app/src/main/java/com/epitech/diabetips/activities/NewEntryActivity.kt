@@ -64,6 +64,9 @@ class NewEntryActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener
         saveNewEntryButton.setOnClickListener {
             saveEntry()
         }
+        validateNewEntryButton.setOnClickListener {
+            saveEntry(true)
+        }
         closeNewEntryButton.setOnClickListener {
             onBackPressed()
         }
@@ -114,11 +117,13 @@ class NewEntryActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener
 
     private fun updateMealDisplay() {
         if (meal.id > 0) {
-            newMealButton.visibility = View.GONE
+            newMealButton.text = getString(R.string.add_other_meal)
             entryMealCard.visibility = View.VISIBLE
-            entryMealQuantity.text = getString(R.string.total_sugar) + " " + meal.total_sugar.toString() + " " + getString(R.string.unit_g)
+            entryMealQuantity.text = meal.total_sugar.toString() + " " + getString(R.string.unit_g)
+            entryMealSummary.text = meal.getSummary()
+            TimeHandler.instance.updateDateTimeDisplay(this, meal.timestamp, entryMealTime)
         } else {
-            newMealButton.visibility = View.VISIBLE
+            newMealButton.text = getString(R.string.add_meal)
             entryMealCard.visibility = View.GONE
         }
     }
@@ -197,6 +202,10 @@ class NewEntryActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener
         }
     }
 
+    private fun updateTimeDisplay() {
+        TimeHandler.instance.updateTimeDisplay(this, entryTimestamp, newEntryTimeDate, newEntryTimeHour)
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK
@@ -209,12 +218,12 @@ class NewEntryActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener
 
     override fun onDateSet(view: DatePickerDialog?, year: Int, monthOfYear: Int, dayOfMonth: Int) {
         entryTimestamp = TimeHandler.instance.changeTimestampDate(entryTimestamp, year, monthOfYear, dayOfMonth)
-        TimeHandler.instance.updateTimeDisplay(this, entryTimestamp, newEntryTimeDate, newEntryTimeHour)
+        updateTimeDisplay()
     }
 
     override fun onTimeSet(view: TimePickerDialog?, hourOfDay: Int, minute: Int, second: Int) {
         entryTimestamp = TimeHandler.instance.changeTimestampTime(entryTimestamp, hourOfDay, minute)
-        TimeHandler.instance.updateTimeDisplay(this, entryTimestamp, newEntryTimeDate, newEntryTimeHour)
+        updateTimeDisplay()
     }
 
     override fun onBackPressed() {

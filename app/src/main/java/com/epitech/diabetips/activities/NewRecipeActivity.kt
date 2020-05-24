@@ -75,6 +75,25 @@ class NewRecipeActivity : AppCompatActivity() {
                 startActivityForResult(intent, RequestCode.GET_IMAGE.ordinal)
                 dialog.dismiss()
             }
+            dialogView.deletePictureButton.setOnClickListener {
+                if (!changedPicture) {
+                    dialog.dismiss()
+                } else if (recipe.id == 0) {
+                    changedPicture = false
+                    loadImage()
+                    dialog.dismiss()
+                }
+                RecipeService.instance.removeRecipePicture(recipe.id).doOnSuccess {
+                    if (it.second.component2() == null) {
+                        changedPicture = false
+                        loadImage()
+                        Toast.makeText(this, R.string.deleted, Toast.LENGTH_SHORT).show()
+                    } else {
+                        Toast.makeText(this, it.second.component2()!!.exception.message, Toast.LENGTH_SHORT).show()
+                    }
+                    dialog.dismiss()
+                }.subscribe()
+            }
             dialog.show()
         }
         addFoodButton.setOnClickListener {
@@ -139,7 +158,7 @@ class NewRecipeActivity : AppCompatActivity() {
                     (foodList.adapter as RecipeFoodAdapter).setFoods(recipe.ingredients)
                 }
             }
-            ImageHandler.instance.loadImage(imagePhotoRecipe as ImageView,this, RecipeService.instance.getRecipePictureUrl(recipe.id), R.drawable.ic_unknown, false)
+            loadImage()
             newRecipeName.setText(recipe.name)
             newRecipeDescription.setText(recipe.description)
             saved = null
@@ -204,22 +223,26 @@ class NewRecipeActivity : AppCompatActivity() {
 
     private fun saveRecipePicture(finishView: Boolean = false) {
         val image: Bitmap = imagePhotoRecipe.drawToBitmap()
-            RecipeService.instance.updateRecipePicture(image, recipe.id).doOnSuccess {
-                if (it.second.component2() == null) {
-                    changedPicture = false
-                    Toast.makeText(this, R.string.saved_change, Toast.LENGTH_SHORT).show()
-                    if (finishView) {
-                        endActivity()
-                    }
-                } else {
-                    Toast.makeText(this, it.second.component2()!!.exception.message, Toast.LENGTH_SHORT).show()
+        RecipeService.instance.updateRecipePicture(image, recipe.id).doOnSuccess {
+            if (it.second.component2() == null) {
+                changedPicture = false
+                Toast.makeText(this, R.string.saved_change, Toast.LENGTH_SHORT).show()
+                if (finishView) {
+                    endActivity()
                 }
-            }.subscribe()
+            } else {
+                Toast.makeText(this, it.second.component2()!!.exception.message, Toast.LENGTH_SHORT).show()
+            }
+        }.subscribe()
     }
 
     private fun setRecipePicture(image: Bitmap) {
         imagePhotoRecipe.setImageBitmap(image)
         changedPicture = true
+    }
+
+    private fun loadImage() {
+        ImageHandler.instance.loadImage(imagePhotoRecipe as ImageView,this, RecipeService.instance.getRecipePictureUrl(recipe.id), R.drawable.ic_unknown, false)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

@@ -18,6 +18,10 @@ class MealService : AService("/users/me/meals") {
         return getRequest("/" + id)
     }
 
+    fun removeUserMeal(id: String) : FuelResponse<MealObject> {
+        return deleteRequest("/" + id)
+    }
+
     fun createOrUpdateUserMeal(meal: MealObject) : FuelResponse<MealObject> {
         if (meal.id > 0) {
             return updateUserMeal(meal)

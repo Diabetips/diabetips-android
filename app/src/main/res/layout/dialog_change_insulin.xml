@@ -7,7 +7,7 @@
     style="@style/EmptyBackgroundTheme">
 
     <LinearLayout
-        android:id="@+id/changeCommentLayout"
+        android:id="@+id/changeInsulinLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
@@ -16,46 +16,46 @@
         style="@style/EmptyBackgroundTheme">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/changeCommentTextLayout"
+            android:id="@+id/changeInsulinTextLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingBottom="@dimen/margin_size"
             style="@style/BackgroundDialogTheme">
 
             <TextView
-                android:id="@+id/changeCommentTitle"
+                android:id="@+id/changeInsulinTitle"
                 style="@style/SubtitleTheme"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_size"
                 android:layout_marginTop="@dimen/half_margin_size"
-                android:text="@string/change_comment"
+                android:text="@string/select_quantity"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/changeCommentInputLayout"
+                android:id="@+id/changeInsulinInputLayout"
                 style="@style/RemoveInputLayoutTheme"
                 android:layout_width="match_parent"
                 android:layout_marginTop="@dimen/quarter_margin_size"
-                android:hint="@string/comment_input"
+                android:hint="@string/select_quantity_input"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/changeCommentTitle">
+                app:layout_constraintTop_toBottomOf="@+id/changeInsulinTitle">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/changeCommentInput"
+                    android:id="@+id/changeInsulinInput"
                     style="@style/TextInputTheme"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="textMultiLine" />
+                    android:inputType="number" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <LinearLayout
-            android:id="@+id/changeCommentButtonLayout"
+            android:id="@+id/changeInsulinButtonLayout"
             style="@style/EmptyBackgroundTheme"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -65,14 +65,14 @@
             android:padding="@dimen/half_margin_size">
 
             <ImageButton
-                android:id="@+id/changeCommentDeleteButton"
+                android:id="@+id/changeInsulinDeleteButton"
                 style="@style/ImageButtonWarmTheme"
                 android:layout_marginStart="@dimen/half_margin_size"
                 android:contentDescription="@string/delete"
                 android:src="@drawable/ic_delete"/>
 
             <LinearLayout
-                android:id="@+id/changeCommentButtonSubLayout"
+                android:id="@+id/changeInsulinButtonSubLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
@@ -80,14 +80,14 @@
                 style="@style/EmptyBackgroundTheme">
 
                 <ImageButton
-                    android:id="@+id/changeCommentNegativeButton"
+                    android:id="@+id/changeInsulinNegativeButton"
                     style="@style/ImageButtonTheme"
                     android:layout_marginEnd="@dimen/half_margin_size"
                     android:contentDescription="@string/placeholder_text"
                     android:src="@drawable/ic_close"/>
 
                 <ImageButton
-                    android:id="@+id/changeCommentPositiveButton"
+                    android:id="@+id/changeInsulinPositiveButton"
                     style="@style/ImageButtonAltTheme"
                     android:layout_marginEnd="@dimen/half_margin_size"
                     android:contentDescription="@string/placeholder_text"

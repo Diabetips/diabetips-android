@@ -104,4 +104,13 @@ class TimeHandler {
             timeDisplay?.text = DateFormat.format(context.getString(R.string.format_hour_12), date)
         }
     }
+
+    fun updateDateTimeDisplay(context: Context, timestamp: Long, dateTimeDisplay: TextView) {
+        val date = Date(timestamp * 1000)
+        if (DateFormat.is24HourFormat(context)) {
+            dateTimeDisplay.text = DateFormat.format(context.getString(R.string.format_date_simple_24), date)
+        } else {
+            dateTimeDisplay.text = DateFormat.format(context.getString(R.string.format_date_simple_12), date)
+        }
+    }
 }

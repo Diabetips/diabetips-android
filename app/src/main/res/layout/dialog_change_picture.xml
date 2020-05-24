@@ -48,18 +48,35 @@
             style="@style/EmptyBackgroundTheme">
 
             <ImageButton
-                android:id="@+id/newPictureButton"
-                style="@style/ImageButtonTheme"
-                android:layout_marginEnd="@dimen/half_margin_size"
-                android:contentDescription="@string/new_picture"
-                android:src="@drawable/ic_photo_camera"/>
+                android:id="@+id/deletePictureButton"
+                style="@style/ImageButtonWarmTheme"
+                android:layout_marginStart="@dimen/half_margin_size"
+                android:contentDescription="@string/delete"
+                android:src="@drawable/ic_delete"/>
 
-            <ImageButton
-                android:id="@+id/pictureGalleryButton"
-                style="@style/ImageButtonTheme"
-                android:layout_marginEnd="@dimen/half_margin_size"
-                android:contentDescription="@string/picture_gallery"
-                android:src="@drawable/ic_photo_library"/>
+            <LinearLayout
+                android:id="@+id/changePictureButtonSubLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="end"
+                style="@style/EmptyBackgroundTheme">
+
+                <ImageButton
+                    android:id="@+id/newPictureButton"
+                    style="@style/ImageButtonTheme"
+                    android:layout_marginEnd="@dimen/half_margin_size"
+                    android:contentDescription="@string/new_picture"
+                    android:src="@drawable/ic_photo_camera"/>
+
+                <ImageButton
+                    android:id="@+id/pictureGalleryButton"
+                    style="@style/ImageButtonTheme"
+                    android:layout_marginEnd="@dimen/half_margin_size"
+                    android:contentDescription="@string/picture_gallery"
+                    android:src="@drawable/ic_photo_library"/>
+
+            </LinearLayout>
 
         </LinearLayout>
 

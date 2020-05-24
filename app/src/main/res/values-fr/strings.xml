@@ -93,7 +93,7 @@
     <string name="date_format_error">Date invalide</string>
     <string name="diabetes_type_2">Type 2</string>
     <string name="diabetes_type_1">Type 1</string>
-    <string name="total_sugar">Total glucide :</string>
+    <string name="total_sugar">Total glucide</string>
     <string name="deactivate_account_confirm">Etes vous certain de vouloir désactiver votre compte ?</string>
     <string name="deactivated">Compte desactivé avec succès !</string>
     <string name="deactivate">Désactiver mon compte</string>
@@ -105,4 +105,12 @@
     <string name="insulin_fast">Insuline rapide</string>
     <string name="unit">Unité(s)</string>
     <string name="change_comment">Modifier le commentaire</string>
+    <string name="summary">Résumé</string>
+    <string name="format_date_simple_24">dd/MM/yyyy - HH:mm</string>
+    <string name="format_date_simple_12">dd/MM/yyyy - h:mm a</string>
+    <string name="add_other_meal">Ajouter un autre repas</string>
+    <string name="delete">Supprimer</string>
+    <string name="remove_profile_picture">Photo de profil supprimé</string>
+    <string name="deleted">Supprimé</string>
+    <string name="calculate">Prédire</string>
 </resources>

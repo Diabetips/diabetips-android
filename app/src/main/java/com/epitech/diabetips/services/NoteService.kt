@@ -18,6 +18,10 @@ class NoteService : AService("/users/me/notes") {
         return getRequest("/" + id)
     }
 
+    fun removeUserNote(id: Int) : FuelResponse<NoteObject> {
+        return deleteRequest("/" + id)
+    }
+
     fun createOrUpdateUserNote(note: NoteObject) : FuelResponse<NoteObject> {
         if (note.id > 0) {
             return updateUserNote(note)

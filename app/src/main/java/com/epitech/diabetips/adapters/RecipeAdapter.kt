@@ -2,7 +2,6 @@ package com.epitech.diabetips.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.recyclerview.widget.RecyclerView
 import com.epitech.diabetips.holders.RecipeItemViewHolder
 import com.epitech.diabetips.storages.RecipeObject
 
@@ -14,16 +13,19 @@ class RecipeAdapter(private val recipes: ArrayList<RecipeObject> = arrayListOf()
         recipes.clear()
         recipes.addAll(recipeList)
         notifyDataSetChanged()
+        updateVisibility()
     }
 
     fun addRecipe(recipe: RecipeObject) {
         recipes.add(recipe)
         notifyItemInserted(recipes.size)
+        updateVisibility()
     }
 
     fun addRecipes(recipeList: Array<RecipeObject>) {
         recipes.addAll(recipeList)
         notifyItemRangeInserted(recipes.size - recipeList.size, recipeList.size)
+        updateVisibility()
     }
 
     fun updateRecipe(recipe: RecipeObject) {

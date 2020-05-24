@@ -21,7 +21,7 @@ import com.epitech.diabetips.storages.MealObject
 import com.epitech.diabetips.storages.NoteObject
 import com.epitech.diabetips.utils.MaterialHandler
 import kotlinx.android.synthetic.main.dialog_change_comment.view.*
-import kotlinx.android.synthetic.main.dialog_select_quantity.view.*
+import kotlinx.android.synthetic.main.dialog_change_insulin.view.*
 
 class DashboardItem2Adapter(val context: Context,
                             private val items: ArrayList<DashboardItemObject> = arrayListOf(),
@@ -49,6 +49,11 @@ class DashboardItem2Adapter(val context: Context,
     fun addItems(itemList: Array<DashboardItemObject>) {
         items.addAll(itemList)
         notifyItemRangeInserted(items.size - itemList.size, itemList.size)
+    }
+
+    fun removeItem(position: Int) {
+        items.removeAt(position)
+        notifyItemRemoved(position)
     }
 
     fun updateItem(item: DashboardItemObject) {
@@ -93,21 +98,20 @@ class DashboardItem2Adapter(val context: Context,
     }
 
     private fun changeInsulin(item: DashboardItemObject, position: Int) {
-        val view = LayoutInflater.from(context).inflate(R.layout.dialog_select_quantity, null)
+        val view = LayoutInflater.from(context).inflate(R.layout.dialog_change_insulin, null)
         MaterialHandler.instance.handleTextInputLayoutSize(view as ViewGroup)
         val dialog = AlertDialog.Builder(context).setView(view).create()
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         val insulinObject = item.orignal as InsulinObject
-        view.selectQuantityInputLayout.hint = view.selectQuantityInputLayout.hint.toString() + " (" + context.getString(R.string.unit_units) + ")"
-        view.selectQuantityInput.inputType = InputType.TYPE_CLASS_NUMBER
-        view.selectQuantityInput.setText(insulinObject.quantity.toString())
-        view.selectQuantityNegativeButton.setOnClickListener {
+        view.changeInsulinInputLayout.hint = view.changeInsulinInputLayout.hint.toString() + " (" + context.getString(R.string.unit_units) + ")"
+        view.changeInsulinInput.setText(insulinObject.quantity.toString())
+        view.changeInsulinNegativeButton.setOnClickListener {
             dialog.dismiss()
         }
-        view.selectQuantityPositiveButton.setOnClickListener {
-            val quantity: Float? = view.selectQuantityInput.text.toString().toFloatOrNull()
+        view.changeInsulinPositiveButton.setOnClickListener {
+            val quantity: Float? = view.changeInsulinInput.text.toString().toFloatOrNull()
             if (quantity == null || quantity <= 0) {
-                view.selectQuantityInputLayout.error = context.getString(R.string.quantity_null)
+                view.changeInsulinInputLayout.error = context.getString(R.string.quantity_null)
             } else {
                 insulinObject.quantity = quantity.toInt()
                 InsulinService.instance.createOrUpdateUserInsulin(insulinObject).doOnSuccess {
@@ -119,6 +123,17 @@ class DashboardItem2Adapter(val context: Context,
                     }
                 }.subscribe()
             }
+        }
+        view.changeInsulinDeleteButton.setOnClickListener {
+            InsulinService.instance.removeUserInsulin(insulinObject.id).doOnSuccess {
+                if (it.second.component2() == null) {
+                    Toast.makeText(context, context.getString(R.string.deleted), Toast.LENGTH_SHORT).show()
+                    removeItem(position)
+                    dialog.dismiss()
+                } else {
+                    Toast.makeText(context, it.second.component2()!!.exception.message, Toast.LENGTH_SHORT).show()
+                }
+            }.subscribe()
         }
         dialog.show()
     }
@@ -136,7 +151,7 @@ class DashboardItem2Adapter(val context: Context,
         view.changeCommentPositiveButton.setOnClickListener {
             val text: String = view.changeCommentInput.text.toString()
             if (text.isBlank()) {
-                view.selectQuantityInputLayout.error = context.getString(R.string.empty_field_error)
+                view.changeCommentInputLayout.error = context.getString(R.string.empty_field_error)
             } else {
                 noteObject.description = text
                 NoteService.instance.createOrUpdateUserNote(noteObject).doOnSuccess {
@@ -148,6 +163,17 @@ class DashboardItem2Adapter(val context: Context,
                     }
                 }.subscribe()
             }
+        }
+        view.changeCommentDeleteButton.setOnClickListener {
+            NoteService.instance.removeUserNote(noteObject.id).doOnSuccess {
+                if (it.second.component2() == null) {
+                    Toast.makeText(context, context.getString(R.string.deleted), Toast.LENGTH_SHORT).show()
+                    removeItem(position)
+                    dialog.dismiss()
+                } else {
+                    Toast.makeText(context, it.second.component2()!!.exception.message, Toast.LENGTH_SHORT).show()
+                }
+            }.subscribe()
         }
         dialog.show()
     }

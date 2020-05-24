@@ -103,6 +103,14 @@
     <string name="date_format_error">Invalid date</string>
     <string name="diabetes_type_2">Type 2</string>
     <string name="diabetes_type_1">Type 1</string>
-    <string name="total_sugar">Total sugar :</string>
+    <string name="total_sugar">Total sugar</string>
     <string name="change_comment">Edit comment</string>
+    <string name="summary">Summary</string>
+    <string name="format_date_simple_12">MM/dd/yyyy - h:mm a</string>
+    <string name="format_date_simple_24">MM/dd/yyyy - HH:mm</string>
+    <string name="add_other_meal">Add another meal</string>
+    <string name="delete">Delete</string>
+    <string name="remove_profile_picture">Profile picture removed</string>
+    <string name="deleted">Deleted</string>
+    <string name="calculate">Predict</string>
 </resources>

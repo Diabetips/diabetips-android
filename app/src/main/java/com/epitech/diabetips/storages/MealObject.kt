@@ -24,6 +24,23 @@ data class MealObject (
         }
         return total_sugar
     }
+
+    fun getSummary(separator: String = ", ") : String {
+        var summary = ""
+        recipes.forEach {
+            if (summary.isNotEmpty()) {
+                summary += separator
+            }
+            summary += it.recipe.name
+        }
+        foods.forEach {
+            if (summary.isNotEmpty()) {
+                summary += separator
+            }
+            summary += it.food.name
+        }
+        return summary
+    }
 }
 
 class MealObjectAdapter : TypeAdapter<MealObject>() {
