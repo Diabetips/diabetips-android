@@ -33,7 +33,7 @@ class NewEntryActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener
     enum class RequestCode {NEW_MEAL, UPDATE_MEAL}
     enum class ObjectType {MEAL, SLOW_INSULIN, FAST_INSULIN, NOTE, EVENT}
 
-    private val objects: MutableMap<ObjectType, Pair<Int, Boolean?>> = mutableMapOf()
+    private val objects: MutableMap<ObjectType, Triple<Int, Boolean?, Boolean>> = mutableMapOf()
     private var entryTimestamp: Long = TimeHandler.instance.currentTimeSecond()
     private var meal: MealObject = MealObject()
 
@@ -89,29 +89,29 @@ class NewEntryActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener
     }
 
     private fun initObjectMap() {
-        objects[ObjectType.MEAL] = Pair<Int, Boolean?>(0, null)
-        objects[ObjectType.SLOW_INSULIN] = Pair<Int, Boolean?>(0, null)
-        objects[ObjectType.FAST_INSULIN] = Pair<Int, Boolean?>(0, null)
-        objects[ObjectType.NOTE] = Pair<Int, Boolean?>(0, null)
-        objects[ObjectType.EVENT] = Pair<Int, Boolean?>(0, null)
+        objects[ObjectType.MEAL] = Triple<Int, Boolean?, Boolean>(0, null, false)
+        objects[ObjectType.SLOW_INSULIN] = Triple<Int, Boolean?, Boolean>(0, null, false)
+        objects[ObjectType.FAST_INSULIN] = Triple<Int, Boolean?, Boolean>(0, null, false)
+        objects[ObjectType.NOTE] = Triple<Int, Boolean?, Boolean>(0, null, false)
+        objects[ObjectType.EVENT] = Triple<Int, Boolean?, Boolean>(0, null, false)
     }
 
     private fun addTextChangedListener() {
         insulinSlowEntryInput.addTextChangedListener(TextChangedWatcher {
-            objects[ObjectType.SLOW_INSULIN] = Pair(objects[ObjectType.SLOW_INSULIN]!!.first,
-                if (((it.toString().toIntOrNull() ?: 0 > 0) || objects[ObjectType.SLOW_INSULIN]!!.first > 0)) false else null)
+            objects[ObjectType.SLOW_INSULIN] = Triple(objects[ObjectType.SLOW_INSULIN]!!.first,
+                if (((it.toString().toIntOrNull() ?: 0 > 0) || objects[ObjectType.SLOW_INSULIN]!!.first > 0)) false else null, false)
         })
         insulinFastEntryInput.addTextChangedListener(TextChangedWatcher {
-            objects[ObjectType.FAST_INSULIN] = Pair(objects[ObjectType.FAST_INSULIN]!!.first,
-                if (((it.toString().toIntOrNull() ?: 0) > 0 || objects[ObjectType.FAST_INSULIN]!!.first > 0)) false else null)
+            objects[ObjectType.FAST_INSULIN] = Triple(objects[ObjectType.FAST_INSULIN]!!.first,
+                if (((it.toString().toIntOrNull() ?: 0) > 0 || objects[ObjectType.FAST_INSULIN]!!.first > 0)) false else null, false)
         })
         commentEntryInput.addTextChangedListener(TextChangedWatcher {
-            objects[ObjectType.NOTE] = Pair(objects[ObjectType.NOTE]!!.first,
-                if ((it.toString().isNotBlank() || objects[ObjectType.NOTE]!!.first > 0)) false else null)
+            objects[ObjectType.NOTE] = Triple(objects[ObjectType.NOTE]!!.first,
+                if ((it.toString().isNotBlank() || objects[ObjectType.NOTE]!!.first > 0)) false else null, false)
         })
         physicalActivityEntryInput.addTextChangedListener(TextChangedWatcher {
-            objects[ObjectType.EVENT] = Pair(objects[ObjectType.EVENT]!!.first,
-                if (((it.toString().toIntOrNull() ?: 0) > 0 || objects[ObjectType.EVENT]!!.first > 0)) false else null)
+            objects[ObjectType.EVENT] = Triple(objects[ObjectType.EVENT]!!.first,
+                if (((it.toString().toIntOrNull() ?: 0) > 0 || objects[ObjectType.EVENT]!!.first > 0)) false else null, false)
         })
     }
 
@@ -129,13 +129,13 @@ class NewEntryActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener
     }
 
     private fun saveEntry(finishView: Boolean = false) {
-        if (objects[ObjectType.SLOW_INSULIN]!!.second == false)
+        if (objects[ObjectType.SLOW_INSULIN]!!.second == false && !objects[ObjectType.SLOW_INSULIN]!!.third)
             saveInsulin(getSlowInsulin(), finishView)
-        if (objects[ObjectType.FAST_INSULIN]!!.second == false)
+        if (objects[ObjectType.FAST_INSULIN]!!.second == false && !objects[ObjectType.FAST_INSULIN]!!.third)
             saveInsulin(getFastInsulin(), finishView)
-        if (objects[ObjectType.NOTE]!!.second == false)
+        if (objects[ObjectType.NOTE]!!.second == false && !objects[ObjectType.NOTE]!!.third)
             saveNote(finishView)
-        if (objects[ObjectType.EVENT]!!.second == false)
+        if (objects[ObjectType.EVENT]!!.second == false && !objects[ObjectType.EVENT]!!.third)
             saveEvent(finishView)
     }
 
@@ -156,40 +156,44 @@ class NewEntryActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener
     }
 
     private fun saveInsulin(insulin: InsulinObject, finishView: Boolean = false) {
+        val objectType: ObjectType = if (insulin.type == InsulinObject.Type.slow.name) ObjectType.SLOW_INSULIN else ObjectType.FAST_INSULIN
+        objects[objectType] = objects[ObjectType.SLOW_INSULIN]!!.copy(third = true)
         InsulinService.instance.createOrUpdateUserInsulin(insulin).doOnSuccess {
             if (it.second.component2() == null) {
-                if (insulin.type == InsulinObject.Type.slow.name)
-                    objects[ObjectType.SLOW_INSULIN] = Pair<Int, Boolean?>(it.second.component1()?.id!!, true)
-                else
-                    objects[ObjectType.FAST_INSULIN] = Pair<Int, Boolean?>(it.second.component1()?.id!!, true)
+                objects[objectType] = Triple<Int, Boolean?, Boolean>(it.second.component1()?.id!!, true, false)
                 displaySavedMessage(finishView)
             } else {
                 Toast.makeText(this, it.second.component2()!!.exception.message, Toast.LENGTH_SHORT).show()
+                objects[objectType] = objects[ObjectType.SLOW_INSULIN]!!.copy(third = false)
             }
         }.subscribe()
     }
 
     private fun saveNote(finishView: Boolean = false) {
+        objects[ObjectType.NOTE] = objects[ObjectType.NOTE]!!.copy(third = true)
         val note = NoteObject(objects[ObjectType.NOTE]!!.first, commentEntryInput.text.toString(), entryTimestamp)
         NoteService.instance.createOrUpdateUserNote(note).doOnSuccess {
             if (it.second.component2() == null) {
-                objects[ObjectType.NOTE] = Pair<Int, Boolean?>(it.second.component1()?.id!!, true)
+                objects[ObjectType.NOTE] = Triple<Int, Boolean?, Boolean>(it.second.component1()?.id!!, true, false)
                 displaySavedMessage(finishView)
             } else {
                 Toast.makeText(this, it.second.component2()!!.exception.message, Toast.LENGTH_SHORT).show()
+                objects[ObjectType.NOTE] = objects[ObjectType.NOTE]!!.copy(third = false)
             }
         }.subscribe()
     }
 
     private fun saveEvent(finishView: Boolean = false) {
+        objects[ObjectType.NOTE] = objects[ObjectType.NOTE]!!.copy(third = true)
         val event = EventObject(objects[ObjectType.EVENT]!!.first, "Activité Physique", entryTimestamp,
             entryTimestamp + (physicalActivityEntryInput.text.toString().toIntOrNull()?: 0) * 60)
         EventService.instance.createOrUpdateUserEvent(event).doOnSuccess {
             if (it.second.component2() == null) {
-                objects[ObjectType.EVENT] = Pair<Int, Boolean?>(it.second.component1()?.id!!, true)
+                objects[ObjectType.EVENT] = Triple<Int, Boolean?, Boolean>(it.second.component1()?.id!!, true, false)
                 displaySavedMessage(finishView)
             } else {
                 Toast.makeText(this, it.second.component2()!!.exception.message, Toast.LENGTH_SHORT).show()
+                objects[ObjectType.NOTE] = objects[ObjectType.NOTE]!!.copy(third = false)
             }
         }.subscribe()
     }

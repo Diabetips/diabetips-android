@@ -16,6 +16,7 @@ import kotlinx.android.synthetic.main.item_food.view.*
 class FoodItemViewHolder(inflater: LayoutInflater, parent: ViewGroup)
     : RecyclerView.ViewHolder(inflater.inflate(R.layout.item_food, parent, false)) {
     private var foodText: TextView? = null
+    private var sugar100gText: TextView? = null
     private var unitText: TextView? = null
     private var foodImage: ImageView? = null
     private var foodCkeckBox: CheckBox? = null
@@ -23,6 +24,7 @@ class FoodItemViewHolder(inflater: LayoutInflater, parent: ViewGroup)
 
     init {
         foodText = itemView.foodText
+        sugar100gText = itemView.foodSugar100g
         unitText = itemView.foodUnitText
         foodImage = itemView.foodImage
         foodCkeckBox = itemView.foodCheckBox
@@ -35,6 +37,7 @@ class FoodItemViewHolder(inflater: LayoutInflater, parent: ViewGroup)
 
     fun bind(food: FoodObject, selected: Boolean = false, onItemClickListener : ((FoodObject, CheckBox?) -> Unit)? = null) {
         foodText?.text = food.name
+        sugar100gText?.text = food.sugars_100g.toString() + context.getString(R.string.unit_g)
         unitText?.text = food.unit
         foodCkeckBox?.isChecked = selected
         itemView.setOnClickListener {onItemClickListener?.invoke(food, foodCkeckBox)}

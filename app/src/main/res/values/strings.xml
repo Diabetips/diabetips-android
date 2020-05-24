@@ -136,6 +136,7 @@
     <string name="food_not_found">Sorry, but no food with that name has been found.</string>
     <string name="validate">Validate</string>
     <string name="description">Description</string>
+    <string name="sugar_100g">"Sugar for 100g: "</string>
     <!--meal / recipe / food screen end-->
 
     <!--login / sign up errors start-->

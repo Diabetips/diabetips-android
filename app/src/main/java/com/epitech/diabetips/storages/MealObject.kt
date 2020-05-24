@@ -25,7 +25,7 @@ data class MealObject (
         return total_sugar
     }
 
-    fun getSummary(separator: String = ", ") : String {
+    fun getSummary(separator: String = "\n") : String {
         var summary = ""
         recipes.forEach {
             if (summary.isNotEmpty()) {

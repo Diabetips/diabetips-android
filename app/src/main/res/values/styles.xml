@@ -390,7 +390,7 @@
         <item name="android:textAppearance">@style/TextAppearance</item>
     </style>
 
-    <style name="HintTheme" parent="HintViewTheme">
+    <style name="HintTheme" parent="TextViewTheme">
         <item name="android:textAppearance">@style/HintTextAppearance</item>
     </style>
 

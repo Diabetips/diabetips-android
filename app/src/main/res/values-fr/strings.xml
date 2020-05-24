@@ -113,4 +113,5 @@
     <string name="remove_profile_picture">Photo de profil supprimé</string>
     <string name="deleted">Supprimé</string>
     <string name="calculate">Prédire</string>
+    <string name="sugar_100g">"Sucre pour 100g: "</string>
 </resources>
