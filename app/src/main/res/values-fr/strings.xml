@@ -114,4 +114,5 @@
     <string name="deleted">Supprimé</string>
     <string name="calculate">Prédire</string>
     <string name="sugar_100g">"Sucre pour 100g: "</string>
+    <string name="date_format">dd/MM/yyyy</string>
 </resources>

@@ -4,9 +4,9 @@
     <color name="colorPrimaryLight">#B5E7F6</color>
     <color name="colorAccent">#FFA300</color>
     <color name="colorWarm">#FFD93C34</color>
-    <color name="colorBackground">#FFFFFF</color>
+    <color name="colorBackground">#FAFAFA</color>
     <color name="colorBackgroundSearch">#EBEBEB</color>
-    <color name="colorBackgroundCard">#F2F2F2</color>
+    <color name="colorBackgroundCard">#FFFFFF</color>
     <color name="colorBackgroundDark">#000000</color>
     <color name="colorBackgroundDarkLight">#242424</color>
     <color name="colorText">#FFFFFF</color>

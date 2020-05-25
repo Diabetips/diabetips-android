@@ -1,11 +1,7 @@
 package com.epitech.diabetips.holders
 
-import android.graphics.BlendMode
-import android.graphics.BlendModeColorFilter
 import android.graphics.PorterDuff
-import android.graphics.PorterDuffColorFilter
 import android.graphics.drawable.Drawable
-import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,6 +17,13 @@ import kotlinx.android.synthetic.main.grouped_items_dashboard.view.*
 
 class DashboardGroupedItemsViewHolder (var inflater: LayoutInflater, var parent: ViewGroup)
     : RecyclerView.ViewHolder(inflater.inflate(R.layout.grouped_items_dashboard, parent, false)) {
+
+    data class ItemInfo (
+        var icon: ImageView,
+        var quantity: TextView,
+        var color: Int,
+        var type: EntryObject.Type,
+        var activated: Boolean = true)
 
     private var date: String = "OUI";
     private var items: List<EntryObject> = arrayListOf();
@@ -56,12 +59,6 @@ class DashboardGroupedItemsViewHolder (var inflater: LayoutInflater, var parent:
 
     private fun setColorFilter(drawable: Drawable, color: Int) {
         drawable.setColorFilter(ContextCompat.getColor(inflater.context, color), PorterDuff.Mode.SRC_ATOP)
-        return;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            drawable.colorFilter = BlendModeColorFilter(color, BlendMode.SRC_ATOP)
-        } else {
-            drawable.setColorFilter(PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP))
-        }
     }
 
     private fun setItemVisibility(item: ItemInfo, show: Boolean) {
@@ -77,18 +74,7 @@ class DashboardGroupedItemsViewHolder (var inflater: LayoutInflater, var parent:
     fun changeState(expand: Boolean) {
         topbarItems.forEach() {item ->
             setItemVisibility(item, !expand)
-//            if (expand)
-//                topbar.setBackgroundColor(inflater.context.resources.getColor(R.color.colorBackgroundCard))
-//            else
-//                topbar.setBackgroundColor(inflater.context.resources.getColor(R.color.colorBackground))
         }
     }
-
-    data class ItemInfo (
-        var icon: ImageView,
-        var quantity: TextView,
-        var color: Int,
-        var type: EntryObject.Type,
-        var activated: Boolean = true)
 }
 

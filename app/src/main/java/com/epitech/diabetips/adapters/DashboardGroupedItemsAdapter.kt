@@ -71,7 +71,7 @@ class DashboardGroupedItemsAdapter(val context: Context,
                 childLayoutManager.initialPrefetchItemCount = arrayItems.size
                 holder.recyclerView.apply {
                         layoutManager = childLayoutManager
-                        adapter = DashboardItemAdapter(context, arrayItems, null)
+                        adapter = DashboardItemsAdapter(context, arrayItems, null)
                         setRecycledViewPool(viewPool)
                 }
 

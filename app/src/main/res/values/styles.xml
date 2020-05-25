@@ -316,6 +316,7 @@
     <style name="BoldTextAppearance" parent="TextAppearance.MaterialComponents.Body1">
         <item name="fontFamily">@font/muli_bold</item>
         <item name="android:textSize">@dimen/text_size</item>
+        <item name="android:textColorHint">?attr/colorBackgroundText</item>
     </style>
 
     <style name="TextAppearance" parent="TextAppearance.MaterialComponents.Body1">
@@ -326,6 +327,7 @@
     <style name="SoftTextAppearance" parent="TextAppearance.MaterialComponents.Body1">
         <item name="fontFamily">@font/rubik_regular</item>
         <item name="android:textSize">@dimen/text_size</item>
+        <item name="android:textColorHint">?attr/colorBackgroundText</item>
     </style>
 
     <style name="HintTextAppearance" parent="TextAppearance.MaterialComponents.Subtitle1">

@@ -1,16 +1,21 @@
 package com.epitech.diabetips.activities
 
-import androidx.appcompat.app.AppCompatActivity
+import android.content.Intent
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.Fragment
 import com.epitech.diabetips.R
+import com.epitech.diabetips.services.NfcReaderService
+import com.epitech.diabetips.services.PENDING_INTENT_TECH_DISCOVERED
 import com.epitech.diabetips.utils.MaterialHandler
 import com.epitech.diabetips.utils.NavigationFragment
 import kotlinx.android.synthetic.main.activity_navigation.*
 
 class NavigationActivity : AppCompatActivity(), me.ibrahimsn.lib.OnItemSelectedListener  {
 
+    var currentFragment: Fragment? = null
+    var nfcReader: NfcReaderService? = null
     companion object {
         var defaultFragmentSelect = NavigationFragment.FragmentType.HOME
     }
@@ -26,6 +31,7 @@ class NavigationActivity : AppCompatActivity(), me.ibrahimsn.lib.OnItemSelectedL
         MaterialHandler.instance.handleTextInputLayoutSize(this.findViewById(android.R.id.content))
         smoothBottomBaBar.setOnItemSelectedListener(this)
         selectDefaultFragment()
+        nfcReader = NfcReaderService(this, intent, this)
     }
 
     private fun selectDefaultFragment() {
@@ -36,6 +42,7 @@ class NavigationActivity : AppCompatActivity(), me.ibrahimsn.lib.OnItemSelectedL
 
     private fun loadFragment(fragment: Fragment?) : Boolean {
         if (fragment != null) {
+            currentFragment = fragment
             supportFragmentManager.beginTransaction()
                 .replace(R.id.navigationFragment, fragment)
                 .commit()
@@ -70,6 +77,32 @@ class NavigationActivity : AppCompatActivity(), me.ibrahimsn.lib.OnItemSelectedL
             selectDefaultFragment()
         } else {
             moveTaskToBack(true)
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        nfcReader!!.onResume()
+    }
+
+    override fun onPause() {
+        nfcReader!!.onPause()
+        super.onPause()
+    }
+
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        nfcReader!!.onNewIntent(intent)
+    }
+
+    override fun onActivityResult(
+        requestCode: Int,
+        resultCode: Int,
+        data: Intent?
+    ) {
+        super.onActivityResult(requestCode, resultCode, data)
+        when (requestCode) {
+            PENDING_INTENT_TECH_DISCOVERED -> nfcReader!!.onNewIntent(data)
         }
     }
 
