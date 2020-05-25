@@ -31,7 +31,7 @@ class HomeFragment : NavigationFragment(FragmentType.HOME) {
         page.setInterval(cur - 24*60*60, cur)
         Log.d("PAGE INTERVAL : ",page.start.toString() + ":" + page.end.toString())
         entriesManager =
-        EntriesManager(context = context!!, page=page) { items, reset ->
+        EntriesManager(context = requireContext(), page=page) { items, reset ->
                 itemsUpdateTrigger(reset, items)
         }
         entriesManager.getItems()
@@ -49,17 +49,16 @@ class HomeFragment : NavigationFragment(FragmentType.HOME) {
             startActivity(Intent(context, DashboardActivity::class.java))
         }
         val interval: Pair<Long, Long> = Pair(entriesManager.getPage()!!.start, entriesManager.getPage()!!.end)
-        ChartHandler.instance.updateChartData(listOf(), interval, view.sugarLineChart, context!!)
+        ChartHandler.instance.updateChartData(listOf(), interval, view.sugarLineChart, requireContext())
         return view
     }
 
     private fun itemsUpdateTrigger(reset: Boolean, items: Array<EntryObject>) {
         val map: List<BloodSugarObject> = items.filter{ it.type == EntryObject.Type.SUGAR}
             .map{it.orignal as (BloodSugarObject)}.sortedBy{ it.timestamp }
-        if (context == null)
-            Log.d("Context", "NULL")
         val interval: Pair<Long, Long> = Pair(entriesManager.getPage()!!.start, entriesManager.getPage()!!.end)
-        view?.sugarLineChart?.let { ChartHandler.instance.updateChartData(map, interval, it,  context!!) }
+        Log.d("CURVE", "Update sugar infos in cure")
+        view?.sugarLineChart?.let { ChartHandler.instance.updateChartData(map, interval, it,  requireContext()) }
     }
     private fun setSugarLineChartData(view: View? = this.view) {
 //        ChartHandler.instance.updateChartData(hashMapOf("11h25" to 120, "11h30" to 128,"11h35" to 138,"11h45" to 142,"11h50" to 130,"11h55" to 120,"12h00" to 135),

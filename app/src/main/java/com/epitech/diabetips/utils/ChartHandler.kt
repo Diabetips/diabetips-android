@@ -10,7 +10,7 @@ import com.github.mikephil.charting.components.AxisBase
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
-import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
+import com.github.mikephil.charting.formatter.ValueFormatter
 import org.threeten.bp.Instant
 import org.threeten.bp.LocalDateTime
 import org.threeten.bp.ZoneOffset
@@ -41,88 +41,106 @@ class ChartHandler {
     }
 
     public fun updateChartData(bloodValues: List<BloodSugarObject>, intervalTimeStamp: Pair<Long, Long>, lineChart: LineChart, context: Context) {
-        Log.d("Chart", "Update")
-        val yValues = mutableListOf<Entry>()
-        val xValues = mutableListOf<String>()
-        for (bloodValue in bloodValues) {
-            //  create list of bgl values for yAxis
-            yValues.add(Entry((bloodValue.timestamp - intervalTimeStamp.first).toFloat(), bloodValue.value.toFloat()))
+        val formatter = HoursFormatter(intervalTimeStamp, context);
+        lineChart.xAxis.valueFormatter = formatter
+
+        val bloodValuesChunks = cutBloodValuesIntoChunks(bloodValues, 1800f)
+        val lineData = LineData()
+        for (bloodValueChunk in bloodValuesChunks) {
+            lineData.addDataSet(generateDataset(bloodValueChunk, intervalTimeStamp, context))
         }
-        val inter = getDatesBetween(LocalDateTime.ofInstant(
-            Instant.ofEpochSecond(intervalTimeStamp.first),
-            ZoneOffset.UTC), LocalDateTime.ofInstant(
-            Instant.ofEpochSecond(intervalTimeStamp.second),
-            ZoneOffset.UTC))
-        lineChart.xAxis.axisMinimum = 0f;
-        lineChart.xAxis.axisMaximum = (intervalTimeStamp.second - intervalTimeStamp.first).toFloat()
-//
-//        val xAxisLabel: ArrayList<String> = ArrayList(initialCapacity = (intervalTimeStamp.second - intervalTimeStamp.first).toInt())
-////        xAxisLabel.addAll()
-//        inter!!.forEach {
-//            run {
-//                val timestamp = it!!.toInstant(ZoneOffset.UTC).toEpochMilli() / 1000
-//                val index: Int = (timestamp - intervalTimeStamp.first).toInt()
-//                val label: String = TimeHandler.instance.formatTimestamp(timestamp, "hh:mm")
-//                Log.d("Add time : ", label)
-//                xAxisLabel.add(index, label)
-//            }
-//        }
-//        lineChart.xAxis.valueFormatter = IndexAxisValueFormatter(xAxisLabel)
-
-        val set1 = LineDataSet(yValues, "Bgl")
-        set1.mode = LineDataSet.Mode.CUBIC_BEZIER
-        set1.cubicIntensity = 0.2f
-        set1.setDrawFilled(true)
-        set1.lineWidth = 1f
-        set1.fillAlpha = 50
-        set1.setDrawVerticalHighlightIndicator(true)
-        set1.setDrawHorizontalHighlightIndicator(true)
-
-        customiseDataSet(set1, context)
-        val dataSets = listOf<LineDataSet>(set1)
-        val lineData = LineData(dataSets)
-        lineData.setValueTextSize(9f)
-        lineData.setDrawValues(false)
-        lineData.isHighlightEnabled = true
 
         lineChart.data = lineData
-
         lineChart.animateY(800)
         // refresh the drawing
         lineChart.invalidate()
     }
 
-    fun handleLineDataCreation(context: Context, entries: ArrayList<Entry>) : LineData {
-        val typedValue = TypedValue()
+    private fun cutBloodValuesIntoChunks(bloodValues: List<BloodSugarObject>, limit: Float): List<List<BloodSugarObject>> {
+        val chunks = mutableListOf<List<BloodSugarObject>>()
+        if (bloodValues.isEmpty())
+            return chunks
+        var lastValue: BloodSugarObject = bloodValues[0]
+        var lastChunkIndex: Int = 0
+        for ((index, value) in bloodValues.withIndex().drop(1)) {
+            if (value.timestamp - lastValue.timestamp > limit) {
+                chunks.add(bloodValues.subList(lastChunkIndex, index - 1))
+                lastChunkIndex = index
+            }
+            lastValue = value
+        }
+        chunks.add(bloodValues.takeLast(bloodValues.size - lastChunkIndex))
+        return chunks;
+    }
 
-        val dataSet: LineDataSet = LineDataSet(entries, "sugar")
+    fun generateDataset(bloodValues: List<BloodSugarObject>, intervalTimeStamp: Pair<Long, Long>, context: Context): LineDataSet{
+        val yValues = mutableListOf<Entry>()
+        for (bloodValue in bloodValues) {
+            yValues.add(Entry((bloodValue.timestamp - intervalTimeStamp.first).toFloat(), bloodValue.value.toFloat()))
+        }
+        val set = LineDataSet(yValues, "Glucose")
+        setGlucoseDatasetStyle(set, context)
+        return set
+    }
+
+    fun setGlucoseDatasetStyle(dataSet: LineDataSet, context: Context) {
+        val typedValue = TypedValue()
         context.theme.resolveAttribute(R.attr.colorPrimary, typedValue, true)
         dataSet.color = typedValue.data
         dataSet.mode = LineDataSet.Mode.HORIZONTAL_BEZIER
-        dataSet.lineWidth = 2f
+        dataSet.lineWidth = 1f
         dataSet.setDrawCircles(false)
         dataSet.setDrawValues(false)
-        dataSet.setDrawVerticalHighlightIndicator(false)
-        dataSet.setDrawHorizontalHighlightIndicator(false)
-        val lineData: LineData = LineData(dataSet)
-        lineData.setDrawValues(false)
-        return lineData
-    }
-
-    fun customiseDataSet(dataSet: LineDataSet, context: Context) {
-        val typedValue = TypedValue()
-        context.theme.resolveAttribute(R.attr.colorPrimary, typedValue, true)
-        dataSet.color = typedValue.data
-        dataSet.mode = LineDataSet.Mode.HORIZONTAL_BEZIER
-        dataSet.lineWidth = 2f
-        dataSet.setDrawCircles(false)
+        dataSet.setDrawVerticalHighlightIndicator(true)
+        dataSet.setDrawHorizontalHighlightIndicator(true)
+        dataSet.setDrawFilled(true)
+        dataSet.fillAlpha = 50
+        dataSet.valueTextSize = 9f
+        dataSet.isHighlightEnabled = true
         dataSet.setDrawValues(false)
-        dataSet.setDrawVerticalHighlightIndicator(false)
-        dataSet.setDrawHorizontalHighlightIndicator(false)
+    }
+}
+
+class HoursFormatter(private val intervalTimeStamp: Pair<Long, Long>, context: Context) : ValueFormatter() {
+
+    public var labels = mutableMapOf<Float, String>()
+    private var lastTimeValue = (intervalTimeStamp.second - intervalTimeStamp.first).toFloat()
+
+    init {
+        val localDateTimes = getDatesBetween(LocalDateTime.ofInstant(
+            Instant.ofEpochSecond(intervalTimeStamp.first),
+            ZoneOffset.UTC), LocalDateTime.ofInstant(
+            Instant.ofEpochSecond(intervalTimeStamp.second),
+            ZoneOffset.UTC))
+        if (localDateTimes != null) {
+            for (time in localDateTimes) {
+                val timestamp = time!!.toInstant(ZoneOffset.UTC).toEpochMilli() / 1000
+                val index: Float = (timestamp - intervalTimeStamp.first).toFloat()
+                val label: String = TimeHandler.instance.formatTimestamp(timestamp, context.getString(R.string.format_hour_24))
+                labels.put(index, label);
+            }
+        }
     }
 
-    fun updateChartData(bloodValues: List<BloodSugarObject>, intervalTimeStamp: Long, lineChart: Long) {
+    override fun getFormattedValue(value: Float): String {
+        return value.toString()
+    }
 
+    override fun getAxisLabel(value: Float, axis: AxisBase): String {
+        return findClosest(value)
+    }
+
+    fun findClosest(value: Float): String {
+        var min = lastTimeValue
+        var chosen = "";
+        for (item in labels) {
+            val diff = Math.abs(item.key - value)
+            if (diff < min) {
+                chosen = item.value
+                min = diff
+            }
+        }
+        return chosen
     }
 
     fun getDatesBetween(
@@ -130,8 +148,8 @@ class ChartHandler {
     ): List<LocalDateTime?>? {
 
         val numOfHoursBetween: Long = ChronoUnit.HOURS.between(startDate, endDate)
-        startDate.minusMinutes(startDate.minute.toLong());
-        startDate.minusSeconds(startDate.second.toLong());
-        return MutableList(numOfHoursBetween.toInt()) {index -> index}.map{startDate.plusHours(it.toLong() + 1)}
+        var date = startDate.minusMinutes(startDate.minute.toLong());
+        date = date.minusSeconds(startDate.second.toLong());
+        return MutableList(numOfHoursBetween.toInt()) {index -> index}.map{date.plusHours(it.toLong() + 1)}
     }
 }

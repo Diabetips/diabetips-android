@@ -87,7 +87,6 @@ class DashboardActivity : AppCompatActivity() {
 
     private fun getItems(resetPage: Boolean = true)
     {
-        Log.d("ENTRIEEES", "New one")
         if (!itemsSwipeRefresh.isRefreshing) {
             itemsSwipeRefresh.isRefreshing = true;
             entriesManager.getItems(resetPage)
