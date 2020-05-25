@@ -1,12 +1,18 @@
 package com.epitech.diabetips.utils
 
 import android.content.Context
-import android.util.Log
+import android.graphics.Color
 import android.util.TypedValue
+import androidx.core.content.ContextCompat
 import com.epitech.diabetips.R
 import com.epitech.diabetips.storages.BloodSugarObject
+import com.epitech.diabetips.storages.EntryObject
+import com.epitech.diabetips.storages.MealObject
 import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.components.AxisBase
+import com.github.mikephil.charting.components.LimitLine
+import com.github.mikephil.charting.components.XAxis
+import com.github.mikephil.charting.components.YAxis
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
@@ -25,35 +31,70 @@ class ChartHandler {
         val instance: ChartHandler by lazy { Holder.INSTANCE }
     }
 
-    fun handleLineChartStyle(lineChart: LineChart) {
-        lineChart.setViewPortOffsets(0f, 0f, 0f, 0f)
+    fun handleLineChartStyle(lineChart: LineChart, context: Context) {
+        lineChart.setViewPortOffsets(0f, 10f, 0f, 50f)
         lineChart.description.isEnabled = false
         lineChart.legend.isEnabled = false
         lineChart.axisLeft.isEnabled = true
+        lineChart.axisLeft.setDrawGridLines(false)
+        lineChart.axisLeft.setDrawAxisLine(false)
         lineChart.axisLeft.disableGridDashedLine()
-        lineChart.xAxis.disableGridDashedLine()
+        lineChart.axisLeft.setPosition(YAxis.YAxisLabelPosition.INSIDE_CHART)
+
         lineChart.axisRight.isEnabled = false
-        lineChart.xAxis.isEnabled = true
+
+        lineChart.xAxis.disableGridDashedLine()
         lineChart.setDrawGridBackground(false)
-        lineChart.axisLeft.setDrawZeroLine(true)
-        lineChart.setDrawMarkers(false)
+        lineChart.xAxis.isEnabled = true
+        lineChart.xAxis.setDrawAxisLine(false)
+        lineChart.xAxis.position = XAxis.XAxisPosition.BOTTOM
+        lineChart.xAxis.gridColor = ContextCompat.getColor(context, R.color.colorHint)
+        lineChart.axisLeft.setDrawZeroLine(false)
+        lineChart.setDrawMarkers(true)
         lineChart.setDrawBorders(false)
     }
 
-    public fun updateChartData(bloodValues: List<BloodSugarObject>, intervalTimeStamp: Pair<Long, Long>, lineChart: LineChart, context: Context) {
+    fun updateChartData(items: List<EntryObject>, intervalTimeStamp: Pair<Long, Long>, lineChart: LineChart, context: Context) {
         val formatter = HoursFormatter(intervalTimeStamp, context);
         lineChart.xAxis.valueFormatter = formatter
 
-        val bloodValuesChunks = cutBloodValuesIntoChunks(bloodValues, 1800f)
         val lineData = LineData()
+
+        val bloodValues: List<BloodSugarObject> = items.filter{ it.type == EntryObject.Type.SUGAR}
+            .map{it.orignal as (BloodSugarObject)}
+        val bloodValuesChunks = cutBloodValuesIntoChunks(bloodValues, 1800f)
         for (bloodValueChunk in bloodValuesChunks) {
-            lineData.addDataSet(generateDataset(bloodValueChunk, intervalTimeStamp, context))
+            lineData.addDataSet(generateBloodDataset(bloodValueChunk, intervalTimeStamp, context))
+        }
+
+        if (!items.isEmpty())
+            drawLimits(lineData)
+
+        val punctualInfo = mapOf(
+            EntryObject.Type.MEAL to ContextCompat.getColor(context, R.color.colorPrimary),
+            EntryObject.Type.INSULIN_FAST to ContextCompat.getColor(context, R.color.colorAccent),
+            EntryObject.Type.INSULIN_SLOW to ContextCompat.getColor(context, R.color.colorAccent),
+            EntryObject.Type.COMMENT to ContextCompat.getColor(context, R.color.colorBackgroundDarkLight))
+        for (info in punctualInfo) {
+            val filteredItems: List<EntryObject> = items.filter{ it.type == info.key}
+            lineData.addDataSet(generatePonctualDataset(filteredItems, intervalTimeStamp, info.value))
         }
 
         lineChart.data = lineData
         lineChart.animateY(800)
         // refresh the drawing
         lineChart.invalidate()
+    }
+
+    private fun drawLimits(lineData: LineData) {
+        val d = LineDataSet(listOf(Entry(0f,0f)), "ShowBottom")
+        d.color = Color.TRANSPARENT
+        d.setDrawCircles(false)
+        d.setDrawValues(false)
+        d.setDrawFilled(false)
+        d.setDrawVerticalHighlightIndicator(false)
+        d.setDrawHorizontalHighlightIndicator(false)
+        lineData.addDataSet(d)
     }
 
     private fun cutBloodValuesIntoChunks(bloodValues: List<BloodSugarObject>, limit: Float): List<List<BloodSugarObject>> {
@@ -73,7 +114,19 @@ class ChartHandler {
         return chunks;
     }
 
-    fun generateDataset(bloodValues: List<BloodSugarObject>, intervalTimeStamp: Pair<Long, Long>, context: Context): LineDataSet{
+    fun generatePonctualDataset(items: List<EntryObject>, intervalTimeStamp: Pair<Long, Long>, color: Int): LineDataSet? {
+        if (items.isEmpty())
+            return null
+        val yValues = mutableListOf<Entry>()
+        for (item in items) {
+            yValues.add(Entry((item.time - intervalTimeStamp.first).toFloat(), 100f))
+        }
+        val set = LineDataSet(yValues, items[0].type.toString())
+        setPonctualElementDatasetStyle(set, color)
+        return set
+    }
+
+    fun generateBloodDataset(bloodValues: List<BloodSugarObject>, intervalTimeStamp: Pair<Long, Long>, context: Context): LineDataSet{
         val yValues = mutableListOf<Entry>()
         for (bloodValue in bloodValues) {
             yValues.add(Entry((bloodValue.timestamp - intervalTimeStamp.first).toFloat(), bloodValue.value.toFloat()))
@@ -87,8 +140,8 @@ class ChartHandler {
         val typedValue = TypedValue()
         context.theme.resolveAttribute(R.attr.colorPrimary, typedValue, true)
         dataSet.color = typedValue.data
-        dataSet.mode = LineDataSet.Mode.HORIZONTAL_BEZIER
-        dataSet.lineWidth = 1f
+        dataSet.mode = LineDataSet.Mode.LINEAR
+        dataSet.lineWidth = 2f
         dataSet.setDrawCircles(false)
         dataSet.setDrawValues(false)
         dataSet.setDrawVerticalHighlightIndicator(true)
@@ -97,6 +150,24 @@ class ChartHandler {
         dataSet.fillAlpha = 50
         dataSet.valueTextSize = 9f
         dataSet.isHighlightEnabled = true
+        dataSet.setDrawValues(false)
+    }
+
+    fun setPonctualElementDatasetStyle(dataSet: LineDataSet, color: Int) {
+        dataSet.color = Color.TRANSPARENT
+        dataSet.mode = LineDataSet.Mode.LINEAR
+        dataSet.lineWidth = 0f
+        dataSet.setDrawCircles(true)
+        dataSet.setCircleColor(color)
+        dataSet.circleHoleColor = color
+        dataSet.circleRadius = 6f
+        dataSet.circleHoleRadius = 6f
+        dataSet.setDrawCircleHole(true)
+        dataSet.setDrawValues(false)
+        dataSet.setDrawVerticalHighlightIndicator(false)
+        dataSet.setDrawHorizontalHighlightIndicator(false)
+        dataSet.setDrawFilled(false)
+        dataSet.isHighlightEnabled = false
         dataSet.setDrawValues(false)
     }
 }
