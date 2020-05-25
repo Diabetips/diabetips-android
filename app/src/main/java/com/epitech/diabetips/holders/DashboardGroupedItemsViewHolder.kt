@@ -15,30 +15,30 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.epitech.diabetips.R
-import com.epitech.diabetips.storages.DashboardItemObject
+import com.epitech.diabetips.storages.EntryObject
 import kotlinx.android.synthetic.main.grouped_items_dashboard.view.*
 
 
-class DashboardGroupedItemViewHolder (var inflater: LayoutInflater, var parent: ViewGroup)
+class DashboardGroupedItemsViewHolder (var inflater: LayoutInflater, var parent: ViewGroup)
     : RecyclerView.ViewHolder(inflater.inflate(R.layout.grouped_items_dashboard, parent, false)) {
 
     private var date: String = "OUI";
-    private var items: List<DashboardItemObject> = arrayListOf();
+    private var items: List<EntryObject> = arrayListOf();
     var recyclerView : RecyclerView = itemView.findViewById(R.id.rv_dashboard_expanded_items)
     var topbar: LinearLayout = itemView.day_dashboard_recap
     var more: ImageView = itemView.imageView2
     lateinit var topbarItems: List<ItemInfo>
 
-    fun bind(date: String, items: List<DashboardItemObject>) {
+    fun bind(date: String, items: List<EntryObject>) {
         this.date = date
         this.items = items
 
         itemView.dateGroupedItems.text = date
 
         topbarItems = listOf(
-            ItemInfo(itemView.foodIcon, itemView.foodQuantity, R.color.colorPrimary, DashboardItemObject.Type.MEAL),
-            ItemInfo(itemView.insulinIcon, itemView.insulinQuantity, R.color.colorAccent, DashboardItemObject.Type.INSULIN_FAST),
-            ItemInfo(itemView.commentIcon, itemView.commentQuantity, R.color.searchBarSearchIconTintColor, DashboardItemObject.Type.COMMENT)
+            ItemInfo(itemView.foodIcon, itemView.foodQuantity, R.color.colorPrimary, EntryObject.Type.MEAL),
+            ItemInfo(itemView.insulinIcon, itemView.insulinQuantity, R.color.colorAccent, EntryObject.Type.INSULIN_FAST),
+            ItemInfo(itemView.commentIcon, itemView.commentQuantity, R.color.searchBarSearchIconTintColor, EntryObject.Type.COMMENT)
         )
         topbarItems.forEach() {
             setupIcon(it)
@@ -88,7 +88,7 @@ class DashboardGroupedItemViewHolder (var inflater: LayoutInflater, var parent: 
         var icon: ImageView,
         var quantity: TextView,
         var color: Int,
-        var type: DashboardItemObject.Type,
+        var type: EntryObject.Type,
         var activated: Boolean = true)
 }
 

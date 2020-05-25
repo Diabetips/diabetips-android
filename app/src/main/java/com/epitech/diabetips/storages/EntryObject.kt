@@ -9,7 +9,7 @@ import com.epitech.diabetips.R
 import java.io.Serializable
 
 
-data class DashboardItemObject (
+data class EntryObject (
     var id: Int = 0,
     var orignal: Any,
     var description: String = "",

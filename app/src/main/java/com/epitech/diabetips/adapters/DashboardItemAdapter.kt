@@ -1,115 +1,180 @@
 package com.epitech.diabetips.adapters
-import android.animation.TimeInterpolator
-import android.animation.ValueAnimator
+
 import android.content.Context
-import android.util.Log
+import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.view.isVisible
-import androidx.recyclerview.widget.LinearLayoutManager
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.RecyclerView
-import com.epitech.diabetips.holders.DashboardGroupedItemViewHolder
-import com.epitech.diabetips.storages.DashboardItemObject
-import java.util.*
-
-var animationPlaybackSpeed: Double = 0.8
+import com.epitech.diabetips.R
+import com.epitech.diabetips.activities.NewMealActivity
+import com.epitech.diabetips.holders.DashboardItemViewHolder
+import com.epitech.diabetips.services.InsulinService
+import com.epitech.diabetips.services.NoteService
+import com.epitech.diabetips.storages.EntryObject
+import com.epitech.diabetips.storages.InsulinObject
+import com.epitech.diabetips.storages.MealObject
+import com.epitech.diabetips.storages.NoteObject
+import com.epitech.diabetips.utils.MaterialHandler
+import kotlinx.android.synthetic.main.dialog_change_comment.view.*
+import kotlinx.android.synthetic.main.dialog_change_insulin.view.*
 
 class DashboardItemAdapter(val context: Context,
-                           private var items: ArrayList<Pair<String?, List<DashboardItemObject>>> = arrayListOf(),
-                           private val onItemClickListener : ((DashboardItemObject) -> Unit)? = null)
-        : RecyclerView.Adapter<DashboardGroupedItemViewHolder>() {
+                           private val items: ArrayList<EntryObject> = arrayListOf(),
+                           private val onItemClickListener: ((EntryObject) -> Unit)? = null)
+        : RecyclerView.Adapter<DashboardItemViewHolder>() {
 
+    var mitems = items;
 
-        private val viewPool = RecyclerView.RecycledViewPool()
+    fun setItems(itemList: Array<EntryObject>) {
+        items.clear()
+        items.addAll(itemList)
+        notifyDataSetChanged()
+    }
 
-        private lateinit var recyclerView: RecyclerView
-        private var expandedModel: Pair<String?, List<DashboardItemObject>>? = null
+    fun setItem(item: EntryObject, position: Int) {
+        items[position] = item
+        notifyItemChanged(position)
+    }
 
-        fun setItems(itemList: ArrayList<Pair<String?, List<DashboardItemObject>>>) {
-                items.clear()
-                items.addAll(itemList)
-                notifyDataSetChanged()
+    fun addItem(item: EntryObject) {
+        items.add(item)
+        notifyItemInserted(items.size)
+    }
+
+    fun addItems(itemList: Array<EntryObject>) {
+        items.addAll(itemList)
+        notifyItemRangeInserted(items.size - itemList.size, itemList.size)
+    }
+
+    fun removeItem(position: Int) {
+        items.removeAt(position)
+        notifyItemRemoved(position)
+    }
+
+    fun updateItem(item: EntryObject) {
+        items.forEachIndexed { index, DashboardItemObject ->
+            if (DashboardItemObject.id == item.id) {
+                items[index] = item
+                notifyItemChanged(index)
+                return
+            }
         }
+    }
 
-        fun addItem(item: Pair<String?, List<DashboardItemObject>>) {
-                items. add(item)
-                notifyItemInserted(items.size)
+    override fun getItemCount(): Int = items.size
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DashboardItemViewHolder {
+        val inflater = LayoutInflater.from(parent.context)
+
+        return DashboardItemViewHolder(inflater, parent)
+    }
+
+    override fun onBindViewHolder(holder: DashboardItemViewHolder, position: Int) {
+        holder.bind(items[position], onItemClickListener)
+
+        holder.itemView.setOnClickListener {
+            when (items[position].type) {
+                EntryObject.Type.MEAL -> launchMeal(items[position])
+                EntryObject.Type.COMMENT -> changeComment(items[position], position)
+                EntryObject.Type.INSULIN_SLOW -> changeInsulin(items[position], position)
+                EntryObject.Type.INSULIN_FAST -> changeInsulin(items[position], position)
+                EntryObject.Type.SUGAR -> TODO()
+            }
         }
+    }
 
-        fun addItems(itemList: ArrayList<Pair<String?, List<DashboardItemObject>>>) {
-                items.addAll(itemList)
-                notifyItemRangeInserted(items.size - itemList.size, itemList.size)
+    private fun launchMeal(item: EntryObject) {
+        val intent = Intent(context, NewMealActivity::class.java)
+            .putExtra(
+                context.getString(R.string.param_meal),
+                item.orignal as MealObject
+            )
+        context.startActivity(intent)
+    }
+
+    private fun changeInsulin(item: EntryObject, position: Int) {
+        val view = LayoutInflater.from(context).inflate(R.layout.dialog_change_insulin, null)
+        MaterialHandler.instance.handleTextInputLayoutSize(view as ViewGroup)
+        val dialog = AlertDialog.Builder(context).setView(view).create()
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        val insulinObject = item.orignal as InsulinObject
+        view.changeInsulinInputLayout.hint = view.changeInsulinInputLayout.hint.toString() + " (" + context.getString(R.string.unit_units) + ")"
+        view.changeInsulinInput.setText(insulinObject.quantity.toString())
+        view.changeInsulinNegativeButton.setOnClickListener {
+            dialog.dismiss()
         }
-
-        fun updateItem(item: Pair<String?, List<DashboardItemObject>>) {
-                items.forEachIndexed { index, DashboardItemObject ->
-                        if (DashboardItemObject.first == item.first) {
-                                items[index] = item
-                                notifyItemChanged(index)
-                                return
-                        }
+        view.changeInsulinPositiveButton.setOnClickListener {
+            val quantity: Float? = view.changeInsulinInput.text.toString().toFloatOrNull()
+            if (quantity == null || quantity <= 0) {
+                view.changeInsulinInputLayout.error = context.getString(R.string.quantity_null)
+            } else {
+                insulinObject.quantity = quantity.toInt()
+                InsulinService.instance.createOrUpdateUserInsulin(insulinObject).doOnSuccess {
+                    if (it.second.component2() == null) {
+                        setItem(EntryObject(insulinObject, context), position)
+                        dialog.dismiss()
+                    } else {
+                        Toast.makeText(context, it.second.component2()!!.exception.message, Toast.LENGTH_SHORT).show()
+                    }
+                }.subscribe()
+            }
+        }
+        view.changeInsulinDeleteButton.setOnClickListener {
+            InsulinService.instance.removeUserInsulin(insulinObject.id).doOnSuccess {
+                if (it.second.component2() == null) {
+                    Toast.makeText(context, context.getString(R.string.deleted), Toast.LENGTH_SHORT).show()
+                    removeItem(position)
+                    dialog.dismiss()
+                } else {
+                    Toast.makeText(context, it.second.component2()!!.exception.message, Toast.LENGTH_SHORT).show()
                 }
+            }.subscribe()
         }
+        dialog.show()
+    }
 
-        override fun getItemCount(): Int = items.size
-
-        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DashboardGroupedItemViewHolder {
-                val inflater = LayoutInflater.from(parent.context)
-                return DashboardGroupedItemViewHolder(inflater, parent)
+    private fun changeComment(item: EntryObject, position: Int) {
+        val view = LayoutInflater.from(context).inflate(R.layout.dialog_change_comment, null)
+        MaterialHandler.instance.handleTextInputLayoutSize(view as ViewGroup)
+        val dialog = AlertDialog.Builder(context).setView(view).create()
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        val noteObject = item.orignal as NoteObject
+        view.changeCommentInput.setText(noteObject.description)
+        view.changeCommentNegativeButton.setOnClickListener {
+            dialog.dismiss()
         }
-
-        override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
-                super.onAttachedToRecyclerView(recyclerView)
-                this.recyclerView = recyclerView
+        view.changeCommentPositiveButton.setOnClickListener {
+            val text: String = view.changeCommentInput.text.toString()
+            if (text.isBlank()) {
+                view.changeCommentInputLayout.error = context.getString(R.string.empty_field_error)
+            } else {
+                noteObject.description = text
+                NoteService.instance.createOrUpdateUserNote(noteObject).doOnSuccess {
+                    if (it.second.component2() == null) {
+                        setItem(EntryObject(noteObject, context), position)
+                        dialog.dismiss()
+                    } else {
+                        Toast.makeText(context, it.second.component2()!!.exception.message, Toast.LENGTH_SHORT).show()
+                    }
+                }.subscribe()
+            }
         }
-
-        override fun onBindViewHolder(holder: DashboardGroupedItemViewHolder, position: Int) {
-                val model = items[position]
-
-                holder.bind(items[position].first as String, items[position].second)
-                val parent = items[position]
-
-                val childLayoutManager = LinearLayoutManager(holder.recyclerView.context, RecyclerView.VERTICAL, false)
-                val arrayItems = ArrayList(parent.second)
-                childLayoutManager.initialPrefetchItemCount = arrayItems.size
-                holder.recyclerView.apply {
-                        layoutManager = childLayoutManager
-                        adapter = DashboardItem2Adapter(context, arrayItems, null)
-                        setRecycledViewPool(viewPool)
+        view.changeCommentDeleteButton.setOnClickListener {
+            NoteService.instance.removeUserNote(noteObject.id).doOnSuccess {
+                if (it.second.component2() == null) {
+                    Toast.makeText(context, context.getString(R.string.deleted), Toast.LENGTH_SHORT).show()
+                    removeItem(position)
+                    dialog.dismiss()
+                } else {
+                    Toast.makeText(context, it.second.component2()!!.exception.message, Toast.LENGTH_SHORT).show()
                 }
-
-                expandItem(holder, model == expandedModel, animate = false)
-
-                holder.more.setOnClickListener {
-                        if (expandedModel == null) {
-
-                                // expand clicked view
-                                expandItem(holder, expand = true, animate = true)
-                                expandedModel = model
-                        } else if (expandedModel == model) {
-
-                                // collapse clicked view
-                                expandItem(holder, expand = false, animate = true)
-                                expandedModel = null
-                        } else {
-
-                                // collapse previously expanded view
-                                val expandedModelPosition = items.indexOf(expandedModel!!)
-                                val oldViewHolder =
-                                        recyclerView.findViewHolderForAdapterPosition(expandedModelPosition) as? DashboardGroupedItemViewHolder
-                                if (oldViewHolder != null) expandItem(oldViewHolder, expand = false, animate = true)
-
-                                // expand clicked view
-                                expandItem(holder, expand = true, animate = true)
-                                expandedModel = model
-                        }
-                }
-
+            }.subscribe()
         }
+        dialog.show()
+    }
 
-        private fun expandItem(holder: DashboardGroupedItemViewHolder, expand: Boolean, animate: Boolean) {
-                holder.recyclerView.isVisible = expand
-                holder.more.rotation *= 180
-                holder.changeState(expand)
-        }
 }

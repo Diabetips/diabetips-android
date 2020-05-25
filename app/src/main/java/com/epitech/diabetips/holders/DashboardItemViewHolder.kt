@@ -1,14 +1,12 @@
 package com.epitech.diabetips.holders
 
-import android.media.Image
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.epitech.diabetips.R
-import com.epitech.diabetips.storages.DashboardItemObject
-import com.epitech.diabetips.storages.MealObject
+import com.epitech.diabetips.storages.EntryObject
 import kotlinx.android.synthetic.main.item_dashboard.view.*
 import java.text.SimpleDateFormat
 
@@ -26,7 +24,7 @@ class DashboardItemViewHolder(inflater: LayoutInflater, parent: ViewGroup)
         time = itemView.dashboardItemTime
     }
 
-    fun bind(item: DashboardItemObject, onItemClickListener : ((DashboardItemObject) -> Unit)? = null) {
+    fun bind(item: EntryObject, onItemClickListener : ((EntryObject) -> Unit)? = null) {
         icon?.setImageDrawable(item.icon)
         title?.text = item.title
         description?.text = item.description
