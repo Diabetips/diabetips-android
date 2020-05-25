@@ -6,8 +6,10 @@ import com.epitech.diabetips.R
 import com.epitech.diabetips.services.BloodSugarService
 import com.epitech.diabetips.services.InsulinService
 import com.epitech.diabetips.services.MealService
+import com.epitech.diabetips.services.NoteService
 import com.epitech.diabetips.storages.EntryObject
 import com.epitech.diabetips.storages.PaginationObject
+import com.epitech.diabetips.utils.TimeHandler
 import com.epitech.diabetips.utils.toInt
 import com.github.kittinunf.fuel.core.FuelError
 import com.github.kittinunf.fuel.core.Response
@@ -15,19 +17,17 @@ import io.reactivex.Single
 import org.threeten.bp.DateTimeUtils
 import org.threeten.bp.LocalDate
 import org.threeten.bp.ZoneOffset
-import java.sql.Date
 
 typealias DashboardItemsResponse = Single<Triple<Response, Array<EntryObject>?, FuelError?>>
 
 class EntriesManager(
     private val context: Context,
     private var page: PaginationObject? = null,
-    private var numberOfDaysForOneBatch: Long = 7,
     private var itemsManagers:  Array<EntryManager> = arrayOf(),
     private val ItemsUpdated: (Array<EntryObject>, Boolean) -> Unit){
 
     data class EntryManager(
-        val page: PaginationObject,
+        var page: PaginationObject,
         val getter: (PaginationObject) -> DashboardItemsResponse,
         val type: EntryObject.Type,
         var activated: Boolean = true) {
@@ -41,33 +41,27 @@ class EntriesManager(
             page = PaginationObject(
                 context.resources.getInteger(R.integer.pagination_size),
                 context.resources.getInteger(R.integer.pagination_default))
-        if (page!!.start.toInt() == 0) {
-            setupPaging()
-        }
 
         itemsManagers = arrayOf(
             EntryManager(page!!.copy(), ::getSugars, EntryObject.Type.SUGAR),
             EntryManager(page!!.copy(), ::getMeals, EntryObject.Type.MEAL),
             EntryManager(page!!.copy(), ::getInsulins, EntryObject.Type.INSULIN),
-            EntryManager(page!!.copy(), ::getComments, EntryObject.Type.COMMENT, false)
+            EntryManager(page!!.copy(), ::getComments, EntryObject.Type.COMMENT)
         )
-    }
-
-    fun setupPaging() {
-        val end = LocalDate.now(ZoneOffset.UTC).atStartOfDay().plusDays(1)
-        val start = LocalDate.now(ZoneOffset.UTC).atStartOfDay().minusDays(numberOfDaysForOneBatch)
-        page?.setInterval(
-            DateTimeUtils.toSqlTimestamp(start).time / 1000 - 1,
-            DateTimeUtils.toSqlTimestamp(end).time / 1000)
-            setPages(page!!)
     }
 
     fun deactivate(type: EntryObject.Type) {
         itemsManagers.find { it.type === type }?.activated = false
     }
 
-    fun setPages(page: PaginationObject) {
-        this.itemsManagers = this.itemsManagers.map{EntryManager(page.copy(), it.getter, it.type)}.toTypedArray()
+    fun updatePages() {
+        page?.let { setPages(it) }
+    }
+
+    fun setPages(newPage: PaginationObject) {
+        this.itemsManagers.forEach {
+            it.page = newPage.copy()
+        }
     }
 
     fun isLastPage(): Boolean {
@@ -90,7 +84,6 @@ class EntriesManager(
         manager.getter(manager.page).doOnSuccess{
             manager.page.updateFromHeader(it.first.headers[context.getString(R.string.pagination_header)]?.get(0))
             manager.page.nextPage()
-            Log.d("TRYGET", manager.type.toString())
             val newIndex = index + (!manager.needRefresh()).toInt()
             val newItems = items + if (it.third == null && it.second != null) it.second as Array<EntryObject> else arrayOf()
             getItemsRec(resetPage, newIndex, newItems)
@@ -109,7 +102,7 @@ class EntriesManager(
     }
 
     private fun getComments(page: PaginationObject): DashboardItemsResponse {
-        return MealService.instance.getAllUserMeals(page)
+        return NoteService.instance.getAllUserNote(page)
             .map{Triple(it.first, it.second.component1()
                 ?.map{ item -> EntryObject(item, context) }
                 ?.toTypedArray(), it.second.component2())};

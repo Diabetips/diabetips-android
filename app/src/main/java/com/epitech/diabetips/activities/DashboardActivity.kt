@@ -8,36 +8,45 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.epitech.diabetips.R
 import com.epitech.diabetips.adapters.DashboardGroupedItemsAdapter
 import com.epitech.diabetips.managers.ModeManager
-import com.epitech.diabetips.services.InsulinService
-import com.epitech.diabetips.services.MealService
-import com.epitech.diabetips.services.NoteService
 import com.epitech.diabetips.storages.EntryObject
-import com.epitech.diabetips.storages.PaginationObject
 import com.epitech.diabetips.managers.EntriesManager
-import com.epitech.diabetips.storages.EntryObject
 import com.epitech.diabetips.utils.PaginationScrollListener
 import kotlinx.android.synthetic.main.activity_dashboard.*
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 import android.util.Log
+import com.epitech.diabetips.utils.TimeHandler
+import org.threeten.bp.DateTimeUtils
+import org.threeten.bp.LocalDate
+import org.threeten.bp.ZoneOffset
 
 class DashboardActivity : AppCompatActivity() {
     private lateinit var entriesManager: EntriesManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setupView()
-
-        entriesManager =
-            EntriesManager(context = this) { items, reset ->
-                setItemsInDashBoardAdapter(reset, items)
-            }
-
+        setupEntriesManager()
         setupItemsList()
         getItems()
         closeDashboardButton.setOnClickListener { finish() }
 
         super.onCreate(savedInstanceState)
+    }
+
+    fun setupEntriesManager() {
+        entriesManager =
+            EntriesManager(context = this) { items, reset ->
+                setItemsInDashBoardAdapter(reset, items)
+            }
+        entriesManager.deactivate(EntryObject.Type.SUGAR)
+        TimeHandler.instance.currentTimeSecond()
+        val end = LocalDate.now(ZoneOffset.UTC).atStartOfDay().plusDays(2)
+        val start = LocalDate.now(ZoneOffset.UTC).atStartOfDay().minusDays(7)
+        entriesManager.getPage()?.setInterval(
+            DateTimeUtils.toSqlTimestamp(start).time / 1000 - 1,
+            DateTimeUtils.toSqlTimestamp(end).time / 1000)
+        entriesManager.updatePages()
     }
 
     private fun setupView()
@@ -104,29 +113,5 @@ class DashboardActivity : AppCompatActivity() {
         } catch (e: Exception) {
             return e.toString()
         }
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-    }
-
-    private fun getMeals(page: PaginationObject ): Single<Triple<Response, Array<EntryObject>?, FuelError?>> {
-        return MealService.instance.getAllUserMeals(page).map{Triple(it.first, it.second.component1()?.map{ item ->
-            EntryObject(item, this) }?.toTypedArray(), it.second.component2())};
-    }
-
-    private fun getComments(page: PaginationObject): Single<Triple<Response, Array<EntryObject>?, FuelError?>>{
-        return NoteService.instance.getAllUserNote(page).map{Triple(it.first, it.second.component1()?.map{ item ->
-            EntryObject(item, this) }?.toTypedArray(), it.second.component2())};
-    }
-
-    private fun getInsulins(page: PaginationObject): Single<Triple<Response, Array<EntryObject>?, FuelError?>>{
-        return InsulinService.instance.getAllUserInsulin(page).map{Triple(it.first, it.second.component1()?.map{item ->
-            EntryObject(item, this) }?.toTypedArray(), it.second.component2())};
-    }
-
-    private fun getSugars(page: PaginationObject): Single<Triple<Response, Array<EntryObject>?, FuelError?>>{
-        return MealService.instance.getAllUserMeals(page).map{Triple(it.first, it.second.component1()?.map{item ->
-            EntryObject(item, this) }?.toTypedArray(), it.second.component2())};
     }
 }
