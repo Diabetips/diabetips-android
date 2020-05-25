@@ -31,7 +31,15 @@ class NavigationActivity : AppCompatActivity(), me.ibrahimsn.lib.OnItemSelectedL
         MaterialHandler.instance.handleTextInputLayoutSize(this.findViewById(android.R.id.content))
         smoothBottomBaBar.setOnItemSelectedListener(this)
         selectDefaultFragment()
-        nfcReader = NfcReaderService(this, intent, this)
+        nfcReader = NfcReaderService(this, intent, this) {
+            NfcReaderUpdated()
+        }
+    }
+
+    private fun NfcReaderUpdated() {
+        if (currentFragment != null &&
+            (currentFragment as NavigationFragment).fragmentType == NavigationFragment.FragmentType.HOME)
+            (currentFragment as HomeFragment).entriesManager.getItems()
     }
 
     private fun selectDefaultFragment() {

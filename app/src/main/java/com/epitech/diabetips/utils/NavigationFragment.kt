@@ -5,7 +5,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
 
-abstract class NavigationFragment(val fragmentType: FragmentType) : Fragment() {
+abstract class NavigationFragment(public val fragmentType: FragmentType) : Fragment() {
 
     enum class FragmentType {HOME, PROFILE, SETTINGS}
 

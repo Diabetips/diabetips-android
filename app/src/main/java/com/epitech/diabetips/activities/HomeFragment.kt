@@ -44,6 +44,8 @@ class HomeFragment : NavigationFragment(FragmentType.HOME) {
         ChartHandler.instance.updateChartData(listOf(), interval, view.sugarLineChart, requireContext())
         //Call Api to update chart
         updateChart()
+
+        (activity as NavigationActivity).nfcReader
         return view
     }
 

@@ -19,7 +19,6 @@ import com.epitech.diabetips.freestylelibre.RawTagData
 import com.epitech.diabetips.freestylelibre.SensorData
 import com.epitech.diabetips.storages.BloodSugarObject
 import java.io.*
-import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.experimental.and
 
@@ -27,8 +26,7 @@ import kotlin.experimental.and
 var NFC_USE_MULTI_BLOCK_READ = true
 var PENDING_INTENT_TECH_DISCOVERED = 1;
 
-class NfcReaderService(var context: Context, myIntent: Intent, var activity: Activity) {
-
+class NfcReaderService(var context: Context, myIntent: Intent, var activity: Activity, private val GlucoseUpdated: () -> Unit) {
     val MIME_TEXT_PLAIN = "text/plain"
 
     private var mNfcAdapter: NfcAdapter? = null
@@ -257,6 +255,7 @@ class NfcReaderService(var context: Context, myIntent: Intent, var activity: Act
             Log.d("END", bs.measures[0].toString())
 
             BloodSugarService.instance.postMeasures(bs).doOnSuccess(){
+                GlucoseUpdated()
                 if (it.second.component2() == null) {
                 } else {
                     Log.d("BLOOD", it.second.component2()!!.exception.message)
