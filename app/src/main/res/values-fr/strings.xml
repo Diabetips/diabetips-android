@@ -115,4 +115,7 @@
     <string name="calculate">Prédire</string>
     <string name="sugar_100g">"Sucre pour 100g: "</string>
     <string name="date_format">dd/MM/yyyy</string>
+    <string name="glycemie">Glycémies</string>
+    <string name="glucose_unit">mg/dl</string>
+    <string name="ready_to_scan">Prêt à scanner</string>
 </resources>

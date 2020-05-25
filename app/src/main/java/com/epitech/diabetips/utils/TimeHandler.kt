@@ -20,6 +20,7 @@ class TimeHandler {
     }
 
     private val calendar: Calendar = Calendar.getInstance()
+    public val dayInSecond = 86400
 
     fun currentTimeSecond() : Long {
         return System.currentTimeMillis() / 1000

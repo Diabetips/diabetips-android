@@ -196,6 +196,9 @@
         <item>2</item>
     </string-array>
     <string name="unit">Unit(s)</string>
+    <string name="glycemie">Glycémies</string>
+    <string name="glucose_unit">mg/dl</string>
+    <string name="ready_to_scan">Ready to scan</string>
     <!--diabetes type end-->
 
 </resources>
