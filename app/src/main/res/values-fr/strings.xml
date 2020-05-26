@@ -114,8 +114,11 @@
     <string name="deleted">Supprimé</string>
     <string name="calculate">Prédire</string>
     <string name="sugar_100g">"Sucre pour 100g: "</string>
-    <string name="date_format">dd/MM/yyyy</string>
+    <string name="format_date_dashboard">dd/MM/yyyy</string>
     <string name="glycemie">Glycémies</string>
-    <string name="glucose_unit">mg/dl</string>
     <string name="ready_to_scan">Prêt à scanner</string>
+    <string name="no_nfc">Votre appareil ne supporte pas la NFC</string>
+    <string name="nfc_disable">La NFC est désactivé</string>
+    <string name="sensor_not_ready">Le capteur n\'est pas encore pret</string>
+    <string name="sugar">Sucre</string>
 </resources>

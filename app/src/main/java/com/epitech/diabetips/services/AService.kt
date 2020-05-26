@@ -59,7 +59,7 @@ abstract class AService(protected var baseRoute : String = "") {
         return request.rx_responseObject(ObjectDeserializer<T>())
             .subscribeOn(Schedulers.newThread())
             .observeOn(AndroidSchedulers.mainThread()).doOnError { err ->
-                Log.e("API error on " + request.method.value + " " + request.url.toString(), err.message!!)
+                Log.e("API error on ${request.method.value} ${request.url}", err.message!!)
             }
     }
 

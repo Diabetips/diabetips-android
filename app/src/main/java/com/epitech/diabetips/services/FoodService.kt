@@ -12,15 +12,15 @@ class FoodService : AService("/food") {
     }
 
     fun getAllFood(page: PaginationObject, name: String = "") : FuelResponse<Array<FoodObject>> {
-        return getRequest("?name=" + name + "&" + page.getRequestParameters())
+        return getRequest((if (name.isBlank()) "?" else "?name=$name&") + page.getRequestParameters())
     }
 
     fun getFood(id: Int) : FuelResponse<FoodObject> {
-        return getRequest("/" + id)
+        return getRequest("/$id")
     }
 
     fun getFoodPictureUrl(id: Int) : String {
-        return FuelManager.instance.basePath + baseRoute + "/" + id + "/picture"
+        return "${FuelManager.instance.basePath}$baseRoute/$id/picture"
     }
 
 }

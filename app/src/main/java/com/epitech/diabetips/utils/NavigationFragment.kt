@@ -1,13 +1,10 @@
 package com.epitech.diabetips.utils
 
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 
+abstract class NavigationFragment(val fragmentType: FragmentType) : Fragment() {
 
-abstract class NavigationFragment(public val fragmentType: FragmentType) : Fragment() {
-
-    enum class FragmentType {HOME, PROFILE, SETTINGS}
+    enum class FragmentType {HOME, PROFILE, SETTINGS, RECIPES, DASHBOARD}
 
     abstract fun isLoading(): Boolean
 

@@ -63,8 +63,8 @@ data class PaginationObject (
     }
 
     fun setInterval(start: Long, end: Long) {
-        this.start = start;
-        this.end = end;
+        this.start = start
+        this.end = end
         this.periodEnable = true
     }
 

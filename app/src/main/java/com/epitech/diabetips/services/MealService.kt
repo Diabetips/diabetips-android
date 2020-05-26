@@ -11,15 +11,15 @@ class MealService : AService("/users/me/meals") {
     }
 
     fun getAllUserMeals(page: PaginationObject) : FuelResponse<Array<MealObject>> {
-        return getRequest("?" + page.getRequestParameters())
+        return getRequest("?${page.getRequestParameters()}")
     }
 
     fun getUserMeal(id: String) : FuelResponse<MealObject> {
-        return getRequest("/" + id)
+        return getRequest("/$id")
     }
 
     fun removeUserMeal(id: String) : FuelResponse<MealObject> {
-        return deleteRequest("/" + id)
+        return deleteRequest("/$id")
     }
 
     fun createOrUpdateUserMeal(meal: MealObject) : FuelResponse<MealObject> {
@@ -34,7 +34,7 @@ class MealService : AService("/users/me/meals") {
     }
 
     private fun updateUserMeal(meal: MealObject) : FuelResponse<MealObject> {
-        return putRequest(meal, "/" + meal.id)
+        return putRequest(meal, "/${meal.id}")
     }
 
 }

@@ -11,15 +11,15 @@ class EventService : AService("/users/me/events") {
     }
 
     fun getAllUserEvent(page: PaginationObject) : FuelResponse<Array<EventObject>> {
-        return getRequest("?" + page.getRequestParameters())
+        return getRequest("?${page.getRequestParameters()}")
     }
 
     fun getUserEvent(id: Int) : FuelResponse<EventObject> {
-        return getRequest("/" + id)
+        return getRequest("/$id")
     }
 
     fun removeUserEvent(id: Int) : FuelResponse<EventObject> {
-        return deleteRequest("/" + id)
+        return deleteRequest("/$id")
     }
 
     fun createOrUpdateUserEvent(event: EventObject) : FuelResponse<EventObject> {
@@ -34,7 +34,7 @@ class EventService : AService("/users/me/events") {
     }
 
     private fun updateUserEvent(event: EventObject) : FuelResponse<EventObject> {
-        return putRequest(event, "/" + event.id)
+        return putRequest(event, "/${event.id}")
     }
 
 }

@@ -1,7 +1,6 @@
 package com.epitech.diabetips.activities
 
 import android.os.Bundle
-import android.util.Patterns
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
@@ -15,7 +14,6 @@ import com.epitech.diabetips.textWatchers.PasswordWatcher
 import com.epitech.diabetips.utils.MaterialHandler
 import kotlinx.android.synthetic.main.activity_sign_up.*
 import java.net.HttpURLConnection.HTTP_CONFLICT
-import java.util.function.IntPredicate
 
 class SignUpActivity : AppCompatActivity() {
 

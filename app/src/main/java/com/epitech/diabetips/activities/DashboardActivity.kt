@@ -15,7 +15,6 @@ import kotlinx.android.synthetic.main.activity_dashboard.*
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
-import android.util.Log
 import com.epitech.diabetips.utils.TimeHandler
 import org.threeten.bp.DateTimeUtils
 import org.threeten.bp.LocalDate
@@ -106,7 +105,7 @@ class DashboardActivity : AppCompatActivity() {
     @SuppressLint("SimpleDateFormat")
     private fun getDateTime(timestamp: Long): String? {
         try {
-            val sdf = SimpleDateFormat(resources.getString(R.string.date_format))
+            val sdf = SimpleDateFormat(resources.getString(R.string.format_date_dashboard))
             val netDate = Date(timestamp * 1000)
             return sdf.format(netDate)
         } catch (e: Exception) {

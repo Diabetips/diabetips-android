@@ -145,27 +145,6 @@ class InstrumentedUnitTest {
     }
 
     @Test
-    fun mealAdapterSetMeals() {
-        val mealAdapter = MealAdapter()
-//        mealAdapter.setMeals(mealArray)
-//        assertEquals(mealArray.size, mealAdapter.itemCount)
-    }
-
-    @Test
-    fun mealAdapterAddMeal() {
-        val mealAdapter = MealAdapter()
-  //      mealAdapter.addMeal(mealArray[0])
-    //    assertEquals(1, mealAdapter.itemCount)
-    }
-
-    @Test
-    fun mealAdapterAddMeals() {
-        val mealAdapter = MealAdapter()
-//        mealAdapter.addMeals(mealArray)
-  //      assertEquals(mealArray.size, mealAdapter.itemCount)
-    }
-
-    @Test
     fun mealRecipeAdapterAddRecipes() {
         val mealRecipeAdapter = MealRecipeAdapter()
         mealRecipeAdapter.addRecipe(mealRecipeArray[0])

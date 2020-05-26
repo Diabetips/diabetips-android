@@ -84,7 +84,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/margin_size"
-                    android:text="@string/glucose_unit"
+                    android:text="@string/unit_glucose"
                     android:textSize="14sp" />
 
                 <com.github.mikephil.charting.charts.LineChart

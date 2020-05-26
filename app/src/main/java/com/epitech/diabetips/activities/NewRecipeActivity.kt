@@ -109,7 +109,7 @@ class NewRecipeActivity : AppCompatActivity() {
                 MaterialHandler.instance.handleTextInputLayoutSize(view as ViewGroup)
                 val dialog = AlertDialog.Builder(this@NewRecipeActivity).setView(view).create()
                 dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-                view.selectQuantityInputLayout.hint = view.selectQuantityInputLayout.hint.toString() + " (" + ingredientObject.food.unit + ")"
+                view.selectQuantityInputLayout.hint = "${view.selectQuantityInputLayout.hint} (${ingredientObject.food.unit})"
                 view.selectQuantityInput.setText(ingredientObject.quantity.toString())
                 view.selectQuantityNegativeButton.setOnClickListener {
                     dialog.dismiss()
@@ -121,7 +121,7 @@ class NewRecipeActivity : AppCompatActivity() {
                     } else {
                         saved = false
                         ingredientObject.quantity = quantity
-                        textQuantity?.text = ingredientObject.quantity.toString() + " " + ingredientObject.food.unit
+                        textQuantity?.text = "${ingredientObject.quantity} ${ingredientObject.food.unit}"
                         dialog.dismiss()
                     }
                 }
@@ -180,6 +180,8 @@ class NewRecipeActivity : AppCompatActivity() {
                                 endActivity()
                             }
                         }
+                    } else {
+                        Toast.makeText(this, it.second.component2()!!.exception.message, Toast.LENGTH_SHORT).show()
                     }
                 }.subscribe()
             } else if (changedPicture) {

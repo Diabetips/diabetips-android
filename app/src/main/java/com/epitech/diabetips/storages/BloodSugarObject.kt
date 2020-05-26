@@ -6,7 +6,7 @@ import com.google.gson.stream.JsonWriter
 import java.io.Serializable
 
 data class BloodSugarObject (
-    var value: Int=0,
+    var value: Int = 0,
     var start: Long? = null,
     var interval: Int? = null,
     var timestamp: Long = 0,

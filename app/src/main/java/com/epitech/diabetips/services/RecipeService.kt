@@ -14,15 +14,15 @@ class RecipeService : AService("/recipes") {
     }
 
     fun getAllRecipes(page: PaginationObject, name: String = "") : FuelResponse<Array<RecipeObject>> {
-        return getRequest("?name=" + name + "&" + page.getRequestParameters())
+        return getRequest((if (name.isBlank()) "?" else "?name=$name&") + page.getRequestParameters())
     }
 
     fun getRecipe(id: String) : FuelResponse<RecipeObject> {
-        return getRequest("/" + id)
+        return getRequest("/$id")
     }
 
     fun removeRecipe(id: String) : FuelResponse<RecipeObject> {
-        return deleteRequest("/" + id)
+        return deleteRequest("/$id")
     }
 
     fun createOrUpdateRecipe(recipe: RecipeObject) : FuelResponse<RecipeObject>  {
@@ -37,19 +37,19 @@ class RecipeService : AService("/recipes") {
     }
 
     private fun updateRecipe(recipe: RecipeObject) : FuelResponse<RecipeObject> {
-        return putRequest(recipe, "/" + recipe.id)
+        return putRequest(recipe, "/${recipe.id}")
     }
 
     fun updateRecipePicture(image: Bitmap, id: Int) : FuelResponse<RecipeObject> {
-        return postData(ImageHandler.instance.encodeImage(image, 300), "/" + id + "/picture")
+        return postData(ImageHandler.instance.encodeImage(image, 300), "/$id/picture")
     }
 
     fun removeRecipePicture(id: Int) : FuelResponse<RecipeObject> {
-        return deleteRequest("/" + id + "/picture")
+        return deleteRequest("/$id/picture")
     }
 
     fun getRecipePictureUrl(id: Int) : String  {
-        return FuelManager.instance.basePath + baseRoute + "/" + id + "/picture"
+        return "${FuelManager.instance.basePath}$baseRoute/$id/picture"
     }
 
 }

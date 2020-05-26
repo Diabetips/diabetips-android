@@ -11,7 +11,7 @@ class BloodSugarService : AService("/users/me/blood_sugar") {
     }
 
     fun getAllMeasures(page: PaginationObject) : FuelResponse<Array<BloodSugarObject>> {
-        return getRequest("?" + page.getRequestParameters())
+        return getRequest("?${page.getRequestParameters()}")
     }
 
     fun getMeasures(timestamp: Int) : FuelResponse<BloodSugarObject> {

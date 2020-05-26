@@ -18,7 +18,7 @@ class FunctionalTest {
         val expectedPrevious = 42
         val expectedNext = 69
         val expectedLast = 666
-        page.updateFromHeader("previous: " + expectedPrevious + "; next: " + expectedNext + "; last: " + expectedLast)
+        page.updateFromHeader("previous: $expectedPrevious; next: $expectedNext; last: $expectedLast")
         assertEquals("Wrong previous page", page.previous, expectedPrevious)
         assertEquals("Wrong next page", page.next, expectedNext)
         assertEquals("Wrong last page", page.last, expectedLast)

@@ -18,27 +18,27 @@ class UserService : AService("/users") {
     }
 
     fun getUser(uid: String = "me") : FuelResponse<AccountObject> {
-        return getRequest("/" + uid)
+        return getRequest("/$uid}")
     }
 
     fun getAllUsers(page: PaginationObject) : FuelResponse<Array<AccountObject>> {
-        return getRequest("?" + page.getRequestParameters())
+        return getRequest("?${page.getRequestParameters()}")
     }
 
     fun updateUser(account: AccountObject) : FuelResponse<AccountObject> {
-        return putRequest(account, "/" + account.uid)
+        return putRequest(account, "/${account.uid}")
     }
 
     fun updatePicture(image: Bitmap, uid: String = "me") : FuelResponse<AccountObject> {
-        return postData(ImageHandler.instance.encodeImage(image, 300), "/" + uid + "/picture")
+        return postData(ImageHandler.instance.encodeImage(image, 300), "/$uid/picture")
     }
 
     fun removePicture(uid: String = "me") : FuelResponse<AccountObject> {
-        return deleteRequest("/" + uid + "/picture")
+        return deleteRequest("/$uid/picture")
     }
 
     fun getPictureUrl(uid: String = "me") : String  {
-        return FuelManager.instance.basePath + baseRoute + "/" + uid + "/picture"
+        return "${FuelManager.instance.basePath}$baseRoute/$uid/picture"
     }
 
     fun deactivateAccount(uid: String = "me") : FuelResponse<AccountObject> {

@@ -26,6 +26,8 @@ class HomeFragment : NavigationFragment(FragmentType.HOME) {
         val view = inflater.inflate(R.layout.fragment_home, container, false)
         MaterialHandler.instance.handleTextInputLayoutSize(view as ViewGroup)
 
+        view.readyToScan.text = (activity as NavigationActivity).nfcReader?.nfcStatus
+
         view.newEntryButton.setOnClickListener {
             startActivity(Intent(context, NewEntryActivity::class.java))
         }
@@ -58,7 +60,7 @@ class HomeFragment : NavigationFragment(FragmentType.HOME) {
 
     private fun itemsUpdateTrigger(reset: Boolean, items: Array<EntryObject>) {
         val interval: Pair<Long, Long> = Pair(entriesManager.getPage()!!.start, entriesManager.getPage()!!.end)
-        view?.sugarLineChart?.let { ChartHandler.instance.updateChartData(items.sortedBy{ it.time }, interval, it,  requireContext()) }
+        view?.sugarLineChart?.let { ChartHandler.instance.updateChartData(items.sortedBy{ it.time }, interval, it, requireContext()) }
     }
 
     override fun isLoading(): Boolean {

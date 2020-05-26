@@ -21,7 +21,6 @@ import com.epitech.diabetips.utils.PaginationScrollListener
 import kotlinx.android.synthetic.main.activity_food.*
 import kotlinx.android.synthetic.main.dialog_select_quantity.view.*
 
-
 class FoodActivity : AppCompatActivity() {
 
     private lateinit var page: PaginationObject
@@ -58,7 +57,7 @@ class FoodActivity : AppCompatActivity() {
                 val dialog = AlertDialog.Builder(this@FoodActivity).setView(view).create()
                 dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
                 val ingredientObject: IngredientObject = (adapter as FoodAdapter).getSelectedIngredientOrNew(foodObject)
-                view.selectQuantityInputLayout.hint = view.selectQuantityInputLayout.hint.toString() + " (" + foodObject.unit + ")"
+                view.selectQuantityInputLayout.hint = "${view.selectQuantityInputLayout.hint} (${foodObject.unit})"
                 if (ingredientObject.quantity > 0) {
                     view.selectQuantityInput.setText(ingredientObject.quantity.toString())
                 }

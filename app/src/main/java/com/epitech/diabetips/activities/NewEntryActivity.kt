@@ -73,7 +73,7 @@ class NewEntryActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener
         calculateInsulinButton.setOnClickListener {
             PredictionService.instance.getUserPrediction().doOnSuccess {
                 if (it.second.component2() == null) {
-                    calculateInsulinQuantity.text = it.second.component1()?.insulin.toString() + " " + getString(R.string.unit_units)
+                    calculateInsulinQuantity.text = "${it.second.component1()?.insulin} ${getString(R.string.unit_units)}"
                     calculateInsulinQuantity.visibility = View.VISIBLE
                 } else {
                     Toast.makeText(this, it.second.component2()!!.exception.message, Toast.LENGTH_SHORT).show()
@@ -119,7 +119,7 @@ class NewEntryActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener
         if (meal.id > 0) {
             newMealButton.text = getString(R.string.add_other_meal)
             entryMealCard.visibility = View.VISIBLE
-            entryMealQuantity.text = meal.total_sugar.toString() + " " + getString(R.string.unit_g)
+            entryMealQuantity.text = "${meal.total_sugar} ${getString(R.string.unit_g)}"
             entryMealSummary.text = meal.getSummary()
             TimeHandler.instance.updateDateTimeDisplay(this, meal.timestamp, entryMealTime)
         } else {

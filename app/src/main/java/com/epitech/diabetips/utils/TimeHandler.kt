@@ -1,5 +1,6 @@
 package com.epitech.diabetips.utils
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.text.format.DateFormat
 import android.widget.TextView
@@ -20,12 +21,13 @@ class TimeHandler {
     }
 
     private val calendar: Calendar = Calendar.getInstance()
-    public val dayInSecond = 86400
+    val dayInSecond = 86400
 
     fun currentTimeSecond() : Long {
         return System.currentTimeMillis() / 1000
     }
 
+    @SuppressLint("SimpleDateFormat")
     fun getTimestampFromFormat(date: String, format: String) : Long? {
         if (date.isBlank())
             return null

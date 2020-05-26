@@ -11,15 +11,15 @@ class InsulinService : AService("/users/me/insulin") {
     }
 
     fun getAllUserInsulin(page: PaginationObject) : FuelResponse<Array<InsulinObject>> {
-        return getRequest("?" + page.getRequestParameters())
+        return getRequest("?${page.getRequestParameters()}")
     }
 
     fun getUserInsulin(id: Int) : FuelResponse<InsulinObject> {
-        return getRequest("/" + id)
+        return getRequest("/$id")
     }
 
     fun removeUserInsulin(id: Int) : FuelResponse<InsulinObject> {
-        return deleteRequest("/" + id)
+        return deleteRequest("/$id")
     }
 
     fun createOrUpdateUserInsulin(insulin: InsulinObject) : FuelResponse<InsulinObject> {
@@ -34,7 +34,7 @@ class InsulinService : AService("/users/me/insulin") {
     }
 
     private fun updateUserInsulin(insulin: InsulinObject) : FuelResponse<InsulinObject> {
-        return putRequest(insulin, "/" + insulin.id)
+        return putRequest(insulin, "/${insulin.id}")
     }
 
 }

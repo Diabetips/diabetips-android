@@ -80,6 +80,7 @@ class DashboardItemAdapter(val context: Context,
             when (items[position].type) {
                 EntryObject.Type.MEAL -> launchMeal(items[position])
                 EntryObject.Type.COMMENT -> changeComment(items[position], position)
+                EntryObject.Type.INSULIN -> changeInsulin(items[position], position)
                 EntryObject.Type.INSULIN_SLOW -> changeInsulin(items[position], position)
                 EntryObject.Type.INSULIN_FAST -> changeInsulin(items[position], position)
                 EntryObject.Type.SUGAR -> TODO()
@@ -102,7 +103,7 @@ class DashboardItemAdapter(val context: Context,
         val dialog = AlertDialog.Builder(context).setView(view).create()
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         val insulinObject = item.orignal as InsulinObject
-        view.changeInsulinInputLayout.hint = view.changeInsulinInputLayout.hint.toString() + " (" + context.getString(R.string.unit_units) + ")"
+        view.changeInsulinInputLayout.hint = "${view.changeInsulinInputLayout.hint} (${context.getString(R.string.unit_units)})"
         view.changeInsulinInput.setText(insulinObject.quantity.toString())
         view.changeInsulinNegativeButton.setOnClickListener {
             dialog.dismiss()

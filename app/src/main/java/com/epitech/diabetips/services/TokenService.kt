@@ -60,7 +60,7 @@ class TokenService : AService("/auth") {
         AuthManager.instance.saveRefreshToken(context, token.refresh_token)
         FuelManager.instance.baseHeaders = mapOf(
             "Content-Type" to "application/json; charset=utf-8",
-            "Authorization" to token.token_type.capitalize() + " " + token.access_token)
+            "Authorization" to "${token.token_type.capitalize()} ${token.access_token}")
         refreshTask = refreshTimer.schedule((token.expires_in * 750).toLong()) {
             refreshToken(context).subscribe()
         }

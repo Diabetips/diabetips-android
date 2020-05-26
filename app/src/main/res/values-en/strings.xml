@@ -114,8 +114,11 @@
     <string name="calculate">Predict</string>
     <string name="sugar_100g">"Sugar for 100g: "</string>
     <string name="total_sugar">Total sugar :</string>
-    <string name="date_format">MM/dd/yyyy</string>
+    <string name="format_date_dashboard">MM/dd/yyyy</string>
     <string name="glycemie">Blood glucose</string>
-    <string name="glucose_unit">mg/dl</string>
     <string name="ready_to_scan">Ready to scan</string>
+    <string name="no_nfc">This device doesn\'t support NFC</string>
+    <string name="nfc_disable">NFC is disabled</string>
+    <string name="sensor_not_ready">The sensor isn\'t ready yet</string>
+    <string name="sugar">Sugar</string>
 </resources>

@@ -6,16 +6,14 @@ import android.content.Context
 @Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
 abstract class AManager(protected val preference : String, protected val key : String = "") {
 
-    @SuppressLint("ApplySharedPref")
     protected fun saveString(context: Context, string: String, prefKey: String = key) {
         context.getSharedPreferences(preference, 0)
-                .edit().putString(prefKey, string).commit()
+                .edit().putString(prefKey, string).apply()
     }
 
-    @SuppressLint("ApplySharedPref")
     protected fun saveInt(context: Context, int: Int, prefKey: String = key) {
         context.getSharedPreferences(preference, 0)
-            .edit().putInt(prefKey, int).commit()
+            .edit().putInt(prefKey, int).apply()
     }
 
     protected fun getString(context: Context, prefKey: String = key): String {
@@ -28,16 +26,14 @@ abstract class AManager(protected val preference : String, protected val key : S
             .getInt(prefKey, defaultValue)
     }
 
-    @SuppressLint("ApplySharedPref")
     protected fun removePreferenceKey(context: Context, prefKey: String = key) {
         context.getSharedPreferences(preference, 0)
-            .edit().remove(prefKey).commit()
+            .edit().remove(prefKey).apply()
     }
 
-    @SuppressLint("ApplySharedPref")
     fun removePreferences(context: Context) {
         context.getSharedPreferences(preference, 0)
-            .edit().clear().commit()
+            .edit().clear().apply()
     }
 
 }

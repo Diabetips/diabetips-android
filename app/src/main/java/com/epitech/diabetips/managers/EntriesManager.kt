@@ -1,7 +1,6 @@
 package com.epitech.diabetips.managers
 
 import android.content.Context
-import android.util.Log
 import com.epitech.diabetips.R
 import com.epitech.diabetips.services.BloodSugarService
 import com.epitech.diabetips.services.InsulinService
@@ -9,14 +8,10 @@ import com.epitech.diabetips.services.MealService
 import com.epitech.diabetips.services.NoteService
 import com.epitech.diabetips.storages.EntryObject
 import com.epitech.diabetips.storages.PaginationObject
-import com.epitech.diabetips.utils.TimeHandler
 import com.epitech.diabetips.utils.toInt
 import com.github.kittinunf.fuel.core.FuelError
 import com.github.kittinunf.fuel.core.Response
 import io.reactivex.Single
-import org.threeten.bp.DateTimeUtils
-import org.threeten.bp.LocalDate
-import org.threeten.bp.ZoneOffset
 
 typealias DashboardItemsResponse = Single<Triple<Response, Array<EntryObject>?, FuelError?>>
 

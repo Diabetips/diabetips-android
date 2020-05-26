@@ -7,10 +7,8 @@ import androidx.core.content.ContextCompat
 import com.epitech.diabetips.R
 import com.epitech.diabetips.storages.BloodSugarObject
 import com.epitech.diabetips.storages.EntryObject
-import com.epitech.diabetips.storages.MealObject
 import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.components.AxisBase
-import com.github.mikephil.charting.components.LimitLine
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.components.YAxis
 import com.github.mikephil.charting.data.Entry
@@ -21,7 +19,6 @@ import org.threeten.bp.Instant
 import org.threeten.bp.LocalDateTime
 import org.threeten.bp.ZoneOffset
 import org.threeten.bp.temporal.ChronoUnit
-
 
 class ChartHandler {
 

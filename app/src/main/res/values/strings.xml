@@ -25,15 +25,19 @@
     <string name="format_date_api" translatable="false">yyyy-MM-dd</string>
     <string name="format_date_birth">MMMM d yyyy</string>
     <string name="format_date">EEE, MMM d yyyy</string>
+    <string name="format_date_dashboard">MM/dd/yyyy</string>
     <string name="format_date_simple_12">MM/dd/yyyy - h:mm a</string>
     <string name="format_date_simple_24">MM/dd/yyyy - HH:mm</string>
     <!--format end-->
 
     <!--unit start-->
+    <string name="unit">Unit(s)</string>
     <string name="unit_unit">unit</string>
     <string name="unit_units">units</string>
     <string name="unit_minute">minutes</string>
     <string name="unit_g" translatable="false">g</string>
+    <string name="unit_u" translatable="false">u</string>
+    <string name="unit_glucose" translatable="false">mg/dl</string>
     <!--unit end-->
 
     <!--dialog start-->
@@ -47,12 +51,6 @@
     <string name="delete">Delete</string>
     <string name="deleted">Deleted</string>
     <!--dialog end-->
-
-    <string name="home_title">Home</string>
-    <string name="profile_title">Profile</string>
-    <string name="settings_title">Settings</string>
-    <string name="dark_mode">Dark mode</string>
-    <string name="lang">eng</string>
 
     <!--login / sign up screen start-->
     <string name="mail_input">Email</string>
@@ -70,19 +68,26 @@
     <!--login / sign up screen end-->
 
     <!--Home / Dashboard start-->
+    <string name="glycemie">Glycémies</string>
+    <string name="ready_to_scan">Ready to scan</string>
+    <string name="no_nfc">This device doesn\'t support NFC</string>
+    <string name="nfc_disable">NFC is disabled</string>
+    <string name="sensor_not_ready">The sensor isn\'t ready yet</string>
+    <string name="home_title">Home</string>
     <string name="open_dashboard_button">Open Dashboard</string>
     <!--Home / Dashboard end-->
 
-    <!--Dashboard / Dashboard start-->
+    <!--Dashboard start-->
     <string name="dashboard_title">Dashboard</string>
     <string name="meal">Meal</string>
     <string name="insulin_slow">Slow insulin</string>
     <string name="insulin_fast">Fast insulin</string>
     <string name="comment">Comment</string>
-    <string name="date_format">\"MM/dd/yyyy\"</string>
-    <!--Dashboard / Dashboard end-->
+    <string name="sugar">Sugar</string>
+    <!--Dashboard end-->
 
     <!--Profile screen start-->
+    <string name="profile_title">Profile</string>
     <string name="new_password_input">New Password</string>
     <string name="weight_input">Weight (kg)</string>
     <string name="height_input">Height (cm)</string>
@@ -103,6 +108,12 @@
     <string name="logout_confirm">Do you want to logout ?</string>
     <string name="deactivate_account_confirm">Are you sure to deactivate your account ?</string>
     <!--Profile screen end-->
+
+    <!--Settings screen start-->
+    <string name="settings_title">Settings</string>
+    <string name="dark_mode">Dark mode</string>
+    <string name="lang">eng</string>
+    <!--Settings screen end-->
 
     <!--entry screen start-->
     <string name="entry_title">New entry</string>
@@ -195,10 +206,6 @@
         <item>1</item>
         <item>2</item>
     </string-array>
-    <string name="unit">Unit(s)</string>
-    <string name="glycemie">Glycémies</string>
-    <string name="glucose_unit">mg/dl</string>
-    <string name="ready_to_scan">Ready to scan</string>
     <!--diabetes type end-->
 
 </resources>

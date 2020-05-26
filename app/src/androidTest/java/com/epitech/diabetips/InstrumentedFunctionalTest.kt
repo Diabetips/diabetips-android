@@ -127,19 +127,6 @@ class InstrumentedFunctionalTest {
     }
 
     @Test
-    fun mealAdapters() {
-        //Values
-        val mealArray = arrayOf(MealObject(1, 0, "Meal"), MealObject(2), MealObject(3))
-        val mealAdapter = MealAdapter()
-        //Operations
-//        mealAdapter.setMeals(mealArray)
-//        mealAdapter.addMeal(mealArray[0])
-//        mealAdapter.addMeals(mealArray)
-        //Asserts
-//        assertEquals("Wrong meal adapter", mealArray.size * 2 + 1, mealAdapter.itemCount)
-    }
-
-    @Test
     fun biometricObjects() {
         //Values
         val biometric = BiometricObject(80, 175, "2020-10-05")

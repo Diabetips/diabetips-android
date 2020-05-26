@@ -14,7 +14,6 @@ import com.epitech.diabetips.R
 import com.epitech.diabetips.storages.EntryObject
 import kotlinx.android.synthetic.main.grouped_items_dashboard.view.*
 
-
 class DashboardGroupedItemsViewHolder (var inflater: LayoutInflater, var parent: ViewGroup)
     : RecyclerView.ViewHolder(inflater.inflate(R.layout.grouped_items_dashboard, parent, false)) {
 

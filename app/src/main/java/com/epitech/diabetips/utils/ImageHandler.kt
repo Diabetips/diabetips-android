@@ -2,17 +2,13 @@ package com.epitech.diabetips.utils
 
 import android.content.Context
 import android.graphics.Bitmap
-import android.os.AsyncTask
 import android.widget.ImageView
 import androidx.core.graphics.scale
 import com.bumptech.glide.Glide
 import com.bumptech.glide.Priority
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
-import com.bumptech.glide.signature.ObjectKey
 import java.io.ByteArrayOutputStream
-import java.security.Key
-import java.security.Signature
 
 class ImageHandler {
 

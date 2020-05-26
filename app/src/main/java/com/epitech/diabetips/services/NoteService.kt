@@ -11,15 +11,15 @@ class NoteService : AService("/users/me/notes") {
     }
 
     fun getAllUserNote(page: PaginationObject) : FuelResponse<Array<NoteObject>> {
-        return getRequest("?" + page.getRequestParameters())
+        return getRequest("?${page.getRequestParameters()}")
     }
 
     fun getUserNote(id: Int) : FuelResponse<NoteObject> {
-        return getRequest("/" + id)
+        return getRequest("/$id")
     }
 
     fun removeUserNote(id: Int) : FuelResponse<NoteObject> {
-        return deleteRequest("/" + id)
+        return deleteRequest("/$id")
     }
 
     fun createOrUpdateUserNote(note: NoteObject) : FuelResponse<NoteObject> {
@@ -34,7 +34,7 @@ class NoteService : AService("/users/me/notes") {
     }
 
     private fun updateUserNote(note: NoteObject) : FuelResponse<NoteObject> {
-        return putRequest(note, "/" + note.id)
+        return putRequest(note, "/${note.id}")
     }
 
 }
