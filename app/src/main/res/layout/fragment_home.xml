@@ -183,24 +183,20 @@
             android:id="@+id/newEntryButton"
             style="@style/MaterialButtonAltTheme"
             android:layout_width="wrap_content"
-
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="@dimen/negative_margin_size"
-            android:layout_weight="0"
             android:text="@string/add_entry" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/openDashboardButton"
             style="@style/MaterialButtonTheme"
             android:layout_width="match_parent"
-            android:layout_height="26dp"
             android:layout_gravity="center"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="16dp"
-            android:layout_weight="1"
+            android:layout_marginTop="@dimen/half_margin_size"
+            android:layout_marginBottom="@dimen/half_margin_size"
             android:orientation="vertical"
             android:text="@string/open_dashboard_button"
-            tools:layout_marginTop="16dp" />
+            tools:layout_marginTop="@dimen/half_margin_size" />
 
     </LinearLayout>
 
