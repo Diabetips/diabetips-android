@@ -22,7 +22,8 @@ class DashboardGroupedItemsViewHolder (var inflater: LayoutInflater, var parent:
         var quantity: TextView,
         var color: Int,
         var type: EntryObject.Type,
-        var activated: Boolean = true)
+        var activated: Boolean = false,
+        var resetDisplay: Boolean = true)
 
     private var date: String = "OUI";
     private var items: List<EntryObject> = arrayListOf();
@@ -40,15 +41,19 @@ class DashboardGroupedItemsViewHolder (var inflater: LayoutInflater, var parent:
         topbarItems = listOf(
             ItemInfo(itemView.foodIcon, itemView.foodQuantity, R.color.colorPrimary, EntryObject.Type.MEAL),
             ItemInfo(itemView.insulinIcon, itemView.insulinQuantity, R.color.colorAccent, EntryObject.Type.INSULIN_FAST),
+            ItemInfo(itemView.insulinIcon, itemView.insulinQuantity, R.color.colorAccent, EntryObject.Type.INSULIN_SLOW, resetDisplay = false),
             ItemInfo(itemView.commentIcon, itemView.commentQuantity, R.color.searchBarSearchIconTintColor, EntryObject.Type.COMMENT)
         )
-        topbarItems.forEach() {
+        topbarItems.forEach {
             setupIcon(it)
         }
     }
 
     private fun setupIcon(item: ItemInfo) {
-        val count = items.count { it.type == item.type }
+        var count = items.count { it.type == item.type }
+        if (!item.resetDisplay) {
+            count += (item.quantity.text.toString().toIntOrNull() ?: 0)
+        }
         item.quantity.text = count.toString()
         item.activated = (count > 0)
         setItemVisibility(item, item.activated)
@@ -57,7 +62,7 @@ class DashboardGroupedItemsViewHolder (var inflater: LayoutInflater, var parent:
     }
 
     private fun setColorFilter(drawable: Drawable, color: Int) {
-        drawable.setColorFilter(ContextCompat.getColor(inflater.context, color), PorterDuff.Mode.SRC_ATOP)
+        drawable.setTint(ContextCompat.getColor(inflater.context, color))
     }
 
     private fun setItemVisibility(item: ItemInfo, show: Boolean) {

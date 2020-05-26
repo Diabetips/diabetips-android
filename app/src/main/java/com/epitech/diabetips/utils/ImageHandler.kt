@@ -2,12 +2,15 @@ package com.epitech.diabetips.utils
 
 import android.content.Context
 import android.graphics.Bitmap
+import android.graphics.drawable.Drawable
 import android.widget.ImageView
+import androidx.core.content.ContextCompat
 import androidx.core.graphics.scale
 import com.bumptech.glide.Glide
 import com.bumptech.glide.Priority
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
+import com.epitech.diabetips.R
 import java.io.ByteArrayOutputStream
 
 class ImageHandler {
@@ -22,12 +25,14 @@ class ImageHandler {
         .fitCenter()
         .priority(Priority.HIGH)
 
-    fun loadImage(image: ImageView, context: Context, url: String, placeholder: Int, cacheImage: Boolean = true) {
+    fun loadImage(image: ImageView, context: Context, url: String, placeholder: Int, cacheImage: Boolean = true, placeholderColor: Int = R.color.colorHint) {
+        val drawable = context.getDrawable(placeholder)
+        drawable?.setTint(ContextCompat.getColor(context, placeholderColor))
         Glide.with(context)
             .load(url)
             .apply(options)
-            .placeholder(placeholder)
-            .error(placeholder)
+            .placeholder(drawable)
+            .error(drawable)
             .diskCacheStrategy(if (cacheImage) DiskCacheStrategy.ALL else DiskCacheStrategy.NONE)
             .skipMemoryCache(!cacheImage)
             .into(image)

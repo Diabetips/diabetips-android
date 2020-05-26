@@ -1,7 +1,6 @@
 package com.epitech.diabetips.storages
 
 import android.content.Context
-import android.graphics.PorterDuff
 import android.graphics.drawable.Drawable
 import androidx.core.content.ContextCompat
 import com.epitech.diabetips.R
@@ -20,23 +19,23 @@ data class EntryObject (
     constructor (meal: MealObject, context: Context) : this(
         orignal = meal,
         id = meal.id,
-        description = meal.recipes.map { it.recipe.name }.joinToString(separator = ", "),
+        description = meal.getSummary(", "),
         title = context.getString(R.string.meal),
         time = meal.timestamp,
         icon = context.getDrawable(R.drawable.ic_fork)) {
             type = Type.MEAL
-            icon!!.setColorFilter(ContextCompat.getColor(context, R.color.colorPrimary), PorterDuff.Mode.SRC_ATOP);
+            icon?.setTint(ContextCompat.getColor(context, R.color.colorPrimary));
     }
 
     constructor (insulin: InsulinObject, context: Context) : this(
         orignal = insulin,
         id = insulin.id,
         description = "${insulin.quantity} ${context.getString(R.string.unit)}",
-        title = if (insulin.type == "fast") context.getString(R.string.insulin_fast) else context.getString(R.string.insulin_slow),
+        title = if (insulin.type == InsulinObject.Type.fast.toString()) context.getString(R.string.insulin_fast) else context.getString(R.string.insulin_slow),
         time = insulin.timestamp,
-        icon = context.getDrawable(R.drawable.ic_syringe)) {
-            type = if (insulin.type == "fast") Type.INSULIN_FAST else Type.INSULIN_SLOW
-            icon!!.setColorFilter(ContextCompat.getColor(context, R.color.colorAccent), PorterDuff.Mode.SRC_ATOP)
+        icon = context.getDrawable(if (insulin.type == InsulinObject.Type.fast.toString()) R.drawable.ic_syringe else R.drawable.ic_syringe_alt)) {
+            type = if (insulin.type == InsulinObject.Type.fast.toString()) Type.INSULIN_FAST else Type.INSULIN_SLOW
+            icon?.setTint(ContextCompat.getColor(context, if (type == Type.INSULIN_FAST) R.color.colorAccent else R.color.colorAccentLight))
     }
 
     constructor (note: NoteObject, context: Context) : this(
@@ -47,7 +46,7 @@ data class EntryObject (
         time = note.timestamp,
         icon = context.getDrawable(R.drawable.ic_comment)) {
             type = Type.COMMENT
-            icon!!.setColorFilter(ContextCompat.getColor(context, R.color.searchBarSearchIconTintColor), PorterDuff.Mode.SRC_ATOP)
+            icon?.setTint(ContextCompat.getColor(context, R.color.searchBarSearchIconTintColor))
     }
 
     constructor (bloodSugar: BloodSugarObject, context: Context) : this(
@@ -57,8 +56,8 @@ data class EntryObject (
         title = context.getString(R.string.sugar),
         time = bloodSugar.timestamp,
         icon = context.getDrawable(R.drawable.ic_syringe)) {
-        type = Type.SUGAR
-        icon!!.setColorFilter(ContextCompat.getColor(context, R.color.colorAccent), PorterDuff.Mode.SRC_ATOP)
+            type = Type.SUGAR
+            icon?.setTint(ContextCompat.getColor(context, R.color.colorAccent))
     }
 
     enum class Type {

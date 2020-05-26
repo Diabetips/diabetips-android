@@ -26,33 +26,33 @@ abstract class AService(protected var baseRoute : String = "") {
         .create()
 
     protected inline fun <reified T : Any> getRequest(route : String = "") : FuelResponse<T> {
-        Log.d("REQUEST [GET]",baseRoute + route)
-        return subscribeToRequest((baseRoute + route).httpGet())
+        Log.d("REQUEST [GET]","$baseRoute$route")
+        return subscribeToRequest("$baseRoute$route".httpGet())
     }
 
     protected inline fun <reified T : Any> deleteRequest(route : String = "") : FuelResponse<T> {
-        Log.d("REQUEST [DELETE]",baseRoute + route)
-        return subscribeToRequest((baseRoute + route).httpDelete())
+        Log.d("REQUEST [DELETE]","$baseRoute$route")
+        return subscribeToRequest("$baseRoute$route".httpDelete())
     }
 
     protected inline fun <reified T : Any> postRequest(postObject : T, route : String = "") : FuelResponse<T> {
-        Log.d("REQUEST [POST]",baseRoute + route)
-        return subscribeToRequest((baseRoute + route).httpPost().body(customGson.toJson(postObject)))
+        Log.d("REQUEST [POST]","$baseRoute$route")
+        return subscribeToRequest("$baseRoute$route".httpPost().body(customGson.toJson(postObject)))
     }
 
     protected inline fun <reified T : Any> postData(data : ByteArray, route : String = "") : FuelResponse<T> {
-        Log.d("REQUEST [POST]",baseRoute + route)
-        return subscribeToRequest((baseRoute + route).httpPost().body(data))
+        Log.d("REQUEST [POST]","$baseRoute$route")
+        return subscribeToRequest("$baseRoute$route".httpPost().body(data))
     }
 
     protected inline fun <reified T : Any> postUrlEncodedRequest(parameters : List<Pair<String, String>>, route : String = "") : FuelResponse<T> {
-        Log.d("REQUEST [POST]",baseRoute + route)
-        return subscribeToRequest((baseRoute + route).httpPost(parameters).header())
+        Log.d("REQUEST [POST]","$baseRoute$route")
+        return subscribeToRequest("$baseRoute$route".httpPost(parameters).header())
     }
 
     protected inline fun <reified T : Any> putRequest(putObject : T, route : String = "") : FuelResponse<T> {
-        Log.d("REQUEST [PUT]",baseRoute + route)
-        return subscribeToRequest((baseRoute + route).httpPut().body(customGson.toJson(putObject)))
+        Log.d("REQUEST [PUT]","$baseRoute$route")
+        return subscribeToRequest("$baseRoute$route".httpPut().body(customGson.toJson(putObject)))
     }
 
     protected inline fun <reified T : Any> subscribeToRequest(request: Request) : FuelResponse<T>  {

@@ -51,7 +51,7 @@ class DashboardItemsAdapter(val context: Context,
 
         fun removeItem(position: Int) {
                 items.removeAt(position)
-                notifyItemRemoved(position)
+                notifyDataSetChanged()
         }
 
         fun updateItem(item: EntryObject) {

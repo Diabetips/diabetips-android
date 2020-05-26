@@ -69,9 +69,9 @@ class NfcReaderService(var context: Context, myIntent: Intent, var activity: Act
         } catch (c: ClassNotFoundException) {
             c.printStackTrace()
         }
-        Log.d("Saved data", """$glucoseDatas""".trimIndent())
+        Log.d("Saved data", "$glucoseDatas".trimIndent())
         if (glucoseDatas.size > 1)
-            Log.d("Saved Sensor age", """${glucoseDatas[0].ageInSensorMinutes}""".trimIndent())
+            Log.d("Saved Sensor age", "${glucoseDatas[0].ageInSensorMinutes}".trimIndent())
     }
 
     fun onResume() {
@@ -104,9 +104,8 @@ class NfcReaderService(var context: Context, myIntent: Intent, var activity: Act
         if (NfcAdapter.ACTION_TECH_DISCOVERED == action) {
             Log.d("Diabetips", "NfcAdapter.ACTION_TECH_DISCOVERED")
             // In case we would still use the Tech Discovered Intent
-            val tag =
-                intent.getParcelableExtra<Tag>(NfcAdapter.EXTRA_TAG)
-            val techList = tag.techList
+            val tag = intent.getParcelableExtra<Tag>(NfcAdapter.EXTRA_TAG)
+            val techList = tag?.techList
             val searchedTech = NfcV::class.java.name
             NfcVReaderTask().execute(tag)
         }
@@ -116,9 +115,9 @@ class NfcReaderService(var context: Context, myIntent: Intent, var activity: Act
      * @param activity The corresponding [Activity] requesting the foreground dispatch.
      * @param adapter The [NfcAdapter] used for the foreground dispatch.
      */
-    fun setupForegroundDispatch(activity: Activity, adapter: NfcAdapter?) {
+    private fun setupForegroundDispatch(activity: Activity, adapter: NfcAdapter?) {
         val pi: PendingIntent = activity.createPendingResult(PENDING_INTENT_TECH_DISCOVERED, Intent(), 0)
-        if (pi != null && updateNfcStatus()) {
+        if (updateNfcStatus()) {
             try {
                 mNfcAdapter?.enableForegroundDispatch(
                     activity,
@@ -137,13 +136,13 @@ class NfcReaderService(var context: Context, myIntent: Intent, var activity: Act
      * @param activity The corresponding {BaseActivity} requesting to stop the foreground dispatch.
      * @param adapter The [NfcAdapter] used for the foreground dispatch.
      */
-    fun stopForegroundDispatch(activity: Activity?, adapter: NfcAdapter?) {
+    private fun stopForegroundDispatch(activity: Activity?, adapter: NfcAdapter?) {
         if (isNfcOn) {
             adapter?.disableForegroundDispatch(activity)
         }
     }
 
-    private val LOG_ID = "OpenLibre::" + NfcVReaderTask::class.java.simpleName
+    private val LOG_ID = "OpenLibre::${NfcVReaderTask::class.java.simpleName}"
     private val nfcReadTimeout: Long = 1000 // [ms]
 
     private var sensorTagId: String? = null
@@ -238,7 +237,7 @@ class NfcReaderService(var context: Context, myIntent: Intent, var activity: Act
             } catch (ioe: IOException) {
                 ioe.printStackTrace()
             }
-            var bs: BloodSugarObject = BloodSugarObject()
+            val bs: BloodSugarObject = BloodSugarObject()
             bs.interval = historyIntervalInMinutes * 60
             if (glucoseDatas.size <= 0) {
                 Toast.makeText(context, context.getString(R.string.sensor_not_ready), Toast.LENGTH_SHORT).show()
@@ -250,11 +249,10 @@ class NfcReaderService(var context: Context, myIntent: Intent, var activity: Act
             Log.d("LAST", bs.measures[bs.measures.size - 1].toString())
             Log.d("END", bs.measures[0].toString())
 
-            BloodSugarService.instance.postMeasures(bs).doOnSuccess(){
+            BloodSugarService.instance.postMeasures(bs).doOnSuccess {
                 GlucoseUpdated()
-                if (it.second.component2() == null) {
-                } else {
-                    Log.d("BLOOD", it.second.component2()!!.exception.message)
+                if (it.second.component2() != null) {
+                    Log.d("BLOOD", it.second.component2()!!.exception.message.toString())
                 }
             }.subscribe()
             return null
