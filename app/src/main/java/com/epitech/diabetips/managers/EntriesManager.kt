@@ -6,8 +6,7 @@ import com.epitech.diabetips.services.BloodSugarService
 import com.epitech.diabetips.services.InsulinService
 import com.epitech.diabetips.services.MealService
 import com.epitech.diabetips.services.NoteService
-import com.epitech.diabetips.storages.EntryObject
-import com.epitech.diabetips.storages.PaginationObject
+import com.epitech.diabetips.storages.*
 import com.epitech.diabetips.utils.toInt
 import com.github.kittinunf.fuel.core.FuelError
 import com.github.kittinunf.fuel.core.Response
@@ -82,38 +81,38 @@ class EntriesManager(
             val newIndex = index + (!manager.needRefresh()).toInt()
             val newItems = items + if (it.third == null && it.second != null) it.second as Array<EntryObject> else arrayOf()
             getItemsRec(resetPage, newIndex, newItems)
-        }.subscribe();
+        }.subscribe()
     }
 
     fun getPage(): PaginationObject? {
-        return page;
+        return page
     }
 
     private fun getMeals(page: PaginationObject ): DashboardItemsResponse {
-        return MealService.instance.getAllUserMeals(page)
+        return MealService.instance.getAll<MealObject>(page)
             .map{Triple(it.first, it.second.component1()
                 ?.map{ item -> EntryObject(item, context) }
-                ?.toTypedArray(), it.second.component2())};
+                ?.toTypedArray(), it.second.component2())}
     }
 
     private fun getComments(page: PaginationObject): DashboardItemsResponse {
-        return NoteService.instance.getAllUserNote(page)
+        return NoteService.instance.getAll<NoteObject>(page)
             .map{Triple(it.first, it.second.component1()
                 ?.map{ item -> EntryObject(item, context) }
-                ?.toTypedArray(), it.second.component2())};
+                ?.toTypedArray(), it.second.component2())}
     }
 
     private fun getInsulins(page: PaginationObject): DashboardItemsResponse {
-        return InsulinService.instance.getAllUserInsulin(page)
+        return InsulinService.instance.getAll<InsulinObject>(page)
             .map{Triple(it.first, it.second.component1()
                 ?.map{ item -> EntryObject(item, context) }
-                ?.toTypedArray(), it.second.component2())};
+                ?.toTypedArray(), it.second.component2())}
     }
 
     private fun getSugars(page: PaginationObject): DashboardItemsResponse {
         return BloodSugarService.instance.getAllMeasures(page)
             .map{Triple(it.first, it.second.component1()
                 ?.map{ item -> EntryObject(item, context) }
-                ?.toTypedArray(), it.second.component2())};
+                ?.toTypedArray(), it.second.component2())}
     }
 }

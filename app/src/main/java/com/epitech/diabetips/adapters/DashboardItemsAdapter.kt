@@ -26,7 +26,7 @@ class DashboardItemsAdapter(val context: Context,
                             private val onItemClickListener : ((EntryObject) -> Unit)? = null)
         : RecyclerView.Adapter<DashboardItemViewHolder>() {
 
-        var mitems = items;
+        var mitems = items
 
         fun setItems(itemList: Array<EntryObject>) {
                 items.clear()
@@ -113,7 +113,7 @@ class DashboardItemsAdapter(val context: Context,
                                 view.changeInsulinInputLayout.error = context.getString(R.string.quantity_null)
                         } else {
                                 insulinObject.quantity = quantity.toInt()
-                                InsulinService.instance.createOrUpdateUserInsulin(insulinObject).doOnSuccess {
+                                InsulinService.instance.createOrUpdate(insulinObject, insulinObject.id).doOnSuccess {
                                         if (it.second.component2() == null) {
                                                 setItem(EntryObject(insulinObject, context), position)
                                                 dialog.dismiss()
@@ -124,7 +124,7 @@ class DashboardItemsAdapter(val context: Context,
                         }
                 }
                 view.changeInsulinDeleteButton.setOnClickListener {
-                        InsulinService.instance.removeUserInsulin(insulinObject.id).doOnSuccess {
+                        InsulinService.instance.remove<InsulinObject>(insulinObject.id).doOnSuccess {
                                 if (it.second.component2() == null) {
                                         Toast.makeText(context, context.getString(R.string.deleted), Toast.LENGTH_SHORT).show()
                                         removeItem(position)
@@ -153,7 +153,7 @@ class DashboardItemsAdapter(val context: Context,
                                 view.changeCommentInputLayout.error = context.getString(R.string.empty_field_error)
                         } else {
                                 noteObject.description = text
-                                NoteService.instance.createOrUpdateUserNote(noteObject).doOnSuccess {
+                                NoteService.instance.createOrUpdate(noteObject, noteObject.id).doOnSuccess {
                                         if (it.second.component2() == null) {
                                                 setItem(EntryObject(noteObject, context), position)
                                                 dialog.dismiss()
@@ -164,7 +164,7 @@ class DashboardItemsAdapter(val context: Context,
                         }
                 }
                 view.changeCommentDeleteButton.setOnClickListener {
-                        NoteService.instance.removeUserNote(noteObject.id).doOnSuccess {
+                        NoteService.instance.remove<NoteObject>(noteObject.id).doOnSuccess {
                                 if (it.second.component2() == null) {
                                         Toast.makeText(context, context.getString(R.string.deleted), Toast.LENGTH_SHORT).show()
                                         removeItem(position)

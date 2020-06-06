@@ -1,7 +1,6 @@
 package com.epitech.diabetips.services
 
 import android.content.Context
-import android.util.Log
 import com.epitech.diabetips.managers.AuthManager
 import com.epitech.diabetips.storages.*
 import com.github.kittinunf.fuel.core.FuelManager
@@ -51,8 +50,8 @@ class TokenService : AService("/auth") {
             }
     }
 
-    fun resetPassword(email: String) : FuelResponse<AccountObject> {
-        return postRequest(AccountObject("", email), "/reset-password")
+    fun resetPassword(email: String) : FuelResponse<UserObject> {
+        return postRequest(UserObject("", email), "/reset-password")
     }
 
     private fun saveToken(context: Context, token: TokenObject) {

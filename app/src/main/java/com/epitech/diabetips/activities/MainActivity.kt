@@ -11,11 +11,11 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import com.epitech.diabetips.R
-import com.epitech.diabetips.managers.AccountManager
+import com.epitech.diabetips.managers.UserManager
 import com.epitech.diabetips.managers.AuthManager
 import com.epitech.diabetips.managers.ModeManager
 import com.epitech.diabetips.services.TokenService
-import com.epitech.diabetips.storages.AccountObject
+import com.epitech.diabetips.storages.UserObject
 import com.epitech.diabetips.textWatchers.EmailWatcher
 import com.epitech.diabetips.textWatchers.PasswordWatcher
 import com.epitech.diabetips.utils.MaterialHandler
@@ -47,7 +47,7 @@ class MainActivity : AppCompatActivity() {
                 val account = getAccountFromFields()
                 TokenService.instance.getToken(this, account.email, account.password).doAfterSuccess {
                     if (it.second.component2() == null) {
-                        AccountManager.instance.removePreferences(this)
+                        UserManager.instance.removePreferences(this)
                         startActivity(Intent(this, NavigationActivity::class.java))
                     } else {
                         val error = JSONObject(it.first.data.toString(Charset.defaultCharset())).getString("error")
@@ -110,8 +110,8 @@ class MainActivity : AppCompatActivity() {
                 && passwordInputLayout.error == null
     }
 
-    private fun getAccountFromFields() : AccountObject {
-        val account = AccountObject()
+    private fun getAccountFromFields() : UserObject {
+        val account = UserObject()
         account.email = emailInput.text.toString()
         account.password = passwordInput.text.toString()
         return account

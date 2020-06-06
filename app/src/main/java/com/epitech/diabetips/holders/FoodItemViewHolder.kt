@@ -37,12 +37,15 @@ class FoodItemViewHolder(inflater: LayoutInflater, parent: ViewGroup)
 
     fun bind(food: FoodObject, selected: Boolean = false, onItemClickListener : ((FoodObject, CheckBox?) -> Unit)? = null) {
         foodText?.text = food.name
-        sugar100gText?.text = food.sugars_100g.toString() + context.getString(R.string.unit_g)
+        sugar100gText?.text = "${food.sugars_100g}${context.getString(R.string.unit_g)}"
         unitText?.text = food.unit
         foodCkeckBox?.isChecked = selected
-        itemView.setOnClickListener {onItemClickListener?.invoke(food, foodCkeckBox)}
+        itemView.setOnClickListener {
+            foodCkeckBox?.isChecked = true
+            onItemClickListener?.invoke(food, foodCkeckBox)
+        }
         if (foodImage != null) {
-            ImageHandler.instance.loadImage(foodImage!!, context, FoodService.instance.getFoodPictureUrl(food.id), R.drawable.ic_food)
+            ImageHandler.instance.loadImage(foodImage!!, context, FoodService.instance.getPictureUrl(food.id), R.drawable.ic_food)
         }
     }
 }

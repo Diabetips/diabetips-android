@@ -6,7 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import com.epitech.diabetips.R
 import com.epitech.diabetips.services.UserService
-import com.epitech.diabetips.storages.AccountObject
+import com.epitech.diabetips.storages.UserObject
 import com.epitech.diabetips.textWatchers.EmailWatcher
 import com.epitech.diabetips.textWatchers.InputWatcher
 import com.epitech.diabetips.textWatchers.PasswordConfirmWatcher
@@ -34,7 +34,7 @@ class SignUpActivity : AppCompatActivity() {
         signUpButton.setOnClickListener {
             if (validateFields()) {
                 val account = getAccountFromFields()
-                UserService.instance.registerUser(account).doOnSuccess {
+                UserService.instance.createOrUpdate(account).doOnSuccess {
                     if (it.second.component2() == null) {
                         Toast.makeText(this, getString(R.string.created_account), Toast.LENGTH_SHORT).show()
                         finish()
@@ -64,8 +64,8 @@ class SignUpActivity : AppCompatActivity() {
                 && passwordConfirmInputLayout.error == null
     }
 
-    private fun getAccountFromFields() : AccountObject {
-        val account = AccountObject()
+    private fun getAccountFromFields() : UserObject {
+        val account = UserObject()
         account.email = emailInput.text.toString()
         account.password = passwordInput.text.toString()
         account.first_name = firstNameInput.text.toString()

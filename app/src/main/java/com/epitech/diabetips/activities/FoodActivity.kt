@@ -6,6 +6,7 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
@@ -14,15 +15,18 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.epitech.diabetips.R
 import com.epitech.diabetips.adapters.FoodAdapter
 import com.epitech.diabetips.services.FoodService
+import com.epitech.diabetips.storages.FoodObject
 import com.epitech.diabetips.storages.IngredientObject
 import com.epitech.diabetips.storages.PaginationObject
 import com.epitech.diabetips.utils.MaterialHandler
 import com.epitech.diabetips.utils.PaginationScrollListener
 import kotlinx.android.synthetic.main.activity_food.*
+import kotlinx.android.synthetic.main.dialog_save_change.view.*
 import kotlinx.android.synthetic.main.dialog_select_quantity.view.*
 
 class FoodActivity : AppCompatActivity() {
 
+    private var saved: Boolean? = null
     private lateinit var page: PaginationObject
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,7 +40,7 @@ class FoodActivity : AppCompatActivity() {
         page = PaginationObject(resources.getInteger(R.integer.pagination_size), resources.getInteger(R.integer.pagination_default))
         MaterialHandler.instance.handleTextInputLayoutSize(this.findViewById(android.R.id.content))
         closeFoodButton.setOnClickListener {
-            finish()
+            onBackPressed()
         }
         foodSearchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
 
@@ -51,31 +55,39 @@ class FoodActivity : AppCompatActivity() {
         })
         foodSearchList.apply {
             layoutManager = LinearLayoutManager(this@FoodActivity)
-            adapter = FoodAdapter {foodObject, checkBox ->
-                val view = layoutInflater.inflate(R.layout.dialog_select_quantity, null)
-                MaterialHandler.instance.handleTextInputLayoutSize(view as ViewGroup)
-                val dialog = AlertDialog.Builder(this@FoodActivity).setView(view).create()
-                dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-                val ingredientObject: IngredientObject = (adapter as FoodAdapter).getSelectedIngredientOrNew(foodObject)
-                view.selectQuantityInputLayout.hint = "${view.selectQuantityInputLayout.hint} (${foodObject.unit})"
-                if (ingredientObject.quantity > 0) {
-                    view.selectQuantityInput.setText(ingredientObject.quantity.toString())
-                }
-                view.selectQuantityNegativeButton.setOnClickListener {
-                    dialog.dismiss()
-                }
-                view.selectQuantityPositiveButton.setOnClickListener {
-                    val quantity: Float? = view.selectQuantityInput.text.toString().toFloatOrNull()
-                    if (quantity == null || quantity <= 0) {
-                        view.selectQuantityInputLayout.error = getString(R.string.quantity_null)
+            adapter = FoodAdapter { foodObject, checkBox ->
+                if (checkBox != null && checkBox.isChecked) {
+                    val view = layoutInflater.inflate(R.layout.dialog_select_quantity, null)
+                    MaterialHandler.instance.handleTextInputLayoutSize(view as ViewGroup)
+                    val dialog = AlertDialog.Builder(this@FoodActivity).setView(view).create()
+                    dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+                    val ingredientObject: IngredientObject = (adapter as FoodAdapter).getSelectedIngredientOrNew(foodObject)
+                    view.selectQuantityInputLayout.hint = "${view.selectQuantityInputLayout.hint} (${foodObject.unit})"
+                    if (ingredientObject.quantity > 0) {
+                        checkBox.isChecked = true
+                        view.selectQuantityInput.setText(ingredientObject.quantity.toString())
                     } else {
-                        ingredientObject.quantity = quantity
-                        (adapter as FoodAdapter).addSelectedIngredient(ingredientObject)
-                        checkBox?.isChecked = true
+                        checkBox.isChecked = false
+                    }
+                    view.selectQuantityNegativeButton.setOnClickListener {
                         dialog.dismiss()
                     }
+                    view.selectQuantityPositiveButton.setOnClickListener {
+                        val quantity: Float? = view.selectQuantityInput.text.toString().toFloatOrNull()
+                        if (quantity == null || quantity <= 0) {
+                            view.selectQuantityInputLayout.error = getString(R.string.quantity_null)
+                        } else {
+                            ingredientObject.quantity = quantity
+                            (adapter as FoodAdapter).addSelectedIngredient(ingredientObject)
+                            checkBox.isChecked = true
+                            saved = false
+                            dialog.dismiss()
+                        }
+                    }
+                    dialog.show()
+                } else {
+                    saved = false
                 }
-                dialog.show()
             }
             (adapter as FoodAdapter).setVisibilityElements(foodNotFoundLayout, foodSwipeRefresh, false)
         }
@@ -96,8 +108,7 @@ class FoodActivity : AppCompatActivity() {
             getFood()
         }
         foodValidateButton.setOnClickListener {
-            setResult(Activity.RESULT_OK, Intent().putExtra(getString(R.string.param_food), (foodSearchList.adapter as FoodAdapter).getSelectedIngredients()))
-            finish()
+            returnFoods()
         }
         getParams()
         getFood()
@@ -115,7 +126,7 @@ class FoodActivity : AppCompatActivity() {
             page.reset()
         else
             page.nextPage()
-        FoodService.instance.getAllFood(page, foodSearchView.query.toString()).doOnSuccess {
+        FoodService.instance.getAll<FoodObject>(page, foodSearchView.query.toString()).doOnSuccess {
             if (it.second.component2() == null) {
                 page.updateFromHeader(it.first.headers[getString(R.string.pagination_header)]?.get(0))
                 if (resetPage)
@@ -125,6 +136,32 @@ class FoodActivity : AppCompatActivity() {
             }
             foodSwipeRefresh.isRefreshing = false
         }.subscribe()
+    }
+
+    private fun returnFoods() {
+        setResult(Activity.RESULT_OK, Intent().putExtra(getString(R.string.param_food), (foodSearchList.adapter as FoodAdapter).getSelectedIngredients()))
+        finish()
+    }
+
+    override fun onBackPressed() {
+        if (saved == null) {
+            finish()
+        } else if (saved!!) {
+            returnFoods()
+        } else {
+            val view = layoutInflater.inflate(R.layout.dialog_save_change, null)
+            MaterialHandler.instance.handleTextInputLayoutSize(view as ViewGroup)
+            val dialog = AlertDialog.Builder(this@FoodActivity).setView(view).create()
+            dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            view.saveChangeNegativeButton.setOnClickListener {
+                finish()
+            }
+            view.saveChangePositiveButton.setOnClickListener {
+                returnFoods()
+                dialog.dismiss()
+            }
+            dialog.show()
+        }
     }
 
 }

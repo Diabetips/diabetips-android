@@ -38,7 +38,7 @@ class MealRecipeItemViewHolder(inflater: LayoutInflater, parent: ViewGroup)
         itemView.setOnClickListener {onItemClickListener?.invoke(recipe)}
         //mealRecipeQuantity?.text = recipe.quantity.toString() + recipe.unit //TODO add unit and quantity in recipes
         if (mealRecipeImage != null) {
-            ImageHandler.instance.loadImage(mealRecipeImage!!, context, RecipeService.instance.getRecipePictureUrl(recipe.recipe.id), R.drawable.ic_unknown, false)
+            ImageHandler.instance.loadImage(mealRecipeImage!!, context, RecipeService.instance.getPictureUrl(recipe.recipe.id), R.drawable.ic_unknown, false)
         }
     }
 }

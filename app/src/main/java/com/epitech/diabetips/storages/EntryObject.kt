@@ -24,7 +24,7 @@ data class EntryObject (
         time = meal.timestamp,
         icon = context.getDrawable(R.drawable.ic_fork)) {
             type = Type.MEAL
-            icon?.setTint(ContextCompat.getColor(context, R.color.colorPrimary));
+            icon?.setTint(ContextCompat.getColor(context, R.color.colorPrimary))
     }
 
     constructor (insulin: InsulinObject, context: Context) : this(

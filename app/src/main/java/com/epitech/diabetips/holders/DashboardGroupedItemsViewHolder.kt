@@ -25,8 +25,8 @@ class DashboardGroupedItemsViewHolder (var inflater: LayoutInflater, var parent:
         var activated: Boolean = false,
         var resetDisplay: Boolean = true)
 
-    private var date: String = "OUI";
-    private var items: List<EntryObject> = arrayListOf();
+    private var date: String = "OUI"
+    private var items: List<EntryObject> = arrayListOf()
     var recyclerView : RecyclerView = itemView.findViewById(R.id.rv_dashboard_expanded_items)
     var topbar: LinearLayout = itemView.day_dashboard_recap
     var more: ImageView = itemView.imageView2

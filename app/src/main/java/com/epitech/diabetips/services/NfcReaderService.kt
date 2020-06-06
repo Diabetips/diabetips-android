@@ -10,6 +10,7 @@ import android.nfc.NfcAdapter
 import android.nfc.Tag
 import android.nfc.tech.NfcV
 import android.os.AsyncTask
+import android.os.Looper
 import android.os.Vibrator
 import android.util.Log
 import android.widget.TextView
@@ -24,7 +25,7 @@ import java.util.*
 import kotlin.experimental.and
 
 var NFC_USE_MULTI_BLOCK_READ = true
-var PENDING_INTENT_TECH_DISCOVERED = 1;
+var PENDING_INTENT_TECH_DISCOVERED = 1
 
 class NfcReaderService(var context: Context, myIntent: Intent, var activity: Activity, private val GlucoseUpdated: () -> Unit) {
     val MIME_TEXT_PLAIN = "text/plain"
@@ -158,12 +159,12 @@ class NfcReaderService(var context: Context, myIntent: Intent, var activity: Act
         override fun onPostExecute(result: String?) {
             val vibrator = context.getSystemService(VIBRATOR_SERVICE) as Vibrator
             vibrator.vibrate(1000)
-            //Abbott.this.finish();
+            //Abbott.this.finish()
         }
 
         fun bytesToHexString(src: ByteArray?): String {
             val builder = StringBuilder("")
-            if (src == null || src.size <= 0) {
+            if (src == null || src.isEmpty()) {
                 return ""
             }
             val buffer = CharArray(2)
@@ -178,6 +179,7 @@ class NfcReaderService(var context: Context, myIntent: Intent, var activity: Act
 
 
         override fun doInBackground(vararg params: Tag?): String? {
+            Looper.prepare()
             val tag = params[0]
             val nfcvTag = NfcV.get(tag)
             Log.d("Diabetips", "Enter NdefReaderTask: $nfcvTag")

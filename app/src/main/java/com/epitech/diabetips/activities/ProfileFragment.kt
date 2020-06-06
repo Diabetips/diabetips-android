@@ -14,13 +14,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.Toast
-import com.epitech.diabetips.managers.AccountManager
+import com.epitech.diabetips.managers.UserManager
 import com.epitech.diabetips.R
 import com.epitech.diabetips.adapters.DropdownAdapter
 import com.epitech.diabetips.managers.AuthManager
 import com.epitech.diabetips.services.BiometricService
 import com.epitech.diabetips.services.UserService
-import com.epitech.diabetips.storages.AccountObject
+import com.epitech.diabetips.storages.UserObject
 import com.epitech.diabetips.storages.BiometricObject
 import com.epitech.diabetips.textWatchers.EmailWatcher
 import com.epitech.diabetips.textWatchers.InputWatcher
@@ -76,7 +76,7 @@ class ProfileFragment : NavigationFragment(FragmentType.PROFILE), DatePickerDial
             }
             dialogView.logoutPositiveButton.setOnClickListener {
                 dialog.dismiss()
-                AccountManager.instance.removePreferences(requireContext())
+                UserManager.instance.removePreferences(requireContext())
                 AuthManager.instance.removePreferences(requireContext())
                 Toast.makeText(context, getString(R.string.logout), Toast.LENGTH_SHORT).show()
                 activity?.finish()
@@ -93,7 +93,7 @@ class ProfileFragment : NavigationFragment(FragmentType.PROFILE), DatePickerDial
             }
             dialogView.deactivateAccountPositiveButton.setOnClickListener {
                 dialog.dismiss()
-                UserService.instance.deactivateAccount().doOnSuccess {
+                UserService.instance.remove<UserObject>("me").doOnSuccess {
                     if (it.second.component2() == null) {
                         AuthManager.instance.removePreferences(requireContext())
                         Toast.makeText(context, getString(R.string.deactivated), Toast.LENGTH_SHORT).show()
@@ -123,10 +123,10 @@ class ProfileFragment : NavigationFragment(FragmentType.PROFILE), DatePickerDial
             }
             dialogView.deletePictureButton.setOnClickListener {
                 loading = true
-                UserService.instance.removePicture().doOnSuccess {
+                UserService.instance.removePicture<UserObject>("me").doOnSuccess {
                     if (it.second.component2() == null) {
                         Toast.makeText(requireContext(), R.string.remove_profile_picture, Toast.LENGTH_SHORT).show()
-                        setAccountInfo(AccountManager.instance.getAccount(requireContext()))
+                        setAccountInfo(UserManager.instance.getUser(requireContext()))
                     } else {
                         Toast.makeText(requireContext(), it.second.component2()!!.exception.message, Toast.LENGTH_SHORT).show()
                     }
@@ -143,15 +143,15 @@ class ProfileFragment : NavigationFragment(FragmentType.PROFILE), DatePickerDial
     }
 
     private fun getAccountInfo(view: View? = this.view) {
-        val account = AccountManager.instance.getAccount(requireContext())
+        val account = UserManager.instance.getUser(requireContext())
         if (account.uid != "") {
             setAccountInfo(account, view)
-            setBiometricInfo(AccountManager.instance.getBiometric(requireContext()), view)
+            setBiometricInfo(UserManager.instance.getBiometric(requireContext()), view)
         } else {
             loading = true
-            UserService.instance.getUser().doOnSuccess {
+            UserService.instance.get<UserObject>("me").doOnSuccess {
                 if (it.second.component2() == null) {
-                    AccountManager.instance.saveAccount(requireContext(), it.second.component1()!!)
+                    UserManager.instance.saveUser(requireContext(), it.second.component1()!!)
                     setAccountInfo(it.second.component1()!!, view)
                     getBiometricInfo(view)
                 } else {
@@ -164,9 +164,9 @@ class ProfileFragment : NavigationFragment(FragmentType.PROFILE), DatePickerDial
 
     private fun getBiometricInfo(view: View? = this.view) {
         loading = true
-        BiometricService.instance.getUserBiometric().doOnSuccess {
+        BiometricService.instance.get<BiometricObject>().doOnSuccess {
             if (it.second.component2() == null) {
-                AccountManager.instance.saveBiometric(requireContext(), it.second.component1()!!)
+                UserManager.instance.saveBiometric(requireContext(), it.second.component1()!!)
                 setBiometricInfo(it.second.component1()!!, view)
             } else {
                 Toast.makeText(context, it.second.component2()!!.exception.message, Toast.LENGTH_SHORT).show()
@@ -175,7 +175,7 @@ class ProfileFragment : NavigationFragment(FragmentType.PROFILE), DatePickerDial
         }.subscribe()
     }
 
-    private fun setAccountInfo(account: AccountObject, view: View? = this.view) {
+    private fun setAccountInfo(account: UserObject, view: View? = this.view) {
         view?.firstNameProfileInput?.setText(account.first_name)
         view?.nameProfileInput?.setText(account.last_name)
         view?.emailProfileInput?.setText(account.email)
@@ -195,17 +195,17 @@ class ProfileFragment : NavigationFragment(FragmentType.PROFILE), DatePickerDial
 
     private fun updateProfile() {
         if (validateFields()) {
-            val account: AccountObject = AccountManager.instance.getAccount(requireContext())
-            account.last_name = view?.nameProfileInput?.text.toString()
-            account.first_name = view?.firstNameProfileInput?.text.toString()
-            account.email = view?.emailProfileInput?.text.toString()
+            val user: UserObject = UserManager.instance.getUser(requireContext())
+            user.last_name = view?.nameProfileInput?.text.toString()
+            user.first_name = view?.firstNameProfileInput?.text.toString()
+            user.email = view?.emailProfileInput?.text.toString()
             if (view?.newPasswordInput?.text.toString().isNotEmpty()) {
-                account.password = view?.newPasswordInput?.text.toString()
+                user.password = view?.newPasswordInput?.text.toString()
             }
             loading = true
-            UserService.instance.updateUser(account).doOnSuccess {
+            UserService.instance.update(user, "me").doOnSuccess {
                 if (it.second.component2() == null) {
-                    AccountManager.instance.saveAccount(requireContext(), it.second.component1()!!)
+                    UserManager.instance.saveUser(requireContext(), it.second.component1()!!)
                     updateBiometric()
                 } else {
                     Toast.makeText(context, it.second.component2()!!.exception.message, Toast.LENGTH_SHORT).show()
@@ -216,7 +216,7 @@ class ProfileFragment : NavigationFragment(FragmentType.PROFILE), DatePickerDial
     }
 
     private fun updateBiometric() {
-        val biometric: BiometricObject = AccountManager.instance.getBiometric(requireContext())
+        val biometric: BiometricObject = UserManager.instance.getBiometric(requireContext())
         biometric.height = view?.heightProfileInput?.text.toString().toIntOrNull()
         biometric.mass = view?.weightProfileInput?.text.toString().toIntOrNull()
         biometric.date_of_birth = TimeHandler.instance.changeTimeFormat(
@@ -226,9 +226,9 @@ class ProfileFragment : NavigationFragment(FragmentType.PROFILE), DatePickerDial
         biometric.setSex(requireContext(), view?.sexProfileDropdown?.text.toString())
         biometric.setDiabetesType(requireContext(), view?.diabetesTypeProfileDropdown?.text.toString())
         loading = true
-        BiometricService.instance.updateUserBiometric(biometric).doOnSuccess {
+        BiometricService.instance.update(biometric).doOnSuccess {
             if (it.second.component2() == null) {
-                AccountManager.instance.saveBiometric(requireContext(), it.second.component1()!!)
+                UserManager.instance.saveBiometric(requireContext(), it.second.component1()!!)
                 Toast.makeText(context, getString(R.string.update_profile), Toast.LENGTH_SHORT).show()
             } else {
                 Toast.makeText(context, it.second.component2()!!.exception.message, Toast.LENGTH_SHORT).show()
@@ -252,7 +252,7 @@ class ProfileFragment : NavigationFragment(FragmentType.PROFILE), DatePickerDial
 
     private fun changeProfilePicture(image: Bitmap) {
         loading = true
-        UserService.instance.updatePicture(image).doOnSuccess {
+        UserService.instance.updatePicture<UserObject>(image, "me").doOnSuccess {
             if (it.second.component2() == null) {
                 view?.imagePhotoProfile?.setImageBitmap(image)
                 Toast.makeText(context, R.string.update_profile_picture, Toast.LENGTH_SHORT).show()

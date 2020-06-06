@@ -102,6 +102,9 @@ class NewMealActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener,
         saveNewMealButton.setOnClickListener {
             saveMeal()
         }
+        validateNewMealButton.setOnClickListener {
+            saveMeal(true)
+        }
         closeNewMealButton.setOnClickListener {
             onBackPressed()
         }
@@ -127,7 +130,7 @@ class NewMealActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener,
         if (meal.recipes.isNullOrEmpty() && meal.foods.isNullOrEmpty()) {
             Toast.makeText(this, getString(R.string.meal_empty), Toast.LENGTH_SHORT).show()
         } else {
-            MealService.instance.createOrUpdateUserMeal(meal).doOnSuccess {
+            MealService.instance.createOrUpdate(meal, meal.id).doOnSuccess {
                 if (it.second.component2() == null) {
                     saved = true
                     mealId = it.second.component1()?.id!!
@@ -148,7 +151,7 @@ class NewMealActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener,
             (recipeList.adapter as MealRecipeAdapter).getRecipes().toTypedArray(),
             (mealFoodList.adapter as RecipeFoodAdapter).getFoods().toTypedArray())
         meal.calculateTotalSugar()
-        return meal;
+        return meal
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

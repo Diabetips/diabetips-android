@@ -93,7 +93,7 @@ class RecipeActivity : AppCompatActivity() {
             page.reset()
         else
             page.nextPage()
-        RecipeService.instance.getAllRecipes(page, recipeSearchView.query.toString()).doOnSuccess {
+        RecipeService.instance.getAll<RecipeObject>(page, recipeSearchView.query.toString()).doOnSuccess {
             if (it.second.component2() == null) {
                 page.updateFromHeader(it.first.headers[getString(R.string.pagination_header)]?.get(0))
                 if (resetPage)

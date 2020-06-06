@@ -31,7 +31,7 @@ class RecipeItemViewHolder(inflater: LayoutInflater, parent: ViewGroup)
         recipeDescription?.text = recipe.description
         itemView.setOnClickListener {onItemClickListener?.invoke(recipe)}
         if (recipeImage != null) {
-            ImageHandler.instance.loadImage(recipeImage!!, context, RecipeService.instance.getRecipePictureUrl(recipe.id), R.drawable.ic_unknown, false)
+            ImageHandler.instance.loadImage(recipeImage!!, context, RecipeService.instance.getPictureUrl(recipe.id), R.drawable.ic_unknown, false)
         }
     }
 }

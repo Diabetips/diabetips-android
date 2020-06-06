@@ -2,11 +2,10 @@ package com.epitech.diabetips
 
 import android.content.Context
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.recyclerview.widget.RecyclerView
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import com.epitech.diabetips.adapters.*
-import com.epitech.diabetips.managers.AccountManager
+import com.epitech.diabetips.managers.UserManager
 import com.epitech.diabetips.managers.AuthManager
 import com.epitech.diabetips.managers.ModeManager
 import com.epitech.diabetips.storages.*
@@ -14,7 +13,6 @@ import org.junit.Assert.*
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.Before
-import java.util.*
 
 /**
  * Instrumented test, which will execute on an Android device.
@@ -63,35 +61,35 @@ class InstrumentedUnitTest {
 
     @Test
     fun saveAndGetAccount() {
-        val expectedAccount = AccountObject("nom.prenom@email.com", "password", "NOM", "Prénom")
-        AccountManager.instance.saveAccount(instrumentationContext, expectedAccount)
-        val actualAccount =  AccountManager.instance.getAccount(instrumentationContext)
+        val expectedAccount = UserObject("nom.prenom@email.com", "password", "NOM", "Prénom")
+        UserManager.instance.saveUser(instrumentationContext, expectedAccount)
+        val actualAccount =  UserManager.instance.getUser(instrumentationContext)
         assertEquals("Wrong account.", expectedAccount, actualAccount)
     }
 
     @Test
     fun removeAccount() {
-        val expectedAccount = AccountObject("nom.prenom@email.com", "password", "NOM", "Prénom")
-        AccountManager.instance.saveAccount(instrumentationContext, expectedAccount)
-        AccountManager.instance.removeAccount(instrumentationContext)
-        val actualAccount =  AccountManager.instance.getAccount(instrumentationContext)
+        val expectedAccount = UserObject("nom.prenom@email.com", "password", "NOM", "Prénom")
+        UserManager.instance.saveUser(instrumentationContext, expectedAccount)
+        UserManager.instance.removeUser(instrumentationContext)
+        val actualAccount =  UserManager.instance.getUser(instrumentationContext)
         assertNotEquals("Wrong account.", expectedAccount, actualAccount)
     }
 
     @Test
     fun saveAndGetBiometric() {
         val expectedBiometric = BiometricObject(80, 175, "2020-10-05", "male")
-        AccountManager.instance.saveBiometric(instrumentationContext, expectedBiometric)
-        val actualBiometric =  AccountManager.instance.getBiometric(instrumentationContext)
+        UserManager.instance.saveBiometric(instrumentationContext, expectedBiometric)
+        val actualBiometric =  UserManager.instance.getBiometric(instrumentationContext)
         assertEquals("Wrong account.", expectedBiometric, actualBiometric)
     }
 
     @Test
     fun removeBiometric() {
         val expectedBiometric = BiometricObject(80, 175, "2020-10-05", "male")
-        AccountManager.instance.saveBiometric(instrumentationContext, expectedBiometric)
-        AccountManager.instance.removeBiometric(instrumentationContext)
-        val actualBiometric =  AccountManager.instance.getBiometric(instrumentationContext)
+        UserManager.instance.saveBiometric(instrumentationContext, expectedBiometric)
+        UserManager.instance.removeBiometric(instrumentationContext)
+        val actualBiometric =  UserManager.instance.getBiometric(instrumentationContext)
         assertNotEquals("Wrong account.", expectedBiometric, actualBiometric)
     }
 

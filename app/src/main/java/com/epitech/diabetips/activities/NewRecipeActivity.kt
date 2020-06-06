@@ -83,7 +83,7 @@ class NewRecipeActivity : AppCompatActivity() {
                     loadImage()
                     dialog.dismiss()
                 }
-                RecipeService.instance.removeRecipePicture(recipe.id).doOnSuccess {
+                RecipeService.instance.remove<RecipeObject>(recipe.id).doOnSuccess {
                     if (it.second.component2() == null) {
                         changedPicture = false
                         loadImage()
@@ -133,6 +133,9 @@ class NewRecipeActivity : AppCompatActivity() {
         saveNewRecipeButton.setOnClickListener {
             saveRecipe()
         }
+        validateNewRecipeButton.setOnClickListener {
+            saveRecipe(true)
+        }
         closeNewRecipeButton.setOnClickListener {
             onBackPressed()
         }
@@ -168,7 +171,7 @@ class NewRecipeActivity : AppCompatActivity() {
     private fun saveRecipe(finishView: Boolean = false) {
         if (validateFields()) {
             if (activityMode == ActivityMode.RECIPE) {
-                RecipeService.instance.createOrUpdateRecipe(getRecipe()).doOnSuccess {
+                RecipeService.instance.createOrUpdate(getRecipe(), recipe.id).doOnSuccess {
                     if (it.second.component2() == null) {
                         saved = true
                         recipe = it.second.component1()!!
@@ -225,7 +228,7 @@ class NewRecipeActivity : AppCompatActivity() {
 
     private fun saveRecipePicture(finishView: Boolean = false) {
         val image: Bitmap = imagePhotoRecipe.drawToBitmap()
-        RecipeService.instance.updateRecipePicture(image, recipe.id).doOnSuccess {
+        RecipeService.instance.updatePicture<RecipeObject>(image, recipe.id).doOnSuccess {
             if (it.second.component2() == null) {
                 changedPicture = false
                 Toast.makeText(this, R.string.saved_change, Toast.LENGTH_SHORT).show()
@@ -244,7 +247,7 @@ class NewRecipeActivity : AppCompatActivity() {
     }
 
     private fun loadImage() {
-        ImageHandler.instance.loadImage(imagePhotoRecipe as ImageView,this, RecipeService.instance.getRecipePictureUrl(recipe.id), R.drawable.ic_unknown, false)
+        ImageHandler.instance.loadImage(imagePhotoRecipe as ImageView,this, RecipeService.instance.getPictureUrl(recipe.id), R.drawable.ic_unknown, false)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

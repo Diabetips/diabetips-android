@@ -37,7 +37,7 @@ class RecipeFoodItemViewHolder(inflater: LayoutInflater, parent: ViewGroup)
         recipeFoodQuantity?.text = "${food.quantity} ${food.food.unit}"
         itemView.setOnClickListener {onItemClickListener?.invoke(food, recipeFoodQuantity)}
         if (recipeFoodImage != null) {
-            ImageHandler.instance.loadImage(recipeFoodImage!!, context, FoodService.instance.getFoodPictureUrl(food.food.id), R.drawable.ic_food)
+            ImageHandler.instance.loadImage(recipeFoodImage!!, context, FoodService.instance.getPictureUrl(food.food.id), R.drawable.ic_food)
         }
     }
 }

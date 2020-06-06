@@ -52,7 +52,7 @@ class HomeFragment : NavigationFragment(FragmentType.HOME) {
     }
 
     private fun updateChart() {
-        val cur = TimeHandler.instance.currentTimeSecond();
+        val cur = TimeHandler.instance.currentTimeSecond()
         entriesManager.getPage()?.setInterval(cur - TimeHandler.instance.dayInSecond, cur)
         entriesManager.updatePages()
         entriesManager.getItems()

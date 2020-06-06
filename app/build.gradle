@@ -30,8 +30,8 @@ android {
     testOptions {
         unitTests.returnDefaultValues = true
     }
-    dataBinding {
-        enabled true
+    buildFeatures {
+        dataBinding = true
     }
 }
 

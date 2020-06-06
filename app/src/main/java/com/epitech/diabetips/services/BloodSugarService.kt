@@ -1,6 +1,7 @@
 package com.epitech.diabetips.services
 
-import com.epitech.diabetips.storages.*
+import com.epitech.diabetips.storages.BloodSugarObject
+import com.epitech.diabetips.storages.PaginationObject
 
 class BloodSugarService : AService("/users/me/blood_sugar") {
 

@@ -19,6 +19,7 @@ import org.threeten.bp.Instant
 import org.threeten.bp.LocalDateTime
 import org.threeten.bp.ZoneOffset
 import org.threeten.bp.temporal.ChronoUnit
+import kotlin.math.abs
 
 class ChartHandler {
 
@@ -52,7 +53,7 @@ class ChartHandler {
     }
 
     fun updateChartData(items: List<EntryObject>, intervalTimeStamp: Pair<Long, Long>, lineChart: LineChart, context: Context) {
-        val formatter = HoursFormatter(intervalTimeStamp, context);
+        val formatter = HoursFormatter(intervalTimeStamp, context)
         lineChart.xAxis.valueFormatter = formatter
 
         val lineData = LineData()
@@ -70,7 +71,7 @@ class ChartHandler {
         val punctualInfo = mapOf(
             EntryObject.Type.MEAL to ContextCompat.getColor(context, R.color.colorPrimary),
             EntryObject.Type.INSULIN_FAST to ContextCompat.getColor(context, R.color.colorAccent),
-            EntryObject.Type.INSULIN_SLOW to ContextCompat.getColor(context, R.color.colorAccent),
+            EntryObject.Type.INSULIN_SLOW to ContextCompat.getColor(context, R.color.colorAccentLight),
             EntryObject.Type.COMMENT to ContextCompat.getColor(context, R.color.colorBackgroundDarkLight))
         for (info in punctualInfo) {
             val filteredItems: List<EntryObject> = items.filter{ it.type == info.key}
@@ -108,7 +109,7 @@ class ChartHandler {
             lastValue = value
         }
         chunks.add(bloodValues.takeLast(bloodValues.size - lastChunkIndex))
-        return chunks;
+        return chunks
     }
 
     fun generatePonctualDataset(items: List<EntryObject>, intervalTimeStamp: Pair<Long, Long>, color: Int): LineDataSet? {
@@ -171,7 +172,7 @@ class ChartHandler {
 
 class HoursFormatter(private val intervalTimeStamp: Pair<Long, Long>, context: Context) : ValueFormatter() {
 
-    public var labels = mutableMapOf<Float, String>()
+    var labels = mutableMapOf<Float, String>()
     private var lastTimeValue = (intervalTimeStamp.second - intervalTimeStamp.first).toFloat()
 
     init {
@@ -185,7 +186,7 @@ class HoursFormatter(private val intervalTimeStamp: Pair<Long, Long>, context: C
                 val timestamp = time!!.toInstant(ZoneOffset.UTC).toEpochMilli() / 1000
                 val index: Float = (timestamp - intervalTimeStamp.first).toFloat()
                 val label: String = TimeHandler.instance.formatTimestamp(timestamp, context.getString(R.string.format_hour_24))
-                labels.put(index, label);
+                labels[index] = label
             }
         }
     }
@@ -200,9 +201,9 @@ class HoursFormatter(private val intervalTimeStamp: Pair<Long, Long>, context: C
 
     fun findClosest(value: Float): String {
         var min = lastTimeValue
-        var chosen = "";
+        var chosen = ""
         for (item in labels) {
-            val diff = Math.abs(item.key - value)
+            val diff = abs(item.key - value)
             if (diff < min) {
                 chosen = item.value
                 min = diff
@@ -216,8 +217,8 @@ class HoursFormatter(private val intervalTimeStamp: Pair<Long, Long>, context: C
     ): List<LocalDateTime?>? {
 
         val numOfHoursBetween: Long = ChronoUnit.HOURS.between(startDate, endDate)
-        var date = startDate.minusMinutes(startDate.minute.toLong());
-        date = date.minusSeconds(startDate.second.toLong());
+        var date = startDate.minusMinutes(startDate.minute.toLong())
+        date = date.minusSeconds(startDate.second.toLong())
         return MutableList(numOfHoursBetween.toInt()) {index -> index}.map{date.plusHours(it.toLong() + 1)}
     }
 }

@@ -168,8 +168,8 @@
     <!--login / sign up errors end-->
 
     <!--meal / recipe / food errors start-->
-    <string name="meal_empty">Meal must have at least 1 recipe</string>
-    <string name="meal_recipe_empty">No recipe yet, add some with the button below</string>
+    <string name="meal_empty">Meal must not be empty</string>
+    <string name="meal_recipe_empty">No recipe yet, add some with the button below.</string>
     <string name="recipe_empty">Recipe must have at least 1 ingredient</string>
     <string name="recipe_food_empty">No food yet, add some with the button below</string>
     <string name="recipe_name_empty">Recipe name mustn\'t be empty</string>

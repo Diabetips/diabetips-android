@@ -24,7 +24,7 @@
     <string name="login_invalid">Invalid email or password</string>
     <string name="recipe_empty">Recipe must have at least 1 ingredient</string>
     <string name="recipe_name_empty">Recipe name mustn\'t be empty</string>
-    <string name="meal_empty">Meal must have at least 1 recipe</string>
+    <string name="meal_empty">Meal must not be empty</string>
     <string name="view_meal">My meals</string>
     <string name="view_recipe">Recipes</string>
     <string name="description">Description</string>
@@ -46,7 +46,7 @@
     <string name="update_profile_picture">Profile picture updated</string>
     <string name="registration_incomplete">Email address not confirmed</string>
     <string name="logout">Logged out</string>
-    <string name="meal_recipe_empty">No recipe yet, add some with the button below</string>
+    <string name="meal_recipe_empty">No recipe yet, add some with the button below.</string>
     <string name="recipe_food_empty">No food yet, add some with the button below</string>
     <string name="meal_recipe_subtitle">Recipes</string>
     <string name="meal_title">My meal</string>

@@ -76,12 +76,10 @@ class FoodAdapter(private val foods: ArrayList<FoodObject> = arrayListOf(),
         holder.bind(foods[position], getSelectedIngredient(foods[position]) != null, onItemClickListener)
         holder.getFoodCheckBox()?.setOnClickListener { checkBoxView ->
             val checkBox = checkBoxView as CheckBox
-            if (checkBox.isChecked) {
-                holder.getFoodCheckBox()?.isChecked = false
-                onItemClickListener?.invoke(foods[position], holder.getFoodCheckBox()!!)
-            } else {
+            if (!checkBox.isChecked) {
                 removeSelectedIngredient(foods[position])
             }
+            onItemClickListener?.invoke(foods[position], holder.getFoodCheckBox()!!)
         }
     }
 

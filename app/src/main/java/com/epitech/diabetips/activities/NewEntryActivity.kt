@@ -158,7 +158,7 @@ class NewEntryActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener
     private fun saveInsulin(insulin: InsulinObject, finishView: Boolean = false) {
         val objectType: ObjectType = if (insulin.type == InsulinObject.Type.slow.name) ObjectType.SLOW_INSULIN else ObjectType.FAST_INSULIN
         objects[objectType] = objects[ObjectType.SLOW_INSULIN]!!.copy(third = true)
-        InsulinService.instance.createOrUpdateUserInsulin(insulin).doOnSuccess {
+        InsulinService.instance.createOrUpdate(insulin, insulin.id).doOnSuccess {
             if (it.second.component2() == null) {
                 objects[objectType] = Triple<Int, Boolean?, Boolean>(it.second.component1()?.id!!, true, false)
                 displaySavedMessage(finishView)
@@ -172,7 +172,7 @@ class NewEntryActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener
     private fun saveNote(finishView: Boolean = false) {
         objects[ObjectType.NOTE] = objects[ObjectType.NOTE]!!.copy(third = true)
         val note = NoteObject(objects[ObjectType.NOTE]!!.first, commentEntryInput.text.toString(), entryTimestamp)
-        NoteService.instance.createOrUpdateUserNote(note).doOnSuccess {
+        NoteService.instance.createOrUpdate(note, note.id).doOnSuccess {
             if (it.second.component2() == null) {
                 objects[ObjectType.NOTE] = Triple<Int, Boolean?, Boolean>(it.second.component1()?.id!!, true, false)
                 displaySavedMessage(finishView)
@@ -187,7 +187,7 @@ class NewEntryActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener
         objects[ObjectType.NOTE] = objects[ObjectType.NOTE]!!.copy(third = true)
         val event = EventObject(objects[ObjectType.EVENT]!!.first, "Activité Physique", entryTimestamp,
             entryTimestamp + (physicalActivityEntryInput.text.toString().toIntOrNull()?: 0) * 60)
-        EventService.instance.createOrUpdateUserEvent(event).doOnSuccess {
+        EventService.instance.createOrUpdate(event, event.id).doOnSuccess {
             if (it.second.component2() == null) {
                 objects[ObjectType.EVENT] = Triple<Int, Boolean?, Boolean>(it.second.component1()?.id!!, true, false)
                 displaySavedMessage(finishView)
