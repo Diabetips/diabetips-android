@@ -8,7 +8,6 @@ import android.os.Bundle
 import android.util.Patterns
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import com.epitech.diabetips.R
 import com.epitech.diabetips.managers.UserManager
@@ -18,6 +17,7 @@ import com.epitech.diabetips.services.TokenService
 import com.epitech.diabetips.storages.UserObject
 import com.epitech.diabetips.textWatchers.EmailWatcher
 import com.epitech.diabetips.textWatchers.PasswordWatcher
+import com.epitech.diabetips.utils.ADiabetipsActivity
 import com.epitech.diabetips.utils.MaterialHandler
 import com.github.kittinunf.fuel.core.FuelManager
 import kotlinx.android.synthetic.main.activity_main.*
@@ -25,18 +25,11 @@ import kotlinx.android.synthetic.main.dialog_password_forgot.view.*
 import org.json.JSONObject
 import java.nio.charset.Charset
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : ADiabetipsActivity(R.layout.activity_main) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         AppCompatDelegate.setDefaultNightMode(ModeManager.instance.getDarkMode(this))
-        if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
-            setTheme(R.style.DarkTheme)
-        } else {
-            setTheme(R.style.AppTheme)
-        }
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        MaterialHandler.instance.handleTextInputLayoutSize(this.findViewById(android.R.id.content))
         FuelManager.instance.basePath = getString(R.string.api_base_url)
         FuelManager.instance.baseHeaders = mapOf("Content-Type" to "application/json; charset=utf-8")
         emailInput.addTextChangedListener(EmailWatcher(this, emailInputLayout))

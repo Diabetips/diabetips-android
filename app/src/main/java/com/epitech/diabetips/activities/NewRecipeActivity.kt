@@ -12,8 +12,6 @@ import android.provider.MediaStore
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.view.drawToBitmap
 import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -24,6 +22,7 @@ import com.epitech.diabetips.storages.IngredientObject
 import com.epitech.diabetips.storages.MealRecipeObject
 import com.epitech.diabetips.storages.RecipeObject
 import com.epitech.diabetips.textWatchers.InputWatcher
+import com.epitech.diabetips.utils.ADiabetipsActivity
 import com.epitech.diabetips.utils.DividerItemDecorator
 import com.epitech.diabetips.utils.ImageHandler
 import com.epitech.diabetips.utils.MaterialHandler
@@ -33,7 +32,7 @@ import kotlinx.android.synthetic.main.dialog_save_change.view.*
 import kotlinx.android.synthetic.main.dialog_select_quantity.view.*
 import java.io.InputStream
 
-class NewRecipeActivity : AppCompatActivity() {
+class NewRecipeActivity : ADiabetipsActivity(R.layout.activity_new_recipe) {
 
     enum class ActivityMode {RECIPE, MEAL_RECIPE}
     enum class RequestCode {SEARCH_FOOD, GET_IMAGE, GET_PHOTO}
@@ -44,14 +43,7 @@ class NewRecipeActivity : AppCompatActivity() {
     private var recipe = RecipeObject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
-            setTheme(R.style.DarkTheme)
-        } else {
-            setTheme(R.style.AppTheme)
-        }
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_new_recipe)
-        MaterialHandler.instance.handleTextInputLayoutSize(this.findViewById(android.R.id.content))
         newRecipeName.addTextChangedListener(InputWatcher(this, newRecipeNameLayout, true, R.string.recipe_name_empty))
         newRecipeName.addTextChangedListener {
             saved = false

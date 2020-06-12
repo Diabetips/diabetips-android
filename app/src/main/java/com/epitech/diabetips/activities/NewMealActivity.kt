@@ -8,8 +8,6 @@ import android.os.Bundle
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.app.AppCompatDelegate
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.epitech.diabetips.R
 import com.epitech.diabetips.adapters.MealRecipeAdapter
@@ -19,16 +17,14 @@ import com.epitech.diabetips.storages.IngredientObject
 import com.epitech.diabetips.storages.MealObject
 import com.epitech.diabetips.storages.MealRecipeObject
 import com.epitech.diabetips.storages.RecipeObject
-import com.epitech.diabetips.utils.DividerItemDecorator
-import com.epitech.diabetips.utils.MaterialHandler
-import com.epitech.diabetips.utils.TimeHandler
+import com.epitech.diabetips.utils.*
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog
 import kotlinx.android.synthetic.main.activity_new_meal.*
 import kotlinx.android.synthetic.main.dialog_save_change.view.*
 import kotlinx.android.synthetic.main.dialog_select_quantity.view.*
 
-class NewMealActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
+class NewMealActivity : ADiabetipsActivity(R.layout.activity_new_meal), DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
 
     enum class RequestCode {SEARCH_RECIPE, EDIT_RECIPE, SEARCH_FOOD}
 
@@ -37,14 +33,7 @@ class NewMealActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener,
     private var mealTimestamp: Long = TimeHandler.instance.currentTimeSecond()
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
-            setTheme(R.style.DarkTheme)
-        } else {
-            setTheme(R.style.AppTheme)
-        }
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_new_meal)
-        MaterialHandler.instance.handleTextInputLayoutSize(this.findViewById(android.R.id.content))
         newMealTimeDate.setOnClickListener {
             TimeHandler.instance.getDatePickerDialog(this, this, mealTimestamp).show(supportFragmentManager, "DatePickerDialog")
         }
@@ -52,7 +41,9 @@ class NewMealActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener,
             TimeHandler.instance.getTimePickerDialog(this, this, mealTimestamp).show(supportFragmentManager, "TimePickerDialog")
         }
         addRecipeButton.setOnClickListener {
-            startActivityForResult(Intent(this, RecipeActivity::class.java), RequestCode.SEARCH_RECIPE.ordinal)
+            startActivityForResult(Intent(this, RecipeActivity::class.java)
+                .putExtra(getString(R.string.param_mode), IRecipe.ActivityMode.SELECT),
+                RequestCode.SEARCH_RECIPE.ordinal)
         }
         recipeList.apply {
             layoutManager = LinearLayoutManager(this@NewMealActivity)

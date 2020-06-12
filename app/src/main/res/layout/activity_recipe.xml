@@ -62,7 +62,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:visibility="visible"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/navigationRecipeLayout"
         app:layout_constraintTop_toBottomOf="@+id/recipeActionBar">
 
         <androidx.recyclerview.widget.RecyclerView
@@ -82,7 +82,7 @@
         android:layout_height="wrap_content"
         android:visibility="gone"
         android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/navigationRecipeLayout"
         app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.card.MaterialCardView
@@ -116,5 +116,13 @@
             android:layout_marginTop="@dimen/negative_margin_size"/>
 
     </LinearLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/navigationRecipeLayout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/navigation_height"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        style="@style/ClearBackgroundTheme"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

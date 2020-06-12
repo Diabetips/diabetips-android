@@ -5,7 +5,7 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".activities.ProfileFragment"
+        tools:context=".fragments.ProfileFragment"
         style="@style/ClearBackgroundTheme">
 
     <View
@@ -25,7 +25,16 @@
         android:text="@string/profile_title"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-    
+
+    <ImageButton
+        android:id="@+id/settingsButton"
+        style="@style/ImageButtonTransparentAltTheme"
+        android:layout_margin="@dimen/half_margin_size"
+        android:contentDescription="@string/placeholder_text"
+        android:src="@drawable/ic_settings"
+        app:layout_constraintEnd_toStartOf="@+id/logoutButton"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <ImageButton
         android:id="@+id/logoutButton"
         style="@style/ImageButtonTransparentAltTheme"
@@ -54,9 +63,8 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:elevation="-1dp"
-        android:layout_marginBottom="@dimen/navigation_height"
         app:layout_constraintTop_toBottomOf="@+id/imagePhotoProfile"
-        app:layout_constraintBottom_toBottomOf="parent">
+        app:layout_constraintBottom_toTopOf="@id/navigationProfileLayout">
 
         <LinearLayout
             android:id="@+id/newMealLayout"

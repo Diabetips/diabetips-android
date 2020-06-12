@@ -5,7 +5,7 @@
     style="@style/ClearBackgroundTheme"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.DashboardActivity">
+    tools:context=".fragments.DashboardFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/DashboardActionBar"
@@ -21,6 +21,7 @@
             android:layout_marginStart="@dimen/half_margin_size"
             android:contentDescription="@string/placeholder_text"
             android:src="@drawable/ic_back"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -45,13 +46,21 @@
         android:layout_height="0dp"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/DashboardActionBar">
+        app:layout_constraintTop_toBottomOf="@+id/DashboardActionBar"
+        app:layout_constraintBottom_toTopOf="@id/navigationDashboardLayout">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/itemsList"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/navigationDashboardLayout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/navigation_height"
+        app:layout_constraintBottom_toBottomOf="parent"
+        style="@style/ClearBackgroundTheme"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

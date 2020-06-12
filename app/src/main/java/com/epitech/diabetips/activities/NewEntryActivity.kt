@@ -9,8 +9,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.app.AppCompatDelegate
 import com.epitech.diabetips.R
 import com.epitech.diabetips.services.EventService
 import com.epitech.diabetips.services.InsulinService
@@ -21,6 +19,7 @@ import com.epitech.diabetips.storages.InsulinObject
 import com.epitech.diabetips.storages.MealObject
 import com.epitech.diabetips.storages.NoteObject
 import com.epitech.diabetips.textWatchers.TextChangedWatcher
+import com.epitech.diabetips.utils.ADiabetipsActivity
 import com.epitech.diabetips.utils.MaterialHandler
 import com.epitech.diabetips.utils.TimeHandler
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog
@@ -28,7 +27,7 @@ import com.wdullaer.materialdatetimepicker.time.TimePickerDialog
 import kotlinx.android.synthetic.main.activity_new_entry.*
 import kotlinx.android.synthetic.main.dialog_save_change.view.*
 
-class NewEntryActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
+class NewEntryActivity : ADiabetipsActivity(R.layout.activity_new_entry), DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
 
     enum class RequestCode {NEW_MEAL, UPDATE_MEAL}
     enum class ObjectType {MEAL, SLOW_INSULIN, FAST_INSULIN, NOTE, EVENT}
@@ -38,14 +37,7 @@ class NewEntryActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener
     private var meal: MealObject = MealObject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
-            setTheme(R.style.DarkTheme)
-        } else {
-            setTheme(R.style.AppTheme)
-        }
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_new_entry)
-        MaterialHandler.instance.handleTextInputLayoutSize(this.findViewById(android.R.id.content))
         initObjectMap()
         addTextChangedListener()
         newEntryTimeDate.setOnClickListener {

@@ -137,7 +137,7 @@
                                 <PersistentState>
                                   <option name="values">
                                     <map>
-                                      <entry key="url" value="jar:file:/E:/Program%20Files/Android/Android%20Studio/plugins/android/lib/android.jar!/images/material_design_icons/action/ic_delete_black_24dp.xml" />
+                                      <entry key="url" value="jar:file:/E:/Program%20Files/Android/Android%20Studio/plugins/android/lib/android.jar!/images/material/icons/materialicons/dashboard/baseline_dashboard_24.xml" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -147,7 +147,7 @@
                         </option>
                         <option name="values">
                           <map>
-                            <entry key="outputName" value="ic_delete" />
+                            <entry key="outputName" value="ic_dashboard" />
                             <entry key="sourceFile" value="C:\Users\Out-Feu\Downloads\chat.svg" />
                           </map>
                         </option>

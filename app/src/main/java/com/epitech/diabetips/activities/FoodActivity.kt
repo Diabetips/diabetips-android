@@ -6,10 +6,7 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.ViewGroup
-import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.epitech.diabetips.R
@@ -18,27 +15,21 @@ import com.epitech.diabetips.services.FoodService
 import com.epitech.diabetips.storages.FoodObject
 import com.epitech.diabetips.storages.IngredientObject
 import com.epitech.diabetips.storages.PaginationObject
+import com.epitech.diabetips.utils.ADiabetipsActivity
 import com.epitech.diabetips.utils.MaterialHandler
 import com.epitech.diabetips.utils.PaginationScrollListener
 import kotlinx.android.synthetic.main.activity_food.*
 import kotlinx.android.synthetic.main.dialog_save_change.view.*
 import kotlinx.android.synthetic.main.dialog_select_quantity.view.*
 
-class FoodActivity : AppCompatActivity() {
+class FoodActivity : ADiabetipsActivity(R.layout.activity_food) {
 
     private var saved: Boolean? = null
     private lateinit var page: PaginationObject
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
-            setTheme(R.style.DarkTheme)
-        } else {
-            setTheme(R.style.AppTheme)
-        }
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_food)
         page = PaginationObject(resources.getInteger(R.integer.pagination_size), resources.getInteger(R.integer.pagination_default))
-        MaterialHandler.instance.handleTextInputLayoutSize(this.findViewById(android.R.id.content))
         closeFoodButton.setOnClickListener {
             onBackPressed()
         }

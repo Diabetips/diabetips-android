@@ -2,43 +2,39 @@ package com.epitech.diabetips.activities
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.Fragment
 import com.epitech.diabetips.R
+import com.epitech.diabetips.fragments.DashboardFragment
+import com.epitech.diabetips.fragments.HomeFragment
+import com.epitech.diabetips.fragments.ProfileFragment
+import com.epitech.diabetips.fragments.RecipeFragment
 import com.epitech.diabetips.services.NfcReaderService
 import com.epitech.diabetips.services.PENDING_INTENT_TECH_DISCOVERED
-import com.epitech.diabetips.utils.MaterialHandler
-import com.epitech.diabetips.utils.NavigationFragment
+import com.epitech.diabetips.utils.ADiabetipsActivity
+import com.epitech.diabetips.utils.ANavigationFragment
 import kotlinx.android.synthetic.main.activity_navigation.*
 
-class NavigationActivity : AppCompatActivity(), me.ibrahimsn.lib.OnItemSelectedListener  {
+class NavigationActivity : ADiabetipsActivity(R.layout.activity_navigation), me.ibrahimsn.lib.OnItemSelectedListener  {
 
-    var currentFragment: Fragment? = null
+    private var currentFragment: Fragment? = null
     var nfcReader: NfcReaderService? = null
+
     companion object {
-        var defaultFragmentSelect = NavigationFragment.FragmentType.HOME
+        var defaultFragmentSelect = ANavigationFragment.FragmentType.HOME
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
-            setTheme(R.style.DarkTheme)
-        } else {
-            setTheme(R.style.AppTheme)
-        }
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_navigation)
-        MaterialHandler.instance.handleTextInputLayoutSize(this.findViewById(android.R.id.content))
         smoothBottomBaBar.setOnItemSelectedListener(this)
         selectDefaultFragment()
         nfcReader = NfcReaderService(this, intent, this) {
-            NfcReaderUpdated()
+            nfcReaderUpdated()
         }
     }
 
-    private fun NfcReaderUpdated() {
+    private fun nfcReaderUpdated() {
         if (currentFragment != null &&
-            (currentFragment as NavigationFragment).fragmentType == NavigationFragment.FragmentType.HOME)
+            (currentFragment as ANavigationFragment).fragmentType == ANavigationFragment.FragmentType.HOME)
             (currentFragment as HomeFragment).entriesManager.getItems()
     }
 
@@ -60,25 +56,27 @@ class NavigationActivity : AppCompatActivity(), me.ibrahimsn.lib.OnItemSelectedL
     }
 
     override fun onItemSelect(pos: Int) : Boolean {
-        val fragment = supportFragmentManager.findFragmentById(R.id.navigationFragment) as NavigationFragment?
+        val fragment = supportFragmentManager.findFragmentById(R.id.navigationFragment) as ANavigationFragment?
         if (fragment != null && fragment.isLoading()) {
             smoothBottomBaBar.setActiveItem(fragment.fragmentType.ordinal)
             return false
         }
         when (pos) {
-            NavigationFragment.FragmentType.HOME.ordinal -> return loadFragment(HomeFragment())
-            NavigationFragment.FragmentType.PROFILE.ordinal -> return loadFragment(ProfileFragment())
-            NavigationFragment.FragmentType.SETTINGS.ordinal -> return loadFragment(SettingsFragment())
+            ANavigationFragment.FragmentType.HOME.ordinal -> return loadFragment(HomeFragment())
+            ANavigationFragment.FragmentType.DASHBOARD.ordinal -> return loadFragment(DashboardFragment())
+            ANavigationFragment.FragmentType.RECIPES.ordinal -> return loadFragment(RecipeFragment())
+            ANavigationFragment.FragmentType.PROFILE.ordinal -> return loadFragment(ProfileFragment())
+            ANavigationFragment.FragmentType.SETTINGS.ordinal -> return loadFragment(null)
         }
         return false
     }
 
-    fun setDefaultFragmentSelect(navigationFragment: NavigationFragment.FragmentType = NavigationFragment.FragmentType.HOME) {
+    fun setDefaultFragmentSelect(navigationFragment: ANavigationFragment.FragmentType = ANavigationFragment.FragmentType.HOME) {
         defaultFragmentSelect = navigationFragment
     }
 
     override fun onBackPressed() {
-        val fragment = supportFragmentManager.findFragmentById(R.id.navigationFragment) as NavigationFragment?
+        val fragment = supportFragmentManager.findFragmentById(R.id.navigationFragment) as ANavigationFragment?
         if (fragment != null && fragment.isLoading()) {
             return
         } else if (smoothBottomBaBar.getActiveItem() != defaultFragmentSelect.ordinal) {

@@ -6,12 +6,22 @@
         android:title="@string/home_title" />
 
     <item
+        android:id="@+id/navigationDashboard"
+        android:icon="@drawable/ic_dashboard"
+        android:title="@string/dashboard_title" />
+
+    <item
+        android:id="@+id/navigationRecipes"
+        android:icon="@drawable/ic_recipe"
+        android:title="@string/view_recipe" />
+
+    <item
         android:id="@+id/navigationProfile"
         android:icon="@drawable/ic_person"
         android:title="@string/profile_title" />
 
-    <item
+    <!--item
         android:id="@+id/navigationSettings"
         android:icon="@drawable/ic_settings"
-        android:title="@string/settings_title" />
+        android:title="@string/settings_title" /-->
 </menu>

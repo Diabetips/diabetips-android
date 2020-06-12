@@ -40,19 +40,12 @@
                 android:name="android.nfc.action.TECH_DISCOVERED"
                 android:resource="@xml/nfc_tech_filter" />
         </activity>
-        <activity android:name=".activities.HomeFragment" android:screenOrientation="portrait">
-        </activity>
-        <activity android:name=".activities.ProfileFragment" android:screenOrientation="portrait" />
-        <activity android:name=".activities.SettingsFragment" android:screenOrientation="portrait" />
-        <activity android:name=".activities.RecipeActivity" android:windowSoftInputMode="adjustPan" android:screenOrientation="portrait" />
         <activity android:name=".activities.FoodActivity" android:windowSoftInputMode="adjustPan" android:screenOrientation="portrait" />
-        <activity android:name=".activities.NewMealActivity" android:windowSoftInputMode="adjustPan" android:screenOrientation="portrait" />
+        <activity android:name=".activities.RecipeActivity" android:windowSoftInputMode="adjustPan" android:screenOrientation="portrait" />
         <activity android:name=".activities.NewEntryActivity" android:windowSoftInputMode="adjustPan" android:screenOrientation="portrait" />
+        <activity android:name=".activities.NewMealActivity" android:windowSoftInputMode="adjustPan" android:screenOrientation="portrait" />
         <activity android:name=".activities.NewRecipeActivity" android:windowSoftInputMode="adjustPan" android:screenOrientation="portrait" />
-        <activity
-            android:name=".activities.DashboardActivity"
-            android:screenOrientation="fullSensor"
-            android:windowSoftInputMode="adjustPan" />
+        <activity android:name=".activities.SettingsActivity" android:windowSoftInputMode="adjustPan" android:screenOrientation="portrait" />
     </application>
 
 </manifest>

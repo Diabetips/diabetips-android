@@ -5,7 +5,7 @@
     style="@style/ClearBackgroundTheme"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.HomeFragment">
+    tools:context=".fragments.HomeFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/homeActionBar"
@@ -30,6 +30,7 @@
             android:layout_marginEnd="@dimen/half_margin_size"
             android:contentDescription="@string/placeholder_text"
             android:src="@drawable/ic_recipe"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -104,7 +105,7 @@
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/quarter_margin_size"
+                        android:layout_marginStart="@dimen/quarter_margin_size"
                         android:gravity="center|center_horizontal"
                         android:background="#EFEFEF"
                         android:baselineAligned="true"
@@ -119,7 +120,7 @@
                             style="@style/SoftTextAppearance"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="@dimen/quarter_margin_size"
+                            android:layout_marginStart="@dimen/quarter_margin_size"
                             android:text="@string/meal">
 
                         </TextView>
@@ -128,7 +129,7 @@
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/quarter_margin_size"
+                        android:layout_marginStart="@dimen/quarter_margin_size"
                         android:background="#EFEFEF"
                         android:baselineAligned="true"
                         android:gravity="center|center_horizontal"
@@ -143,7 +144,7 @@
                             style="@style/SoftTextAppearance"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="@dimen/quarter_margin_size"
+                            android:layout_marginStart="@dimen/quarter_margin_size"
                             android:text="@string/insulin_fast">
 
                         </TextView>
@@ -153,7 +154,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center|center_horizontal"
-                        android:layout_marginLeft="@dimen/quarter_margin_size"
+                        android:layout_marginStart="@dimen/quarter_margin_size"
                         android:background="#EFEFEF"
                         android:baselineAligned="true"
                         android:orientation="horizontal">
@@ -168,7 +169,7 @@
                             style="@style/SoftTextAppearance"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="@dimen/quarter_margin_size"
+                            android:layout_marginStart="@dimen/quarter_margin_size"
                             android:text="@string/comment">
 
                         </TextView>
@@ -194,6 +195,7 @@
             android:layout_gravity="center"
             android:layout_marginTop="@dimen/half_margin_size"
             android:layout_marginBottom="@dimen/half_margin_size"
+            android:visibility="gone"
             android:orientation="vertical"
             android:text="@string/open_dashboard_button"
             tools:layout_marginTop="@dimen/half_margin_size" />

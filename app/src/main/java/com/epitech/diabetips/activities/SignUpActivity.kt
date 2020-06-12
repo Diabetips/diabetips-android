@@ -2,8 +2,6 @@ package com.epitech.diabetips.activities
 
 import android.os.Bundle
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.app.AppCompatDelegate
 import com.epitech.diabetips.R
 import com.epitech.diabetips.services.UserService
 import com.epitech.diabetips.storages.UserObject
@@ -11,21 +9,14 @@ import com.epitech.diabetips.textWatchers.EmailWatcher
 import com.epitech.diabetips.textWatchers.InputWatcher
 import com.epitech.diabetips.textWatchers.PasswordConfirmWatcher
 import com.epitech.diabetips.textWatchers.PasswordWatcher
-import com.epitech.diabetips.utils.MaterialHandler
+import com.epitech.diabetips.utils.ADiabetipsActivity
 import kotlinx.android.synthetic.main.activity_sign_up.*
 import java.net.HttpURLConnection.HTTP_CONFLICT
 
-class SignUpActivity : AppCompatActivity() {
+class SignUpActivity : ADiabetipsActivity(R.layout.activity_sign_up) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
-            setTheme(R.style.DarkTheme)
-        } else {
-            setTheme(R.style.AppTheme)
-        }
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_sign_up)
-        MaterialHandler.instance.handleTextInputLayoutSize(this.findViewById(android.R.id.content))
         firstNameInput.addTextChangedListener(InputWatcher(this, firstNameInputLayout, true, R.string.first_name_invalid_error))
         nameInput.addTextChangedListener(InputWatcher(this, nameInputLayout, true, R.string.name_invalid_error))
         emailInput.addTextChangedListener(EmailWatcher(this, emailInputLayout))

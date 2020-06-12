@@ -1,4 +1,4 @@
-package com.epitech.diabetips.activities
+package com.epitech.diabetips.fragments
 
 import android.app.Activity
 import android.app.AlertDialog
@@ -16,6 +16,7 @@ import android.widget.ImageView
 import android.widget.Toast
 import com.epitech.diabetips.managers.UserManager
 import com.epitech.diabetips.R
+import com.epitech.diabetips.activities.SettingsActivity
 import com.epitech.diabetips.adapters.DropdownAdapter
 import com.epitech.diabetips.managers.AuthManager
 import com.epitech.diabetips.services.BiometricService
@@ -26,27 +27,22 @@ import com.epitech.diabetips.textWatchers.EmailWatcher
 import com.epitech.diabetips.textWatchers.InputWatcher
 import com.epitech.diabetips.textWatchers.PasswordConfirmWatcher
 import com.epitech.diabetips.textWatchers.PasswordWatcher
-import com.epitech.diabetips.utils.ImageHandler
-import com.epitech.diabetips.utils.MaterialHandler
-import com.epitech.diabetips.utils.NavigationFragment
-import com.epitech.diabetips.utils.TimeHandler
+import com.epitech.diabetips.utils.*
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog
 import kotlinx.android.synthetic.main.dialog_change_picture.view.*
 import kotlinx.android.synthetic.main.dialog_deactivate_account.view.*
 import kotlinx.android.synthetic.main.dialog_logout.view.*
-import kotlinx.android.synthetic.main.fragment_profile.*
 import kotlinx.android.synthetic.main.fragment_profile.view.*
 import java.io.InputStream
 
-class ProfileFragment : NavigationFragment(FragmentType.PROFILE), DatePickerDialog.OnDateSetListener {
+class ProfileFragment : ANavigationFragment(FragmentType.PROFILE), DatePickerDialog.OnDateSetListener {
 
     enum class RequestCode { GET_IMAGE, GET_PHOTO }
 
     private var loading: Boolean = false
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.fragment_profile, container, false)
-        MaterialHandler.instance.handleTextInputLayoutSize(view as ViewGroup)
+        val view = createFragmentView(R.layout.fragment_profile, inflater, container)
         view.nameProfileInput.addTextChangedListener(InputWatcher(context, view.nameProfileInputLayout, true, R.string.name_invalid_error))
         view.firstNameProfileInput.addTextChangedListener(InputWatcher(context, view.firstNameProfileInputLayout, true, R.string.first_name_invalid_error))
         view.emailProfileInput.addTextChangedListener(EmailWatcher(context, view.emailProfileInputLayout))
@@ -65,6 +61,9 @@ class ProfileFragment : NavigationFragment(FragmentType.PROFILE), DatePickerDial
         }
         view.updateProfileButton.setOnClickListener {
             updateProfile()
+        }
+        view.settingsButton.setOnClickListener {
+            startActivity(Intent(context, SettingsActivity::class.java))
         }
         view.logoutButton.setOnClickListener {
             val dialogView = layoutInflater.inflate(R.layout.dialog_logout, null)
@@ -280,7 +279,7 @@ class ProfileFragment : NavigationFragment(FragmentType.PROFILE), DatePickerDial
     }
 
     override fun onDateSet(view: DatePickerDialog?, year: Int, monthOfYear: Int, dayOfMonth: Int) {
-        birthDateProfileInput.setText(TimeHandler.instance.formatTimestamp(
+        this.view?.birthDateProfileInput?.setText(TimeHandler.instance.formatTimestamp(
             TimeHandler.instance.getTimestampDate(year, monthOfYear, dayOfMonth),
             requireContext().getString(R.string.format_date_birth)))
     }

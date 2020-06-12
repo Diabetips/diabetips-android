@@ -1,4 +1,4 @@
-package com.epitech.diabetips.activities
+package com.epitech.diabetips.fragments
 
 import android.content.Intent
 import android.os.Bundle
@@ -6,15 +6,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.epitech.diabetips.R
+import com.epitech.diabetips.activities.NavigationActivity
+import com.epitech.diabetips.activities.NewEntryActivity
+import com.epitech.diabetips.activities.RecipeActivity
 import com.epitech.diabetips.managers.EntriesManager
 import com.epitech.diabetips.storages.EntryObject
-import com.epitech.diabetips.utils.ChartHandler
-import com.epitech.diabetips.utils.MaterialHandler
-import com.epitech.diabetips.utils.NavigationFragment
-import com.epitech.diabetips.utils.TimeHandler
+import com.epitech.diabetips.utils.*
 import kotlinx.android.synthetic.main.fragment_home.view.*
 
-class HomeFragment : NavigationFragment(FragmentType.HOME) {
+class HomeFragment : ANavigationFragment(FragmentType.HOME) {
 
     lateinit var entriesManager: EntriesManager
 
@@ -23,9 +23,7 @@ class HomeFragment : NavigationFragment(FragmentType.HOME) {
                 items, reset -> itemsUpdateTrigger(reset, items)
         }
 
-        val view = inflater.inflate(R.layout.fragment_home, container, false)
-        MaterialHandler.instance.handleTextInputLayoutSize(view as ViewGroup)
-
+        val view = createFragmentView(R.layout.fragment_home, inflater, container)
         view.readyToScan.text = (activity as NavigationActivity).nfcReader?.nfcStatus
 
         view.newEntryButton.setOnClickListener {
@@ -33,13 +31,11 @@ class HomeFragment : NavigationFragment(FragmentType.HOME) {
         }
         view.viewRecipeButton.setOnClickListener {
             startActivity(Intent(context, RecipeActivity::class.java)
-                .putExtra(getString(R.string.param_mode), RecipeActivity.ActivityMode.UPDATE))
+                .putExtra(getString(R.string.param_mode), IRecipe.ActivityMode.UPDATE))
         }
         view.openDashboardButton.setOnClickListener {
-            startActivity(Intent(context, DashboardActivity::class.java))
+            startActivity(Intent(context, DashboardFragment::class.java))
         }
-
-
         ChartHandler.instance.handleLineChartStyle(view.sugarLineChart, requireContext())
         //Draw empty chart
         val interval: Pair<Long, Long> = Pair(entriesManager.getPage()!!.start, entriesManager.getPage()!!.end)
