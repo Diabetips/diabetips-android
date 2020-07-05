@@ -75,7 +75,7 @@ class NewRecipeActivity : ADiabetipsActivity(R.layout.activity_new_recipe) {
                     loadImage()
                     dialog.dismiss()
                 }
-                RecipeService.instance.remove<RecipeObject>(recipe.id).doOnSuccess {
+                RecipeService.instance.removePicture<RecipeObject>(recipe.id).doOnSuccess {
                     if (it.second.component2() == null) {
                         changedPicture = false
                         loadImage()

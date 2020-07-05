@@ -29,7 +29,7 @@ abstract class AObjectService<Object: Any>(baseRoute: String) : AService(baseRou
     }
 
     inline fun <reified Obj: Object> createOrUpdate(obj: Obj, uid: String = "") : FuelResponse<Obj> {
-        if (uid == "me" || uid == "" || (uid.toIntOrNull() ?: 0) > 0) {
+        if (uid == "me" || (uid.toIntOrNull() ?: 0) > 0) {
             return update(obj, uid)
         }
         return add(obj)
