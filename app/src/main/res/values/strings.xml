@@ -1,0 +1,212 @@
+<resources>
+    <!--application data start-->
+    <string name="app_name" translatable="false">Diabetips</string>
+    <string name="api_base_url" translatable="false">https://api.diabetips.fr/v1</string> <!-- URL API PROD -->
+    <!--string name="api_base_url" translatable="false">https://api.dev.diabetips.fr/v1</string--> <!-- URL API DEV -->
+    <string name="pagination_header" translatable="false">X-Pages</string>
+    <!--application data end-->
+
+    <!--parameters name start-->
+    <string name="param_mode" translatable="false">Mode</string>
+    <string name="param_meal" translatable="false">Meal</string>
+    <string name="param_recipe" translatable="false">Recipe</string>
+    <string name="param_food" translatable="false">Food</string>
+    <!--parameters name end-->
+
+    <!--placeholder start-->
+    <string name="placeholder_text" translatable="false">Placeholder Text</string>
+    <string name="placeholder_hour" translatable="false">XX:XX</string>
+    <string name="placeholder_number" translatable="false">X</string>
+    <!--placeholder end-->
+
+    <!--format start-->
+    <string name="format_hour_12" translatable="false">h:mm a</string>
+    <string name="format_hour_24" translatable="false">HH:mm</string>
+    <string name="format_time_api" translatable="false">yyyy-MM-ddTHH:mm:ss.SSSZ</string>
+    <string name="format_date_api" translatable="false">yyyy-MM-dd</string>
+    <string name="format_date_birth">MMMM d yyyy</string>
+    <string name="format_date">EEE, MMM d yyyy</string>
+    <string name="format_date_dashboard">MM/dd/yyyy</string>
+    <string name="format_date_simple_12">MM/dd/yyyy - h:mm a</string>
+    <string name="format_date_simple_24">MM/dd/yyyy - HH:mm</string>
+    <!--format end-->
+
+    <!--unit start-->
+    <string name="unit">Unit(s)</string>
+    <string name="unit_unit">unit</string>
+    <string name="unit_units">units</string>
+    <string name="unit_minute">minutes</string>
+    <string name="unit_g" translatable="false">g</string>
+    <string name="unit_u" translatable="false">u</string>
+    <string name="unit_glucose" translatable="false">mg/dl</string>
+    <!--unit end-->
+
+    <!--dialog start-->
+    <string name="change_picture">Change picture</string>
+    <string name="save_change">Save ?</string>
+    <string name="unsaved_change">Some changes haven\'t been saved, do you want to save them ?</string>
+    <string name="saved_change">Saved</string>
+    <string name="change_comment">Edit comment</string>
+    <string name="select_quantity">Select quantity</string>
+    <string name="select_quantity_input">Quantity</string>
+    <string name="delete">Delete</string>
+    <string name="deleted">Deleted</string>
+    <!--dialog end-->
+
+    <!--login / sign up screen start-->
+    <string name="mail_input">Email</string>
+    <string name="password_input">Password</string>
+    <string name="password_confirm_input">Confirm Password</string>
+    <string name="name_input">Name</string>
+    <string name="first_name_input">Firstname</string>
+    <string name="login_button">Connection</string>
+    <string name="sign_up_button">Sign Up</string>
+    <string name="back_to_login_button">Back to login page</string>
+    <string name="forgot_password_button">Forgot Password</string>
+    <string name="reset_password_button">Reset password</string>
+    <string name="reset_password">An email with a new password has been sent</string>
+    <string name="created_account">An email has been sent to validate your account</string>
+    <!--login / sign up screen end-->
+
+    <!--Home / Dashboard start-->
+    <string name="glycemie">Glycémies</string>
+    <string name="ready_to_scan">Ready to scan</string>
+    <string name="no_nfc">This device doesn\'t support NFC</string>
+    <string name="nfc_disable">NFC is disabled</string>
+    <string name="sensor_not_ready">The sensor isn\'t ready yet</string>
+    <string name="home_title">Home</string>
+    <string name="open_dashboard_button">Open Dashboard</string>
+    <!--Home / Dashboard end-->
+
+    <!--Dashboard start-->
+    <string name="dashboard_title">Dashboard</string>
+    <string name="meal">Meal</string>
+    <string name="insulin_slow">Slow insulin</string>
+    <string name="insulin_fast">Fast insulin</string>
+    <string name="comment">Comment</string>
+    <string name="sugar">Sugar</string>
+    <!--Dashboard end-->
+
+    <!--Profile screen start-->
+    <string name="profile_title">Profile</string>
+    <string name="new_password_input">New Password</string>
+    <string name="weight_input">Weight (kg)</string>
+    <string name="height_input">Height (cm)</string>
+    <string name="age_input">Age (year)</string>
+    <string name="birth_input">Date of birth</string>
+    <string name="sex_input">Sex</string>
+    <string name="diabetes_type_input">Diabetes type</string>
+    <string name="medical_informations">Medical informations</string>
+    <string name="new_password_button">Change Password</string>
+    <string name="change_profile_picture">Change profile picture</string>
+    <string name="new_picture">Take a new picture</string>
+    <string name="picture_gallery">Open gallery</string>
+    <string name="update_profile_picture">Profile picture updated</string>
+    <string name="remove_profile_picture">Profile picture removed</string>
+    <string name="update">Update</string>
+    <string name="update_profile">Profile updated</string>
+    <string name="logout">Logged out</string>
+    <string name="logout_confirm">Do you want to logout ?</string>
+    <string name="deactivate_account_confirm">Are you sure to deactivate your account ?</string>
+    <!--Profile screen end-->
+
+    <!--Settings screen start-->
+    <string name="settings_title">Settings</string>
+    <string name="dark_mode">Dark mode</string>
+    <string name="lang">eng</string>
+    <!--Settings screen end-->
+
+    <!--entry screen start-->
+    <string name="entry_title">New entry</string>
+    <string name="add_entry">Add a new entry</string>
+    <string name="total_sugar">Total sugar</string>
+    <string name="summary">Summary</string>
+    <string name="calculate_insulin">Predict my quantity of insulin</string>
+    <string name="calculate">Predict</string>
+    <string name="insulin_fast_input">Fast insulin</string>
+    <string name="insulin_slow_input">Slow insulin</string>
+    <string name="comment_input">Comment</string>
+    <string name="physical_activity_input">Duration of physical activity</string>
+    <!--entry screen end-->
+
+    <!--meal / recipe / food screen start-->
+    <string name="meal_title">My meal</string>
+    <string name="recipe_title">My recipe</string>
+    <string name="meal_recipe_subtitle">Recipes</string>
+    <string name="recipe_food_subtitle">Foods</string>
+    <string name="recipe_name">Recipe name</string>
+    <string name="view_meal">My meals</string>
+    <string name="view_recipe">Recipes</string>
+    <string name="add_meal">Add a new meal</string>
+    <string name="add_other_meal">Add another meal</string>
+    <string name="add_recipe">Add a recipe</string>
+    <string name="add_food">Add some food</string>
+    <string name="search_food">Search food</string>
+    <string name="new_recipe">New recipe</string>
+    <string name="search_recipe">Search a recipe</string>
+    <string name="recipe_not_found">Sorry, but we don\'t know this recipe yet.</string>
+    <string name="food_not_found">Sorry, but no food with that name has been found.</string>
+    <string name="validate">Validate</string>
+    <string name="description">Description</string>
+    <string name="sugar_100g">"Sugar for 100g: "</string>
+    <!--meal / recipe / food screen end-->
+
+    <!--login / sign up errors start-->
+    <string name="empty_field_error">This field cannot be empty</string>
+    <string name="password_match_error">Password doesn\'t match</string>
+    <string name="password_incorrect_error">Incorrect password</string>
+    <string name="password_length_error">Password must be at least 8 caracters long</string>
+    <string name="password_lowercase_error">Password must contain at least 1 lowercase letter</string>
+    <string name="password_uppercase_error">Password must contain at least 1 uppercase letter</string>
+    <string name="password_digit_error">Password must contain at least 1 digit</string>
+    <string name="date_format_error">Invalid date</string>
+    <string name="email_invalid_error">Invalid email</string>
+    <string name="name_invalid_error">Invalid name</string>
+    <string name="first_name_invalid_error">Invalid firstname</string>
+    <string name="email_already_taken">This email is already linked to another account</string>
+    <string name="login_invalid">Invalid email or password</string>
+    <string name="registration_incomplete">Email address not confirmed</string>
+    <!--login / sign up errors end-->
+
+    <!--meal / recipe / food errors start-->
+    <string name="meal_empty">Meal must not be empty</string>
+    <string name="meal_recipe_empty">No recipe yet, add some with the button below.</string>
+    <string name="recipe_empty">Recipe must have at least 1 ingredient</string>
+    <string name="recipe_food_empty">No food yet, add some with the button below</string>
+    <string name="recipe_name_empty">Recipe name mustn\'t be empty</string>
+    <string name="quantity_null">Quantity must be greater than 0</string>
+    <string name="deactivated">Account deactivated with success</string>
+    <string name="deactivate">Deactivate account</string>
+    <!--meal / recipe / food errors end-->
+
+    <!--sex start-->
+    <string name="sex_male">Man</string>
+    <string name="sex_female">Woman</string>
+
+    <string-array name="sex">
+        <item>@string/sex_male</item>
+        <item>@string/sex_female</item>
+    </string-array>
+
+    <string-array name="sex_api">
+        <item>male</item>
+        <item>female</item>
+    </string-array>
+    <!--sex end-->
+
+    <!--diabetes type start-->
+    <string name="diabetes_type_1">Type 1</string>
+    <string name="diabetes_type_2">Type 2</string>
+
+    <string-array name="diabetes_type">
+        <item>@string/diabetes_type_1</item>
+        <item>@string/diabetes_type_2</item>
+    </string-array>
+
+    <string-array name="diabetes_type_api">
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+    <!--diabetes type end-->
+
+</resources>

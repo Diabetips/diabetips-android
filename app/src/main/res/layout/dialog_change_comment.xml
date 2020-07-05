@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    style="@style/EmptyBackgroundTheme">
+
+    <LinearLayout
+        android:id="@+id/changeCommentLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:orientation="vertical"
+        style="@style/EmptyBackgroundTheme">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/changeCommentTextLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="@dimen/margin_size"
+            style="@style/BackgroundDialogTheme">
+
+            <TextView
+                android:id="@+id/changeCommentTitle"
+                style="@style/SubtitleTheme"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_size"
+                android:layout_marginTop="@dimen/half_margin_size"
+                android:text="@string/change_comment"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/changeCommentInputLayout"
+                style="@style/RemoveInputLayoutTheme"
+                android:layout_width="match_parent"
+                android:layout_marginTop="@dimen/quarter_margin_size"
+                android:hint="@string/comment_input"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/changeCommentTitle">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/changeCommentInput"
+                    style="@style/TextInputTheme"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textMultiLine" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <LinearLayout
+            android:id="@+id/changeCommentButtonLayout"
+            style="@style/EmptyBackgroundTheme"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="start"
+            android:layout_marginTop="@dimen/negative_margin_size"
+            android:padding="@dimen/half_margin_size">
+
+            <ImageButton
+                android:id="@+id/changeCommentDeleteButton"
+                style="@style/ImageButtonWarmTheme"
+                android:layout_marginStart="@dimen/half_margin_size"
+                android:contentDescription="@string/delete"
+                android:src="@drawable/ic_delete"/>
+
+            <LinearLayout
+                android:id="@+id/changeCommentButtonSubLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="end"
+                style="@style/EmptyBackgroundTheme">
+
+                <ImageButton
+                    android:id="@+id/changeCommentNegativeButton"
+                    style="@style/ImageButtonTheme"
+                    android:layout_marginEnd="@dimen/half_margin_size"
+                    android:contentDescription="@string/placeholder_text"
+                    android:src="@drawable/ic_close"/>
+
+                <ImageButton
+                    android:id="@+id/changeCommentPositiveButton"
+                    style="@style/ImageButtonAltTheme"
+                    android:layout_marginEnd="@dimen/half_margin_size"
+                    android:contentDescription="@string/placeholder_text"
+                    android:src="@drawable/ic_check"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

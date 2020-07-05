@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="ds">
+        <attr name="colorWarm" format="color" />
+        <attr name="colorBackground" format="color" />
+        <attr name="colorNavigationBackground" format="color" />
+        <attr name="colorInputBackground" format="color" />
+        <attr name="colorSearchBackground" format="color" />
+        <attr name="colorCardBackground" format="color" />
+        <attr name="colorText" format="color" />
+        <attr name="colorNavigationText" format="color" />
+        <attr name="colorBackgroundText" format="color" />
+        <attr name="colorHint" format="color" />
+        <attr name="colorTextButton" format="color" />
+        <attr name="colorDivider" format="color" />
+        <attr name="imageBackground" format="reference" />
+        <attr name="imageMainBackground" format="reference" />
+        <attr name="imageHomeBackground" format="reference" />
+        <attr name="circleToolbar" format="reference" />
+        <attr name="circleBackground" format="reference" />
+    </declare-styleable>
+</resources>

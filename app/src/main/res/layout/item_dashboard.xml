@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/EmptyBackgroundTheme"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        style="@style/BackgroundCardColorTheme"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/dashboardItemIcon"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            app:srcCompat="@drawable/circle_background_blue"
+            tools:layout_marginLeft="16dp" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/dashboardItemTitle"
+                style="@style/BoldTextAppearance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/quarter_margin_size"
+                android:layout_marginTop="@dimen/quarter_margin_size"
+                android:fontFamily="@font/muli_bold"
+                android:text="@string/placeholder_text"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/dashboardItemDescription"
+                style="@style/HintAltTheme"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/quarter_margin_size"
+                android:layout_marginBottom="@dimen/quarter_margin_size"
+                android:fontFamily="@font/rubik_regular"
+                android:text="@string/placeholder_text"
+                android:textSize="14sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/mealDescription" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/dashboardItemTime"
+            style="@style/SoftTextAppearance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:fontFamily="@font/rubik_regular"
+            android:text="TextView"
+            tools:text="12:30" />
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

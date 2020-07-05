@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".activities.FoodActivity"
+        style="@style/BackgroundHomeTheme">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/foodActionBar"
+        style="@style/ActionBarTheme"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <ImageButton
+            android:id="@+id/closeFoodButton"
+            style="@style/ImageButtonTransparentTheme"
+            android:layout_marginStart="@dimen/half_margin_size"
+            android:contentDescription="@string/placeholder_text"
+            android:src="@drawable/ic_back"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/foodSearchViewCard"
+            style="@style/BackgroundSearchViewCardTheme"
+            android:layout_height="0dp"
+            android:layout_width="0dp"
+            android:layout_marginStart="@dimen/quarter_margin_size"
+            android:layout_marginEnd="@dimen/half_margin_size"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/closeFoodButton"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <androidx.appcompat.widget.SearchView
+                android:id="@+id/foodSearchView"
+                style="@style/SearchViewTheme"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:queryHint="@string/search_food"/>
+
+        </com.google.android.material.card.MaterialCardView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/foodSwipeRefresh"
+        style="@style/EmptyClipBackgroundTheme"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:visibility="visible"
+        app:layout_constraintTop_toBottomOf="@+id/foodActionBar"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/foodSearchList"
+            style="@style/EmptyBackgroundTheme"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+    <LinearLayout
+        android:id="@+id/foodNotFoundLayout"
+        style="@style/EmptyBackgroundTheme"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/foodNotFoundCard"
+            style="@style/BackgroundCardTheme"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/foodNotFoundText"
+                style="@style/SubtitleTheme"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_size"
+                android:layout_marginEnd="@dimen/margin_size"
+                android:layout_marginTop="@dimen/half_margin_size"
+                android:layout_marginBottom="@dimen/half_margin_size"
+                android:text="@string/food_not_found"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </com.google.android.material.card.MaterialCardView>
+
+    </LinearLayout>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/foodValidateButton"
+        style="@style/FloatingActionButtonStyle"
+        android:layout_margin="@dimen/half_margin_size"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/ic_check"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
