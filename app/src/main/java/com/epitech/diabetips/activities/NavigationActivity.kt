@@ -25,7 +25,7 @@ class NavigationActivity : ADiabetipsActivity(R.layout.activity_navigation), me.
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        smoothBottomBaBar.setOnItemSelectedListener(this)
+        smoothBottomBaBar.onItemSelectedListener = this
         selectDefaultFragment()
         nfcReader = NfcReaderService(this, intent, this) {
             nfcReaderUpdated()
@@ -39,7 +39,7 @@ class NavigationActivity : ADiabetipsActivity(R.layout.activity_navigation), me.
     }
 
     private fun selectDefaultFragment() {
-        smoothBottomBaBar.setActiveItem(defaultFragmentSelect.ordinal)
+        smoothBottomBaBar.itemActiveIndex = defaultFragmentSelect.ordinal
         onItemSelect(defaultFragmentSelect.ordinal)
         setDefaultFragmentSelect()
     }
@@ -58,7 +58,7 @@ class NavigationActivity : ADiabetipsActivity(R.layout.activity_navigation), me.
     override fun onItemSelect(pos: Int) : Boolean {
         val fragment = supportFragmentManager.findFragmentById(R.id.navigationFragment) as ANavigationFragment?
         if (fragment != null && fragment.isLoading()) {
-            smoothBottomBaBar.setActiveItem(fragment.fragmentType.ordinal)
+            smoothBottomBaBar.itemActiveIndex = fragment.fragmentType.ordinal
             return false
         }
         when (pos) {
@@ -79,7 +79,7 @@ class NavigationActivity : ADiabetipsActivity(R.layout.activity_navigation), me.
         val fragment = supportFragmentManager.findFragmentById(R.id.navigationFragment) as ANavigationFragment?
         if (fragment != null && fragment.isLoading()) {
             return
-        } else if (smoothBottomBaBar.getActiveItem() != defaultFragmentSelect.ordinal) {
+        } else if (smoothBottomBaBar.itemActiveIndex != defaultFragmentSelect.ordinal) {
             selectDefaultFragment()
         } else {
             moveTaskToBack(true)

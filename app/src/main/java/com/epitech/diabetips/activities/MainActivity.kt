@@ -5,6 +5,7 @@ import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.util.Log
 import android.util.Patterns
 import android.view.ViewGroup
 import android.widget.Toast
@@ -20,6 +21,8 @@ import com.epitech.diabetips.textWatchers.PasswordWatcher
 import com.epitech.diabetips.utils.ADiabetipsActivity
 import com.epitech.diabetips.utils.MaterialHandler
 import com.github.kittinunf.fuel.core.FuelManager
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.iid.FirebaseInstanceId
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.dialog_password_forgot.view.*
 import org.json.JSONObject
@@ -32,6 +35,7 @@ class MainActivity : ADiabetipsActivity(R.layout.activity_main) {
         super.onCreate(savedInstanceState)
         FuelManager.instance.basePath = getString(R.string.api_base_url)
         FuelManager.instance.baseHeaders = mapOf("Content-Type" to "application/json; charset=utf-8")
+        initFirebase();
         emailInput.addTextChangedListener(EmailWatcher(this, emailInputLayout))
         passwordInput.addTextChangedListener(PasswordWatcher(this, passwordInputLayout))
         loginButton.setOnClickListener {
@@ -94,6 +98,17 @@ class MainActivity : ADiabetipsActivity(R.layout.activity_main) {
                 changeSwipeLayoutState(false)
             }.subscribe()
         }
+    }
+
+    private fun initFirebase() {
+        FirebaseInstanceId.getInstance().instanceId
+            .addOnCompleteListener(OnCompleteListener { task ->
+                if (!task.isSuccessful) {
+                    Log.w("Firebase", "getInstanceId failed", task.exception)
+                    return@OnCompleteListener
+                }
+                Log.d("Firebase", task.result?.token.toString())
+            })
     }
 
     private fun validateFields() : Boolean {

@@ -12,7 +12,7 @@
 
     <item
         android:id="@+id/navigationRecipes"
-        android:icon="@drawable/ic_recipe"
+        android:icon="@drawable/ic_bell"
         android:title="@string/view_recipe" />
 
     <item

@@ -4,6 +4,7 @@ import com.google.gson.TypeAdapter
 import com.google.gson.stream.JsonReader
 import com.google.gson.stream.JsonWriter
 import java.io.Serializable
+import java.util.*
 
 data class UserObject (
     var uid: String = "",
@@ -11,7 +12,8 @@ data class UserObject (
     var password: String = "",
     var first_name: String = "",
     var last_name: String = "",
-    var lang: String = "") : Serializable
+    var lang: String = "",
+    var timeZone: String = "") : Serializable
 
 class UserObjectAdapter : TypeAdapter<UserObject>() {
 
@@ -21,6 +23,7 @@ class UserObjectAdapter : TypeAdapter<UserObject>() {
         writer?.name("first_name")?.value(UserObject?.first_name)
         writer?.name("last_name")?.value(UserObject?.last_name)
         writer?.name("lang")?.value(UserObject?.lang)
+        writer?.name("timezone")?.value(Calendar.getInstance().timeZone.id)
         if (UserObject?.password!!.isNotEmpty()) {
             writer?.name("password")?.value(UserObject.password)
         }

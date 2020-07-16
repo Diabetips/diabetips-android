@@ -9,6 +9,7 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.provider.MediaStore
+import android.text.InputType
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.Toast
@@ -22,6 +23,7 @@ import com.epitech.diabetips.storages.IngredientObject
 import com.epitech.diabetips.storages.MealRecipeObject
 import com.epitech.diabetips.storages.RecipeObject
 import com.epitech.diabetips.textWatchers.InputWatcher
+import com.epitech.diabetips.textWatchers.NumberWatcher
 import com.epitech.diabetips.utils.ADiabetipsActivity
 import com.epitech.diabetips.utils.DividerItemDecorator
 import com.epitech.diabetips.utils.ImageHandler
@@ -45,10 +47,14 @@ class NewRecipeActivity : ADiabetipsActivity(R.layout.activity_new_recipe) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         newRecipeName.addTextChangedListener(InputWatcher(this, newRecipeNameLayout, true, R.string.recipe_name_empty))
+        newRecipePortion.addTextChangedListener(NumberWatcher(this, newRecipePortionLayout, R.string.recipe_portion_empty, 0.0001f))
         newRecipeName.addTextChangedListener {
             saved = false
         }
         newRecipeDescription.addTextChangedListener {
+            saved = false
+        }
+        newRecipePortion.addTextChangedListener {
             saved = false
         }
         imagePhotoRecipe.setOnClickListener {
@@ -146,9 +152,13 @@ class NewRecipeActivity : ADiabetipsActivity(R.layout.activity_new_recipe) {
             if (activityMode == ActivityMode.MEAL_RECIPE) {
                 val mealRecipe = (intent.getSerializableExtra(getString(R.string.param_recipe)) as MealRecipeObject)
                 recipe = mealRecipe.recipe
+                newRecipePortion.setText(mealRecipe.portions_eaten.toString())
+                newRecipePortion.inputType = (InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_DECIMAL)
+                newRecipePortionLayout.suffixText = "/ ${recipe.portions.toInt()}"
                 (foodList.adapter as RecipeFoodAdapter).setFoods(mealRecipe.getIngredients())
             } else {
                 recipe = (intent.getSerializableExtra(getString(R.string.param_recipe)) as RecipeObject)
+                newRecipePortion.setText(recipe.portions.toInt().toString())
                 if (recipe.ingredients.isNotEmpty()) {
                     (foodList.adapter as RecipeFoodAdapter).setFoods(recipe.ingredients)
                 }
@@ -157,6 +167,8 @@ class NewRecipeActivity : ADiabetipsActivity(R.layout.activity_new_recipe) {
             newRecipeName.setText(recipe.name)
             newRecipeDescription.setText(recipe.description)
             saved = null
+        } else {
+            newRecipePortion.setText("1")
         }
     }
 
@@ -194,7 +206,10 @@ class NewRecipeActivity : ADiabetipsActivity(R.layout.activity_new_recipe) {
                 ingredients.add(IngredientObject(0f, 0f, ingredient.food))
             }
         }
-        val mealRecipe = MealRecipeObject(0f, recipe.portions, recipe, ingredients.toTypedArray())
+        val mealRecipe = MealRecipeObject(0f,
+            newRecipePortion.text.toString().toFloatOrNull() ?: recipe.portions,
+            recipe,
+            ingredients.toTypedArray())
         mealRecipe.calculateTotalSugar()
         return mealRecipe
     }
@@ -202,7 +217,7 @@ class NewRecipeActivity : ADiabetipsActivity(R.layout.activity_new_recipe) {
     private fun getRecipe(): RecipeObject {
         recipe.name = newRecipeName.text.toString()
         recipe.description = newRecipeDescription.text.toString()
-        recipe.portions = 1f
+        recipe.portions = newRecipePortion.text.toString().toFloatOrNull() ?: 1f
         recipe.ingredients = (foodList.adapter as RecipeFoodAdapter).getFoods().toTypedArray()
         recipe.calculateTotalSugar()
         return recipe
@@ -210,7 +225,8 @@ class NewRecipeActivity : ADiabetipsActivity(R.layout.activity_new_recipe) {
 
     private fun validateFields() : Boolean {
         newRecipeName.text = newRecipeName.text
-        var error = newRecipeNameLayout.error != null
+        newRecipePortion.text = newRecipePortion.text
+        var error = newRecipeNameLayout.error != null || newRecipePortionLayout.error != null
         if ((foodList.adapter as RecipeFoodAdapter).getFoods().isNullOrEmpty()) {
             Toast.makeText(this, getString(R.string.recipe_empty), Toast.LENGTH_SHORT).show()
             error = true

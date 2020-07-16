@@ -33,6 +33,7 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="colorWarm">@color/colorWarm</item>
         <item name="colorBackground">@color/colorBackground</item>
+        <item name="colorMainBackground">@color/colorPrimary</item>
         <item name="colorInputBackground">@color/colorBackground</item>
         <item name="colorNavigationBackground">@color/colorPrimaryLight</item>
         <item name="colorSearchBackground">@color/colorBackgroundSearch</item>
@@ -47,11 +48,11 @@
         <item name="imageMainBackground">@drawable/ic_background_blue</item>
         <item name="imageHomeBackground">@drawable/ic_background_logo_white</item>
         <item name="circleBackground">@drawable/circle_background_blue</item>
-        <item name="circleToolbar">@drawable/circle_toolbar_blue</item>
     </style>
 
     <style name="DarkTheme" parent="AppTheme">
         <item name="colorBackground">@color/colorBackgroundDark</item>
+        <item name="colorMainBackground">@color/colorBackgroundDarkLight</item>
         <item name="colorNavigationBackground">@color/colorBackgroundDarkLight</item>
         <item name="colorCardBackground">@color/colorBackgroundDarkLight</item>
         <item name="colorBackgroundText">@color/colorText</item>
@@ -60,7 +61,6 @@
         <item name="imageMainBackground">@drawable/ic_background_black</item>
         <item name="imageHomeBackground">@drawable/ic_background_logo_black</item>
         <item name="circleBackground">@drawable/circle_background_black</item>
-        <item name="circleToolbar">@drawable/circle_toolbar_black</item>
     </style>
 
     <style name="ClipBackgroundTheme" parent="ThemeOverlay.AppCompat.Dark">
@@ -85,6 +85,10 @@
         <item name="android:background">?attr/colorBackground</item>
     </style>
 
+    <style name="ClearMainBackgroundTheme" parent="BackgroundTheme">
+        <item name="android:background">?attr/colorMainBackground</item>
+    </style>
+
     <style name="BackgroundMainTheme" parent="BackgroundTheme">
         <item name="android:background">?attr/imageMainBackground</item>
     </style>
@@ -95,6 +99,11 @@
 
     <style name="BackgroundDialogTheme" parent="BackgroundTheme">
         <item name="android:background">@drawable/dialog_background</item>
+    </style>
+
+    <style name="BackgroundMenuTheme" parent="BackgroundTheme">
+        <item name="android:background">@drawable/menu_background</item>
+        <item name="android:elevation">@dimen/shadow_size</item>
     </style>
 
     <style name="BackgroundCardTheme" parent="BackgroundTheme">
@@ -125,8 +134,9 @@
 
     <style name="circleToolbar" parent="ThemeOverlay.AppCompat.Dark">
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">128dp</item>
-        <item name="android:background">?attr/circleToolbar</item>
+        <item name="android:layout_height">@dimen/circle_toolbar_size</item>
+        <item name="android:background">@drawable/ic_half_circle</item>
+        <item name="android:backgroundTint">?attr/colorMainBackground</item>
     </style>
 
     <style name="ButtonTheme" parent="ThemeOverlay.AppCompat.Dark">
@@ -242,6 +252,8 @@
         <item name="errorTextAppearance">@style/ErrorTextAppearance</item>
         <item name="errorTextColor">?attr/colorWarm</item>
         <item name="errorIconTint">?attr/colorWarm</item>
+        <item name="suffixTextAppearance">@style/TextAppearance</item>
+        <item name="suffixTextColor">?attr/colorText</item>
     </style>
 
     <style name="TextInputNoHintLayoutTheme" parent="TextInputLayoutTheme">
@@ -428,7 +440,7 @@
     <style name="SmoothBottomBarTheme" parent="ThemeOverlay.AppCompat.Dark">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">@dimen/navigation_height</item>
-        <item name="backgroundColor">@android:color/transparent</item>
+        <item name="backgroundColor">?attr/colorBackground</item>
         <item name="indicatorColor">?attr/colorNavigationBackground</item>
         <item name="iconTint">?attr/colorBackgroundText</item>
         <item name="iconTintActive">?attr/colorNavigationText</item>

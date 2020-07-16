@@ -4,6 +4,7 @@
     <string name="api_base_url" translatable="false">https://api.diabetips.fr/v1</string> <!-- URL API PROD -->
     <!--string name="api_base_url" translatable="false">https://api.dev.diabetips.fr/v1</string--> <!-- URL API DEV -->
     <string name="pagination_header" translatable="false">X-Pages</string>
+    <string name="default_notification_channel_id" translatable="false">Diabetips</string>
     <!--application data end-->
 
     <!--parameters name start-->
@@ -106,7 +107,10 @@
     <string name="update">Update</string>
     <string name="update_profile">Profile updated</string>
     <string name="logout">Logged out</string>
+    <string name="logout_button">Logout</string>
     <string name="logout_confirm">Do you want to logout ?</string>
+    <string name="deactivated">Account deactivated with success</string>
+    <string name="deactivate">Deactivate account</string>
     <string name="deactivate_account_confirm">Are you sure to deactivate your account ?</string>
     <!--Profile screen end-->
 
@@ -135,6 +139,7 @@
     <string name="meal_recipe_subtitle">Recipes</string>
     <string name="recipe_food_subtitle">Foods</string>
     <string name="recipe_name">Recipe name</string>
+    <string name="recipe_portion">Portions</string>
     <string name="view_meal">My meals</string>
     <string name="view_recipe">Recipes</string>
     <string name="add_meal">Add a new meal</string>
@@ -174,9 +179,8 @@
     <string name="recipe_empty">Recipe must have at least 1 ingredient</string>
     <string name="recipe_food_empty">No food yet, add some with the button below</string>
     <string name="recipe_name_empty">Recipe name mustn\'t be empty</string>
+    <string name="recipe_portion_empty">Recipe must have a portion</string>
     <string name="quantity_null">Quantity must be greater than 0</string>
-    <string name="deactivated">Account deactivated with success</string>
-    <string name="deactivate">Deactivate account</string>
     <!--meal / recipe / food errors end-->
 
     <!--sex start-->

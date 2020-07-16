@@ -78,8 +78,8 @@ class DashboardFragment : ANavigationFragment(FragmentType.DASHBOARD) {
 
     private fun setItemsInDashBoardAdapter(resetPage: Boolean, items: Array<EntryObject>) {
         val newItems = ArrayList(items.sortedByDescending{it.time}.toTypedArray().groupBy { getDateTime(it.time)}.toList())
-        val adapter: DashboardGroupedItemsAdapter = (view?.itemsList?.adapter as DashboardGroupedItemsAdapter)
-        if (resetPage) adapter.setItems(newItems) else adapter.addItems(newItems)
+        val adapter: DashboardGroupedItemsAdapter? = (view?.itemsList?.adapter as DashboardGroupedItemsAdapter?)
+        if (resetPage) adapter?.setItems(newItems) else adapter?.addItems(newItems)
         if (!entriesManager.isLastPage()) {
             return entriesManager.getItems(false)
         }

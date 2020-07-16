@@ -118,6 +118,23 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/newRecipePortionLayout"
+                style="@style/TextInputLayoutTheme"
+                android:layout_width="match_parent"
+                android:layout_marginTop="@dimen/quarter_margin_size"
+                android:hint="@string/recipe_portion">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/newRecipePortion"
+                    style="@style/TextInputTheme"
+                    android:maxLength="@integer/portion_max_length"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
             <LinearLayout
                 android:id="@+id/recipeFoodListLayout"
                 style="@style/EmptyBackgroundTheme"

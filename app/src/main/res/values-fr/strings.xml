@@ -121,4 +121,7 @@
     <string name="nfc_disable">La NFC est désactivé</string>
     <string name="sensor_not_ready">Le capteur n\'est pas encore pret</string>
     <string name="sugar">Sucre</string>
+    <string name="logout_button">Déconnexion</string>
+    <string name="recipe_portion">Portions</string>
+    <string name="recipe_portion_empty">La recette doit avoir une portion</string>
 </resources>

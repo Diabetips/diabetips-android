@@ -121,4 +121,7 @@
     <string name="nfc_disable">NFC is disabled</string>
     <string name="sensor_not_ready">The sensor isn\'t ready yet</string>
     <string name="sugar">Sugar</string>
+    <string name="logout_button">Logout</string>
+    <string name="recipe_portion">Portions</string>
+    <string name="recipe_portion_empty">Recipe must have a portion</string>
 </resources>

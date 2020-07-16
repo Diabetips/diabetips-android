@@ -13,12 +13,21 @@
         android:required="true" />
 
     <application
-        android:allowBackup="true"
         android:icon="@mipmap/ic_launcher_invert"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_invert_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <service
+            android:name=".services.FirebaseNotificationService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+            <meta-data
+                android:name="com.google.firebase.messaging.default_notification_channel_id"
+                android:value="@string/default_notification_channel_id" />
+        </service>
         <activity
             android:name=".activities.MainActivity"
             android:screenOrientation="fullSensor"
@@ -26,7 +35,6 @@
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
