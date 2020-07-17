@@ -35,7 +35,7 @@ class InstrumentedFunctionalTest {
         val expectedAccessToken = "49fad390491a5b547d0f782309b6a5b33f7ac087"
         val expectedRefreshToken = "8xLOxBtZp8"
         val expectedAccount = UserObject("nom.prenom@email.com", "password", "NOM", "Prénom")
-        val expectedBiometric = BiometricObject(80, 175, "2020-10-05", "male")
+        val expectedBiometric = BiometricObject(80, 175, 60, 180, "2020-10-05", "male")
         val expectedMode =  AppCompatDelegate.MODE_NIGHT_YES
         //Save values with managers
         AuthManager.instance.saveAccessToken(instrumentationContext, expectedAccessToken)
@@ -63,7 +63,7 @@ class InstrumentedFunctionalTest {
         val expectedAccessToken = "49fad390491a5b547d0f782309b6a5b33f7ac087"
         val expectedRefreshToken = "8xLOxBtZp8"
         val expectedAccount = UserObject("nom.prenom@email.com", "password", "NOM", "Prénom")
-        val expectedBiometric = BiometricObject(80, 175, "2020-10-05", "male")
+        val expectedBiometric = BiometricObject(80, 175, 60, 180, "2020-10-05", "male")
         val expectedMode =  AppCompatDelegate.MODE_NIGHT_YES
         //Save values with managers
         AuthManager.instance.saveAccessToken(instrumentationContext, expectedAccessToken)
@@ -127,7 +127,7 @@ class InstrumentedFunctionalTest {
     @Test
     fun biometricObjects() {
         //Values
-        val biometric = BiometricObject(80, 175, "2020-10-05")
+        val biometric = BiometricObject(80, 175, 60, 180, "2020-10-05")
         //Operations
         biometric.setSex(instrumentationContext, instrumentationContext.resources.getStringArray(R.array.sex)[0])
         biometric.setDiabetesType(instrumentationContext, instrumentationContext.resources.getStringArray(R.array.diabetes_type)[0])

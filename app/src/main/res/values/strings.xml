@@ -1,8 +1,8 @@
 <resources>
     <!--application data start-->
     <string name="app_name" translatable="false">Diabetips</string>
-    <string name="api_base_url" translatable="false">https://api.diabetips.fr/v1</string> <!-- URL API PROD -->
-    <!--string name="api_base_url" translatable="false">https://api.dev.diabetips.fr/v1</string--> <!-- URL API DEV -->
+    <!--string name="api_base_url" translatable="false">https://api.diabetips.fr/v1</string--> <!-- URL API PROD -->
+    <string name="api_base_url" translatable="false">https://api.dev.diabetips.fr/v1</string> <!-- URL API DEV -->
     <string name="pagination_header" translatable="false">X-Pages</string>
     <string name="default_notification_channel_id" translatable="false">Diabetips</string>
     <!--application data end-->
@@ -12,6 +12,7 @@
     <string name="param_meal" translatable="false">Meal</string>
     <string name="param_recipe" translatable="false">Recipe</string>
     <string name="param_food" translatable="false">Food</string>
+    <string name="param_notification" translatable="false">Notification</string>
     <!--parameters name end-->
 
     <!--placeholder start-->
@@ -23,7 +24,7 @@
     <!--format start-->
     <string name="format_hour_12" translatable="false">h:mm a</string>
     <string name="format_hour_24" translatable="false">HH:mm</string>
-    <string name="format_time_api" translatable="false">yyyy-MM-ddTHH:mm:ss.SSSZ</string>
+    <string name="format_time_api" translatable="false">yyyy-MM-dd\'T\'HH:mm:ss.SSS\'Z\'</string>
     <string name="format_date_api" translatable="false">yyyy-MM-dd</string>
     <string name="format_date_birth">MMMM d yyyy</string>
     <string name="format_date">EEE, MMM d yyyy</string>
@@ -97,6 +98,8 @@
     <string name="birth_input">Date of birth</string>
     <string name="sex_input">Sex</string>
     <string name="diabetes_type_input">Diabetes type</string>
+    <string name="hyperglycemia">Hyperglycemia</string>
+    <string name="hypoglycemia">Hypoglycemia</string>
     <string name="medical_informations">Medical informations</string>
     <string name="new_password_button">Change Password</string>
     <string name="change_profile_picture">Change profile picture</string>

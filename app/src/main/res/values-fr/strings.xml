@@ -124,4 +124,6 @@
     <string name="logout_button">Déconnexion</string>
     <string name="recipe_portion">Portions</string>
     <string name="recipe_portion_empty">La recette doit avoir une portion</string>
+    <string name="hyperglycemia">Hyperglycémie</string>
+    <string name="hypoglycemia">Hypoglycémie</string>
 </resources>

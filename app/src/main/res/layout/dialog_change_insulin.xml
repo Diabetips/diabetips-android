@@ -39,6 +39,7 @@
                 android:layout_width="match_parent"
                 android:layout_marginTop="@dimen/quarter_margin_size"
                 android:hint="@string/select_quantity_input"
+                android:maxLength="@integer/glycemia_max_length"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/changeInsulinTitle">

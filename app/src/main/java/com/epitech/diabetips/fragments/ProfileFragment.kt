@@ -148,12 +148,6 @@ class ProfileFragment : ANavigationFragment(FragmentType.PROFILE), DatePickerDia
                 addItemDecoration(DividerItemDecorator(requireContext().getDrawable(R.drawable.menu_divider)!!))
             }
             dialog.show()
-           /* val popupWindow = PopupWindow(dialogView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
-            popupWindow.isOutsideTouchable = true
-            popupWindow.setBackgroundDrawable(null)
-            popupWindow.showAsDropDown(view.menuButton,
-                -requireContext().resources.getDimension(R.dimen.quarter_margin_size).toInt(),
-                requireContext().resources.getDimension(R.dimen.quarter_margin_size).toInt())*/
         }
     }
 
@@ -232,6 +226,8 @@ class ProfileFragment : ANavigationFragment(FragmentType.PROFILE), DatePickerDia
     private fun setBiometricInfo(biometric: BiometricObject, view: View? = this.view) {
         view?.heightProfileInput?.setText(biometric.height?.toString())
         view?.weightProfileInput?.setText(biometric.mass?.toString())
+        view?.hyperglycemiaProfileInput?.setText(biometric.hyperglycemia?.toString())
+        view?.hypoglycemiaProfileInput?.setText(biometric.hypoglycemia?.toString())
         view?.birthDateProfileInput?.setText(TimeHandler.instance.changeTimeFormat(
             biometric.date_of_birth,
             context?.getString(R.string.format_date_api)!!,
@@ -266,6 +262,8 @@ class ProfileFragment : ANavigationFragment(FragmentType.PROFILE), DatePickerDia
         val biometric: BiometricObject = UserManager.instance.getBiometric(requireContext())
         biometric.height = view?.heightProfileInput?.text.toString().toIntOrNull()
         biometric.mass = view?.weightProfileInput?.text.toString().toIntOrNull()
+        biometric.hypoglycemia = view?.hypoglycemiaProfileInput?.text.toString().toIntOrNull()
+        biometric.hyperglycemia = view?.hyperglycemiaProfileInput?.text.toString().toIntOrNull()
         biometric.date_of_birth = TimeHandler.instance.changeTimeFormat(
             view?.birthDateProfileInput?.text.toString(),
             context?.getString(R.string.format_date_birth)!!,

@@ -294,6 +294,39 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/hypoglycemiaProfileInputLayout"
+                style="@style/TextInputLayoutTheme"
+                android:layout_width="match_parent"
+                android:hint="@string/hypoglycemia">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/hypoglycemiaProfileInput"
+                    style="@style/TextInputTheme"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:maxLength="@integer/glycemia_max_length"
+                    android:inputType="number"
+                    android:nextFocusForward="@+id/hyperglycemiaProfileInput"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/HyperglycemiaProfileInputLayout"
+                style="@style/TextInputLayoutTheme"
+                android:layout_width="match_parent"
+                android:hint="@string/hyperglycemia">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/hyperglycemiaProfileInput"
+                    style="@style/TextInputTheme"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:maxLength="@integer/glycemia_max_length"
+                    android:inputType="number"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/updateProfileButton"
                 style="@style/MaterialButtonTheme"

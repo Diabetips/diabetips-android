@@ -78,7 +78,7 @@ class InstrumentedUnitTest {
 
     @Test
     fun saveAndGetBiometric() {
-        val expectedBiometric = BiometricObject(80, 175, "2020-10-05", "male")
+        val expectedBiometric = BiometricObject(80, 175, 60, 180, "2020-10-05", "male")
         UserManager.instance.saveBiometric(instrumentationContext, expectedBiometric)
         val actualBiometric =  UserManager.instance.getBiometric(instrumentationContext)
         assertEquals("Wrong account.", expectedBiometric, actualBiometric)
@@ -86,7 +86,7 @@ class InstrumentedUnitTest {
 
     @Test
     fun removeBiometric() {
-        val expectedBiometric = BiometricObject(80, 175, "2020-10-05", "male")
+        val expectedBiometric = BiometricObject(80, 175, 60, 180, "2020-10-05", "male")
         UserManager.instance.saveBiometric(instrumentationContext, expectedBiometric)
         UserManager.instance.removeBiometric(instrumentationContext)
         val actualBiometric =  UserManager.instance.getBiometric(instrumentationContext)
@@ -158,21 +158,15 @@ class InstrumentedUnitTest {
 
     @Test
     fun biometricObjectSex() {
-        //Values
-        val biometric = BiometricObject(80, 175, "2020-10-05")
-        //Operations
+        val biometric = BiometricObject(80, 175, 60, 180, "2020-10-05")
         biometric.setSex(instrumentationContext, instrumentationContext.resources.getStringArray(R.array.sex)[0])
-        //Asserts
         assertEquals("Wrong sex", instrumentationContext.resources.getStringArray(R.array.sex)[0], biometric.getSex(instrumentationContext))
     }
 
     @Test
     fun biometricObjectDiabetesType() {
-        //Values
-        val biometric = BiometricObject(80, 175, "2020-10-05")
-        //Operations
+        val biometric = BiometricObject(80, 175, 60, 180, "2020-10-05")
         biometric.setDiabetesType(instrumentationContext, instrumentationContext.resources.getStringArray(R.array.diabetes_type)[0])
-        //Asserts
         assertEquals("Wrong diabetes type", instrumentationContext.resources.getStringArray(R.array.diabetes_type)[0], biometric.getDiabetesType(instrumentationContext))
     }
 }
