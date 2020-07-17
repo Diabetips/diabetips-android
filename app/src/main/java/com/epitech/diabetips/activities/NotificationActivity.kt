@@ -1,6 +1,6 @@
 package com.epitech.diabetips.activities
 
-
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.epitech.diabetips.R
@@ -12,10 +12,15 @@ class NotificationActivity : AppCompatActivity()  {
     private var notification: NotificationObject = NotificationObject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
-            super.onCreate(savedInstanceState)
-            getParams()
-        if (!MainActivity.running && notification.id.isEmpty() || notification.read)
+        super.onCreate(savedInstanceState)
+        getParams()
+        if (!MainActivity.running) {
+            startActivity(Intent(this, MainActivity::class.java)
+                .putExtra(getString(R.string.param_notification), notification))
             finish()
+        } else if (notification.id.isEmpty() || notification.read) {
+            finish()
+        }
     }
 
     private fun getParams() {

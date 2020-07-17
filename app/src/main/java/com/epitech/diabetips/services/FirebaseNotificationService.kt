@@ -1,11 +1,10 @@
 package com.epitech.diabetips.services
 
-import android.app.ActivityManager
-import android.content.ComponentName
+import android.app.AlarmManager
+import android.app.PendingIntent
 import android.content.Context
-import android.content.pm.ComponentInfo
+import android.content.Intent
 import android.util.Log
-import com.epitech.diabetips.activities.NavigationActivity
 import com.epitech.diabetips.storages.FCMTokenObject
 import com.epitech.diabetips.storages.NotificationObject
 import com.google.firebase.messaging.FirebaseMessagingService

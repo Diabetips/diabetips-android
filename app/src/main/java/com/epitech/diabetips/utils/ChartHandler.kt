@@ -5,10 +5,12 @@ import android.graphics.Color
 import android.util.TypedValue
 import androidx.core.content.ContextCompat
 import com.epitech.diabetips.R
+import com.epitech.diabetips.managers.UserManager
 import com.epitech.diabetips.storages.BloodSugarObject
 import com.epitech.diabetips.storages.EntryObject
 import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.components.AxisBase
+import com.github.mikephil.charting.components.LimitLine
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.components.YAxis
 import com.github.mikephil.charting.data.Entry
@@ -38,9 +40,8 @@ class ChartHandler {
         lineChart.axisLeft.setDrawAxisLine(false)
         lineChart.axisLeft.disableGridDashedLine()
         lineChart.axisLeft.setPosition(YAxis.YAxisLabelPosition.INSIDE_CHART)
-
+        lineChart.axisLeft.setDrawLimitLinesBehindData(true)
         lineChart.axisRight.isEnabled = false
-
         lineChart.xAxis.disableGridDashedLine()
         lineChart.setDrawGridBackground(false)
         lineChart.xAxis.isEnabled = true
@@ -52,7 +53,7 @@ class ChartHandler {
         lineChart.setDrawBorders(false)
     }
 
-    fun updateChartData(items: List<EntryObject>, intervalTimeStamp: Pair<Long, Long>, lineChart: LineChart, context: Context) {
+    fun updateChartData(items: List<EntryObject>, intervalTimeStamp: Pair<Long, Long>, lineChart: DetailLineChart, context: Context) {
         val formatter = HoursFormatter(intervalTimeStamp, context)
         lineChart.xAxis.valueFormatter = formatter
 
@@ -65,7 +66,7 @@ class ChartHandler {
             lineData.addDataSet(generateBloodDataset(bloodValueChunk, intervalTimeStamp, context))
         }
 
-        if (!items.isEmpty())
+        if (items.isNotEmpty())
             drawLimits(lineData)
 
         val punctualInfo = mapOf(
@@ -77,7 +78,14 @@ class ChartHandler {
             val filteredItems: List<EntryObject> = items.filter{ it.type == info.key}
             lineData.addDataSet(generatePonctualDataset(filteredItems, intervalTimeStamp, info.value))
         }
-
+        lineChart.axisLeft.removeAllLimitLines()
+        val biometrics = UserManager.instance.getBiometric(context)
+        if (biometrics.hypoglycemia != null && biometrics.hyperglycemia != null) {
+            val limitColor = ContextCompat.getColor(context, R.color.colorPrimaryLight)
+            lineChart.setLimitZoneColor(limitColor)
+            lineChart.axisLeft.addLimitLine(generateLimitLine(biometrics.hypoglycemia!!.toFloat(), limitColor))
+            lineChart.axisLeft.addLimitLine(generateLimitLine(biometrics.hyperglycemia!!.toFloat(), limitColor))
+        }
         lineChart.data = lineData
         lineChart.animateY(800)
         // refresh the drawing
@@ -112,7 +120,7 @@ class ChartHandler {
         return chunks
     }
 
-    fun generatePonctualDataset(items: List<EntryObject>, intervalTimeStamp: Pair<Long, Long>, color: Int): LineDataSet? {
+    private fun generatePonctualDataset(items: List<EntryObject>, intervalTimeStamp: Pair<Long, Long>, color: Int): LineDataSet? {
         if (items.isEmpty())
             return null
         val yValues = mutableListOf<Entry>()
@@ -124,7 +132,7 @@ class ChartHandler {
         return set
     }
 
-    fun generateBloodDataset(bloodValues: List<BloodSugarObject>, intervalTimeStamp: Pair<Long, Long>, context: Context): LineDataSet{
+    private fun generateBloodDataset(bloodValues: List<BloodSugarObject>, intervalTimeStamp: Pair<Long, Long>, context: Context): LineDataSet{
         val yValues = mutableListOf<Entry>()
         for (bloodValue in bloodValues) {
             yValues.add(Entry((bloodValue.timestamp - intervalTimeStamp.first).toFloat(), bloodValue.value.toFloat()))
@@ -134,7 +142,13 @@ class ChartHandler {
         return set
     }
 
-    fun setGlucoseDatasetStyle(dataSet: LineDataSet, context: Context) {
+    private fun generateLimitLine(value: Float, color: Int, label: String = ""): LimitLine {
+        return LimitLine(value, label).apply {
+            lineColor = color
+        }
+    }
+
+    private fun setGlucoseDatasetStyle(dataSet: LineDataSet, context: Context) {
         val typedValue = TypedValue()
         context.theme.resolveAttribute(R.attr.colorPrimary, typedValue, true)
         dataSet.color = typedValue.data
@@ -151,7 +165,7 @@ class ChartHandler {
         dataSet.setDrawValues(false)
     }
 
-    fun setPonctualElementDatasetStyle(dataSet: LineDataSet, color: Int) {
+    private fun setPonctualElementDatasetStyle(dataSet: LineDataSet, color: Int) {
         dataSet.color = Color.TRANSPARENT
         dataSet.mode = LineDataSet.Mode.LINEAR
         dataSet.lineWidth = 0f
