@@ -9,7 +9,6 @@ import androidx.core.content.ContextCompat
 import com.epitech.diabetips.R
 import com.github.mikephil.charting.charts.LineChart
 
-
 class DetailLineChart @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyle: Int = 0) : LineChart(context, attrs, defStyle) {
     private var mYAxisLimitZonePaint: Paint = Paint()
 

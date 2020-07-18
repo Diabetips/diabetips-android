@@ -51,7 +51,7 @@ class DashboardFragment : ANavigationFragment(FragmentType.DASHBOARD) {
     private fun setupItemsList(view: View) {
         view.itemsList.apply {
             layoutManager = LinearLayoutManager(context)
-            adapter = DashboardGroupedItemsAdapter(context)
+            adapter = DashboardGroupedItemsAdapter(context, requireActivity().supportFragmentManager)
         }
         view.itemsList.addOnScrollListener(object : PaginationScrollListener(view.itemsList.layoutManager as LinearLayoutManager) {
             override fun isLastPage(): Boolean {

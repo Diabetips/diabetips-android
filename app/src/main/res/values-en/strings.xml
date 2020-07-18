@@ -126,4 +126,5 @@
     <string name="recipe_portion_empty">Recipe must have a portion</string>
     <string name="hyperglycemia">Hyperglycemia</string>
     <string name="hypoglycemia">Hypoglycemia</string>
+    <string name="change_insulin">Edit insulin injection</string>
 </resources>

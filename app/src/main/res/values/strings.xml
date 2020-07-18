@@ -49,6 +49,7 @@
     <string name="unsaved_change">Some changes haven\'t been saved, do you want to save them ?</string>
     <string name="saved_change">Saved</string>
     <string name="change_comment">Edit comment</string>
+    <string name="change_insulin">Edit insulin injection</string>
     <string name="select_quantity">Select quantity</string>
     <string name="select_quantity_input">Quantity</string>
     <string name="delete">Delete</string>
