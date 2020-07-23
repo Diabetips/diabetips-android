@@ -62,7 +62,7 @@ class NewEntryActivity : ADiabetipsActivity(R.layout.activity_new_entry), DatePi
         closeNewEntryButton.setOnClickListener {
             onBackPressed()
         }
-        calculateInsulinButton.setOnClickListener {
+        /*calculateInsulinButton.setOnClickListener {
             PredictionService.instance.getUserPrediction().doOnSuccess {
                 if (it.second.component2() == null) {
                     calculateInsulinQuantity.text = "${it.second.component1()?.insulin} ${getString(R.string.unit_units)}"
@@ -76,7 +76,7 @@ class NewEntryActivity : ADiabetipsActivity(R.layout.activity_new_entry), DatePi
             if (it.second.component2() == null && it.second.component1()?.enabled == true) {
                 calculateInsulinButton.visibility = View.VISIBLE
             }
-        }.subscribe()
+        }.subscribe()*/
         TimeHandler.instance.updateTimeDisplay(this, entryTimestamp, newEntryTimeDate, newEntryTimeHour)
     }
 

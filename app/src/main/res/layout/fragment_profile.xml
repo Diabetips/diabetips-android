@@ -206,7 +206,7 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
-            <TextView
+            <!--TextView
                 android:id="@+id/medicalInformationsSubtitle"
                 style="@style/SubtitleTheme"
                 android:layout_width="wrap_content"
@@ -325,7 +325,7 @@
                     android:maxLength="@integer/glycemia_max_length"
                     android:inputType="number"/>
 
-            </com.google.android.material.textfield.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout-->
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/updateProfileButton"

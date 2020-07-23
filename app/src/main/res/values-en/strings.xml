@@ -127,4 +127,5 @@
     <string name="hyperglycemia">Hyperglycemia</string>
     <string name="hypoglycemia">Hypoglycemia</string>
     <string name="change_insulin">Edit insulin injection</string>
+    <string name="version_demo">Demo version</string>
 </resources>

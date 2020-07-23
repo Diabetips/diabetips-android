@@ -24,7 +24,7 @@ class HomeFragment : ANavigationFragment(FragmentType.HOME) {
         }
 
         val view = createFragmentView(R.layout.fragment_home, inflater, container)
-        view.readyToScan.text = (activity as NavigationActivity).nfcReader?.nfcStatus
+        //view.readyToScan.text = (activity as NavigationActivity).nfcReader?.nfcStatus
 
         view.newEntryButton.setOnClickListener {
             startActivity(Intent(context, NewEntryActivity::class.java))
@@ -43,7 +43,7 @@ class HomeFragment : ANavigationFragment(FragmentType.HOME) {
         //Call Api to update chart
         updateChart()
 
-        (activity as NavigationActivity).nfcReader
+        //(activity as NavigationActivity).nfcReader
         return view
     }
 

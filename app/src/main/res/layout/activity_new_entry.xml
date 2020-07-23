@@ -175,6 +175,7 @@
                     style="@style/ImageButtonTransparentTheme"
                     android:clickable="false"
                     android:layout_marginStart="@dimen/margin_size"
+                    android:layout_marginBottom="@dimen/quarter_margin_size"
                     android:contentDescription="@string/placeholder_text"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -241,36 +242,31 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <!--androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingStart="@dimen/margin_size"
-                android:paddingEnd="@dimen/half_margin_size">
+                android:paddingEnd="@dimen/half_margin_size"-->
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/insulinFastEntryInputLayout"
-                    style="@style/TextInputLayoutTheme"
-                    android:layout_width="0dp"
-                    android:layout_marginStart="0dp"
-                    android:layout_marginEnd="@dimen/half_margin_size"
-                    android:hint="@string/insulin_fast_input"
-                    app:suffixText="@string/unit_unit"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/calculateInsulinButton"
-                    app:layout_constraintTop_toTopOf="parent">
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/insulinFastEntryInputLayout"
+                style="@style/TextInputLayoutTheme"
+                android:layout_width="match_parent"
+                android:hint="@string/insulin_fast_input"
+                app:suffixText="@string/unit_unit">
 
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/insulinFastEntryInput"
-                        style="@style/TextInputTheme"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:inputType="number"
-                        android:imeOptions="actionNext"
-                        android:nextFocusForward="@+id/insulinSlowEntryInput" />
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/insulinFastEntryInput"
+                    style="@style/TextInputTheme"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:imeOptions="actionNext"
+                    android:nextFocusForward="@+id/insulinSlowEntryInput" />
 
-                </com.google.android.material.textfield.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
-                <com.google.android.material.button.MaterialButton
+                <!--com.google.android.material.button.MaterialButton
                     android:id="@+id/calculateInsulinButton"
                     style="@style/MaterialButtonAltTheme"
                     android:layout_width="wrap_content"
@@ -280,9 +276,9 @@
                     android:text="@string/calculate"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"/>
+                    app:layout_constraintBottom_toBottomOf="parent"/-->
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+            <!--/androidx.constraintlayout.widget.ConstraintLayout-->
 
             <TextView
                 android:id="@+id/calculateInsulinQuantity"

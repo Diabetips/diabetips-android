@@ -60,7 +60,7 @@ class ProfileFragment : ANavigationFragment(FragmentType.PROFILE), DatePickerDia
         view.emailProfileInput.addTextChangedListener(EmailWatcher(context, view.emailProfileInputLayout))
         view.newPasswordInput.addTextChangedListener(PasswordWatcher(context, view.newPasswordInputLayout, true, true))
         view.newPasswordConfirmInput.addTextChangedListener(PasswordConfirmWatcher(context, view.newPasswordConfirmInputLayout, view.newPasswordInput))
-        view.birthDateProfileInput.setOnFocusChangeListener { _, hasFocus ->
+        /*view.birthDateProfileInput.setOnFocusChangeListener { _, hasFocus ->
             if (hasFocus) {
                 view.birthDateProfileInput.clearFocus()
                 TimeHandler.instance.getDatePickerDialog(requireContext(), this,
@@ -70,7 +70,7 @@ class ProfileFragment : ANavigationFragment(FragmentType.PROFILE), DatePickerDia
                         ?: TimeHandler.instance.currentTimeSecond())
                     .show(requireActivity().supportFragmentManager, "DatePickerDialog")
             }
-        }
+        }*/
         view.updateProfileButton.setOnClickListener {
             updateProfile()
         }
@@ -86,8 +86,8 @@ class ProfileFragment : ANavigationFragment(FragmentType.PROFILE), DatePickerDia
         handleProfileImage(view)
         handlePopupMenu(view)
         handleAnimation(view)
-        view.sexProfileDropdown.setAdapter(DropdownAdapter(requireContext(), R.array.sex))
-        view.diabetesTypeProfileDropdown.setAdapter(DropdownAdapter(requireContext(), R.array.diabetes_type))
+        //view.sexProfileDropdown.setAdapter(DropdownAdapter(requireContext(), R.array.sex))
+        //view.diabetesTypeProfileDropdown.setAdapter(DropdownAdapter(requireContext(), R.array.diabetes_type))
         getAccountInfo(view)
         return view
     }
@@ -187,23 +187,23 @@ class ProfileFragment : ANavigationFragment(FragmentType.PROFILE), DatePickerDia
         val account = UserManager.instance.getUser(requireContext())
         if (account.uid != "") {
             setAccountInfo(account, view)
-            setBiometricInfo(UserManager.instance.getBiometric(requireContext()), view)
+            //setBiometricInfo(UserManager.instance.getBiometric(requireContext()), view)
         } else {
             loading = true
             UserService.instance.get<UserObject>("me").doOnSuccess {
                 if (it.second.component2() == null) {
                     UserManager.instance.saveUser(requireContext(), it.second.component1()!!)
                     setAccountInfo(it.second.component1()!!, view)
-                    getBiometricInfo(view)
+                    //getBiometricInfo(view)
                 } else {
                     Toast.makeText(context, it.second.component2()!!.exception.message, Toast.LENGTH_SHORT).show()
-                    loading = false
                 }
+                loading = false
             }.subscribe()
         }
     }
 
-    private fun getBiometricInfo(view: View? = this.view) {
+    /*private fun getBiometricInfo(view: View? = this.view) {
         loading = true
         BiometricService.instance.get<BiometricObject>().doOnSuccess {
             if (it.second.component2() == null) {
@@ -214,7 +214,7 @@ class ProfileFragment : ANavigationFragment(FragmentType.PROFILE), DatePickerDia
             }
             loading = false
         }.subscribe()
-    }
+    }*/
 
     private fun setAccountInfo(account: UserObject, view: View? = this.view) {
         view?.firstNameProfileInput?.setText(account.first_name)
@@ -223,7 +223,7 @@ class ProfileFragment : ANavigationFragment(FragmentType.PROFILE), DatePickerDia
         ImageHandler.instance.loadImage(view?.imagePhotoProfile as ImageView, requireContext(), UserService.instance.getPictureUrl(account.uid), R.drawable.ic_person, false)
     }
 
-    private fun setBiometricInfo(biometric: BiometricObject, view: View? = this.view) {
+    /*private fun setBiometricInfo(biometric: BiometricObject, view: View? = this.view) {
         view?.heightProfileInput?.setText(biometric.height?.toString())
         view?.weightProfileInput?.setText(biometric.mass?.toString())
         view?.hyperglycemiaProfileInput?.setText(biometric.hyperglycemia?.toString())
@@ -234,7 +234,7 @@ class ProfileFragment : ANavigationFragment(FragmentType.PROFILE), DatePickerDia
             context?.getString(R.string.format_date_birth)!!))
         view?.diabetesTypeProfileDropdown?.setText(biometric.getDiabetesType(requireContext()))
         view?.sexProfileDropdown?.setText(biometric.getSex(requireContext()))
-    }
+    }*/
 
     private fun updateProfile() {
         if (validateFields()) {
@@ -249,16 +249,17 @@ class ProfileFragment : ANavigationFragment(FragmentType.PROFILE), DatePickerDia
             UserService.instance.update(user, "me").doOnSuccess {
                 if (it.second.component2() == null) {
                     UserManager.instance.saveUser(requireContext(), it.second.component1()!!)
-                    updateBiometric()
+                    Toast.makeText(context, getString(R.string.update_profile), Toast.LENGTH_SHORT).show()
+                    //updateBiometric()
                 } else {
                     Toast.makeText(context, it.second.component2()!!.exception.message, Toast.LENGTH_SHORT).show()
-                    loading = false
                 }
+                loading = false
             }.subscribe()
         }
     }
 
-    private fun updateBiometric() {
+    /*private fun updateBiometric() {
         val biometric: BiometricObject = UserManager.instance.getBiometric(requireContext())
         biometric.height = view?.heightProfileInput?.text.toString().toIntOrNull()
         biometric.mass = view?.weightProfileInput?.text.toString().toIntOrNull()
@@ -280,7 +281,7 @@ class ProfileFragment : ANavigationFragment(FragmentType.PROFILE), DatePickerDia
             }
             loading = false
         }.subscribe()
-    }
+    }*/
 
     private fun validateFields() : Boolean {
         view?.nameProfileInput?.text = view?.nameProfileInput?.text
@@ -370,8 +371,8 @@ class ProfileFragment : ANavigationFragment(FragmentType.PROFILE), DatePickerDia
     }
 
     override fun onDateSet(view: DatePickerDialog?, year: Int, monthOfYear: Int, dayOfMonth: Int) {
-        this.view?.birthDateProfileInput?.setText(TimeHandler.instance.formatTimestamp(
+        /*this.view?.birthDateProfileInput?.setText(TimeHandler.instance.formatTimestamp(
             TimeHandler.instance.getTimestampDate(year, monthOfYear, dayOfMonth),
-            requireContext().getString(R.string.format_date_birth)))
+            requireContext().getString(R.string.format_date_birth)))*/
     }
 }

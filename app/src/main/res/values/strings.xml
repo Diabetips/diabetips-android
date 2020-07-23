@@ -1,8 +1,8 @@
 <resources>
     <!--application data start-->
     <string name="app_name" translatable="false">Diabetips</string>
-    <!--string name="api_base_url" translatable="false">https://api.diabetips.fr/v1</string--> <!-- URL API PROD -->
-    <string name="api_base_url" translatable="false">https://api.dev.diabetips.fr/v1</string> <!-- URL API DEV -->
+    <string name="api_base_url" translatable="false">https://api.diabetips.fr/v1</string> <!-- URL API PROD -->
+    <!--string name="api_base_url" translatable="false">https://api.dev.diabetips.fr/v1</string--> <!-- URL API DEV -->
     <string name="pagination_header" translatable="false">X-Pages</string>
     <string name="default_notification_channel_id" translatable="false">Diabetips</string>
     <!--application data end-->
@@ -79,6 +79,7 @@
     <string name="sensor_not_ready">The sensor isn\'t ready yet</string>
     <string name="home_title">Home</string>
     <string name="open_dashboard_button">Open Dashboard</string>
+    <string name="version_demo">Demo version</string>
     <!--Home / Dashboard end-->
 
     <!--Dashboard start-->

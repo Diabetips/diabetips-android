@@ -23,7 +23,7 @@ import kotlinx.android.synthetic.main.activity_navigation.*
 class NavigationActivity : ADiabetipsActivity(R.layout.activity_navigation), me.ibrahimsn.lib.OnItemSelectedListener  {
 
     private var currentFragment: Fragment? = null
-    var nfcReader: NfcReaderService? = null
+    //var nfcReader: NfcReaderService? = null
 
     companion object {
         var defaultFragmentSelect = ANavigationFragment.FragmentType.HOME
@@ -33,10 +33,10 @@ class NavigationActivity : ADiabetipsActivity(R.layout.activity_navigation), me.
         super.onCreate(savedInstanceState)
         smoothBottomBaBar.onItemSelectedListener = this
         selectDefaultFragment()
-        initFirebase()
-        nfcReader = NfcReaderService(this, intent, this) {
+        //initFirebase()
+        /*nfcReader = NfcReaderService(this, intent, this) {
             nfcReaderUpdated()
-        }
+        }*/
     }
 
     private fun initFirebase() {
@@ -110,7 +110,7 @@ class NavigationActivity : ADiabetipsActivity(R.layout.activity_navigation), me.
         }
     }
 
-    override fun onResume() {
+    /*override fun onResume() {
         super.onResume()
         nfcReader!!.onResume()
     }
@@ -138,6 +138,6 @@ class NavigationActivity : ADiabetipsActivity(R.layout.activity_navigation), me.
 
     override fun onDestroy() {
         super.onDestroy()
-    }
+    }*/
 
 }
