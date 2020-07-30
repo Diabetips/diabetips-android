@@ -20,14 +20,15 @@ class DetailLineChart @JvmOverloads constructor(context: Context, attrs: Attribu
 
     override fun onDraw(canvas: Canvas) {
         val limitLines = mAxisLeft.limitLines
-        if (limitLines == null || limitLines.size != 2) return
-        val pts = FloatArray(4)
-        val l1 = limitLines[0]
-        val l2 = limitLines[1]
-        pts[1] = l1.limit
-        pts[3] = l2.limit
-        mLeftAxisTransformer.pointValuesToPixel(pts)
-        canvas.drawRect(mViewPortHandler.contentLeft(), pts[1], mViewPortHandler.contentRight(), pts[3], mYAxisLimitZonePaint)
+        if (limitLines != null && limitLines.size == 2) {
+            val pts = FloatArray(4)
+            val l1 = limitLines[0]
+            val l2 = limitLines[1]
+            pts[1] = l1.limit
+            pts[3] = l2.limit
+            mLeftAxisTransformer.pointValuesToPixel(pts)
+            canvas.drawRect(mViewPortHandler.contentLeft(), pts[1], mViewPortHandler.contentRight(), pts[3], mYAxisLimitZonePaint)
+        }
         super.onDraw(canvas)
     }
 
