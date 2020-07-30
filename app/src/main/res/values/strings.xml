@@ -1,8 +1,8 @@
 <resources>
     <!--application data start-->
     <string name="app_name" translatable="false">Diabetips</string>
-    <!--string name="api_base_url" translatable="false">https://api.diabetips.fr/v1</string--> <!-- URL API PROD -->
-    <string name="api_base_url" translatable="false">https://api.dev.diabetips.fr/v1</string> <!-- URL API DEV -->
+    <string name="api_base_url" translatable="false">https://api.diabetips.fr/v1</string> <!-- URL API PROD -->
+    <!--string name="api_base_url" translatable="false">https://api.dev.diabetips.fr/v1</string--> <!-- URL API DEV -->
     <string name="client_id" translatable="false">diabetips-android</string>
     <string name="client_secret" translatable="false">DayeeW6efeeTiequuphaereiShaephoi</string>
     <string name="pagination_header" translatable="false">X-Pages</string>
