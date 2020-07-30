@@ -1,6 +1,7 @@
 package com.epitech.diabetips.services
 
 import android.content.Context
+import com.epitech.diabetips.R
 import com.epitech.diabetips.managers.AuthManager
 import com.epitech.diabetips.storages.*
 import com.github.kittinunf.fuel.core.FuelManager
