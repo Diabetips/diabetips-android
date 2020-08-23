@@ -36,7 +36,7 @@ class FunctionalTest {
         val ingredient = IngredientObject(10f, 10f, food)
         val recipe = RecipeObject(1, "Recipe", "", 10f, 1f, arrayOf(ingredient))
         val mealRecipe = MealRecipeObject(25f, 1f, recipe, arrayOf(IngredientObject(25f, 25f, food)))
-        val meal = MealObject(1, 0, "", 35f, arrayOf(mealRecipe), arrayOf(ingredient))
+        val meal = MealObject(1, "", "", 35f, arrayOf(mealRecipe), arrayOf(ingredient))
         var expectedSugar = ingredient.total_sugar
         assertEquals("Wrong ingredient total sugar", expectedSugar, ingredient.calculateTotalSugar())
         expectedSugar = recipe.total_sugar
