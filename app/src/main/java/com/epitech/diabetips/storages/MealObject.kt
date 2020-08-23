@@ -1,6 +1,5 @@
 package com.epitech.diabetips.storages
 
-import com.epitech.diabetips.utils.TimeHandler
 import com.google.gson.TypeAdapter
 import com.google.gson.stream.JsonReader
 import com.google.gson.stream.JsonWriter
@@ -8,7 +7,7 @@ import java.io.Serializable
 
 data class MealObject (
     var id: Int = 0,
-    var timestamp: Long = TimeHandler.instance.currentTimeSecond(),
+    var time: String = "",
     var description: String = "",
     var total_sugar: Float = 0f,
     var recipes: Array<MealRecipeObject> = arrayOf(),
@@ -49,7 +48,7 @@ class MealObjectAdapter : TypeAdapter<MealObject>() {
         writer?.beginObject()
 
         writer?.name("description")?.value(mealObject?.description)
-        writer?.name("timestamp")?.value(mealObject?.timestamp)
+        writer?.name("timestamp")?.value(mealObject?.time)
 
         writer?.name("recipes")
         writer?.beginArray()

@@ -1,9 +1,7 @@
 package com.epitech.diabetips.managers
 
-import android.annotation.SuppressLint
 import android.content.Context
 
-@Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
 abstract class AManager(protected val preference : String, protected val key : String = "") {
 
     protected fun saveString(context: Context, string: String, prefKey: String = key) {

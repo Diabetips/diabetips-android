@@ -30,15 +30,16 @@ class NewMealActivity : ADiabetipsActivity(R.layout.activity_new_meal), DatePick
 
     private var mealId: Int = 0
     private var saved: Boolean? = null
-    private var mealTimestamp: Long = TimeHandler.instance.currentTimeSecond()
+    private var mealTime: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        mealTime = TimeHandler.instance.currentTimeFormat(getString(R.string.format_time_api))
         newMealTimeDate.setOnClickListener {
-            TimeHandler.instance.getDatePickerDialog(this, this, mealTimestamp).show(supportFragmentManager, "DatePickerDialog")
+            TimeHandler.instance.getDatePickerDialog(this, this, mealTime).show(supportFragmentManager, "DatePickerDialog")
         }
         newMealTimeHour.setOnClickListener {
-            TimeHandler.instance.getTimePickerDialog(this, this, mealTimestamp).show(supportFragmentManager, "TimePickerDialog")
+            TimeHandler.instance.getTimePickerDialog(this, this, mealTime).show(supportFragmentManager, "TimePickerDialog")
         }
         addRecipeButton.setOnClickListener {
             startActivityForResult(Intent(this, RecipeActivity::class.java)
@@ -106,14 +107,14 @@ class NewMealActivity : ADiabetipsActivity(R.layout.activity_new_meal), DatePick
         if (intent.hasExtra(getString(R.string.param_meal))) {
             val meal = (intent.getSerializableExtra(getString(R.string.param_meal)) as MealObject)
             mealId = meal.id
-            mealTimestamp = meal.timestamp
+            mealTime = meal.time
             if (mealId > 0 && meal.recipes.isNotEmpty()) {
                 (recipeList.adapter as MealRecipeAdapter).setRecipes(meal.recipes)
             }
             if (mealId > 0 && meal.foods.isNotEmpty())
                 (mealFoodList.adapter as RecipeFoodAdapter).setFoods(meal.foods)
         }
-        TimeHandler.instance.updateTimeDisplay(this, mealTimestamp, newMealTimeDate, newMealTimeHour)
+        TimeHandler.instance.updateTimeDisplay(this, mealTime, newMealTimeDate, newMealTimeHour)
     }
 
     private fun saveMeal(finishView: Boolean = false) {
@@ -138,7 +139,7 @@ class NewMealActivity : ADiabetipsActivity(R.layout.activity_new_meal), DatePick
     }
 
     private fun getMeal() : MealObject {
-        val meal = MealObject(mealId, mealTimestamp, "", 0f,
+        val meal = MealObject(mealId, mealTime, "", 0f,
             (recipeList.adapter as MealRecipeAdapter).getRecipes().toTypedArray(),
             (mealFoodList.adapter as RecipeFoodAdapter).getFoods().toTypedArray())
         meal.calculateTotalSugar()
@@ -164,13 +165,13 @@ class NewMealActivity : ADiabetipsActivity(R.layout.activity_new_meal), DatePick
     }
 
     override fun onDateSet(view: DatePickerDialog?, year: Int, monthOfYear: Int, dayOfMonth: Int) {
-        mealTimestamp = TimeHandler.instance.changeTimestampDate(mealTimestamp, year, monthOfYear, dayOfMonth)
-        TimeHandler.instance.updateTimeDisplay(this, mealTimestamp, newMealTimeDate, newMealTimeHour)
+        mealTime = TimeHandler.instance.changeFormatDate(mealTime, getString(R.string.format_time_api), year, monthOfYear, dayOfMonth)
+        TimeHandler.instance.updateTimeDisplay(this, mealTime, newMealTimeDate, newMealTimeHour)
     }
 
     override fun onTimeSet(view: TimePickerDialog?, hourOfDay: Int, minute: Int, second: Int) {
-        mealTimestamp = TimeHandler.instance.changeTimestampTime(mealTimestamp, hourOfDay, minute)
-        TimeHandler.instance.updateTimeDisplay(this, mealTimestamp, newMealTimeDate, newMealTimeHour)
+        mealTime = TimeHandler.instance.changeFormatTime(mealTime, getString(R.string.format_time_api), hourOfDay, minute)
+        TimeHandler.instance.updateTimeDisplay(this, mealTime, newMealTimeDate, newMealTimeHour)
     }
 
     override fun onBackPressed() {

@@ -1,5 +1,6 @@
 package com.epitech.diabetips.holders
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
@@ -7,6 +8,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.epitech.diabetips.R
 import com.epitech.diabetips.storages.EntryObject
+import com.epitech.diabetips.utils.TimeHandler
 import kotlinx.android.synthetic.main.item_dashboard.view.*
 import java.text.SimpleDateFormat
 
@@ -24,14 +26,11 @@ class DashboardItemViewHolder(inflater: LayoutInflater, parent: ViewGroup)
         time = itemView.dashboardItemTime
     }
 
-    fun bind(item: EntryObject, onItemClickListener : ((EntryObject) -> Unit)? = null) {
+    fun bind(context: Context, item: EntryObject, onItemClickListener : ((EntryObject) -> Unit)? = null) {
         icon?.setImageDrawable(item.icon)
         title?.text = item.title
         description?.text = item.description
-        time?.text = SimpleDateFormat("HH:mm", java.util.Locale.getDefault()).format(item.time * 1000)
-//        mealDescription?.text = meal.description
-//        mealDate?.text = SimpleDateFormat("HH:mm dd/MM/yyyy", java.util.Locale.getDefault()).format(meal.timestamp)
-//        mealUnit?.text = "0u"
+        TimeHandler.instance.updateTimeDisplay(context, item.time, null, time)
         itemView.setOnClickListener {onItemClickListener?.invoke(item)}
     }
 }

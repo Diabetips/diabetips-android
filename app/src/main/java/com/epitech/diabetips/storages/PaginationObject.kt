@@ -1,5 +1,8 @@
 package com.epitech.diabetips.storages
 
+import android.content.Context
+import com.epitech.diabetips.R
+import com.epitech.diabetips.utils.TimeHandler
 import java.io.Serializable
 
 data class PaginationObject (
@@ -9,8 +12,8 @@ data class PaginationObject (
     var previous: Int = default,
     var next: Int = default,
     var last: Int = default,
-    var start: Long = 0,
-    var end: Long = 0,
+    var start: String = "",
+    var end: String = "",
     var periodEnable: Boolean = false) : Serializable {
     var updated: Boolean = false
 
@@ -41,7 +44,7 @@ data class PaginationObject (
     fun getRequestParameters() : String {
         updated = true
         if (periodEnable)
-            return "page=$current&size=$size&start=$start&end=$end"
+            return "page=$current&size=$size&start=${start}&end=${end}"
         return "page=$current&size=$size"
     }
 
@@ -62,10 +65,17 @@ data class PaginationObject (
             last = values["last"]!! as Int
     }
 
-    fun setInterval(start: Long, end: Long) {
+    fun setInterval(start: String, end: String) {
         this.start = start
         this.end = end
         this.periodEnable = true
+    }
+
+    fun getTimestampInterval(context: Context) : Pair<Long, Long> {
+        return Pair(
+            TimeHandler.instance.getTimestampFromFormat(start, context.getString(R.string.format_time_api)) ?: 0,
+            TimeHandler.instance.getTimestampFromFormat(start, context.getString(R.string.format_time_api)) ?: 0
+        )
     }
 
 }

@@ -33,18 +33,19 @@ class NewEntryActivity : ADiabetipsActivity(R.layout.activity_new_entry), DatePi
     enum class ObjectType {MEAL, SLOW_INSULIN, FAST_INSULIN, NOTE, EVENT}
 
     private val objects: MutableMap<ObjectType, Triple<Int, Boolean?, Boolean>> = mutableMapOf()
-    private var entryTimestamp: Long = TimeHandler.instance.currentTimeSecond()
+    private var entryTime: String = ""
     private var meal: MealObject = MealObject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        entryTime = TimeHandler.instance.currentTimeFormat(getString(R.string.format_time_api))
         initObjectMap()
         addTextChangedListener()
         newEntryTimeDate.setOnClickListener {
-            TimeHandler.instance.getDatePickerDialog(this, this, entryTimestamp).show(supportFragmentManager, "DatePickerDialog")
+            TimeHandler.instance.getDatePickerDialog(this, this, entryTime).show(supportFragmentManager, "DatePickerDialog")
         }
         newEntryTimeHour.setOnClickListener {
-            TimeHandler.instance.getTimePickerDialog(this, this, entryTimestamp).show(supportFragmentManager, "TimePickerDialog")
+            TimeHandler.instance.getTimePickerDialog(this, this, entryTime).show(supportFragmentManager, "TimePickerDialog")
         }
         newMealButton.setOnClickListener {
             startActivityForResult(Intent(this, NewMealActivity::class.java), RequestCode.NEW_MEAL.ordinal)
@@ -77,7 +78,7 @@ class NewEntryActivity : ADiabetipsActivity(R.layout.activity_new_entry), DatePi
                 calculateInsulinButton.visibility = View.VISIBLE
             }
         }.subscribe()
-        TimeHandler.instance.updateTimeDisplay(this, entryTimestamp, newEntryTimeDate, newEntryTimeHour)
+        TimeHandler.instance.updateTimeDisplay(this, entryTime, newEntryTimeDate, newEntryTimeHour)
     }
 
     private fun initObjectMap() {
@@ -113,7 +114,7 @@ class NewEntryActivity : ADiabetipsActivity(R.layout.activity_new_entry), DatePi
             entryMealCard.visibility = View.VISIBLE
             entryMealQuantity.text = "${meal.total_sugar} ${getString(R.string.unit_g)}"
             entryMealSummary.text = meal.getSummary()
-            TimeHandler.instance.updateDateTimeDisplay(this, meal.timestamp, entryMealTime)
+            TimeHandler.instance.updateDateTimeDisplay(this, meal.time, entryMealTime)
         } else {
             newMealButton.text = getString(R.string.add_meal)
             entryMealCard.visibility = View.GONE
@@ -135,7 +136,7 @@ class NewEntryActivity : ADiabetipsActivity(R.layout.activity_new_entry), DatePi
         return InsulinObject(objects[ObjectType.SLOW_INSULIN]!!.first,
             "",
             insulinSlowEntryInput.text.toString().toIntOrNull()?: 0,
-            entryTimestamp,
+            entryTime,
             InsulinObject.Type.slow.name)
     }
 
@@ -143,7 +144,7 @@ class NewEntryActivity : ADiabetipsActivity(R.layout.activity_new_entry), DatePi
        return InsulinObject(objects[ObjectType.FAST_INSULIN]!!.first,
             "",
             insulinFastEntryInput.text.toString().toIntOrNull()?: 0,
-            entryTimestamp,
+           entryTime,
             InsulinObject.Type.fast.name)
     }
 
@@ -163,7 +164,7 @@ class NewEntryActivity : ADiabetipsActivity(R.layout.activity_new_entry), DatePi
 
     private fun saveNote(finishView: Boolean = false) {
         objects[ObjectType.NOTE] = objects[ObjectType.NOTE]!!.copy(third = true)
-        val note = NoteObject(objects[ObjectType.NOTE]!!.first, commentEntryInput.text.toString(), entryTimestamp)
+        val note = NoteObject(objects[ObjectType.NOTE]!!.first, commentEntryInput.text.toString(), entryTime)
         NoteService.instance.createOrUpdate(note, note.id).doOnSuccess {
             if (it.second.component2() == null) {
                 objects[ObjectType.NOTE] = Triple<Int, Boolean?, Boolean>(it.second.component1()?.id!!, true, false)
@@ -177,8 +178,8 @@ class NewEntryActivity : ADiabetipsActivity(R.layout.activity_new_entry), DatePi
 
     private fun saveEvent(finishView: Boolean = false) {
         objects[ObjectType.NOTE] = objects[ObjectType.NOTE]!!.copy(third = true)
-        val event = EventObject(objects[ObjectType.EVENT]!!.first, "Activité Physique", entryTimestamp,
-            entryTimestamp + (physicalActivityEntryInput.text.toString().toIntOrNull()?: 0) * 60)
+        val event = EventObject(objects[ObjectType.EVENT]!!.first, "Activité Physique", entryTime,
+            TimeHandler.instance.addMinuteToFormat(entryTime, getString(R.string.format_time_api), physicalActivityEntryInput.text.toString().toIntOrNull()?: 0))
         EventService.instance.createOrUpdate(event, event.id).doOnSuccess {
             if (it.second.component2() == null) {
                 objects[ObjectType.EVENT] = Triple<Int, Boolean?, Boolean>(it.second.component1()?.id!!, true, false)
@@ -199,7 +200,7 @@ class NewEntryActivity : ADiabetipsActivity(R.layout.activity_new_entry), DatePi
     }
 
     private fun updateTimeDisplay() {
-        TimeHandler.instance.updateTimeDisplay(this, entryTimestamp, newEntryTimeDate, newEntryTimeHour)
+        TimeHandler.instance.updateTimeDisplay(this, entryTime, newEntryTimeDate, newEntryTimeHour)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -213,12 +214,12 @@ class NewEntryActivity : ADiabetipsActivity(R.layout.activity_new_entry), DatePi
     }
 
     override fun onDateSet(view: DatePickerDialog?, year: Int, monthOfYear: Int, dayOfMonth: Int) {
-        entryTimestamp = TimeHandler.instance.changeTimestampDate(entryTimestamp, year, monthOfYear, dayOfMonth)
+        entryTime = TimeHandler.instance.changeFormatDate(entryTime, getString(R.string.format_time_api), year, monthOfYear, dayOfMonth)
         updateTimeDisplay()
     }
 
     override fun onTimeSet(view: TimePickerDialog?, hourOfDay: Int, minute: Int, second: Int) {
-        entryTimestamp = TimeHandler.instance.changeTimestampTime(entryTimestamp, hourOfDay, minute)
+        entryTime = TimeHandler.instance.changeFormatTime(entryTime, getString(R.string.format_time_api), hourOfDay, minute)
         updateTimeDisplay()
     }
 

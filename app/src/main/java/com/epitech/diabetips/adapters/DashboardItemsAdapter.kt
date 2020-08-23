@@ -80,7 +80,7 @@ class DashboardItemsAdapter(val context: Context,
         }
 
         override fun onBindViewHolder(holder: DashboardItemViewHolder, position: Int) {
-                holder.bind(items[position], onItemClickListener)
+                holder.bind(context, items[position], onItemClickListener)
 
                 holder.itemView.setOnClickListener {
                         when (items[position].type) {
@@ -111,18 +111,18 @@ class DashboardItemsAdapter(val context: Context,
                 val insulinObject = (item.orignal as InsulinObject).copy()
                 view.changeInsulinInputLayout.hint = "${view.changeInsulinInputLayout.hint} (${context.getString(R.string.unit_units)})"
                 view.changeInsulinInput.setText(insulinObject.quantity.toString())
-                TimeHandler.instance.updateTimeDisplay(context, insulinObject.timestamp, view.changeInsulinTimeDate, view.changeInsulinTimeHour)
+                TimeHandler.instance.updateTimeDisplay(context, insulinObject.time, view.changeInsulinTimeDate, view.changeInsulinTimeHour)
                 view.changeInsulinTimeDate.setOnClickListener {
                         TimeHandler.instance.getDatePickerDialog(context, DatePickerHandler { year, monthOfYear, dayOfMonth ->
-                                insulinObject.timestamp = TimeHandler.instance.changeTimestampDate(insulinObject.timestamp, year, monthOfYear, dayOfMonth)
-                                TimeHandler.instance.updateTimeDisplay(context, insulinObject.timestamp, view.changeInsulinTimeDate, view.changeInsulinTimeHour)
-                        }, insulinObject.timestamp).show(fragmentManager, "DatePickerDialog")
+                                insulinObject.time = TimeHandler.instance.changeFormatDate(insulinObject.time, context.getString(R.string.format_time_api), year, monthOfYear, dayOfMonth)
+                                TimeHandler.instance.updateTimeDisplay(context, insulinObject.time, view.changeInsulinTimeDate, view.changeInsulinTimeHour)
+                        }, insulinObject.time).show(fragmentManager, "DatePickerDialog")
                 }
                 view.changeInsulinTimeHour.setOnClickListener {
                         TimeHandler.instance.getTimePickerDialog(context, TimePickerHandler { hourOfDay, minute, _ ->
-                                insulinObject.timestamp = TimeHandler.instance.changeTimestampTime(insulinObject.timestamp, hourOfDay, minute)
-                                TimeHandler.instance.updateTimeDisplay(context, insulinObject.timestamp, view.changeInsulinTimeDate, view.changeInsulinTimeHour)
-                        }, insulinObject.timestamp).show(fragmentManager, "TimePickerDialog")
+                                insulinObject.time = TimeHandler.instance.changeFormatTime(insulinObject.time, context.getString(R.string.format_time_api), hourOfDay, minute)
+                                TimeHandler.instance.updateTimeDisplay(context, insulinObject.time, view.changeInsulinTimeDate, view.changeInsulinTimeHour)
+                        }, insulinObject.time).show(fragmentManager, "TimePickerDialog")
                 }
                 view.changeInsulinNegativeButton.setOnClickListener {
                         dialog.dismiss()
@@ -164,18 +164,18 @@ class DashboardItemsAdapter(val context: Context,
                 dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
                 val noteObject = (item.orignal as NoteObject).copy()
                 view.changeCommentInput.setText(noteObject.description)
-                TimeHandler.instance.updateTimeDisplay(context, noteObject.timestamp, view.changeCommentTimeDate, view.changeCommentTimeHour)
+                TimeHandler.instance.updateTimeDisplay(context, noteObject.time, view.changeCommentTimeDate, view.changeCommentTimeHour)
                 view.changeCommentTimeDate.setOnClickListener {
                         TimeHandler.instance.getDatePickerDialog(context, DatePickerHandler { year, monthOfYear, dayOfMonth ->
-                                noteObject.timestamp = TimeHandler.instance.changeTimestampDate(noteObject.timestamp, year, monthOfYear, dayOfMonth)
-                                TimeHandler.instance.updateTimeDisplay(context, noteObject.timestamp, view.changeCommentTimeDate, view.changeCommentTimeHour)
-                        }, noteObject.timestamp).show(fragmentManager, "DatePickerDialog")
+                                noteObject.time = TimeHandler.instance.changeFormatDate(noteObject.time, context.getString(R.string.format_time_api), year, monthOfYear, dayOfMonth)
+                                TimeHandler.instance.updateTimeDisplay(context, noteObject.time, view.changeCommentTimeDate, view.changeCommentTimeHour)
+                        }, noteObject.time).show(fragmentManager, "DatePickerDialog")
                 }
                 view.changeCommentTimeHour.setOnClickListener {
                         TimeHandler.instance.getTimePickerDialog(context, TimePickerHandler { hourOfDay, minute, _ ->
-                                noteObject.timestamp = TimeHandler.instance.changeTimestampTime(noteObject.timestamp, hourOfDay, minute)
-                                TimeHandler.instance.updateTimeDisplay(context, noteObject.timestamp, view.changeCommentTimeDate, view.changeCommentTimeHour)
-                        }, noteObject.timestamp).show(fragmentManager, "TimePickerDialog")
+                                noteObject.time = TimeHandler.instance.changeFormatTime(noteObject.time, context.getString(R.string.format_time_api), hourOfDay, minute)
+                                TimeHandler.instance.updateTimeDisplay(context, noteObject.time, view.changeCommentTimeDate, view.changeCommentTimeHour)
+                        }, noteObject.time).show(fragmentManager, "TimePickerDialog")
                 }
                 view.changeCommentNegativeButton.setOnClickListener {
                         dialog.dismiss()

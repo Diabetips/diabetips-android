@@ -61,7 +61,7 @@ class ChartHandler {
 
         val bloodValues: List<BloodSugarObject> = items.filter{ it.type == EntryObject.Type.SUGAR}
             .map{it.orignal as (BloodSugarObject)}
-        val bloodValuesChunks = cutBloodValuesIntoChunks(bloodValues, 1800f)
+        val bloodValuesChunks = cutBloodValuesIntoChunks(bloodValues, 1800f, context)
         for (bloodValueChunk in bloodValuesChunks) {
             lineData.addDataSet(generateBloodDataset(bloodValueChunk, intervalTimeStamp, context))
         }
@@ -76,7 +76,7 @@ class ChartHandler {
             EntryObject.Type.COMMENT to ContextCompat.getColor(context, R.color.colorBackgroundDarkLight))
         for (info in punctualInfo) {
             val filteredItems: List<EntryObject> = items.filter{ it.type == info.key}
-            lineData.addDataSet(generatePonctualDataset(filteredItems, intervalTimeStamp, info.value))
+            lineData.addDataSet(generatePonctualDataset(filteredItems, intervalTimeStamp, info.value, context))
         }
         lineChart.axisLeft.removeAllLimitLines()
         val biometrics = UserManager.instance.getBiometric(context)
@@ -103,14 +103,14 @@ class ChartHandler {
         lineData.addDataSet(d)
     }
 
-    private fun cutBloodValuesIntoChunks(bloodValues: List<BloodSugarObject>, limit: Float): List<List<BloodSugarObject>> {
+    private fun cutBloodValuesIntoChunks(bloodValues: List<BloodSugarObject>, limit: Float, context: Context): List<List<BloodSugarObject>> {
         val chunks = mutableListOf<List<BloodSugarObject>>()
         if (bloodValues.isEmpty())
             return chunks
         var lastValue: BloodSugarObject = bloodValues[0]
         var lastChunkIndex: Int = 0
         for ((index, value) in bloodValues.withIndex().drop(1)) {
-            if (value.timestamp - lastValue.timestamp > limit) {
+            if (TimeHandler.instance.getSecondDiffFormat(value.time, lastValue.time, context.getString(R.string.format_time_api)) > limit) {
                 chunks.add(bloodValues.subList(lastChunkIndex, index - 1))
                 lastChunkIndex = index
             }
@@ -120,12 +120,12 @@ class ChartHandler {
         return chunks
     }
 
-    private fun generatePonctualDataset(items: List<EntryObject>, intervalTimeStamp: Pair<Long, Long>, color: Int): LineDataSet? {
+    private fun generatePonctualDataset(items: List<EntryObject>, intervalTimeStamp: Pair<Long, Long>, color: Int, context: Context): LineDataSet? {
         if (items.isEmpty())
             return null
         val yValues = mutableListOf<Entry>()
         for (item in items) {
-            yValues.add(Entry((item.time - intervalTimeStamp.first).toFloat(), 100f))
+            yValues.add(Entry((((TimeHandler.instance.getTimestampFromFormat(item.time, context.getString(R.string.format_time_api)) ?: 0) - intervalTimeStamp.first).toFloat()) / 1000f, 100f))
         }
         val set = LineDataSet(yValues, items[0].type.toString())
         setPonctualElementDatasetStyle(set, color)
@@ -135,7 +135,7 @@ class ChartHandler {
     private fun generateBloodDataset(bloodValues: List<BloodSugarObject>, intervalTimeStamp: Pair<Long, Long>, context: Context): LineDataSet{
         val yValues = mutableListOf<Entry>()
         for (bloodValue in bloodValues) {
-            yValues.add(Entry((bloodValue.timestamp - intervalTimeStamp.first).toFloat(), bloodValue.value.toFloat()))
+            yValues.add(Entry(((TimeHandler.instance.getTimestampFromFormat(bloodValue.time, context.getString(R.string.format_time_api)) ?: 0) - intervalTimeStamp.first).toFloat(), bloodValue.value.toFloat()))
         }
         val set = LineDataSet(yValues, "Glucose")
         setGlucoseDatasetStyle(set, context)

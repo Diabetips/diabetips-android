@@ -11,7 +11,8 @@ data class RecipeObject (
     var description: String = "",
     var total_sugar: Float = 0f,
     var portions: Float = 0f,
-    var ingredients: Array<IngredientObject> = arrayOf()) : Serializable {
+    var ingredients: Array<IngredientObject> = arrayOf(),
+    var author: UserObject = UserObject()) : Serializable {
 
     fun calculateTotalSugar() : Float {
         total_sugar = 0f

@@ -6,4 +6,4 @@ import java.io.Serializable
 data class Hba1cObject (
     var id: Int = 0,
     var value: Float = 0f,
-    var timestamp: Long = TimeHandler.instance.currentTimeSecond()) : Serializable
+    var time: String = "") : Serializable

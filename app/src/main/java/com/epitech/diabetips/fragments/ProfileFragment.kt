@@ -64,10 +64,10 @@ class ProfileFragment : ANavigationFragment(FragmentType.PROFILE), DatePickerDia
             if (hasFocus) {
                 view.birthDateProfileInput.clearFocus()
                 TimeHandler.instance.getDatePickerDialog(requireContext(), this,
-                    TimeHandler.instance.getTimestampFromFormat(
-                        view.birthDateProfileInput.text.toString(),
-                        requireContext().getString(R.string.format_date_birth))
-                        ?: TimeHandler.instance.currentTimeSecond())
+                    TimeHandler.instance.changeTimeFormat(view.birthDateProfileInput.text.toString(),
+                        getString(R.string.format_date_birth),
+                        getString(R.string.format_time_api))
+                        ?: TimeHandler.instance.currentTimeFormat(getString(R.string.format_time_api)))
                     .show(requireActivity().supportFragmentManager, "DatePickerDialog")
             }
         }
