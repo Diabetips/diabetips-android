@@ -19,7 +19,7 @@
             android:id="@+id/selectQuantityTextLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingBottom="@dimen/margin_size"
+            android:paddingBottom="0dp"
             style="@style/BackgroundDialogTheme">
 
             <TextView
@@ -39,6 +39,7 @@
                 android:layout_width="match_parent"
                 android:layout_marginTop="@dimen/quarter_margin_size"
                 android:hint="@string/select_quantity_input"
+                android:maxLength="@integer/portion_max_length"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/selectQuantityTitle">
@@ -46,11 +47,53 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/selectQuantityInput"
                     style="@style/TextInputTheme"
+                    android:maxLength="@integer/portion_max_length"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="numberDecimal" />
 
             </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/selectQuantityCard"
+                style="@style/BackgroundCardTheme"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="0dp"
+                app:layout_constraintTop_toBottomOf="@id/selectQuantityInputLayout">
+
+                <LinearLayout
+                    android:id="@+id/selectQuantityNutritionalListLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingBottom="@dimen/half_margin_size"
+                    style="@style/EmptyBackgroundTheme">
+
+                    <TextView
+                        android:id="@+id/selectQuantityNutritionalListTitle"
+                        style="@style/SubtitleTheme"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/half_margin_size"
+                        android:layout_marginTop="@dimen/half_margin_size"
+                        android:layout_marginBottom="@dimen/half_margin_size"
+                        android:text="@string/nutritional_values"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/selectQuantityNutritionalList"
+                        android:layout_marginStart="@dimen/half_margin_size"
+                        android:layout_marginEnd="@dimen/half_margin_size"
+                        android:nestedScrollingEnabled="false"
+                        style="@style/EmptyBackgroundTheme"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

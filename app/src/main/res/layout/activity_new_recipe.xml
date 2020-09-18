@@ -35,6 +35,16 @@
             app:layout_constraintBottom_toBottomOf="parent" />
 
         <ImageButton
+            android:id="@+id/newRecipeFavoriteButton"
+            style="@style/ImageButtonTransparentTheme"
+            android:layout_marginEnd="@dimen/half_margin_size"
+            android:contentDescription="@string/placeholder_text"
+            android:src="@drawable/ic_favorite_border"
+            app:layout_constraintEnd_toStartOf="@id/validateNewRecipeButton"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+        <ImageButton
             android:id="@+id/saveNewRecipeButton"
             style="@style/ImageButtonTransparentTheme"
             android:layout_marginEnd="@dimen/half_margin_size"
@@ -121,6 +131,7 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/newRecipePortionLayout"
                 style="@style/TextInputLayoutTheme"
+                android:maxLength="@integer/portion_max_length"
                 android:layout_width="match_parent"
                 android:layout_marginTop="@dimen/quarter_margin_size"
                 android:hint="@string/recipe_portion">

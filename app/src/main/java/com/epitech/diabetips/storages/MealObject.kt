@@ -26,19 +26,56 @@ data class MealObject (
 
     fun getSummary(separator: String = "\n") : String {
         var summary = ""
-        recipes.forEach {
+        recipes.forEach { recipe ->
             if (summary.isNotEmpty()) {
                 summary += separator
             }
-            summary += it.recipe.name
+            summary += recipe.recipe.name
         }
-        foods.forEach {
+        foods.forEach { ingredient ->
             if (summary.isNotEmpty()) {
                 summary += separator
             }
-            summary += it.food.name
+            summary += ingredient.food.name
         }
         return summary
+    }
+
+
+    fun getQuantity(): Float {
+        var quantity = 0f
+        recipes.forEach { recipe ->
+            quantity += recipe.getQuantity()
+        }
+        foods.forEach { food ->
+            quantity += food.quantity
+        }
+        return quantity
+    }
+
+    fun getNutritionalValues() : ArrayList<NutritionalObject> {
+        val nutritionalValues =  ArrayList<NutritionalObject>()
+        recipes.forEach { recipe ->
+            recipe.getNutritionalValues().forEach { recipeNutrition ->
+                val index = nutritionalValues.indexOfFirst { it.type == recipeNutrition.type }
+                if (index >= 0) {
+                    nutritionalValues[index].value += recipeNutrition.value
+                } else {
+                    nutritionalValues.add(recipeNutrition)
+                }
+            }
+        }
+        foods.forEach { ingredient ->
+            ingredient.getNutritionalValues().forEach { ingredientNutrition ->
+                val index = nutritionalValues.indexOfFirst { it.type == ingredientNutrition.type }
+                if (index >= 0) {
+                    nutritionalValues[index].value += ingredientNutrition.value
+                } else {
+                    nutritionalValues.add(ingredientNutrition)
+                }
+            }
+        }
+        return nutritionalValues
     }
 }
 

@@ -56,6 +56,14 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <me.ibrahimsn.lib.SmoothBottomBar
+        android:id="@+id/recipeSelectionBar"
+        style="@style/SmoothBottomBarTheme"
+        app:menu="@menu/recipe"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/recipeActionBar"/>
+
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/recipeSwipeRefresh"
         style="@style/EmptyClipBackgroundTheme"
@@ -63,7 +71,7 @@
         android:layout_height="0dp"
         android:visibility="visible"
         app:layout_constraintBottom_toTopOf="@+id/navigationRecipeLayout"
-        app:layout_constraintTop_toBottomOf="@+id/recipeActionBar">
+        app:layout_constraintTop_toBottomOf="@+id/recipeSelectionBar">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recipeSearchList"

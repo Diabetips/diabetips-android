@@ -5,10 +5,10 @@
     style="@style/ClearBackgroundTheme"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.DashboardFragment">
+    tools:context=".activities.HbA1cActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/DashboardActionBar"
+        android:id="@+id/hba1cActionBar"
         style="@style/ActionBarTheme"
         android:layout_width="match_parent"
         android:layout_height="48dp"
@@ -16,51 +16,54 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageButton
-            android:id="@+id/closeDashboardButton"
+            android:id="@+id/closeHba1cButton"
             style="@style/ImageButtonTransparentTheme"
             android:layout_marginStart="@dimen/half_margin_size"
             android:contentDescription="@string/placeholder_text"
             android:src="@drawable/ic_back"
-            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/titleDashboardText"
+            android:id="@+id/titleHba1cText"
             style="@style/SubtitleTheme"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/half_margin_size"
-            android:text="@string/dashboard_title"
+            android:text="@string/hba1c_title"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/closeDashboardButton"
+            app:layout_constraintStart_toEndOf="@+id/closeHba1cButton"
             app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        android:id="@+id/itemsSwipeRefresh"
+        android:id="@+id/hba1cSwipeRefresh"
         style="@style/EmptyClipBackgroundTheme"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/DashboardActionBar"
-        app:layout_constraintBottom_toTopOf="@id/navigationDashboardLayout">
+        app:layout_constraintTop_toBottomOf="@+id/hba1cActionBar">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/itemsList"
+            android:id="@+id/hba1cRecyclerView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+        android:layout_height="match_parent" />
+
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/navigationDashboardLayout"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/navigation_height"
-        app:layout_constraintBottom_toBottomOf="parent"
-        style="@style/ClearBackgroundTheme"/>
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/newHba1cButton"
+        style="@style/MaterialButtonAltTheme"
+        android:layout_width="wrap_content"
+        android:layout_marginBottom="@dimen/half_margin_size"
+        android:text="@string/add_value"
+        android:visibility="visible"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

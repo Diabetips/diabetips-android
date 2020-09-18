@@ -36,4 +36,30 @@ data class MealRecipeObject (
         }
         return total_sugar
     }
+
+    fun getQuantity(portion: Float = portions_eaten): Float {
+        var quantity = 0f
+        getIngredients().forEach {ingredient ->
+            quantity += ingredient.quantity
+        }
+        return if (recipe.portions == 0f) 0f else quantity * portion / recipe.portions
+    }
+
+    fun getNutritionalValues(portion: Float = portions_eaten) : ArrayList<NutritionalObject> {
+        val nutritionalValues =  ArrayList<NutritionalObject>()
+        getIngredients().forEach { ingredient ->
+            ingredient.getNutritionalValues().forEach { ingredientNutrition ->
+                val index = nutritionalValues.indexOfFirst { it.type == ingredientNutrition.type }
+                if (index >= 0) {
+                    nutritionalValues[index].value += ingredientNutrition.value
+                } else {
+                    nutritionalValues.add(ingredientNutrition)
+                }
+            }
+        }
+        nutritionalValues.forEach { nutrition ->
+            nutrition.value *= if (recipe.portions == 0f) 0f else (portion / recipe.portions)
+        }
+        return nutritionalValues
+    }
 }

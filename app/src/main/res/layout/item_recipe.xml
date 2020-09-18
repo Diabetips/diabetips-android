@@ -15,7 +15,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             style="@style/EmptyBackgroundTheme"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -30,15 +30,16 @@
                 android:layout_height="@dimen/image_size"
                 android:layout_margin="@dimen/quarter_margin_size"
                 android:src="@drawable/ic_unknown"
-                app:layout_constraintStart_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"/>
 
             <LinearLayout
                 style="@style/EmptyBackgroundTheme"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                app:layout_constraintStart_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/recipeImage"
+                app:layout_constraintEnd_toStartOf="@id/recipeFavoriteButton"
                 app:layout_constraintTop_toTopOf="parent">
 
                 <TextView
@@ -67,7 +68,17 @@
 
             </LinearLayout>
 
-        </LinearLayout>
+            <ImageButton
+                android:id="@+id/recipeFavoriteButton"
+                style="@style/ImageButtonTransparentTheme"
+                android:layout_marginEnd="@dimen/half_margin_size"
+                android:contentDescription="@string/placeholder_text"
+                android:src="@drawable/ic_favorite_border"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </com.google.android.material.card.MaterialCardView>
 

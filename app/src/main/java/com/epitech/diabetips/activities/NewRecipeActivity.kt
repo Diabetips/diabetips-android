@@ -10,20 +10,25 @@ import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.provider.MediaStore
 import android.text.InputType
+import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.core.view.drawToBitmap
 import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.epitech.diabetips.R
+import com.epitech.diabetips.adapters.NutritionalAdapter
 import com.epitech.diabetips.adapters.RecipeFoodAdapter
+import com.epitech.diabetips.managers.FavoriteManager
 import com.epitech.diabetips.services.RecipeService
 import com.epitech.diabetips.storages.IngredientObject
 import com.epitech.diabetips.storages.MealRecipeObject
 import com.epitech.diabetips.storages.RecipeObject
 import com.epitech.diabetips.textWatchers.InputWatcher
 import com.epitech.diabetips.textWatchers.NumberWatcher
+import com.epitech.diabetips.textWatchers.TextChangedWatcher
 import com.epitech.diabetips.utils.ADiabetipsActivity
 import com.epitech.diabetips.utils.DividerItemDecorator
 import com.epitech.diabetips.utils.ImageHandler
@@ -108,17 +113,24 @@ class NewRecipeActivity : ADiabetipsActivity(R.layout.activity_new_recipe) {
                 val dialog = AlertDialog.Builder(this@NewRecipeActivity).setView(view).create()
                 dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
                 view.selectQuantityInputLayout.hint = "${view.selectQuantityInputLayout.hint} (${ingredientObject.food.unit})"
-                view.selectQuantityInput.setText(ingredientObject.quantity.toString())
+                view.selectQuantityInput.setText(ingredientObject.quantity.toBigDecimal().stripTrailingZeros().toPlainString())
+                view.selectQuantityNutritionalList.apply {
+                    layoutManager = LinearLayoutManager(this@NewRecipeActivity)
+                    adapter = NutritionalAdapter(ingredientObject.getNutritionalValues(), ingredientObject.quantity)
+                }
+                view.selectQuantityInput.addTextChangedListener(NumberWatcher(this@NewRecipeActivity, view.selectQuantityInputLayout, R.string.quantity_null, 0f))
+                view.selectQuantityInput.addTextChangedListener(TextChangedWatcher {
+                    val quantity = it.toString().toFloatOrNull() ?: 0f
+                    (view.selectQuantityNutritionalList.adapter as NutritionalAdapter).setNutritions(ingredientObject.getNutritionalValues(quantity), quantity)
+                })
                 view.selectQuantityNegativeButton.setOnClickListener {
                     dialog.dismiss()
                 }
                 view.selectQuantityPositiveButton.setOnClickListener {
-                    val quantity: Float? = view.selectQuantityInput.text.toString().toFloatOrNull()
-                    if (quantity == null || quantity <= 0) {
-                        view.selectQuantityInputLayout.error = getString(R.string.quantity_null)
-                    } else {
+                    view.selectQuantityInput.text = view.selectQuantityInput.text
+                    if (view.selectQuantityInputLayout.error == null) {
                         saved = false
-                        ingredientObject.quantity = quantity
+                        ingredientObject.quantity = view.selectQuantityInput.text.toString().toFloatOrNull() ?: 0f
                         textQuantity?.text = "${ingredientObject.quantity} ${ingredientObject.food.unit}"
                         dialog.dismiss()
                     }
@@ -126,7 +138,7 @@ class NewRecipeActivity : ADiabetipsActivity(R.layout.activity_new_recipe) {
                 dialog.show()
             }
             (adapter as RecipeFoodAdapter).setVisibilityElements(foodListEmptyLayout, foodList)
-            addItemDecoration(DividerItemDecorator(getDrawable(R.drawable.list_divider)!!))
+            addItemDecoration(DividerItemDecorator(ContextCompat.getDrawable(this@NewRecipeActivity, R.drawable.list_divider)!!))
         }
         saveNewRecipeButton.setOnClickListener {
             saveRecipe()
@@ -170,6 +182,7 @@ class NewRecipeActivity : ADiabetipsActivity(R.layout.activity_new_recipe) {
         } else {
             newRecipePortion.setText("1")
         }
+        handleRecipeFavoriteButton()
     }
 
     private fun saveRecipe(finishView: Boolean = false) {
@@ -179,6 +192,7 @@ class NewRecipeActivity : ADiabetipsActivity(R.layout.activity_new_recipe) {
                     if (it.second.component2() == null) {
                         saved = true
                         recipe = it.second.component1()!!
+                        handleRecipeFavoriteButton()
                         if (changedPicture) {
                             saveRecipePicture(finishView)
                         } else {
@@ -232,6 +246,15 @@ class NewRecipeActivity : ADiabetipsActivity(R.layout.activity_new_recipe) {
             error = true
         }
         return !error
+    }
+
+    private fun handleRecipeFavoriteButton() {
+        if (recipe.id > 0) {
+            newRecipeFavoriteButton.visibility = View.VISIBLE
+            FavoriteManager.instance.handleImageButton(recipe.id, newRecipeFavoriteButton)
+        } else {
+            newRecipeFavoriteButton.visibility = View.GONE
+        }
     }
 
     private fun saveRecipePicture(finishView: Boolean = false) {

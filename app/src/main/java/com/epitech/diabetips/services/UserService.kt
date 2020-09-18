@@ -2,6 +2,7 @@ package com.epitech.diabetips.services
 
 import android.content.Context
 import com.epitech.diabetips.R
+import com.epitech.diabetips.managers.FavoriteManager
 import com.epitech.diabetips.storages.PaginationObject
 import com.epitech.diabetips.storages.RecipeObject
 import com.epitech.diabetips.storages.UserObject
@@ -27,11 +28,19 @@ class UserService : AObjectPictureService<UserObject>("/users") {
     }
 
     fun addFavoriteRecipe(id: Int) : FuelResponse<RecipeObject> {
-        return postRequest(RecipeObject(id), "/me/recipes/favorites/$id")
+        return postRequest(RecipeObject(id), "/me/recipes/favorites/$id").doOnSuccess {
+            if (it.second.component2() == null) {
+                FavoriteManager.instance.addFavorite(id)
+            }
+        }
     }
 
     fun removeFavoriteRecipe(id: Int) : FuelResponse<RecipeObject> {
-        return deleteRequest("/me/recipes/favorites/$id")
+        return deleteRequest<RecipeObject>("/me/recipes/favorites/$id").doOnSuccess {
+            if (it.second.component2() == null) {
+                FavoriteManager.instance.removeFavorite(id)
+            }
+        }
     }
 
 }

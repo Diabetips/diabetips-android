@@ -298,6 +298,7 @@
                 android:id="@+id/hypoglycemiaProfileInputLayout"
                 style="@style/TextInputLayoutTheme"
                 android:layout_width="match_parent"
+                android:maxLength="@integer/glycemia_max_length"
                 android:hint="@string/hypoglycemia">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -315,6 +316,7 @@
                 android:id="@+id/HyperglycemiaProfileInputLayout"
                 style="@style/TextInputLayoutTheme"
                 android:layout_width="match_parent"
+                android:maxLength="@integer/glycemia_max_length"
                 android:hint="@string/hyperglycemia">
 
                 <com.google.android.material.textfield.TextInputEditText

@@ -11,10 +11,13 @@ import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.epitech.diabetips.R
 import com.epitech.diabetips.adapters.FoodAdapter
+import com.epitech.diabetips.adapters.NutritionalAdapter
 import com.epitech.diabetips.services.FoodService
 import com.epitech.diabetips.storages.FoodObject
 import com.epitech.diabetips.storages.IngredientObject
 import com.epitech.diabetips.storages.PaginationObject
+import com.epitech.diabetips.textWatchers.NumberWatcher
+import com.epitech.diabetips.textWatchers.TextChangedWatcher
 import com.epitech.diabetips.utils.ADiabetipsActivity
 import com.epitech.diabetips.utils.MaterialHandler
 import com.epitech.diabetips.utils.PaginationScrollListener
@@ -54,9 +57,19 @@ class FoodActivity : ADiabetipsActivity(R.layout.activity_food) {
                     dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
                     val ingredientObject: IngredientObject = (adapter as FoodAdapter).getSelectedIngredientOrNew(foodObject)
                     view.selectQuantityInputLayout.hint = "${view.selectQuantityInputLayout.hint} (${foodObject.unit})"
+                    view.selectQuantityNutritionalList.apply {
+                        val quantity = view.selectQuantityInput.toString().toFloatOrNull() ?: 0f
+                        layoutManager = LinearLayoutManager(this@FoodActivity)
+                        adapter = NutritionalAdapter(foodObject.getNutritionalValues(quantity), quantity)
+                    }
+                    view.selectQuantityInput.addTextChangedListener(NumberWatcher(this@FoodActivity, view.selectQuantityInputLayout, R.string.quantity_null, 0f))
+                    view.selectQuantityInput.addTextChangedListener(TextChangedWatcher {
+                        val quantity = it.toString().toFloatOrNull() ?: 0f
+                        (view.selectQuantityNutritionalList.adapter as NutritionalAdapter).setNutritions(foodObject.getNutritionalValues(quantity), quantity)
+                    })
                     if (ingredientObject.quantity > 0) {
                         checkBox.isChecked = true
-                        view.selectQuantityInput.setText(ingredientObject.quantity.toString())
+                        view.selectQuantityInput.setText(ingredientObject.quantity.toBigDecimal().stripTrailingZeros().toPlainString())
                     } else {
                         checkBox.isChecked = false
                     }
@@ -64,11 +77,9 @@ class FoodActivity : ADiabetipsActivity(R.layout.activity_food) {
                         dialog.dismiss()
                     }
                     view.selectQuantityPositiveButton.setOnClickListener {
-                        val quantity: Float? = view.selectQuantityInput.text.toString().toFloatOrNull()
-                        if (quantity == null || quantity <= 0) {
-                            view.selectQuantityInputLayout.error = getString(R.string.quantity_null)
-                        } else {
-                            ingredientObject.quantity = quantity
+                        view.selectQuantityInput.text = view.selectQuantityInput.text
+                        if (view.selectQuantityInputLayout.error == null) {
+                            ingredientObject.quantity = view.selectQuantityInput.text.toString().toFloatOrNull() ?: 0f
                             (adapter as FoodAdapter).addSelectedIngredient(ingredientObject)
                             checkBox.isChecked = true
                             saved = false

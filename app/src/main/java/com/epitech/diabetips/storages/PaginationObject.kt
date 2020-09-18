@@ -44,7 +44,7 @@ data class PaginationObject (
     fun getRequestParameters() : String {
         updated = true
         if (periodEnable)
-            return "page=$current&size=$size&start=${start}&end=${end}"
+            return "page=$current&size=$size&start=$start&end=$end"
         return "page=$current&size=$size"
     }
 

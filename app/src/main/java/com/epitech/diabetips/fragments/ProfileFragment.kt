@@ -13,6 +13,7 @@ import android.util.DisplayMetrics
 import android.view.*
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.epitech.diabetips.managers.UserManager
 import com.epitech.diabetips.R
@@ -145,7 +146,7 @@ class ProfileFragment : ANavigationFragment(FragmentType.PROFILE), DatePickerDia
                         R.id.profileDeactivate -> deactivateAccount()
                     }
                 }
-                addItemDecoration(DividerItemDecorator(requireContext().getDrawable(R.drawable.menu_divider)!!))
+                addItemDecoration(DividerItemDecorator(ContextCompat.getDrawable(requireContext(), R.drawable.menu_divider)!!))
             }
             dialog.show()
         }

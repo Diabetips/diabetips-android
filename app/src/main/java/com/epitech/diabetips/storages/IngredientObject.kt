@@ -14,6 +14,10 @@ data class IngredientObject (
         total_sugar = food.sugars_100g * quantity / 100
         return total_sugar
     }
+
+    fun getNutritionalValues(quantity: Float = this.quantity) : ArrayList<NutritionalObject> {
+        return food.getNutritionalValues(quantity)
+    }
 }
 
 class IngredientObjectAdapter : TypeAdapter<IngredientObject>() {

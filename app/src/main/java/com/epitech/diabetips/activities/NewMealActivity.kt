@@ -8,19 +8,24 @@ import android.os.Bundle
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.epitech.diabetips.R
 import com.epitech.diabetips.adapters.MealRecipeAdapter
+import com.epitech.diabetips.adapters.NutritionalAdapter
 import com.epitech.diabetips.adapters.RecipeFoodAdapter
 import com.epitech.diabetips.services.MealService
 import com.epitech.diabetips.storages.IngredientObject
 import com.epitech.diabetips.storages.MealObject
 import com.epitech.diabetips.storages.MealRecipeObject
 import com.epitech.diabetips.storages.RecipeObject
+import com.epitech.diabetips.textWatchers.NumberWatcher
+import com.epitech.diabetips.textWatchers.TextChangedWatcher
 import com.epitech.diabetips.utils.*
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog
 import kotlinx.android.synthetic.main.activity_new_meal.*
+import kotlinx.android.synthetic.main.dialog_hba1c.view.*
 import kotlinx.android.synthetic.main.dialog_save_change.view.*
 import kotlinx.android.synthetic.main.dialog_select_quantity.view.*
 
@@ -55,7 +60,7 @@ class NewMealActivity : ADiabetipsActivity(R.layout.activity_new_meal), DatePick
                 startActivityForResult(intent, RequestCode.EDIT_RECIPE.ordinal)
             }
             (adapter as MealRecipeAdapter).setVisibilityElements(recipeListEmptyLayout, recipeList)
-            addItemDecoration(DividerItemDecorator(getDrawable(R.drawable.list_divider)!!))
+            addItemDecoration(DividerItemDecorator(ContextCompat.getDrawable(this@NewMealActivity, R.drawable.list_divider)!!))
         }
         addMealFoodButton.setOnClickListener {
             startActivityForResult(
@@ -71,17 +76,24 @@ class NewMealActivity : ADiabetipsActivity(R.layout.activity_new_meal), DatePick
                 val dialog = AlertDialog.Builder(this@NewMealActivity).setView(view).create()
                 dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
                 view.selectQuantityInputLayout.hint = "${view.selectQuantityInputLayout.hint} (${ingredientObject.food.unit})"
-                view.selectQuantityInput.setText(ingredientObject.quantity.toString())
+                view.selectQuantityInput.setText(ingredientObject.quantity.toBigDecimal().stripTrailingZeros().toPlainString())
+                view.selectQuantityNutritionalList.apply {
+                    layoutManager = LinearLayoutManager(this@NewMealActivity)
+                    adapter = NutritionalAdapter(ingredientObject.getNutritionalValues(), ingredientObject.quantity)
+                }
+                view.selectQuantityInput.addTextChangedListener(NumberWatcher(this@NewMealActivity, view.selectQuantityInputLayout, R.string.quantity_null, 0f))
+                view.selectQuantityInput.addTextChangedListener(TextChangedWatcher {
+                    val quantity = it.toString().toFloatOrNull() ?: 0f
+                    (view.selectQuantityNutritionalList.adapter as NutritionalAdapter).setNutritions(ingredientObject.getNutritionalValues(quantity), quantity)
+                })
                 view.selectQuantityNegativeButton.setOnClickListener {
                     dialog.dismiss()
                 }
                 view.selectQuantityPositiveButton.setOnClickListener {
-                    val quantity: Float? = view.selectQuantityInput.text.toString().toFloatOrNull()
-                    if (quantity == null || quantity <= 0) {
-                        view.selectQuantityInputLayout.error = getString(R.string.quantity_null)
-                    } else {
+                    view.selectQuantityInput.text = view.selectQuantityInput.text
+                    if (view.selectQuantityInputLayout.error == null) {
                         saved = false
-                        ingredientObject.quantity = quantity
+                        ingredientObject.quantity = view.selectQuantityInput.text.toString().toFloatOrNull() ?: 0f
                         textQuantity?.text = "${ingredientObject.quantity} ${ingredientObject.food.unit}"
                         dialog.dismiss()
                     }
@@ -89,7 +101,7 @@ class NewMealActivity : ADiabetipsActivity(R.layout.activity_new_meal), DatePick
                 dialog.show()
             }
             (adapter as RecipeFoodAdapter).setVisibilityElements(mealFoodListEmptyLayout, mealFoodList)
-            addItemDecoration(DividerItemDecorator(getDrawable(R.drawable.list_divider)!!))
+            addItemDecoration(DividerItemDecorator(ContextCompat.getDrawable(this@NewMealActivity, R.drawable.list_divider)!!))
         }
         saveNewMealButton.setOnClickListener {
             saveMeal()
