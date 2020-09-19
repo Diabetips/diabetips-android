@@ -1,7 +1,6 @@
 package com.epitech.diabetips.managers
 
 import android.content.Context
-import android.util.TypedValue
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.Toast
@@ -80,14 +79,14 @@ class FavoriteManager {
 
     private fun handleImage(recipeId: Int, imageView: ImageView) {
         if (isFavorite(recipeId)) {
-            imageView.drawable.setTint(ContextCompat.getColor(context!!, R.color.colorAccent))
+            imageView.setColorFilter(ContextCompat.getColor(context!!, R.color.colorAccent))
             imageView.setImageDrawable(ContextCompat.getDrawable(context!!, R.drawable.ic_favorite))
         } else {
             val attribute = intArrayOf(R.attr.colorBackgroundText)
             val array = context!!.theme.obtainStyledAttributes(attribute)
             val color = array.getColor(0, ContextCompat.getColor(context!!, R.color.colorTextDark))
             array.recycle()
-            imageView.drawable.setTint(color)
+            imageView.setColorFilter(color)
             imageView.setImageDrawable(ContextCompat.getDrawable(context!!, R.drawable.ic_favorite_border))
         }
     }

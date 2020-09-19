@@ -13,20 +13,30 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
+        <ImageButton
+            android:id="@+id/closeSettingsButton"
+            style="@style/ImageButtonTransparentTheme"
+            android:layout_marginStart="@dimen/half_margin_size"
+            android:contentDescription="@string/placeholder_text"
+            android:src="@drawable/ic_back"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <TextView
             android:id="@+id/titleSettingsText"
-            style="@style/TitleTheme"
+            style="@style/SubtitleTheme"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/half_margin_size"
             android:text="@string/settings_title"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/closeSettingsButton"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <Switch
+    <com.google.android.material.switchmaterial.SwitchMaterial
         android:id="@+id/darkModeSwitch"
         style="@style/SwitchTheme"
         android:layout_width="match_parent"
@@ -35,5 +45,16 @@
         android:layout_margin="@dimen/half_margin_size"
         android:layout_marginTop="@dimen/margin_size"
         app:layout_constraintTop_toBottomOf="@+id/settingsActionBar" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/testNotificationButton"
+        style="@style/MaterialButtonAltTheme"
+        android:layout_width="wrap_content"
+        android:layout_marginBottom="@dimen/half_margin_size"
+        android:text="@string/test_notification"
+        android:visibility="visible"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

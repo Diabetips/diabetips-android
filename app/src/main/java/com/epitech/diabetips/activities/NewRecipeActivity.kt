@@ -42,6 +42,7 @@ import java.io.InputStream
 class NewRecipeActivity : ADiabetipsActivity(R.layout.activity_new_recipe) {
 
     enum class ActivityMode {RECIPE, MEAL_RECIPE}
+    enum class DisplayMode {CONTENT, NUTRITION}
     enum class RequestCode {SEARCH_FOOD, GET_IMAGE, GET_PHOTO}
 
     private var saved: Boolean? = null
@@ -61,6 +62,10 @@ class NewRecipeActivity : ADiabetipsActivity(R.layout.activity_new_recipe) {
         }
         newRecipePortion.addTextChangedListener {
             saved = false
+            newRecipeNutritionPortion.setText(it.toString())
+        }
+        newRecipeNutritionPortion.addTextChangedListener {
+            updateNutritionalValueDisplay()
         }
         imagePhotoRecipe.setOnClickListener {
             val dialogView = layoutInflater.inflate(R.layout.dialog_change_picture, null)
@@ -105,6 +110,12 @@ class NewRecipeActivity : ADiabetipsActivity(R.layout.activity_new_recipe) {
                     .putExtra(getString(R.string.param_food), (foodList.adapter as RecipeFoodAdapter).getFoods()),
                 RequestCode.SEARCH_FOOD.ordinal)
         }
+        newRecipeToggleContent.setOnClickListener {
+            changeDisplayMode(DisplayMode.CONTENT)
+        }
+        newRecipeToggleNutrition.setOnClickListener {
+            changeDisplayMode(DisplayMode.NUTRITION)
+        }
         foodList.apply {
             layoutManager = LinearLayoutManager(this@NewRecipeActivity)
             adapter = RecipeFoodAdapter {ingredientObject, textQuantity ->
@@ -132,6 +143,7 @@ class NewRecipeActivity : ADiabetipsActivity(R.layout.activity_new_recipe) {
                         saved = false
                         ingredientObject.quantity = view.selectQuantityInput.text.toString().toFloatOrNull() ?: 0f
                         textQuantity?.text = "${ingredientObject.quantity} ${ingredientObject.food.unit}"
+                        updateNutritionalValueDisplay()
                         dialog.dismiss()
                     }
                 }
@@ -139,6 +151,10 @@ class NewRecipeActivity : ADiabetipsActivity(R.layout.activity_new_recipe) {
             }
             (adapter as RecipeFoodAdapter).setVisibilityElements(foodListEmptyLayout, foodList)
             addItemDecoration(DividerItemDecorator(ContextCompat.getDrawable(this@NewRecipeActivity, R.drawable.list_divider)!!))
+        }
+        newRecipeNutritionalList.apply {
+            layoutManager = LinearLayoutManager(this@NewRecipeActivity)
+            adapter = NutritionalAdapter()
         }
         saveNewRecipeButton.setOnClickListener {
             saveRecipe()
@@ -150,6 +166,7 @@ class NewRecipeActivity : ADiabetipsActivity(R.layout.activity_new_recipe) {
             onBackPressed()
         }
         getParams()
+        changeDisplayMode(DisplayMode.CONTENT)
     }
 
     private fun getParams() {
@@ -164,25 +181,38 @@ class NewRecipeActivity : ADiabetipsActivity(R.layout.activity_new_recipe) {
             if (activityMode == ActivityMode.MEAL_RECIPE) {
                 val mealRecipe = (intent.getSerializableExtra(getString(R.string.param_recipe)) as MealRecipeObject)
                 recipe = mealRecipe.recipe
-                newRecipePortion.setText(mealRecipe.portions_eaten.toString())
+                newRecipeName.setText(recipe.name)
+                newRecipeDescription.setText(recipe.description)
+                (foodList.adapter as RecipeFoodAdapter).setFoods(mealRecipe.getIngredients())
                 newRecipePortion.inputType = (InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_DECIMAL)
                 newRecipePortionLayout.suffixText = "/ ${recipe.portions.toInt()}"
-                (foodList.adapter as RecipeFoodAdapter).setFoods(mealRecipe.getIngredients())
+                newRecipePortion.setText(mealRecipe.portions_eaten.toString())
             } else {
                 recipe = (intent.getSerializableExtra(getString(R.string.param_recipe)) as RecipeObject)
-                newRecipePortion.setText(recipe.portions.toInt().toString())
+                newRecipeName.setText(recipe.name)
+                newRecipeDescription.setText(recipe.description)
                 if (recipe.ingredients.isNotEmpty()) {
                     (foodList.adapter as RecipeFoodAdapter).setFoods(recipe.ingredients)
                 }
+                newRecipePortion.setText(recipe.portions.toInt().toString())
             }
             loadImage()
-            newRecipeName.setText(recipe.name)
-            newRecipeDescription.setText(recipe.description)
             saved = null
         } else {
             newRecipePortion.setText("1")
         }
         handleRecipeFavoriteButton()
+    }
+
+    private fun updateNutritionalValueDisplay() {
+        val portions = newRecipeNutritionPortion.text.toString().toFloatOrNull() ?: 0f
+        if (activityMode == ActivityMode.RECIPE) {
+            val recipe = getRecipe()
+            (newRecipeNutritionalList.adapter as NutritionalAdapter).setNutritions(recipe.getNutritionalValues(portions), recipe.getQuantity(portions))
+        } else {
+            val mealRecipe = getMealRecipe()
+            (newRecipeNutritionalList.adapter as NutritionalAdapter).setNutritions(mealRecipe.getNutritionalValues(portions), mealRecipe.getQuantity(portions))
+        }
     }
 
     private fun saveRecipe(finishView: Boolean = false) {
@@ -257,6 +287,13 @@ class NewRecipeActivity : ADiabetipsActivity(R.layout.activity_new_recipe) {
         }
     }
 
+    private fun changeDisplayMode(displayMode: DisplayMode = DisplayMode.CONTENT) {
+        newRecipeToggleContent.isChecked = (displayMode == DisplayMode.CONTENT)
+        newRecipeToggleNutrition.isChecked = (displayMode == DisplayMode.NUTRITION)
+        newRecipeContentLayout.visibility = if (displayMode == DisplayMode.CONTENT) View.VISIBLE else View.GONE
+        newRecipeNutritionLayout.visibility = if (displayMode == DisplayMode.NUTRITION) View.VISIBLE else View.GONE
+    }
+
     private fun saveRecipePicture(finishView: Boolean = false) {
         val image: Bitmap = imagePhotoRecipe.drawToBitmap()
         RecipeService.instance.updatePicture<RecipeObject>(image, recipe.id).doOnSuccess {
@@ -287,6 +324,7 @@ class NewRecipeActivity : ADiabetipsActivity(R.layout.activity_new_recipe) {
             if (requestCode == RequestCode.SEARCH_FOOD.ordinal) {
                 saved = false
                 (foodList.adapter as RecipeFoodAdapter).setFoods(ArrayList((data?.getSerializableExtra(getString(R.string.param_food)) as ArrayList<*>).filterIsInstance<IngredientObject>()))
+                updateNutritionalValueDisplay()
             } else if (requestCode == RequestCode.GET_IMAGE.ordinal) {
                 val imageStream: InputStream? = contentResolver.openInputStream(data?.data!!)
                 setRecipePicture(BitmapFactory.decodeStream(imageStream))

@@ -118,169 +118,228 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <LinearLayout
-                android:id="@+id/mealRecipeLayout"
-                style="@style/EmptyBackgroundTheme"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/mealRecipeCard"
-                    style="@style/BackgroundCardTheme"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <LinearLayout
-                        android:id="@+id/mealRecipeCardLayout"
-                        style="@style/EmptyClipBackgroundTheme"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:layout_marginBottom="@dimen/margin_size"
-                        app:layout_constraintBottom_toBottomOf="parent">
-
-                        <TextView
-                            android:id="@+id/recipeListSubtitle"
-                            style="@style/SubtitleTheme"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/margin_size"
-                            android:layout_marginTop="@dimen/half_margin_size"
-                            android:layout_marginBottom="@dimen/quarter_margin_size"
-                            android:text="@string/meal_recipe_subtitle" />
-
-                        <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/recipeList"
-                            style="@style/EmptyBackgroundTheme"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:nestedScrollingEnabled="false"/>
-
-                        <LinearLayout
-                            android:id="@+id/recipeListEmptyLayout"
-                            style="@style/EmptyBackgroundTheme"
-                            android:visibility="gone"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical">
-
-                            <ImageView
-                                android:id="@+id/recipeListEmptyImage"
-                                android:layout_width="100dp"
-                                android:layout_height="100dp"
-                                android:layout_gravity="center"
-                                android:contentDescription="@string/placeholder_text"
-                                android:src="@drawable/ic_diet"/>
-
-                            <TextView
-                                android:id="@+id/recipeListEmptyText"
-                                style="@style/TextAltTheme"
-                                android:gravity="center"
-                                android:layout_gravity="center"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="@dimen/margin_size"
-                                android:layout_marginEnd="@dimen/margin_size"
-                                android:layout_marginTop="@dimen/quarter_margin_size"
-                                android:text="@string/meal_recipe_empty" />
-
-                        </LinearLayout>
-
-                    </LinearLayout>
-
-                </com.google.android.material.card.MaterialCardView>
+                android:id="@+id/newMealToggleGroupLayout"
+                style="@style/ToggleBackgroundTheme">
 
                 <com.google.android.material.button.MaterialButton
-                    android:id="@+id/addRecipeButton"
-                    style="@style/MaterialButtonAltTheme"
-                    android:layout_width="wrap_content"
-                    android:text="@string/add_recipe"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="@dimen/negative_margin_size"/>
+                    android:id="@+id/newMealToggleContent"
+                    style="@style/MaterialButtonToggleTheme"
+                    android:text="@string/toggle_content"/>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/newMealToggleNutrition"
+                    style="@style/MaterialButtonToggleTheme"
+                    android:text="@string/toggle_nutrition"/>
 
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/mealFoodListLayout"
+                android:id="@+id/newMealNutritionLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone"
+                android:paddingBottom="@dimen/half_margin_size"
+                style="@style/EmptyBackgroundTheme">
+
+                <TextView
+                    android:id="@+id/newMealNutritionText"
+                    style="@style/TextAltTheme"
+                    android:layout_width="match_parent"
+                    android:gravity="center"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_size"
+                    android:layout_marginEnd="@dimen/margin_size"
+                    android:layout_marginBottom="@dimen/quarter_margin_size"
+                    android:text="@string/meal_nutrition_text" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/newMealNutritionalList"
+                    android:layout_marginStart="@dimen/margin_size"
+                    android:layout_marginEnd="@dimen/margin_size"
+                    android:overScrollMode="never"
+                    style="@style/EmptyBackgroundTheme"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/newMealContentLayout"
                 style="@style/EmptyBackgroundTheme"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:layout_marginBottom="@dimen/margin_size">
+                android:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
-                <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/mealFoodCard"
-                    style="@style/BackgroundCardTheme"
+                <LinearLayout
+                    android:id="@+id/mealRecipeLayout"
+                    style="@style/EmptyBackgroundTheme"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
 
-                    <LinearLayout
-                        android:id="@+id/mealFoodCardLayout"
-                        style="@style/EmptyClipBackgroundTheme"
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/mealRecipeCard"
+                        style="@style/BackgroundCardTheme"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:layout_marginBottom="@dimen/margin_size">
-
-                        <TextView
-                            android:id="@+id/mealFoodListSubtitle"
-                            style="@style/SubtitleTheme"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/margin_size"
-                            android:layout_marginTop="@dimen/half_margin_size"
-                            android:layout_marginBottom="@dimen/quarter_margin_size"
-                            android:text="@string/recipe_food_subtitle" />
-
-                        <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/mealFoodList"
-                            android:visibility="visible"
-                            style="@style/EmptyBackgroundTheme"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:nestedScrollingEnabled="false" />
+                        android:layout_height="wrap_content">
 
                         <LinearLayout
-                            android:id="@+id/mealFoodListEmptyLayout"
-                            style="@style/EmptyBackgroundTheme"
-                            android:visibility="gone"
+                            android:id="@+id/mealRecipeCardLayout"
+                            style="@style/EmptyClipBackgroundTheme"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="vertical">
-
-                            <ImageView
-                                android:id="@+id/mealFoodListEmptyImage"
-                                android:layout_width="100dp"
-                                android:layout_height="100dp"
-                                android:layout_gravity="center"
-                                android:contentDescription="@string/placeholder_text"
-                                android:src="@drawable/ic_groceries"/>
+                            android:orientation="vertical"
+                            android:layout_marginBottom="@dimen/margin_size"
+                            app:layout_constraintBottom_toBottomOf="parent">
 
                             <TextView
-                                android:id="@+id/mealFoodListEmptyText"
-                                style="@style/TextAltTheme"
-                                android:gravity="center"
-                                android:layout_gravity="center"
+                                android:id="@+id/recipeListSubtitle"
+                                style="@style/SubtitleTheme"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="@dimen/margin_size"
-                                android:layout_marginEnd="@dimen/margin_size"
-                                android:layout_marginTop="@dimen/quarter_margin_size"
-                                android:text="@string/recipe_food_empty" />
+                                android:layout_marginTop="@dimen/half_margin_size"
+                                android:layout_marginBottom="@dimen/quarter_margin_size"
+                                android:text="@string/meal_recipe_subtitle" />
+
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/recipeList"
+                                style="@style/EmptyBackgroundTheme"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:nestedScrollingEnabled="false"/>
+
+                            <LinearLayout
+                                android:id="@+id/recipeListEmptyLayout"
+                                style="@style/EmptyBackgroundTheme"
+                                android:visibility="gone"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+
+                                <ImageView
+                                    android:id="@+id/recipeListEmptyImage"
+                                    android:layout_width="100dp"
+                                    android:layout_height="100dp"
+                                    android:layout_gravity="center"
+                                    android:contentDescription="@string/placeholder_text"
+                                    android:src="@drawable/ic_diet"/>
+
+                                <TextView
+                                    android:id="@+id/recipeListEmptyText"
+                                    style="@style/TextAltTheme"
+                                    android:gravity="center"
+                                    android:layout_gravity="center"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="@dimen/margin_size"
+                                    android:layout_marginEnd="@dimen/margin_size"
+                                    android:layout_marginTop="@dimen/quarter_margin_size"
+                                    android:text="@string/meal_recipe_empty" />
+
+                            </LinearLayout>
 
                         </LinearLayout>
 
-                    </LinearLayout>
+                    </com.google.android.material.card.MaterialCardView>
 
-                </com.google.android.material.card.MaterialCardView>
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/addRecipeButton"
+                        style="@style/MaterialButtonAltTheme"
+                        android:layout_width="wrap_content"
+                        android:text="@string/add_recipe"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="@dimen/negative_margin_size"/>
 
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/addMealFoodButton"
-                    style="@style/MaterialButtonAltTheme"
-                    android:layout_width="wrap_content"
-                    android:text="@string/add_food"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="@dimen/negative_margin_size"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/mealFoodListLayout"
+                    style="@style/EmptyBackgroundTheme"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginBottom="@dimen/margin_size">
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/mealFoodCard"
+                        style="@style/BackgroundCardTheme"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <LinearLayout
+                            android:id="@+id/mealFoodCardLayout"
+                            style="@style/EmptyClipBackgroundTheme"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:layout_marginBottom="@dimen/margin_size">
+
+                            <TextView
+                                android:id="@+id/mealFoodListSubtitle"
+                                style="@style/SubtitleTheme"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/margin_size"
+                                android:layout_marginTop="@dimen/half_margin_size"
+                                android:layout_marginBottom="@dimen/quarter_margin_size"
+                                android:text="@string/recipe_food_subtitle" />
+
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/mealFoodList"
+                                android:visibility="visible"
+                                style="@style/EmptyBackgroundTheme"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:nestedScrollingEnabled="false" />
+
+                            <LinearLayout
+                                android:id="@+id/mealFoodListEmptyLayout"
+                                style="@style/EmptyBackgroundTheme"
+                                android:visibility="gone"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+
+                                <ImageView
+                                    android:id="@+id/mealFoodListEmptyImage"
+                                    android:layout_width="100dp"
+                                    android:layout_height="100dp"
+                                    android:layout_gravity="center"
+                                    android:contentDescription="@string/placeholder_text"
+                                    android:src="@drawable/ic_groceries"/>
+
+                                <TextView
+                                    android:id="@+id/mealFoodListEmptyText"
+                                    style="@style/TextAltTheme"
+                                    android:gravity="center"
+                                    android:layout_gravity="center"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="@dimen/margin_size"
+                                    android:layout_marginEnd="@dimen/margin_size"
+                                    android:layout_marginTop="@dimen/quarter_margin_size"
+                                    android:text="@string/recipe_food_empty" />
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/addMealFoodButton"
+                        style="@style/MaterialButtonAltTheme"
+                        android:layout_width="wrap_content"
+                        android:text="@string/add_food"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="@dimen/negative_margin_size"/>
+
+                </LinearLayout>
 
             </LinearLayout>
 

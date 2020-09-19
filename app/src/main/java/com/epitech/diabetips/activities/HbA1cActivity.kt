@@ -45,7 +45,7 @@ class HbA1cActivity : ADiabetipsActivity(R.layout.activity_hba1c) {
             adapter = HbA1cAdapter { hba1c : HbA1cObject ->
                 openHbA1cPopup(hba1c)
             }
-            addItemDecoration(DividerItemDecorator(ContextCompat.getDrawable(this@HbA1cActivity, R.drawable.list_half_divider)!!))
+            addItemDecoration(DividerItemDecorator(ContextCompat.getDrawable(this@HbA1cActivity, R.drawable.list_divider)!!))
         }
         hba1cRecyclerView.addOnScrollListener(object : PaginationScrollListener(hba1cRecyclerView.layoutManager as LinearLayoutManager) {
             override fun isLastPage(): Boolean {

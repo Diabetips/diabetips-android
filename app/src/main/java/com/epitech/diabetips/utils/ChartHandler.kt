@@ -2,6 +2,7 @@ package com.epitech.diabetips.utils
 
 import android.content.Context
 import android.graphics.Color
+import android.text.format.DateFormat
 import android.util.TypedValue
 import androidx.core.content.ContextCompat
 import com.epitech.diabetips.R
@@ -125,7 +126,7 @@ class ChartHandler {
             return null
         val yValues = mutableListOf<Entry>()
         for (item in items) {
-            yValues.add(Entry((((TimeHandler.instance.getTimestampFromFormat(item.time, context.getString(R.string.format_time_api)) ?: 0) - intervalTimeStamp.first).toFloat()) / 1000f, 100f))
+            yValues.add(Entry((((TimeHandler.instance.getTimestampFromFormat(item.time, context.getString(R.string.format_time_api)) ?: 0) - intervalTimeStamp.first).toFloat()), 100f))
         }
         val set = LineDataSet(yValues, items[0].type.toString())
         setPonctualElementDatasetStyle(set, color)
@@ -191,15 +192,15 @@ class HoursFormatter(private val intervalTimeStamp: Pair<Long, Long>, context: C
 
     init {
         val localDateTimes = getDatesBetween(LocalDateTime.ofInstant(
-            Instant.ofEpochSecond(intervalTimeStamp.first),
+            Instant.ofEpochMilli(intervalTimeStamp.first),
             ZoneOffset.UTC), LocalDateTime.ofInstant(
-            Instant.ofEpochSecond(intervalTimeStamp.second),
+            Instant.ofEpochMilli(intervalTimeStamp.second),
             ZoneOffset.UTC))
         if (localDateTimes != null) {
             for (time in localDateTimes) {
-                val timestamp = time!!.toInstant(ZoneOffset.UTC).toEpochMilli() / 1000
+                val timestamp = time!!.toInstant(ZoneOffset.UTC).toEpochMilli()
                 val index: Float = (timestamp - intervalTimeStamp.first).toFloat()
-                val label: String = TimeHandler.instance.formatTimestamp(timestamp, context.getString(R.string.format_hour_24))
+                val label: String = TimeHandler.instance.formatTimestamp(timestamp, context.getString(if (DateFormat.is24HourFormat(context)) R.string.format_hour_24 else R.string.format_hour_12))
                 labels[index] = label
             }
         }
@@ -226,10 +227,7 @@ class HoursFormatter(private val intervalTimeStamp: Pair<Long, Long>, context: C
         return chosen
     }
 
-    fun getDatesBetween(
-        startDate: LocalDateTime, endDate: LocalDateTime
-    ): List<LocalDateTime?>? {
-
+    fun getDatesBetween(startDate: LocalDateTime, endDate: LocalDateTime): List<LocalDateTime?>? {
         val numOfHoursBetween: Long = ChronoUnit.HOURS.between(startDate, endDate)
         var date = startDate.minusMinutes(startDate.minute.toLong())
         date = date.minusSeconds(startDate.second.toLong())

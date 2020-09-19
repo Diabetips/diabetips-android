@@ -15,7 +15,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_margin="@dimen/quarter_margin_size"
+        android:layout_marginTop="@dimen/quarter_margin_size"
+        android:layout_marginBottom="@dimen/quarter_margin_size"
         android:orientation="vertical"
         style="@style/EmptyBackgroundTheme">
 
@@ -50,6 +51,7 @@
             style="@style/Widget.AppCompat.ProgressBar.Horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:elevation="@dimen/shadow_size"
             android:indeterminate="false"
             android:max="100"
             android:progress="100"/>

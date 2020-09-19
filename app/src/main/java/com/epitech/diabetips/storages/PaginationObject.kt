@@ -74,7 +74,7 @@ data class PaginationObject (
     fun getTimestampInterval(context: Context) : Pair<Long, Long> {
         return Pair(
             TimeHandler.instance.getTimestampFromFormat(start, context.getString(R.string.format_time_api)) ?: 0,
-            TimeHandler.instance.getTimestampFromFormat(start, context.getString(R.string.format_time_api)) ?: 0
+            TimeHandler.instance.getTimestampFromFormat(end, context.getString(R.string.format_time_api)) ?: 0
         )
     }
 

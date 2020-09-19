@@ -38,11 +38,13 @@ data class MealRecipeObject (
     }
 
     fun getQuantity(portion: Float = portions_eaten): Float {
+        if (portion == 0f || recipe.portions == 0f)
+            return 0f
         var quantity = 0f
         getIngredients().forEach {ingredient ->
             quantity += ingredient.quantity
         }
-        return if (recipe.portions == 0f) 0f else quantity * portion / recipe.portions
+        return quantity * portion / recipe.portions
     }
 
     fun getNutritionalValues(portion: Float = portions_eaten) : ArrayList<NutritionalObject> {

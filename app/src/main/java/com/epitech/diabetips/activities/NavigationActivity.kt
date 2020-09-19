@@ -13,6 +13,7 @@ import com.epitech.diabetips.managers.FavoriteManager
 import com.epitech.diabetips.services.NfcReaderService
 import com.epitech.diabetips.services.NotificationService
 import com.epitech.diabetips.services.PENDING_INTENT_TECH_DISCOVERED
+import com.epitech.diabetips.storages.FCMTokenObject
 import com.epitech.diabetips.storages.NotificationObject
 import com.epitech.diabetips.storages.PaginationObject
 import com.epitech.diabetips.utils.ADiabetipsActivity
@@ -49,6 +50,8 @@ class NavigationActivity : ADiabetipsActivity(R.layout.activity_navigation), me.
                     return@OnCompleteListener
                 }
                 Log.d("FirebaseToken", "${task.result?.token}")
+                if (task.result?.token != null)
+                    NotificationService.instance.register(FCMTokenObject(task.result?.token!!)).subscribe()
                 NotificationService.instance.getAll<NotificationObject>(PaginationObject(1, resources.getInteger(R.integer.pagination_default))).doOnSuccess {
                     if (it.second.component2() == null && it.second.component1()?.firstOrNull() != null && !it.second.component1()?.first()!!.read) {
                         Log.d("FirebaseNotification", it.second.component1()!!.first().toString())

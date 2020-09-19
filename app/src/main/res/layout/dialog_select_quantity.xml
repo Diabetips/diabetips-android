@@ -75,8 +75,8 @@
                         style="@style/SubtitleTheme"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/half_margin_size"
-                        android:layout_marginTop="@dimen/half_margin_size"
+                        android:layout_marginStart="@dimen/margin_size"
+                        android:layout_marginTop="@dimen/margin_size"
                         android:layout_marginBottom="@dimen/half_margin_size"
                         android:text="@string/nutritional_values"
                         app:layout_constraintStart_toStartOf="parent"
@@ -84,9 +84,9 @@
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/selectQuantityNutritionalList"
-                        android:layout_marginStart="@dimen/half_margin_size"
-                        android:layout_marginEnd="@dimen/half_margin_size"
-                        android:nestedScrollingEnabled="false"
+                        android:layout_marginStart="@dimen/margin_size"
+                        android:layout_marginEnd="@dimen/margin_size"
+                        android:overScrollMode="never"
                         style="@style/EmptyBackgroundTheme"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"/>

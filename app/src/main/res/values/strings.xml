@@ -135,6 +135,8 @@
     <string name="settings_title">Settings</string>
     <string name="dark_mode">Dark mode</string>
     <string name="lang">eng</string>
+    <string name="test_notification">Send test notification</string>
+    <string name="test_notification_send">Notification sent</string>
     <!--Settings screen end-->
 
     <!--entry screen start-->
@@ -155,8 +157,10 @@
     <string name="recipe_title">My recipe</string>
     <string name="meal_recipe_subtitle">Recipes</string>
     <string name="recipe_food_subtitle">Foods</string>
+    <string name="meal_nutrition_text">Nutritional summary of your meal</string>
     <string name="recipe_name">Recipe name</string>
     <string name="recipe_portion">Portions</string>>
+    <string name="recipe_nutrition_portion">Quantity to analyse (in portions)</string>>
     <string name="recipe_favorite_add">Recipe added to favorites</string>>
     <string name="recipe_favorite_remove">Recipe removed from favorites</string>>
     <string name="recipe_all">All recipes</string>>
@@ -184,6 +188,8 @@
     <string name="nutritional_saturated_fat">Saturated fat</string>
     <string name="nutritional_fiber">Dietary Fibers</string>
     <string name="nutritional_protein">Proteins</string>
+    <string name="toggle_content">Content</string>
+    <string name="toggle_nutrition">Nutrition</string>
     <!--meal / recipe / food screen end-->
 
     <!--login / sign up errors start-->

@@ -2,22 +2,16 @@ package com.epitech.diabetips.holders
 
 import android.content.Context
 import android.content.res.ColorStateList
-import android.text.Layout
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.core.content.ContextCompat
-import androidx.core.graphics.alpha
-import androidx.core.math.MathUtils
-import androidx.core.view.marginStart
 import androidx.recyclerview.widget.RecyclerView
 import com.epitech.diabetips.R
 import com.epitech.diabetips.storages.NutritionalObject
 import kotlinx.android.synthetic.main.item_nutritional.view.*
-import java.math.RoundingMode
-import kotlin.math.roundToInt
 import kotlin.math.roundToLong
 
 class NutritionalItemViewHolder(inflater: LayoutInflater, parent: ViewGroup)
@@ -59,7 +53,6 @@ class NutritionalItemViewHolder(inflater: LayoutInflater, parent: ViewGroup)
         nutritionalValueLayout?.apply {
             (layoutParams as ViewGroup.MarginLayoutParams).also {
                 it.leftMargin = if (isChild) context.resources.getDimension(R.dimen.margin_size).toInt() else 0
-                //requestLayout()
             }
         }
     }

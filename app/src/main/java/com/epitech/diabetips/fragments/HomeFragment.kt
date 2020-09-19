@@ -17,10 +17,11 @@ import kotlinx.android.synthetic.main.fragment_home.view.*
 class HomeFragment : ANavigationFragment(FragmentType.HOME) {
 
     lateinit var entriesManager: EntriesManager
+    var loading: Boolean = false
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        entriesManager = EntriesManager(requireContext()) {
-                items, reset -> itemsUpdateTrigger(reset, items)
+        entriesManager = EntriesManager(requireContext()) { items, reset ->
+            itemsUpdateTrigger(reset, items)
         }
 
         val view = createFragmentView(R.layout.fragment_home, inflater, container)
@@ -48,6 +49,7 @@ class HomeFragment : ANavigationFragment(FragmentType.HOME) {
     }
 
     private fun updateChart() {
+        loading = true
         val now = TimeHandler.instance.currentTimeFormat(getString(R.string.format_time_api))
         entriesManager.getPage()?.setInterval(TimeHandler.instance.addMinuteToFormat(now, getString(R.string.format_time_api), -TimeHandler.instance.dayInMinute), now)
         entriesManager.updatePages()
@@ -56,10 +58,13 @@ class HomeFragment : ANavigationFragment(FragmentType.HOME) {
 
     private fun itemsUpdateTrigger(reset: Boolean, items: Array<EntryObject>) {
         val interval: Pair<Long, Long> = entriesManager.getPage()!!.getTimestampInterval(requireContext())
-        view?.sugarLineChart?.let { ChartHandler.instance.updateChartData(items.sortedBy{ it.time }, interval, it, requireContext()) }
+        view?.sugarLineChart?.let {
+            ChartHandler.instance.updateChartData(items.sortedBy{ it.time }, interval, it, requireContext())
+            loading = false
+        }
     }
 
     override fun isLoading(): Boolean {
-        return false
+        return loading
     }
 }

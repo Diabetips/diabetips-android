@@ -24,6 +24,8 @@ data class RecipeObject (
 
 
     fun getQuantity(portion: Float = portions): Float {
+        if (portion == 0f || portions == 0f)
+            return 0f
         var quantity = 0f
         ingredients.forEach {ingredient ->
             quantity += ingredient.quantity
