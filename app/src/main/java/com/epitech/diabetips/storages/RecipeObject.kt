@@ -9,17 +9,23 @@ data class RecipeObject (
     var id: Int = 0,
     var name: String = "",
     var description: String = "",
-    var total_sugar: Float = 0f,
     var portions: Float = 0f,
+    var total_energy: Float = 0f,
+    var total_carbohydrates: Float = 0f,
+    var total_sugars: Float = 0f,
+    var total_fat: Float = 0f,
+    var total_saturated_fat: Float = 0f,
+    var total_fiber: Float = 0f,
+    var total_proteins: Float = 0f,
     var ingredients: Array<IngredientObject> = arrayOf(),
     var author: UserObject = UserObject()) : Serializable {
 
-    fun calculateTotalSugar() : Float {
-        total_sugar = 0f
+    fun calculateTotalSugars() : Float {
+        total_sugars = 0f
         ingredients.forEach {
-            total_sugar += it.calculateTotalSugar()
+            total_sugars += it.calculateTotalSugars()
         }
-        return total_sugar
+        return total_sugars
     }
 
 
@@ -34,7 +40,7 @@ data class RecipeObject (
     }
 
     fun getNutritionalValues(portion: Float = portions) : ArrayList<NutritionalObject> {
-        val nutritionalValues =  ArrayList<NutritionalObject>()
+        val nutritionalValues = NutritionalObject.getDefaultValues()
         ingredients.forEach { ingredient ->
             ingredient.getNutritionalValues().forEach { ingredientNutrition ->
                 val index = nutritionalValues.indexOfFirst { it.type == ingredientNutrition.type }

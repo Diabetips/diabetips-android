@@ -154,4 +154,5 @@
     <string name="toggle_content">Description</string>
     <string name="recipe_nutrition_portion">Quantité à analyser (en portions)</string>
     <string name="meal_nutrition_text">Récapitulatif nutritionnel de votre repas</string>
+    <string name="unit_portions">portions</string>
 </resources>

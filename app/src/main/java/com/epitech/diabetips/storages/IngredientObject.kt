@@ -7,12 +7,18 @@ import java.io.Serializable
 
 data class IngredientObject (
     var quantity: Float = 0f,
-    var total_sugar: Float = 0f,
+    var total_energy: Float = 0f,
+    var total_carbohydrates: Float = 0f,
+    var total_sugars: Float = 0f,
+    var total_fat: Float = 0f,
+    var total_saturated_fat: Float = 0f,
+    var total_fiber: Float = 0f,
+    var total_proteins: Float = 0f,
     var food: FoodObject = FoodObject()) : Serializable {
 
-    fun calculateTotalSugar() : Float {
-        total_sugar = food.sugars_100g * quantity / 100
-        return total_sugar
+    fun calculateTotalSugars() : Float {
+        total_sugars = (food.carbohydrates_100g ?: 0f) * quantity / 100
+        return total_sugars
     }
 
     fun getNutritionalValues(quantity: Float = this.quantity) : ArrayList<NutritionalObject> {

@@ -154,4 +154,5 @@
     <string name="toggle_nutrition">Nutrition</string>
     <string name="recipe_nutrition_portion">Quantity to analyse (in portions)</string>
     <string name="meal_nutrition_text">Nutritional summary of your meal</string>
+    <string name="unit_portions">portions</string>
 </resources>

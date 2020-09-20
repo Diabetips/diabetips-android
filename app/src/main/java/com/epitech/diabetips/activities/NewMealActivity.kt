@@ -170,10 +170,10 @@ class NewMealActivity : ADiabetipsActivity(R.layout.activity_new_meal), DatePick
     }
 
     private fun getMeal() : MealObject {
-        val meal = MealObject(mealId, mealTime, "", 0f,
-            (recipeList.adapter as MealRecipeAdapter).getRecipes().toTypedArray(),
-            (mealFoodList.adapter as RecipeFoodAdapter).getFoods().toTypedArray())
-        meal.calculateTotalSugar()
+        val meal = MealObject(mealId, mealTime, "",
+            recipes = (recipeList.adapter as MealRecipeAdapter).getRecipes().toTypedArray(),
+            foods = (mealFoodList.adapter as RecipeFoodAdapter).getFoods().toTypedArray())
+        meal.calculateTotalSugars()
         return meal
     }
 
@@ -190,7 +190,7 @@ class NewMealActivity : ADiabetipsActivity(R.layout.activity_new_meal), DatePick
             if (requestCode == RequestCode.SEARCH_RECIPE.ordinal) {
                 saved = false
                 val recipe = data?.getSerializableExtra(getString(R.string.param_recipe)) as RecipeObject
-                val mealRecipe = MealRecipeObject(0f, recipe.portions, recipe)
+                val mealRecipe = MealRecipeObject(portions_eaten = recipe.portions, recipe = recipe)
                 (recipeList.adapter as MealRecipeAdapter).addRecipe(mealRecipe)
                 updateNutritionalValueDisplay()
             } else if (requestCode == RequestCode.EDIT_RECIPE.ordinal) {

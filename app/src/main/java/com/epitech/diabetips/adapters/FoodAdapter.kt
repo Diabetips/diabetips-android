@@ -32,7 +32,7 @@ class FoodAdapter(private val foods: ArrayList<FoodObject> = arrayListOf(),
 
     fun getSelectedIngredientOrNew(food: FoodObject) : IngredientObject {
         val ingredient: IngredientObject? = getSelectedIngredient(food)
-        return ingredient ?: IngredientObject(0f, 0f, food)
+        return ingredient ?: IngredientObject(quantity = 0f, food = food)
     }
 
     fun getSelectedIngredient(food: FoodObject) : IngredientObject? {

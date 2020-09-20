@@ -8,4 +8,18 @@ data class NutritionalObject (
 
     enum class NutritionalType {CALORIE, CARBOHYDRATE, SUGAR, FAT, SATURATED_FAT, FIBER, PROTEIN}
 
+    companion object {
+        fun getDefaultValues(): ArrayList<NutritionalObject> {
+            val nutritionalValues = ArrayList<NutritionalObject>()
+            nutritionalValues.add(NutritionalObject(NutritionalType.CALORIE))
+            nutritionalValues.add(NutritionalObject(NutritionalType.CARBOHYDRATE))
+            nutritionalValues.add(NutritionalObject(NutritionalType.SUGAR))
+            nutritionalValues.add(NutritionalObject(NutritionalType.FAT))
+            nutritionalValues.add(NutritionalObject(NutritionalType.SATURATED_FAT))
+            nutritionalValues.add(NutritionalObject(NutritionalType.FIBER))
+            nutritionalValues.add(NutritionalObject(NutritionalType.PROTEIN))
+            return nutritionalValues
+        }
+    }
+
 }

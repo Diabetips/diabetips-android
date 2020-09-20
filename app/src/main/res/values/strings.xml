@@ -43,6 +43,7 @@
     <string name="unit_unit">unit</string>
     <string name="unit_units">units</string>
     <string name="unit_minute">minutes</string>
+    <string name="unit_portions">portions</string>
     <string name="unit_g" translatable="false">g</string>
     <string name="unit_u" translatable="false">u</string>
     <string name="unit_calorie" translatable="false">kcal</string>

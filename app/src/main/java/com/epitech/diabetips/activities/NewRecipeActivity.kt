@@ -247,14 +247,14 @@ class NewRecipeActivity : ADiabetipsActivity(R.layout.activity_new_recipe) {
         val ingredients = (foodList.adapter as RecipeFoodAdapter).getFoods()
         recipe.ingredients.forEach { ingredient ->
             if (ingredients.find { it.food.id == ingredient.food.id } == null) {
-                ingredients.add(IngredientObject(0f, 0f, ingredient.food))
+                ingredients.add(IngredientObject(quantity = 0f, food = ingredient.food))
             }
         }
-        val mealRecipe = MealRecipeObject(0f,
-            newRecipePortion.text.toString().toFloatOrNull() ?: recipe.portions,
-            recipe,
-            ingredients.toTypedArray())
-        mealRecipe.calculateTotalSugar()
+        val mealRecipe = MealRecipeObject(
+            portions_eaten = newRecipePortion.text.toString().toFloatOrNull() ?: recipe.portions,
+            recipe = recipe,
+            modifications = ingredients.toTypedArray())
+        mealRecipe.calculateTotalSugars()
         return mealRecipe
     }
 
@@ -263,7 +263,7 @@ class NewRecipeActivity : ADiabetipsActivity(R.layout.activity_new_recipe) {
         recipe.description = newRecipeDescription.text.toString()
         recipe.portions = newRecipePortion.text.toString().toFloatOrNull() ?: 1f
         recipe.ingredients = (foodList.adapter as RecipeFoodAdapter).getFoods().toTypedArray()
-        recipe.calculateTotalSugar()
+        recipe.calculateTotalSugars()
         return recipe
     }
 

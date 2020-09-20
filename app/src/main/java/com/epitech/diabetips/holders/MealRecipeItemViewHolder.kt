@@ -36,7 +36,7 @@ class MealRecipeItemViewHolder(inflater: LayoutInflater, parent: ViewGroup)
     fun bind(recipe: MealRecipeObject, onItemClickListener : ((MealRecipeObject) -> Unit)? = null) {
         mealRecipeText?.text = recipe.recipe.name
         itemView.setOnClickListener {onItemClickListener?.invoke(recipe)}
-        //mealRecipeQuantity?.text = recipe.quantity.toString() + recipe.unit //TODO add unit and quantity in recipes
+        //mealRecipeQuantity?.text = "${recipe.portions_eaten.toBigDecimal().stripTrailingZeros().toPlainString()} ${context.getString(R.string.unit_portions)} (${recipe.getQuantity().toBigDecimal().stripTrailingZeros().toPlainString()} ${context.getString(R.string.unit_g)})" //TODO uncomment and change visibility of text elment
         if (mealRecipeImage != null) {
             ImageHandler.instance.loadImage(mealRecipeImage!!, context, RecipeService.instance.getPictureUrl(recipe.recipe.id), R.drawable.ic_unknown, false)
         }

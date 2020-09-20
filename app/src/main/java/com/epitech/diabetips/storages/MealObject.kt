@@ -9,19 +9,25 @@ data class MealObject (
     var id: Int = 0,
     var time: String = "",
     var description: String = "",
-    var total_sugar: Float = 0f,
+    var total_energy: Float = 0f,
+    var total_carbohydrates: Float = 0f,
+    var total_sugars: Float = 0f,
+    var total_fat: Float = 0f,
+    var total_saturated_fat: Float = 0f,
+    var total_fiber: Float = 0f,
+    var total_proteins: Float = 0f,
     var recipes: Array<MealRecipeObject> = arrayOf(),
     var foods: Array<IngredientObject> = arrayOf()) : Serializable {
 
-    fun calculateTotalSugar() : Float {
-        total_sugar = 0f
+    fun calculateTotalSugars() : Float {
+        total_sugars = 0f
         recipes.forEach {
-            total_sugar += it.calculateTotalSugar()
+            total_sugars += it.calculateTotalSugars()
         }
         foods.forEach {
-            total_sugar += it.calculateTotalSugar()
+            total_sugars += it.calculateTotalSugars()
         }
-        return total_sugar
+        return total_sugars
     }
 
     fun getSummary(separator: String = "\n") : String {
@@ -54,7 +60,7 @@ data class MealObject (
     }
 
     fun getNutritionalValues() : ArrayList<NutritionalObject> {
-        val nutritionalValues =  ArrayList<NutritionalObject>()
+        val nutritionalValues =  NutritionalObject.getDefaultValues()
         recipes.forEach { recipe ->
             recipe.getNutritionalValues().forEach { recipeNutrition ->
                 val index = nutritionalValues.indexOfFirst { it.type == recipeNutrition.type }
@@ -85,7 +91,7 @@ class MealObjectAdapter : TypeAdapter<MealObject>() {
         writer?.beginObject()
 
         writer?.name("description")?.value(mealObject?.description)
-        writer?.name("timestamp")?.value(mealObject?.time)
+        writer?.name("time")?.value(mealObject?.time)
 
         writer?.name("recipes")
         writer?.beginArray()
