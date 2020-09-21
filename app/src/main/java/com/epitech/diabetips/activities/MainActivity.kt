@@ -25,6 +25,7 @@ import com.github.kittinunf.fuel.core.FuelManager
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.dialog_password_forgot.view.*
 import org.json.JSONObject
+import java.lang.Exception
 import java.nio.charset.Charset
 
 class MainActivity : ADiabetipsActivity(R.layout.activity_main) {
@@ -81,12 +82,18 @@ class MainActivity : ADiabetipsActivity(R.layout.activity_main) {
                     UserManager.instance.removePreferences(this)
                     launchHomeActivity()
                 } else {
-                    val error = JSONObject(it.first.data.toString(Charset.defaultCharset())).getString("error")
-                    if (error == "registration_incomplete") {
-                        emailInputLayout.error = getString(R.string.registration_incomplete)
-                    } else {
-                        emailInputLayout.error = getString(R.string.login_invalid)
-                        passwordInputLayout.error = getString(R.string.login_invalid)
+                    var error = it.first.data.toString(Charset.defaultCharset())
+                    if (error.isNotBlank())
+                    try {
+                        error = JSONObject(error).getString("error")
+                        if (error == "registration_incomplete") {
+                            emailInputLayout.error = getString(R.string.registration_incomplete)
+                        } else {
+                            emailInputLayout.error = getString(R.string.login_invalid)
+                            passwordInputLayout.error = getString(R.string.login_invalid)
+                        }
+                    } catch (e: Exception) {
+                        Toast.makeText(this, getString(R.string.connexion_error), Toast.LENGTH_SHORT).show()
                     }
                 }
                 changeSwipeLayoutState(false)
@@ -116,7 +123,7 @@ class MainActivity : ADiabetipsActivity(R.layout.activity_main) {
                     view.emailResetPasswordInputLayout.error = getString(R.string.email_invalid_error)
                 } else {
                     view.emailResetPasswordInputLayout.error = null
-                    TokenService.instance.resetPassword(view.emailResetPasswordInput.text.toString()).doOnSuccess {
+                    TokenService.instance.resetPassword(this, view.emailResetPasswordInput.text.toString()).doAfterSuccess() {
                         if (it.second.component2() == null) {
                             Toast.makeText(this, getString(R.string.reset_password), Toast.LENGTH_LONG).show()
                             dialog.dismiss()

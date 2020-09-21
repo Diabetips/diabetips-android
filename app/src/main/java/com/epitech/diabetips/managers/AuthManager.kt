@@ -1,6 +1,7 @@
 package com.epitech.diabetips.managers
 
 import android.content.Context
+import com.epitech.diabetips.utils.ImageHandler
 
 class AuthManager : AManager("auth_token") {
 
@@ -17,6 +18,7 @@ class AuthManager : AManager("auth_token") {
 
     fun saveAccessToken(context: Context, accessToken: String) {
         saveString(context, accessToken, ACCESS_TOKEN)
+        ImageHandler.instance.updateHeader(accessToken)
     }
 
     fun getAccessToken(context: Context) : String {

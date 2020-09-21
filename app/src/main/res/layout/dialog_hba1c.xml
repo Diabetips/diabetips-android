@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    style="@style/EmptyBackgroundTheme">
+
+    <LinearLayout
+        android:id="@+id/hba1cLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:orientation="vertical"
+        style="@style/EmptyBackgroundTheme">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/hba1cTextLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="@dimen/margin_size"
+            style="@style/BackgroundDialogTheme">
+
+            <TextView
+                android:id="@+id/hba1cTitle"
+                style="@style/SubtitleTheme"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_size"
+                android:layout_marginTop="@dimen/half_margin_size"
+                android:text="@string/add_hba1c"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/hba1cTimeLayout"
+                style="@style/EmptyBackgroundTheme"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="@dimen/quarter_margin_size"
+                app:layout_constraintTop_toBottomOf="@+id/hba1cTitle">
+
+                <ImageButton
+                    android:id="@+id/hba1cTimeImage"
+                    style="@style/ImageButtonTransparentTheme"
+                    android:clickable="false"
+                    android:layout_marginStart="@dimen/margin_size"
+                    android:contentDescription="@string/placeholder_text"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_time" />
+
+                <TextView
+                    android:id="@+id/hba1cTimeDate"
+                    style="@style/TextAltTheme"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="@dimen/margin_size"
+                    android:layout_marginStart="@dimen/half_margin_size"
+                    android:text="@string/placeholder_text"
+                    app:layout_constraintStart_toEndOf="@+id/hba1cTimeImage"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"/>
+
+                <TextView
+                    android:id="@+id/hba1cTimeHour"
+                    style="@style/TextAltTheme"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="@dimen/margin_size"
+                    android:text="@string/placeholder_hour"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/hba1cInputLayout"
+                style="@style/RemoveInputLayoutTheme"
+                android:layout_width="match_parent"
+                android:layout_marginTop="@dimen/quarter_margin_size"
+                android:hint="@string/select_quantity_input"
+                android:maxLength="@integer/hba1c_max_length"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/hba1cTimeLayout">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/hba1cInput"
+                    style="@style/TextInputTheme"
+                    android:maxLength="@integer/hba1c_max_length"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="numberDecimal" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <LinearLayout
+            android:id="@+id/hba1cButtonLayout"
+            style="@style/EmptyBackgroundTheme"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="start"
+            android:layout_marginTop="@dimen/negative_margin_size"
+            android:padding="@dimen/half_margin_size">
+
+            <ImageButton
+                android:id="@+id/hba1cDeleteButton"
+                style="@style/ImageButtonWarmTheme"
+                android:layout_marginStart="@dimen/half_margin_size"
+                android:contentDescription="@string/delete"
+                android:src="@drawable/ic_delete"/>
+
+            <LinearLayout
+                android:id="@+id/hba1cButtonSubLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="end"
+                style="@style/EmptyBackgroundTheme">
+
+                <ImageButton
+                    android:id="@+id/hba1cNegativeButton"
+                    style="@style/ImageButtonTheme"
+                    android:layout_marginEnd="@dimen/half_margin_size"
+                    android:contentDescription="@string/placeholder_text"
+                    android:src="@drawable/ic_close"/>
+
+                <ImageButton
+                    android:id="@+id/hba1cPositiveButton"
+                    style="@style/ImageButtonAltTheme"
+                    android:layout_marginEnd="@dimen/half_margin_size"
+                    android:contentDescription="@string/placeholder_text"
+                    android:src="@drawable/ic_check"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

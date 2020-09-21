@@ -9,9 +9,11 @@ import com.epitech.diabetips.fragments.DashboardFragment
 import com.epitech.diabetips.fragments.HomeFragment
 import com.epitech.diabetips.fragments.ProfileFragment
 import com.epitech.diabetips.fragments.RecipeFragment
+import com.epitech.diabetips.managers.FavoriteManager
 import com.epitech.diabetips.services.NfcReaderService
 import com.epitech.diabetips.services.NotificationService
 import com.epitech.diabetips.services.PENDING_INTENT_TECH_DISCOVERED
+import com.epitech.diabetips.storages.FCMTokenObject
 import com.epitech.diabetips.storages.NotificationObject
 import com.epitech.diabetips.storages.PaginationObject
 import com.epitech.diabetips.utils.ADiabetipsActivity
@@ -31,12 +33,13 @@ class NavigationActivity : ADiabetipsActivity(R.layout.activity_navigation), me.
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        smoothBottomBaBar.onItemSelectedListener = this
+        smoothBottomBar.onItemSelectedListener = this
         selectDefaultFragment()
         //initFirebase()
         /*nfcReader = NfcReaderService(this, intent, this) {
             nfcReaderUpdated()
         }*/
+        FavoriteManager.instance.init(this)
     }
 
     private fun initFirebase() {
@@ -47,6 +50,8 @@ class NavigationActivity : ADiabetipsActivity(R.layout.activity_navigation), me.
                     return@OnCompleteListener
                 }
                 Log.d("FirebaseToken", "${task.result?.token}")
+                if (task.result?.token != null)
+                    NotificationService.instance.register(FCMTokenObject(task.result?.token!!)).subscribe()
                 NotificationService.instance.getAll<NotificationObject>(PaginationObject(1, resources.getInteger(R.integer.pagination_default))).doOnSuccess {
                     if (it.second.component2() == null && it.second.component1()?.firstOrNull() != null && !it.second.component1()?.first()!!.read) {
                         Log.d("FirebaseNotification", it.second.component1()!!.first().toString())
@@ -63,7 +68,7 @@ class NavigationActivity : ADiabetipsActivity(R.layout.activity_navigation), me.
     }
 
     private fun selectDefaultFragment() {
-        smoothBottomBaBar.itemActiveIndex = defaultFragmentSelect.ordinal
+        smoothBottomBar.itemActiveIndex = defaultFragmentSelect.ordinal
         onItemSelect(defaultFragmentSelect.ordinal)
         setDefaultFragmentSelect()
     }
@@ -82,7 +87,7 @@ class NavigationActivity : ADiabetipsActivity(R.layout.activity_navigation), me.
     override fun onItemSelect(pos: Int) : Boolean {
         val fragment = supportFragmentManager.findFragmentById(R.id.navigationFragment) as ANavigationFragment?
         if (fragment != null && fragment.isLoading()) {
-            smoothBottomBaBar.itemActiveIndex = fragment.fragmentType.ordinal
+            smoothBottomBar.itemActiveIndex = fragment.fragmentType.ordinal
             return false
         }
         when (pos) {
@@ -103,7 +108,7 @@ class NavigationActivity : ADiabetipsActivity(R.layout.activity_navigation), me.
         val fragment = supportFragmentManager.findFragmentById(R.id.navigationFragment) as ANavigationFragment?
         if (fragment != null && fragment.isLoading()) {
             return
-        } else if (smoothBottomBaBar.itemActiveIndex != defaultFragmentSelect.ordinal) {
+        } else if (smoothBottomBar.itemActiveIndex != defaultFragmentSelect.ordinal) {
             selectDefaultFragment()
         } else {
             moveTaskToBack(true)

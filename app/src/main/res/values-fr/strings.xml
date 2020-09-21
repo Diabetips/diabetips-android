@@ -128,4 +128,34 @@
     <string name="hypoglycemia">Hypoglycémie</string>
     <string name="change_insulin">Modifier l\'injection d\'insuline</string>
     <string name="version_demo">Version de démonstration</string>
+    <string name="recipe_all">Toutes</string>
+    <string name="recipe_favorite">Favorites</string>
+    <string name="recipe_personal">Mes recettes</string>
+    <string name="recipe_favorite_add">Recette ajouté aux favoris</string>
+    <string name="recipe_favorite_remove">Recette retiré des favoris</string>
+    <string name="nutritional_calorie">Calories</string>
+    <string name="nutritional_carbohydrate">Glucides</string>
+    <string name="nutritional_sugar">Sucres</string>
+    <string name="nutritional_fat">Gras</string>
+    <string name="nutritional_fiber">Fibres alimentaires</string>
+    <string name="nutritional_protein">Protéines</string>
+    <string name="nutritional_saturated_fat">Acides gras saturés</string>
+    <string name="hba1c_title">Hémoglobine glyquée</string>
+    <string name="glucose_average_title">Taux de glucose moyen</string>
+    <string name="event_notebook_title">Carnet d\'évènements</string>
+    <string name="add_hba1c">Ajouter une valeur d\'HbA1c</string>
+    <string name="change_hba1c">Modifier une valeur d\'HbA1c</string>
+    <string name="add_value">Ajouter une valeur</string>
+    <string name="percentage_error">Le pourcentage doit-être entre 0% et 100%</string>
+    <string name="select_percentage_input">Pourcentage (%)</string>
+    <string name="nutritional_values">Informations nutritionnelles</string>
+    <string name="test_notification">Envoyer une notification de test</string>
+    <string name="test_notification_send">Notification envoyée</string>
+    <string name="toggle_nutrition">Nutrition</string>
+    <string name="toggle_content">Description</string>
+    <string name="recipe_nutrition_portion">Quantité à analyser (en portions)</string>
+    <string name="meal_nutrition_text">Récapitulatif nutritionnel de votre repas</string>
+    <string name="unit_portions">portions</string>
+    <string name="connexion_error">Une erreur est survenue lors de la connexion au serveur</string>
+>>>>>>> 0b6c41ecfed318575fedb142f1c87de59955108a
 </resources>

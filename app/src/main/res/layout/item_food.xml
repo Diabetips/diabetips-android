@@ -55,7 +55,7 @@
                 style="@style/HintTheme"
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
-                android:text="@string/sugar_100g" />
+                android:text="@string/placeholder_number" />
 
         </LinearLayout>
 

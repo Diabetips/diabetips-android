@@ -16,20 +16,23 @@ import com.epitech.diabetips.storages.PaginationObject
 import com.epitech.diabetips.utils.IRecipe
 import com.epitech.diabetips.utils.ANavigationFragment
 import kotlinx.android.synthetic.main.activity_recipe.view.*
+import me.ibrahimsn.lib.SmoothBottomBar
 
 class RecipeFragment : ANavigationFragment(FragmentType.RECIPES), IRecipe {
 
     override lateinit var activityMode: IRecipe.ActivityMode
+    override lateinit var searchMode: IRecipe.SearchMode
     override lateinit var page: PaginationObject
     override lateinit var recipeActivity: Activity
     override lateinit var recipeContext: Context
     override lateinit var recipeSearchList: RecyclerView
     override lateinit var recipeSearchView: SearchView
     override lateinit var recipeSwipeRefresh: SwipeRefreshLayout
+    override lateinit var recipeSelectionBar: SmoothBottomBar
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = createFragmentView(R.layout.activity_recipe, inflater, container)
-        initView(requireActivity(), requireContext(), view.recipeSearchView, view.recipeSearchList, view.recipeSwipeRefresh)
+        initView(requireActivity(), requireContext(), view.recipeSearchView, view.recipeSearchList, view.recipeSwipeRefresh, view.recipeSelectionBar)
         view.newRecipeButton.setOnClickListener {
             startActivityForResult(Intent(requireContext(), NewRecipeActivity::class.java), IRecipe.RequestCode.NEW_RECIPE.ordinal)
         }

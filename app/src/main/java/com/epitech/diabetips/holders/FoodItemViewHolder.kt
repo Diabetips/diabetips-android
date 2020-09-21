@@ -37,7 +37,7 @@ class FoodItemViewHolder(inflater: LayoutInflater, parent: ViewGroup)
 
     fun bind(food: FoodObject, selected: Boolean = false, onItemClickListener : ((FoodObject, CheckBox?) -> Unit)? = null) {
         foodText?.text = food.name
-        sugar100gText?.text = "${food.sugars_100g}${context.getString(R.string.unit_g)}"
+        sugar100gText?.text = if (food.carbohydrates_100g != null) "${food.carbohydrates_100g!!}${context.getString(R.string.unit_g)}" else "?"
         unitText?.text = food.unit
         foodCkeckBox?.isChecked = selected
         itemView.setOnClickListener {
