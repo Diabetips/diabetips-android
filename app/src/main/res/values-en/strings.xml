@@ -65,7 +65,7 @@
     <string name="back_to_login_button">Back to login page</string>
     <string name="logout_confirm">Do you want to logout ?</string>
     <string name="empty_field_error">This field cannot be empty</string>
-    <string name="lang">eng</string>
+    <string name="lang">en</string>
     <string name="password_lowercase_error">Password must contain at least 1 lowercase letter</string>
     <string name="password_uppercase_error">Password must contain at least 1 uppercase letter</string>
     <string name="password_digit_error">Password must contain at least 1 digit</string>
