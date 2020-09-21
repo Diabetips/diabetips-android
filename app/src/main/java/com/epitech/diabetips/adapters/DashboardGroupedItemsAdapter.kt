@@ -4,6 +4,7 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.view.isVisible
+import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.epitech.diabetips.holders.DashboardGroupedItemsViewHolder
@@ -13,6 +14,7 @@ import java.util.*
 var animationPlaybackSpeed: Double = 0.8
 
 class DashboardGroupedItemsAdapter(val context: Context,
+                                   private val fragmentManager: FragmentManager,
                                    private var items: ArrayList<Pair<String?, List<EntryObject>>> = arrayListOf(),
                                    private val onItemClickListener : ((EntryObject) -> Unit)? = null)
         : RecyclerView.Adapter<DashboardGroupedItemsViewHolder>() {
@@ -72,7 +74,7 @@ class DashboardGroupedItemsAdapter(val context: Context,
                 childLayoutManager.initialPrefetchItemCount = arrayItems.size
                 holder.recyclerView.apply {
                         layoutManager = childLayoutManager
-                        adapter = DashboardItemsAdapter(context, arrayItems, null)
+                        adapter = DashboardItemsAdapter(context, fragmentManager, arrayItems, null)
                         setRecycledViewPool(viewPool)
                 }
 

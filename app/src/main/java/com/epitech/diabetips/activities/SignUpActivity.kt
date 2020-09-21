@@ -25,7 +25,7 @@ class SignUpActivity : ADiabetipsActivity(R.layout.activity_sign_up) {
         signUpButton.setOnClickListener {
             if (validateFields()) {
                 val account = getAccountFromFields()
-                UserService.instance.createOrUpdate(account).doOnSuccess {
+                UserService.instance.registerUser(this, account).doAfterSuccess {
                     if (it.second.component2() == null) {
                         Toast.makeText(this, getString(R.string.created_account), Toast.LENGTH_SHORT).show()
                         finish()

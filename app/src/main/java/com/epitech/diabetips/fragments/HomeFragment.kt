@@ -17,28 +17,29 @@ import kotlinx.android.synthetic.main.fragment_home.view.*
 class HomeFragment : ANavigationFragment(FragmentType.HOME) {
 
     lateinit var entriesManager: EntriesManager
+    var loading: Boolean = false
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        entriesManager = EntriesManager(context = requireContext()) {
-                items, reset -> itemsUpdateTrigger(reset, items)
+        entriesManager = EntriesManager(requireContext()) { items, reset ->
+            itemsUpdateTrigger(reset, items)
         }
 
         val view = createFragmentView(R.layout.fragment_home, inflater, container)
         view.readyToScan.text = (activity as NavigationActivity).nfcReader?.nfcStatus
 
         view.newEntryButton.setOnClickListener {
-            startActivity(Intent(context, NewEntryActivity::class.java))
+            startActivity(Intent(requireContext(), NewEntryActivity::class.java))
         }
         view.viewRecipeButton.setOnClickListener {
-            startActivity(Intent(context, RecipeActivity::class.java)
+            startActivity(Intent(requireContext(), RecipeActivity::class.java)
                 .putExtra(getString(R.string.param_mode), IRecipe.ActivityMode.UPDATE))
         }
         view.openDashboardButton.setOnClickListener {
-            startActivity(Intent(context, DashboardFragment::class.java))
+            startActivity(Intent(requireContext(), DashboardFragment::class.java))
         }
         ChartHandler.instance.handleLineChartStyle(view.sugarLineChart, requireContext())
         //Draw empty chart
-        val interval: Pair<Long, Long> = Pair(entriesManager.getPage()!!.start, entriesManager.getPage()!!.end)
+        val interval: Pair<Long, Long> = entriesManager.getPage()!!.getTimestampInterval(requireContext())
         ChartHandler.instance.updateChartData(listOf(), interval, view.sugarLineChart, requireContext())
         //Call Api to update chart
         updateChart()
@@ -48,18 +49,22 @@ class HomeFragment : ANavigationFragment(FragmentType.HOME) {
     }
 
     private fun updateChart() {
-        val cur = TimeHandler.instance.currentTimeSecond()
-        entriesManager.getPage()?.setInterval(cur - TimeHandler.instance.dayInSecond, cur)
+        loading = true
+        val now = TimeHandler.instance.currentTimeFormat(getString(R.string.format_time_api))
+        entriesManager.getPage()?.setInterval(TimeHandler.instance.addMinuteToFormat(now, getString(R.string.format_time_api), -TimeHandler.instance.dayInMinute), now)
         entriesManager.updatePages()
         entriesManager.getItems()
     }
 
     private fun itemsUpdateTrigger(reset: Boolean, items: Array<EntryObject>) {
-        val interval: Pair<Long, Long> = Pair(entriesManager.getPage()!!.start, entriesManager.getPage()!!.end)
-        view?.sugarLineChart?.let { ChartHandler.instance.updateChartData(items.sortedBy{ it.time }, interval, it, requireContext()) }
+        val interval: Pair<Long, Long> = entriesManager.getPage()!!.getTimestampInterval(requireContext())
+        view?.sugarLineChart?.let {
+            ChartHandler.instance.updateChartData(items.sortedBy{ it.time }, interval, it, requireContext())
+            loading = false
+        }
     }
 
     override fun isLoading(): Boolean {
-        return false
+        return loading
     }
 }

@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <integer name="password_length">8</integer>
+    <integer name="portion_max_length">5</integer>
+    <integer name="glycemia_max_length">3</integer>
+    <integer name="hba1c_max_length">5</integer>
     <integer name="pagination_default">1</integer>
     <integer name="pagination_size">50</integer>
 </resources>

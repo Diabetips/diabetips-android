@@ -32,19 +32,19 @@ class FunctionalTest {
 
     @Test
     fun totalSugar() {
-        val food = FoodObject(1, "Food", "g", 100f)
-        val ingredient = IngredientObject(10f, 10f, food)
-        val recipe = RecipeObject(1, "Recipe", "", 10f, 1f, arrayOf(ingredient))
-        val mealRecipe = MealRecipeObject(25f, 1f, recipe, arrayOf(IngredientObject(25f, 25f, food)))
-        val meal = MealObject(1, 0, "", 35f, arrayOf(mealRecipe), arrayOf(ingredient))
-        var expectedSugar = ingredient.total_sugar
-        assertEquals("Wrong ingredient total sugar", expectedSugar, ingredient.calculateTotalSugar())
-        expectedSugar = recipe.total_sugar
-        assertEquals("Wrong recipe total sugar", expectedSugar, recipe.calculateTotalSugar())
-        expectedSugar = mealRecipe.total_sugar
-        assertEquals("Wrong mealRecipe total sugar", expectedSugar, mealRecipe.calculateTotalSugar())
-        expectedSugar = meal.total_sugar
-        assertEquals("Wrong meal total sugar", expectedSugar, meal.calculateTotalSugar())
+        val food = FoodObject(1, "Food", "g", carbohydrates_100g = 100f)
+        val ingredient = IngredientObject(quantity = 10f, total_carbohydrates = 10f, food = food)
+        val recipe = RecipeObject(1, "Recipe", portions = 1f, total_carbohydrates = 10f, ingredients = arrayOf(ingredient))
+        val mealRecipe = MealRecipeObject(portions_eaten = 1f, total_carbohydrates = 25f, recipe = recipe, modifications = arrayOf(IngredientObject(25f, total_carbohydrates = 25f, food = food)))
+        val meal = MealObject(1, total_carbohydrates = 35f, recipes = arrayOf(mealRecipe), foods = arrayOf(ingredient))
+        var expectedSugar = ingredient.total_carbohydrates
+        assertEquals("Wrong ingredient total sugar", expectedSugar, ingredient.calculateTotalSugars())
+        expectedSugar = recipe.total_carbohydrates
+        assertEquals("Wrong recipe total sugar", expectedSugar, recipe.calculateTotalSugars())
+        expectedSugar = mealRecipe.total_carbohydrates
+        assertEquals("Wrong mealRecipe total sugar", expectedSugar, mealRecipe.calculateTotalSugars())
+        expectedSugar = meal.total_carbohydrates
+        assertEquals("Wrong meal total sugar", expectedSugar, meal.calculateTotalSugars())
 
     }
 }

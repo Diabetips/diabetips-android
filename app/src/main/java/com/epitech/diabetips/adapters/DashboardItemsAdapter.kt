@@ -1,4 +1,5 @@
 package com.epitech.diabetips.adapters
+
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
@@ -7,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
 import com.epitech.diabetips.R
 import com.epitech.diabetips.activities.NewMealActivity
@@ -17,11 +19,16 @@ import com.epitech.diabetips.storages.EntryObject
 import com.epitech.diabetips.storages.InsulinObject
 import com.epitech.diabetips.storages.MealObject
 import com.epitech.diabetips.storages.NoteObject
+import com.epitech.diabetips.utils.DatePickerHandler
 import com.epitech.diabetips.utils.MaterialHandler
+import com.epitech.diabetips.utils.TimeHandler
+import com.epitech.diabetips.utils.TimePickerHandler
 import kotlinx.android.synthetic.main.dialog_change_comment.view.*
 import kotlinx.android.synthetic.main.dialog_change_insulin.view.*
 
+
 class DashboardItemsAdapter(val context: Context,
+                            private val fragmentManager: FragmentManager,
                             private val items: ArrayList<EntryObject> = arrayListOf(),
                             private val onItemClickListener : ((EntryObject) -> Unit)? = null)
         : RecyclerView.Adapter<DashboardItemViewHolder>() {
@@ -73,7 +80,7 @@ class DashboardItemsAdapter(val context: Context,
         }
 
         override fun onBindViewHolder(holder: DashboardItemViewHolder, position: Int) {
-                holder.bind(items[position], onItemClickListener)
+                holder.bind(context, items[position], onItemClickListener)
 
                 holder.itemView.setOnClickListener {
                         when (items[position].type) {
@@ -101,9 +108,22 @@ class DashboardItemsAdapter(val context: Context,
                 MaterialHandler.instance.handleTextInputLayoutSize(view as ViewGroup)
                 val dialog = AlertDialog.Builder(context).setView(view).create()
                 dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-                val insulinObject = item.orignal as InsulinObject
+                val insulinObject = (item.orignal as InsulinObject).copy()
                 view.changeInsulinInputLayout.hint = "${view.changeInsulinInputLayout.hint} (${context.getString(R.string.unit_units)})"
                 view.changeInsulinInput.setText(insulinObject.quantity.toString())
+                TimeHandler.instance.updateTimeDisplay(context, insulinObject.time, view.changeInsulinTimeDate, view.changeInsulinTimeHour)
+                view.changeInsulinTimeDate.setOnClickListener {
+                        TimeHandler.instance.getDatePickerDialog(context, DatePickerHandler { year, monthOfYear, dayOfMonth ->
+                                insulinObject.time = TimeHandler.instance.changeFormatDate(insulinObject.time, context.getString(R.string.format_time_api), year, monthOfYear, dayOfMonth)
+                                TimeHandler.instance.updateTimeDisplay(context, insulinObject.time, view.changeInsulinTimeDate, view.changeInsulinTimeHour)
+                        }, insulinObject.time).show(fragmentManager, "DatePickerDialog")
+                }
+                view.changeInsulinTimeHour.setOnClickListener {
+                        TimeHandler.instance.getTimePickerDialog(context, TimePickerHandler { hourOfDay, minute, _ ->
+                                insulinObject.time = TimeHandler.instance.changeFormatTime(insulinObject.time, context.getString(R.string.format_time_api), hourOfDay, minute)
+                                TimeHandler.instance.updateTimeDisplay(context, insulinObject.time, view.changeInsulinTimeDate, view.changeInsulinTimeHour)
+                        }, insulinObject.time).show(fragmentManager, "TimePickerDialog")
+                }
                 view.changeInsulinNegativeButton.setOnClickListener {
                         dialog.dismiss()
                 }
@@ -142,8 +162,21 @@ class DashboardItemsAdapter(val context: Context,
                 MaterialHandler.instance.handleTextInputLayoutSize(view as ViewGroup)
                 val dialog = AlertDialog.Builder(context).setView(view).create()
                 dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-                val noteObject = item.orignal as NoteObject
+                val noteObject = (item.orignal as NoteObject).copy()
                 view.changeCommentInput.setText(noteObject.description)
+                TimeHandler.instance.updateTimeDisplay(context, noteObject.time, view.changeCommentTimeDate, view.changeCommentTimeHour)
+                view.changeCommentTimeDate.setOnClickListener {
+                        TimeHandler.instance.getDatePickerDialog(context, DatePickerHandler { year, monthOfYear, dayOfMonth ->
+                                noteObject.time = TimeHandler.instance.changeFormatDate(noteObject.time, context.getString(R.string.format_time_api), year, monthOfYear, dayOfMonth)
+                                TimeHandler.instance.updateTimeDisplay(context, noteObject.time, view.changeCommentTimeDate, view.changeCommentTimeHour)
+                        }, noteObject.time).show(fragmentManager, "DatePickerDialog")
+                }
+                view.changeCommentTimeHour.setOnClickListener {
+                        TimeHandler.instance.getTimePickerDialog(context, TimePickerHandler { hourOfDay, minute, _ ->
+                                noteObject.time = TimeHandler.instance.changeFormatTime(noteObject.time, context.getString(R.string.format_time_api), hourOfDay, minute)
+                                TimeHandler.instance.updateTimeDisplay(context, noteObject.time, view.changeCommentTimeDate, view.changeCommentTimeHour)
+                        }, noteObject.time).show(fragmentManager, "TimePickerDialog")
+                }
                 view.changeCommentNegativeButton.setOnClickListener {
                         dialog.dismiss()
                 }

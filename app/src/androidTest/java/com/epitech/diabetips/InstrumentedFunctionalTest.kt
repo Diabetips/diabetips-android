@@ -35,7 +35,7 @@ class InstrumentedFunctionalTest {
         val expectedAccessToken = "49fad390491a5b547d0f782309b6a5b33f7ac087"
         val expectedRefreshToken = "8xLOxBtZp8"
         val expectedAccount = UserObject("nom.prenom@email.com", "password", "NOM", "Prénom")
-        val expectedBiometric = BiometricObject(80, 175, "2020-10-05", "male")
+        val expectedBiometric = BiometricObject(80, 175, 60, 180, "2020-10-05", "male")
         val expectedMode =  AppCompatDelegate.MODE_NIGHT_YES
         //Save values with managers
         AuthManager.instance.saveAccessToken(instrumentationContext, expectedAccessToken)
@@ -63,7 +63,7 @@ class InstrumentedFunctionalTest {
         val expectedAccessToken = "49fad390491a5b547d0f782309b6a5b33f7ac087"
         val expectedRefreshToken = "8xLOxBtZp8"
         val expectedAccount = UserObject("nom.prenom@email.com", "password", "NOM", "Prénom")
-        val expectedBiometric = BiometricObject(80, 175, "2020-10-05", "male")
+        val expectedBiometric = BiometricObject(80, 175, 60, 180, "2020-10-05", "male")
         val expectedMode =  AppCompatDelegate.MODE_NIGHT_YES
         //Save values with managers
         AuthManager.instance.saveAccessToken(instrumentationContext, expectedAccessToken)
@@ -93,7 +93,7 @@ class InstrumentedFunctionalTest {
     fun foodAdapters() {
         //Values
         val foodArray = arrayOf(FoodObject(1, "Food"), FoodObject(2), FoodObject(3))
-        val ingredientArray = arrayOf(IngredientObject(10f, 1f, FoodObject(1, "Food")), IngredientObject(15f, 2f, FoodObject(2, "Ingredient")), IngredientObject(7f, 3f, FoodObject(3)))
+        val ingredientArray = arrayOf(IngredientObject(10f, food = FoodObject(1, "Food")), IngredientObject(15f, food = FoodObject(2, "Ingredient")), IngredientObject(7f, food = FoodObject(3)))
         val foodAdapter = FoodAdapter()
         val recipeFoodAdapter = RecipeFoodAdapter()
         //Operations
@@ -110,7 +110,7 @@ class InstrumentedFunctionalTest {
     fun recipeAdapters() {
         //Values
         val recipeArray = arrayOf(RecipeObject(1, "Recipe"), RecipeObject(2), RecipeObject(3))
-        val mealRecipeArray = arrayOf(MealRecipeObject(0f, 1f, RecipeObject(1, "Recipe")), MealRecipeObject(0f, 1f,  RecipeObject(2)), MealRecipeObject(0f, 1f, RecipeObject(3)))
+        val mealRecipeArray = arrayOf(MealRecipeObject(0f, recipe = RecipeObject(1, "Recipe")), MealRecipeObject(0f, recipe = RecipeObject(2)), MealRecipeObject(0f, recipe = RecipeObject(3)))
         val recipeAdapter = RecipeAdapter()
         val mealRecipeAdapter = MealRecipeAdapter()
         //Operations
@@ -127,7 +127,7 @@ class InstrumentedFunctionalTest {
     @Test
     fun biometricObjects() {
         //Values
-        val biometric = BiometricObject(80, 175, "2020-10-05")
+        val biometric = BiometricObject(80, 175, 60, 180, "2020-10-05")
         //Operations
         biometric.setSex(instrumentationContext, instrumentationContext.resources.getStringArray(R.array.sex)[0])
         biometric.setDiabetesType(instrumentationContext, instrumentationContext.resources.getStringArray(R.array.diabetes_type)[0])

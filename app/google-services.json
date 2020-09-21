@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "662514934162",
+    "firebase_url": "https://diabetips-42069.firebaseio.com",
+    "project_id": "diabetips-42069",
+    "storage_bucket": "diabetips-42069.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:662514934162:android:4cd17910855c712c1fa14b",
+        "android_client_info": {
+          "package_name": "com.epitech.diabetips"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "662514934162-nu5s47e6lunlqsdp5mea6amtcq80e9nq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDH-2noiBs6qf7H3Uyr8IF-VBFZ2E7nXrw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "662514934162-nu5s47e6lunlqsdp5mea6amtcq80e9nq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

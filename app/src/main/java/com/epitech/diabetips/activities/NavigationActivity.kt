@@ -2,16 +2,24 @@ package com.epitech.diabetips.activities
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import com.epitech.diabetips.R
 import com.epitech.diabetips.fragments.DashboardFragment
 import com.epitech.diabetips.fragments.HomeFragment
 import com.epitech.diabetips.fragments.ProfileFragment
 import com.epitech.diabetips.fragments.RecipeFragment
+import com.epitech.diabetips.managers.FavoriteManager
 import com.epitech.diabetips.services.NfcReaderService
+import com.epitech.diabetips.services.NotificationService
 import com.epitech.diabetips.services.PENDING_INTENT_TECH_DISCOVERED
+import com.epitech.diabetips.storages.FCMTokenObject
+import com.epitech.diabetips.storages.NotificationObject
+import com.epitech.diabetips.storages.PaginationObject
 import com.epitech.diabetips.utils.ADiabetipsActivity
 import com.epitech.diabetips.utils.ANavigationFragment
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.iid.FirebaseInstanceId
 import kotlinx.android.synthetic.main.activity_navigation.*
 
 class NavigationActivity : ADiabetipsActivity(R.layout.activity_navigation), me.ibrahimsn.lib.OnItemSelectedListener  {
@@ -25,11 +33,32 @@ class NavigationActivity : ADiabetipsActivity(R.layout.activity_navigation), me.
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        smoothBottomBaBar.setOnItemSelectedListener(this)
+        smoothBottomBar.onItemSelectedListener = this
         selectDefaultFragment()
+        initFirebase()
         nfcReader = NfcReaderService(this, intent, this) {
             nfcReaderUpdated()
         }
+        FavoriteManager.instance.init(this)
+    }
+
+    private fun initFirebase() {
+        FirebaseInstanceId.getInstance().instanceId
+            .addOnCompleteListener(OnCompleteListener { task ->
+                if (!task.isSuccessful) {
+                    Log.w("Firebase", "getInstanceId failed", task.exception)
+                    return@OnCompleteListener
+                }
+                Log.d("FirebaseToken", "${task.result?.token}")
+                if (task.result?.token != null)
+                    NotificationService.instance.register(FCMTokenObject(task.result?.token!!)).subscribe()
+                NotificationService.instance.getAll<NotificationObject>(PaginationObject(1, resources.getInteger(R.integer.pagination_default))).doOnSuccess {
+                    if (it.second.component2() == null && it.second.component1()?.firstOrNull() != null && !it.second.component1()?.first()!!.read) {
+                        Log.d("FirebaseNotification", it.second.component1()!!.first().toString())
+                        it.second.component1()!!.first().send(this)
+                    }
+                }.subscribe()
+            })
     }
 
     private fun nfcReaderUpdated() {
@@ -39,7 +68,7 @@ class NavigationActivity : ADiabetipsActivity(R.layout.activity_navigation), me.
     }
 
     private fun selectDefaultFragment() {
-        smoothBottomBaBar.setActiveItem(defaultFragmentSelect.ordinal)
+        smoothBottomBar.itemActiveIndex = defaultFragmentSelect.ordinal
         onItemSelect(defaultFragmentSelect.ordinal)
         setDefaultFragmentSelect()
     }
@@ -58,7 +87,7 @@ class NavigationActivity : ADiabetipsActivity(R.layout.activity_navigation), me.
     override fun onItemSelect(pos: Int) : Boolean {
         val fragment = supportFragmentManager.findFragmentById(R.id.navigationFragment) as ANavigationFragment?
         if (fragment != null && fragment.isLoading()) {
-            smoothBottomBaBar.setActiveItem(fragment.fragmentType.ordinal)
+            smoothBottomBar.itemActiveIndex = fragment.fragmentType.ordinal
             return false
         }
         when (pos) {
@@ -79,7 +108,7 @@ class NavigationActivity : ADiabetipsActivity(R.layout.activity_navigation), me.
         val fragment = supportFragmentManager.findFragmentById(R.id.navigationFragment) as ANavigationFragment?
         if (fragment != null && fragment.isLoading()) {
             return
-        } else if (smoothBottomBaBar.getActiveItem() != defaultFragmentSelect.ordinal) {
+        } else if (smoothBottomBar.itemActiveIndex != defaultFragmentSelect.ordinal) {
             selectDefaultFragment()
         } else {
             moveTaskToBack(true)
@@ -110,6 +139,10 @@ class NavigationActivity : ADiabetipsActivity(R.layout.activity_navigation), me.
         when (requestCode) {
             PENDING_INTENT_TECH_DISCOVERED -> nfcReader!!.onNewIntent(data)
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
     }
 
 }

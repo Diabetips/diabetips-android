@@ -25,10 +25,10 @@ class InstrumentedUnitTest {
     private lateinit var instrumentationContext: Context
 
     private val foodArray = arrayOf(FoodObject(1, "Food"), FoodObject(2), FoodObject(3))
-    private val ingredientArray = arrayOf(IngredientObject(5f, 1f, FoodObject(1, "Food")), IngredientObject(1f, 2f, FoodObject(2, "Ingredient")), IngredientObject(8f, 3f, FoodObject(3)))
+    private val ingredientArray = arrayOf(IngredientObject(5f, food = FoodObject(1, "Food")), IngredientObject(1f, food =  FoodObject(2, "Ingredient")), IngredientObject(8f, food = FoodObject(3)))
     private val recipeArray = arrayOf(RecipeObject(1, "Recipe"), RecipeObject(2), RecipeObject(3))
-    private val mealRecipeArray = arrayOf(MealRecipeObject(0f, 1f, RecipeObject(1, "Recipe")), MealRecipeObject(0f, 1f, RecipeObject(2)), MealRecipeObject(0f, 1f, RecipeObject(3)))
-    private val mealArray = arrayOf(MealObject(1, 0, "Meal"), MealObject(2), MealObject(3))
+    private val mealRecipeArray = arrayOf(MealRecipeObject(0f, recipe = RecipeObject(1, "Recipe")), MealRecipeObject(0f, recipe = RecipeObject(2)), MealRecipeObject(0f, recipe = RecipeObject(3)))
+    private val mealArray = arrayOf(MealObject(1, "", "Meal"), MealObject(2), MealObject(3))
 
     @Before
     fun setup() {
@@ -78,7 +78,7 @@ class InstrumentedUnitTest {
 
     @Test
     fun saveAndGetBiometric() {
-        val expectedBiometric = BiometricObject(80, 175, "2020-10-05", "male")
+        val expectedBiometric = BiometricObject(80, 175, 60, 180, "2020-10-05", "male")
         UserManager.instance.saveBiometric(instrumentationContext, expectedBiometric)
         val actualBiometric =  UserManager.instance.getBiometric(instrumentationContext)
         assertEquals("Wrong account.", expectedBiometric, actualBiometric)
@@ -86,7 +86,7 @@ class InstrumentedUnitTest {
 
     @Test
     fun removeBiometric() {
-        val expectedBiometric = BiometricObject(80, 175, "2020-10-05", "male")
+        val expectedBiometric = BiometricObject(80, 175, 60, 180, "2020-10-05", "male")
         UserManager.instance.saveBiometric(instrumentationContext, expectedBiometric)
         UserManager.instance.removeBiometric(instrumentationContext)
         val actualBiometric =  UserManager.instance.getBiometric(instrumentationContext)
@@ -158,21 +158,15 @@ class InstrumentedUnitTest {
 
     @Test
     fun biometricObjectSex() {
-        //Values
-        val biometric = BiometricObject(80, 175, "2020-10-05")
-        //Operations
+        val biometric = BiometricObject(80, 175, 60, 180, "2020-10-05")
         biometric.setSex(instrumentationContext, instrumentationContext.resources.getStringArray(R.array.sex)[0])
-        //Asserts
         assertEquals("Wrong sex", instrumentationContext.resources.getStringArray(R.array.sex)[0], biometric.getSex(instrumentationContext))
     }
 
     @Test
     fun biometricObjectDiabetesType() {
-        //Values
-        val biometric = BiometricObject(80, 175, "2020-10-05")
-        //Operations
+        val biometric = BiometricObject(80, 175, 60, 180, "2020-10-05")
         biometric.setDiabetesType(instrumentationContext, instrumentationContext.resources.getStringArray(R.array.diabetes_type)[0])
-        //Asserts
         assertEquals("Wrong diabetes type", instrumentationContext.resources.getStringArray(R.array.diabetes_type)[0], biometric.getDiabetesType(instrumentationContext))
     }
 }

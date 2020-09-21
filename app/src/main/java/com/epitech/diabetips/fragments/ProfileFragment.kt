@@ -9,15 +9,17 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.provider.MediaStore
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.util.DisplayMetrics
+import android.view.*
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.epitech.diabetips.managers.UserManager
 import com.epitech.diabetips.R
 import com.epitech.diabetips.activities.SettingsActivity
 import com.epitech.diabetips.adapters.DropdownAdapter
+import com.epitech.diabetips.adapters.MenuAdapter
 import com.epitech.diabetips.managers.AuthManager
 import com.epitech.diabetips.services.BiometricService
 import com.epitech.diabetips.services.UserService
@@ -28,18 +30,29 @@ import com.epitech.diabetips.textWatchers.InputWatcher
 import com.epitech.diabetips.textWatchers.PasswordConfirmWatcher
 import com.epitech.diabetips.textWatchers.PasswordWatcher
 import com.epitech.diabetips.utils.*
+import com.google.android.material.appbar.AppBarLayout
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog
 import kotlinx.android.synthetic.main.dialog_change_picture.view.*
 import kotlinx.android.synthetic.main.dialog_deactivate_account.view.*
 import kotlinx.android.synthetic.main.dialog_logout.view.*
 import kotlinx.android.synthetic.main.fragment_profile.view.*
+import kotlinx.android.synthetic.main.dialog_menu.view.*
 import java.io.InputStream
+import kotlin.math.abs
 
 class ProfileFragment : ANavigationFragment(FragmentType.PROFILE), DatePickerDialog.OnDateSetListener {
 
     enum class RequestCode { GET_IMAGE, GET_PHOTO }
 
     private var loading: Boolean = false
+
+    private var lastVerticalOffset: Int = 0
+    private var baseCircleToolbarSize: Float = 1f
+    private var minImageMargin: Float = 0f
+    private var maxImageMargin: Float = 1f
+    private var minImageSize: Float = 0f
+    private var maxImageSize: Float = 1f
+    private var maxImageOffset: Float = 1f
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = createFragmentView(R.layout.fragment_profile, inflater, container)
@@ -52,10 +65,10 @@ class ProfileFragment : ANavigationFragment(FragmentType.PROFILE), DatePickerDia
             if (hasFocus) {
                 view.birthDateProfileInput.clearFocus()
                 TimeHandler.instance.getDatePickerDialog(requireContext(), this,
-                    TimeHandler.instance.getTimestampFromFormat(
-                        view.birthDateProfileInput.text.toString(),
-                        requireContext().getString(R.string.format_date_birth))
-                        ?: TimeHandler.instance.currentTimeSecond())
+                    TimeHandler.instance.changeTimeFormat(view.birthDateProfileInput.text.toString(),
+                        getString(R.string.format_date_birth),
+                        getString(R.string.format_time_api))
+                        ?: TimeHandler.instance.currentTimeFormat(getString(R.string.format_time_api)))
                     .show(requireActivity().supportFragmentManager, "DatePickerDialog")
             }
         }
@@ -63,47 +76,24 @@ class ProfileFragment : ANavigationFragment(FragmentType.PROFILE), DatePickerDia
             updateProfile()
         }
         view.settingsButton.setOnClickListener {
-            startActivity(Intent(context, SettingsActivity::class.java))
+            openSettings()
         }
         view.logoutButton.setOnClickListener {
-            val dialogView = layoutInflater.inflate(R.layout.dialog_logout, null)
-            MaterialHandler.instance.handleTextInputLayoutSize(dialogView as ViewGroup)
-            val dialog = AlertDialog.Builder(context).setView(dialogView).create()
-            dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-            dialogView.logoutNegativeButton.setOnClickListener {
-                dialog.dismiss()
-            }
-            dialogView.logoutPositiveButton.setOnClickListener {
-                dialog.dismiss()
-                UserManager.instance.removePreferences(requireContext())
-                AuthManager.instance.removePreferences(requireContext())
-                Toast.makeText(context, getString(R.string.logout), Toast.LENGTH_SHORT).show()
-                activity?.finish()
-            }
-            dialog.show()
+            logout()
         }
         view.deactivateAccountButton.setOnClickListener {
-            val dialogView = layoutInflater.inflate(R.layout.dialog_deactivate_account, null)
-            MaterialHandler.instance.handleTextInputLayoutSize(dialogView as ViewGroup)
-            val dialog = AlertDialog.Builder(context).setView(dialogView).create()
-            dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-            dialogView.deactivateAccountNegativeButton.setOnClickListener {
-                dialog.dismiss()
-            }
-            dialogView.deactivateAccountPositiveButton.setOnClickListener {
-                dialog.dismiss()
-                UserService.instance.remove<UserObject>("me").doOnSuccess {
-                    if (it.second.component2() == null) {
-                        AuthManager.instance.removePreferences(requireContext())
-                        Toast.makeText(context, getString(R.string.deactivated), Toast.LENGTH_SHORT).show()
-                        activity?.finish()
-                    } else {
-                        Toast.makeText(context, it.second.component2()!!.exception.message, Toast.LENGTH_SHORT).show()
-                    }
-                }.subscribe()
-            }
-            dialog.show()
+            deactivateAccount()
         }
+        handleProfileImage(view)
+        handlePopupMenu(view)
+        handleAnimation(view)
+        view.sexProfileDropdown.setAdapter(DropdownAdapter(requireContext(), R.array.sex))
+        view.diabetesTypeProfileDropdown.setAdapter(DropdownAdapter(requireContext(), R.array.diabetes_type))
+        getAccountInfo(view)
+        return view
+    }
+
+    private fun handleProfileImage(view: View) {
         view.imagePhotoProfile.setOnClickListener {
             val dialogView = layoutInflater.inflate(R.layout.dialog_change_picture, null)
             MaterialHandler.instance.handleTextInputLayoutSize(dialogView as ViewGroup)
@@ -135,10 +125,63 @@ class ProfileFragment : ANavigationFragment(FragmentType.PROFILE), DatePickerDia
             }
             dialog.show()
         }
-        view.sexProfileDropdown.setAdapter(DropdownAdapter(requireContext(), R.array.sex))
-        view.diabetesTypeProfileDropdown.setAdapter(DropdownAdapter(requireContext(), R.array.diabetes_type))
-        getAccountInfo(view)
-        return view
+    }
+
+    private fun handlePopupMenu(view: View) {
+        view.menuButton.setOnClickListener {
+            val dialogView: View = layoutInflater.inflate(R.layout.dialog_menu, null)
+            val dialog = AlertDialog.Builder(context).setView(dialogView).create()
+            dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            dialog.window?.attributes?.apply {
+                gravity = Gravity.TOP or Gravity.END
+                y = requireContext().resources.getDimension(R.dimen.input_size).toInt() + requireContext().resources.getDimension(R.dimen.half_margin_size).toInt()
+            }
+            dialogView.menuList.apply {
+                layoutManager = LinearLayoutManager(requireContext())
+                adapter = MenuAdapter(R.menu.profile, requireContext()) { item ->
+                    dialog.dismiss()
+                    when (item.itemId) {
+                        R.id.profileSettings -> openSettings()
+                        R.id.profileLogout -> logout()
+                        R.id.profileDeactivate -> deactivateAccount()
+                    }
+                }
+                addItemDecoration(DividerItemDecorator(ContextCompat.getDrawable(requireContext(), R.drawable.menu_divider)!!))
+            }
+            dialog.show()
+        }
+    }
+
+    private fun handleAnimation(view: View) {
+        val displayMetrics = DisplayMetrics()
+        requireActivity().windowManager.defaultDisplay.getMetrics(displayMetrics)
+        maxImageOffset = displayMetrics.widthPixels / 2 - (requireContext().resources.getDimension(R.dimen.input_size) + requireContext().resources.getDimension(R.dimen.margin_size))
+        baseCircleToolbarSize = requireContext().resources.getDimension(R.dimen.circle_toolbar_size)
+        minImageSize = requireContext().resources.getDimension(R.dimen.input_size)
+        maxImageSize = requireContext().resources.getDimension(R.dimen.profile_image_size) - minImageSize
+        minImageMargin = requireContext().resources.getDimension(R.dimen.quarter_margin_size)
+        maxImageMargin = requireContext().resources.getDimension(R.dimen.profile_image_margin) - minImageMargin
+        view.profileAppBarLayout.addOnOffsetChangedListener(AppBarLayout.OnOffsetChangedListener { appBarLayout, verticalOffset ->
+            if (lastVerticalOffset == verticalOffset)
+                return@OnOffsetChangedListener
+            lastVerticalOffset = verticalOffset
+            view.profileAppBar?.y = -verticalOffset.toFloat()
+            val ratio = 1 - abs(verticalOffset / appBarLayout.totalScrollRange.toFloat())
+            view.circleToolbarView?.apply {
+                layoutParams.also {
+                    it.height = (baseCircleToolbarSize * ratio).toInt()
+                }
+            }
+            view.imagePhotoProfile?.apply {
+                (layoutParams as ViewGroup.MarginLayoutParams).also {
+                    x = if (ratio < 0.25f) maxImageOffset * (1 - ratio * 4) else 0f
+                    it.height = (minImageSize + maxImageSize * ratio).toInt()
+                    it.width = (minImageSize + maxImageSize * ratio).toInt()
+                    it.topMargin = (minImageMargin + maxImageMargin * ratio).toInt()
+                    requestLayout()
+                }
+            }
+        })
     }
 
     private fun getAccountInfo(view: View? = this.view) {
@@ -184,6 +227,8 @@ class ProfileFragment : ANavigationFragment(FragmentType.PROFILE), DatePickerDia
     private fun setBiometricInfo(biometric: BiometricObject, view: View? = this.view) {
         view?.heightProfileInput?.setText(biometric.height?.toString())
         view?.weightProfileInput?.setText(biometric.mass?.toString())
+        view?.hyperglycemiaProfileInput?.setText(biometric.hyperglycemia?.toString())
+        view?.hypoglycemiaProfileInput?.setText(biometric.hypoglycemia?.toString())
         view?.birthDateProfileInput?.setText(TimeHandler.instance.changeTimeFormat(
             biometric.date_of_birth,
             context?.getString(R.string.format_date_api)!!,
@@ -218,6 +263,8 @@ class ProfileFragment : ANavigationFragment(FragmentType.PROFILE), DatePickerDia
         val biometric: BiometricObject = UserManager.instance.getBiometric(requireContext())
         biometric.height = view?.heightProfileInput?.text.toString().toIntOrNull()
         biometric.mass = view?.weightProfileInput?.text.toString().toIntOrNull()
+        biometric.hypoglycemia = view?.hypoglycemiaProfileInput?.text.toString().toIntOrNull()
+        biometric.hyperglycemia = view?.hyperglycemiaProfileInput?.text.toString().toIntOrNull()
         biometric.date_of_birth = TimeHandler.instance.changeTimeFormat(
             view?.birthDateProfileInput?.text.toString(),
             context?.getString(R.string.format_date_birth)!!,
@@ -260,6 +307,51 @@ class ProfileFragment : ANavigationFragment(FragmentType.PROFILE), DatePickerDia
             }
             loading = false
         }.subscribe()
+    }
+
+    private fun openSettings() {
+        startActivity(Intent(context, SettingsActivity::class.java))
+    }
+
+    private fun logout() {
+        val dialogView = layoutInflater.inflate(R.layout.dialog_logout, null)
+        MaterialHandler.instance.handleTextInputLayoutSize(dialogView as ViewGroup)
+        val dialog = AlertDialog.Builder(context).setView(dialogView).create()
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialogView.logoutNegativeButton.setOnClickListener {
+            dialog.dismiss()
+        }
+        dialogView.logoutPositiveButton.setOnClickListener {
+            dialog.dismiss()
+            UserManager.instance.removePreferences(requireContext())
+            AuthManager.instance.removePreferences(requireContext())
+            Toast.makeText(context, getString(R.string.logout), Toast.LENGTH_SHORT).show()
+            activity?.finish()
+        }
+        dialog.show()
+    }
+
+    private fun deactivateAccount() {
+        val dialogView = layoutInflater.inflate(R.layout.dialog_deactivate_account, null)
+        MaterialHandler.instance.handleTextInputLayoutSize(dialogView as ViewGroup)
+        val dialog = AlertDialog.Builder(context).setView(dialogView).create()
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialogView.deactivateAccountNegativeButton.setOnClickListener {
+            dialog.dismiss()
+        }
+        dialogView.deactivateAccountPositiveButton.setOnClickListener {
+            dialog.dismiss()
+            UserService.instance.remove<UserObject>("me").doOnSuccess {
+                if (it.second.component2() == null) {
+                    AuthManager.instance.removePreferences(requireContext())
+                    Toast.makeText(context, getString(R.string.deactivated), Toast.LENGTH_SHORT).show()
+                    activity?.finish()
+                } else {
+                    Toast.makeText(context, it.second.component2()!!.exception.message, Toast.LENGTH_SHORT).show()
+                }
+            }.subscribe()
+        }
+        dialog.show()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

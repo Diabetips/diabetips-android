@@ -33,18 +33,19 @@ class NewEntryActivity : ADiabetipsActivity(R.layout.activity_new_entry), DatePi
     enum class ObjectType {MEAL, SLOW_INSULIN, FAST_INSULIN, NOTE, EVENT}
 
     private val objects: MutableMap<ObjectType, Triple<Int, Boolean?, Boolean>> = mutableMapOf()
-    private var entryTimestamp: Long = TimeHandler.instance.currentTimeSecond()
+    private var entryTime: String = ""
     private var meal: MealObject = MealObject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        entryTime = TimeHandler.instance.currentTimeFormat(getString(R.string.format_time_api))
         initObjectMap()
         addTextChangedListener()
         newEntryTimeDate.setOnClickListener {
-            TimeHandler.instance.getDatePickerDialog(this, this, entryTimestamp).show(supportFragmentManager, "DatePickerDialog")
+            TimeHandler.instance.getDatePickerDialog(this, this, entryTime).show(supportFragmentManager, "DatePickerDialog")
         }
         newEntryTimeHour.setOnClickListener {
-            TimeHandler.instance.getTimePickerDialog(this, this, entryTimestamp).show(supportFragmentManager, "TimePickerDialog")
+            TimeHandler.instance.getTimePickerDialog(this, this, entryTime).show(supportFragmentManager, "TimePickerDialog")
         }
         newMealButton.setOnClickListener {
             startActivityForResult(Intent(this, NewMealActivity::class.java), RequestCode.NEW_MEAL.ordinal)
@@ -77,33 +78,38 @@ class NewEntryActivity : ADiabetipsActivity(R.layout.activity_new_entry), DatePi
                 calculateInsulinButton.visibility = View.VISIBLE
             }
         }.subscribe()
-        TimeHandler.instance.updateTimeDisplay(this, entryTimestamp, newEntryTimeDate, newEntryTimeHour)
+        TimeHandler.instance.updateTimeDisplay(this, entryTime, newEntryTimeDate, newEntryTimeHour)
     }
 
     private fun initObjectMap() {
-        objects[ObjectType.MEAL] = Triple<Int, Boolean?, Boolean>(0, null, false)
-        objects[ObjectType.SLOW_INSULIN] = Triple<Int, Boolean?, Boolean>(0, null, false)
-        objects[ObjectType.FAST_INSULIN] = Triple<Int, Boolean?, Boolean>(0, null, false)
-        objects[ObjectType.NOTE] = Triple<Int, Boolean?, Boolean>(0, null, false)
-        objects[ObjectType.EVENT] = Triple<Int, Boolean?, Boolean>(0, null, false)
+        changeObjectMapValue(ObjectType.MEAL, Triple<Int, Boolean?, Boolean>(0, null, false))
+        changeObjectMapValue(ObjectType.SLOW_INSULIN, Triple<Int, Boolean?, Boolean>(0, null, false))
+        changeObjectMapValue(ObjectType.FAST_INSULIN, Triple<Int, Boolean?, Boolean>(0, null, false))
+        changeObjectMapValue(ObjectType.NOTE, Triple<Int, Boolean?, Boolean>(0, null, false))
+        changeObjectMapValue(ObjectType.EVENT, Triple<Int, Boolean?, Boolean>(0, null, false))
+    }
+
+    private fun changeObjectMapValue(objectType: ObjectType, value: Triple<Int, Boolean?, Boolean>) {
+        objects[objectType] = value
+        updateValidateDisplay()
     }
 
     private fun addTextChangedListener() {
         insulinSlowEntryInput.addTextChangedListener(TextChangedWatcher {
-            objects[ObjectType.SLOW_INSULIN] = Triple(objects[ObjectType.SLOW_INSULIN]!!.first,
-                if (((it.toString().toIntOrNull() ?: 0 > 0) || objects[ObjectType.SLOW_INSULIN]!!.first > 0)) false else null, false)
+            changeObjectMapValue(ObjectType.SLOW_INSULIN, Triple(objects[ObjectType.SLOW_INSULIN]!!.first,
+                if (((it.toString().toIntOrNull() ?: 0 > 0) || objects[ObjectType.SLOW_INSULIN]!!.first > 0)) false else null, false))
         })
         insulinFastEntryInput.addTextChangedListener(TextChangedWatcher {
-            objects[ObjectType.FAST_INSULIN] = Triple(objects[ObjectType.FAST_INSULIN]!!.first,
-                if (((it.toString().toIntOrNull() ?: 0) > 0 || objects[ObjectType.FAST_INSULIN]!!.first > 0)) false else null, false)
+            changeObjectMapValue(ObjectType.FAST_INSULIN, Triple(objects[ObjectType.FAST_INSULIN]!!.first,
+                if (((it.toString().toIntOrNull() ?: 0) > 0 || objects[ObjectType.FAST_INSULIN]!!.first > 0)) false else null, false))
         })
         commentEntryInput.addTextChangedListener(TextChangedWatcher {
-            objects[ObjectType.NOTE] = Triple(objects[ObjectType.NOTE]!!.first,
-                if ((it.toString().isNotBlank() || objects[ObjectType.NOTE]!!.first > 0)) false else null, false)
+            changeObjectMapValue(ObjectType.NOTE, Triple(objects[ObjectType.NOTE]!!.first,
+                if ((it.toString().isNotBlank() || objects[ObjectType.NOTE]!!.first > 0)) false else null, false))
         })
         physicalActivityEntryInput.addTextChangedListener(TextChangedWatcher {
-            objects[ObjectType.EVENT] = Triple(objects[ObjectType.EVENT]!!.first,
-                if (((it.toString().toIntOrNull() ?: 0) > 0 || objects[ObjectType.EVENT]!!.first > 0)) false else null, false)
+            changeObjectMapValue(ObjectType.EVENT, Triple(objects[ObjectType.EVENT]!!.first,
+                if (((it.toString().toIntOrNull() ?: 0) > 0 || objects[ObjectType.EVENT]!!.first > 0)) false else null, false))
         })
     }
 
@@ -111,13 +117,18 @@ class NewEntryActivity : ADiabetipsActivity(R.layout.activity_new_entry), DatePi
         if (meal.id > 0) {
             newMealButton.text = getString(R.string.add_other_meal)
             entryMealCard.visibility = View.VISIBLE
-            entryMealQuantity.text = "${meal.total_sugar} ${getString(R.string.unit_g)}"
+            entryMealQuantity.text = "${meal.total_carbohydrates.toBigDecimal().stripTrailingZeros().toPlainString()} ${getString(R.string.unit_g)}"
             entryMealSummary.text = meal.getSummary()
-            TimeHandler.instance.updateDateTimeDisplay(this, meal.timestamp, entryMealTime)
+            TimeHandler.instance.updateDateTimeDisplay(this, meal.time, entryMealTime)
         } else {
             newMealButton.text = getString(R.string.add_meal)
             entryMealCard.visibility = View.GONE
         }
+        updateValidateDisplay()
+    }
+
+    private fun updateValidateDisplay() {
+        //validateNewEntryButton.isEnabled = (meal.id > 0 || objects.any { obj -> obj.value.second == false }) //TODO Uncomment to disable button when needed
     }
 
     private fun saveEntry(finishView: Boolean = false) {
@@ -129,13 +140,15 @@ class NewEntryActivity : ADiabetipsActivity(R.layout.activity_new_entry), DatePi
             saveNote(finishView)
         if (objects[ObjectType.EVENT]!!.second == false && !objects[ObjectType.EVENT]!!.third)
             saveEvent(finishView)
+        if (meal.id > 0)
+            displaySavedMessage(finishView)
     }
 
     private fun getSlowInsulin() : InsulinObject {
         return InsulinObject(objects[ObjectType.SLOW_INSULIN]!!.first,
             "",
             insulinSlowEntryInput.text.toString().toIntOrNull()?: 0,
-            entryTimestamp,
+            entryTime,
             InsulinObject.Type.slow.name)
     }
 
@@ -143,16 +156,16 @@ class NewEntryActivity : ADiabetipsActivity(R.layout.activity_new_entry), DatePi
        return InsulinObject(objects[ObjectType.FAST_INSULIN]!!.first,
             "",
             insulinFastEntryInput.text.toString().toIntOrNull()?: 0,
-            entryTimestamp,
+           entryTime,
             InsulinObject.Type.fast.name)
     }
 
     private fun saveInsulin(insulin: InsulinObject, finishView: Boolean = false) {
         val objectType: ObjectType = if (insulin.type == InsulinObject.Type.slow.name) ObjectType.SLOW_INSULIN else ObjectType.FAST_INSULIN
-        objects[objectType] = objects[ObjectType.SLOW_INSULIN]!!.copy(third = true)
+        objects[objectType] = objects[objectType]!!.copy(third = true)
         InsulinService.instance.createOrUpdate(insulin, insulin.id).doOnSuccess {
             if (it.second.component2() == null) {
-                objects[objectType] = Triple<Int, Boolean?, Boolean>(it.second.component1()?.id!!, true, false)
+                changeObjectMapValue(objectType, Triple<Int, Boolean?, Boolean>(it.second.component1()?.id!!, true, false))
                 displaySavedMessage(finishView)
             } else {
                 Toast.makeText(this, it.second.component2()!!.exception.message, Toast.LENGTH_SHORT).show()
@@ -163,10 +176,10 @@ class NewEntryActivity : ADiabetipsActivity(R.layout.activity_new_entry), DatePi
 
     private fun saveNote(finishView: Boolean = false) {
         objects[ObjectType.NOTE] = objects[ObjectType.NOTE]!!.copy(third = true)
-        val note = NoteObject(objects[ObjectType.NOTE]!!.first, commentEntryInput.text.toString(), entryTimestamp)
+        val note = NoteObject(objects[ObjectType.NOTE]!!.first, commentEntryInput.text.toString(), entryTime)
         NoteService.instance.createOrUpdate(note, note.id).doOnSuccess {
             if (it.second.component2() == null) {
-                objects[ObjectType.NOTE] = Triple<Int, Boolean?, Boolean>(it.second.component1()?.id!!, true, false)
+                changeObjectMapValue(ObjectType.NOTE, Triple<Int, Boolean?, Boolean>(it.second.component1()?.id!!, true, false))
                 displaySavedMessage(finishView)
             } else {
                 Toast.makeText(this, it.second.component2()!!.exception.message, Toast.LENGTH_SHORT).show()
@@ -177,11 +190,11 @@ class NewEntryActivity : ADiabetipsActivity(R.layout.activity_new_entry), DatePi
 
     private fun saveEvent(finishView: Boolean = false) {
         objects[ObjectType.NOTE] = objects[ObjectType.NOTE]!!.copy(third = true)
-        val event = EventObject(objects[ObjectType.EVENT]!!.first, "Activité Physique", entryTimestamp,
-            entryTimestamp + (physicalActivityEntryInput.text.toString().toIntOrNull()?: 0) * 60)
+        val event = EventObject(objects[ObjectType.EVENT]!!.first, "Activité Physique", entryTime,
+            TimeHandler.instance.addMinuteToFormat(entryTime, getString(R.string.format_time_api), physicalActivityEntryInput.text.toString().toIntOrNull()?: 0))
         EventService.instance.createOrUpdate(event, event.id).doOnSuccess {
             if (it.second.component2() == null) {
-                objects[ObjectType.EVENT] = Triple<Int, Boolean?, Boolean>(it.second.component1()?.id!!, true, false)
+                changeObjectMapValue(ObjectType.EVENT, Triple<Int, Boolean?, Boolean>(it.second.component1()?.id!!, true, false))
                 displaySavedMessage(finishView)
             } else {
                 Toast.makeText(this, it.second.component2()!!.exception.message, Toast.LENGTH_SHORT).show()
@@ -199,7 +212,7 @@ class NewEntryActivity : ADiabetipsActivity(R.layout.activity_new_entry), DatePi
     }
 
     private fun updateTimeDisplay() {
-        TimeHandler.instance.updateTimeDisplay(this, entryTimestamp, newEntryTimeDate, newEntryTimeHour)
+        TimeHandler.instance.updateTimeDisplay(this, entryTime, newEntryTimeDate, newEntryTimeHour)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -213,12 +226,12 @@ class NewEntryActivity : ADiabetipsActivity(R.layout.activity_new_entry), DatePi
     }
 
     override fun onDateSet(view: DatePickerDialog?, year: Int, monthOfYear: Int, dayOfMonth: Int) {
-        entryTimestamp = TimeHandler.instance.changeTimestampDate(entryTimestamp, year, monthOfYear, dayOfMonth)
+        entryTime = TimeHandler.instance.changeFormatDate(entryTime, getString(R.string.format_time_api), year, monthOfYear, dayOfMonth)
         updateTimeDisplay()
     }
 
     override fun onTimeSet(view: TimePickerDialog?, hourOfDay: Int, minute: Int, second: Int) {
-        entryTimestamp = TimeHandler.instance.changeTimestampTime(entryTimestamp, hourOfDay, minute)
+        entryTime = TimeHandler.instance.changeFormatTime(entryTime, getString(R.string.format_time_api), hourOfDay, minute)
         updateTimeDisplay()
     }
 

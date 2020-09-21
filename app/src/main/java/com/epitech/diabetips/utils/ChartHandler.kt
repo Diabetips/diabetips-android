@@ -2,13 +2,16 @@ package com.epitech.diabetips.utils
 
 import android.content.Context
 import android.graphics.Color
+import android.text.format.DateFormat
 import android.util.TypedValue
 import androidx.core.content.ContextCompat
 import com.epitech.diabetips.R
+import com.epitech.diabetips.managers.UserManager
 import com.epitech.diabetips.storages.BloodSugarObject
 import com.epitech.diabetips.storages.EntryObject
 import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.components.AxisBase
+import com.github.mikephil.charting.components.LimitLine
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.components.YAxis
 import com.github.mikephil.charting.data.Entry
@@ -38,9 +41,8 @@ class ChartHandler {
         lineChart.axisLeft.setDrawAxisLine(false)
         lineChart.axisLeft.disableGridDashedLine()
         lineChart.axisLeft.setPosition(YAxis.YAxisLabelPosition.INSIDE_CHART)
-
+        lineChart.axisLeft.setDrawLimitLinesBehindData(true)
         lineChart.axisRight.isEnabled = false
-
         lineChart.xAxis.disableGridDashedLine()
         lineChart.setDrawGridBackground(false)
         lineChart.xAxis.isEnabled = true
@@ -52,7 +54,7 @@ class ChartHandler {
         lineChart.setDrawBorders(false)
     }
 
-    fun updateChartData(items: List<EntryObject>, intervalTimeStamp: Pair<Long, Long>, lineChart: LineChart, context: Context) {
+    fun updateChartData(items: List<EntryObject>, intervalTimeStamp: Pair<Long, Long>, lineChart: DetailLineChart, context: Context) {
         val formatter = HoursFormatter(intervalTimeStamp, context)
         lineChart.xAxis.valueFormatter = formatter
 
@@ -60,12 +62,12 @@ class ChartHandler {
 
         val bloodValues: List<BloodSugarObject> = items.filter{ it.type == EntryObject.Type.SUGAR}
             .map{it.orignal as (BloodSugarObject)}
-        val bloodValuesChunks = cutBloodValuesIntoChunks(bloodValues, 1800f)
+        val bloodValuesChunks = cutBloodValuesIntoChunks(bloodValues, 1800f, context)
         for (bloodValueChunk in bloodValuesChunks) {
             lineData.addDataSet(generateBloodDataset(bloodValueChunk, intervalTimeStamp, context))
         }
 
-        if (!items.isEmpty())
+        if (items.isNotEmpty())
             drawLimits(lineData)
 
         val punctualInfo = mapOf(
@@ -75,9 +77,16 @@ class ChartHandler {
             EntryObject.Type.COMMENT to ContextCompat.getColor(context, R.color.colorBackgroundDarkLight))
         for (info in punctualInfo) {
             val filteredItems: List<EntryObject> = items.filter{ it.type == info.key}
-            lineData.addDataSet(generatePonctualDataset(filteredItems, intervalTimeStamp, info.value))
+            lineData.addDataSet(generatePonctualDataset(filteredItems, intervalTimeStamp, info.value, context))
         }
-
+        lineChart.axisLeft.removeAllLimitLines()
+        val biometrics = UserManager.instance.getBiometric(context)
+        if (biometrics.hypoglycemia != null && biometrics.hyperglycemia != null) {
+            val limitColor = ContextCompat.getColor(context, R.color.colorPrimaryLight)
+            lineChart.setLimitZoneColor(limitColor)
+            lineChart.axisLeft.addLimitLine(generateLimitLine(biometrics.hypoglycemia!!.toFloat(), limitColor))
+            lineChart.axisLeft.addLimitLine(generateLimitLine(biometrics.hyperglycemia!!.toFloat(), limitColor))
+        }
         lineChart.data = lineData
         lineChart.animateY(800)
         // refresh the drawing
@@ -95,14 +104,14 @@ class ChartHandler {
         lineData.addDataSet(d)
     }
 
-    private fun cutBloodValuesIntoChunks(bloodValues: List<BloodSugarObject>, limit: Float): List<List<BloodSugarObject>> {
+    private fun cutBloodValuesIntoChunks(bloodValues: List<BloodSugarObject>, limit: Float, context: Context): List<List<BloodSugarObject>> {
         val chunks = mutableListOf<List<BloodSugarObject>>()
         if (bloodValues.isEmpty())
             return chunks
         var lastValue: BloodSugarObject = bloodValues[0]
         var lastChunkIndex: Int = 0
         for ((index, value) in bloodValues.withIndex().drop(1)) {
-            if (value.timestamp - lastValue.timestamp > limit) {
+            if (TimeHandler.instance.getSecondDiffFormat(value.time, lastValue.time, context.getString(R.string.format_time_api)) > limit) {
                 chunks.add(bloodValues.subList(lastChunkIndex, index - 1))
                 lastChunkIndex = index
             }
@@ -112,29 +121,35 @@ class ChartHandler {
         return chunks
     }
 
-    fun generatePonctualDataset(items: List<EntryObject>, intervalTimeStamp: Pair<Long, Long>, color: Int): LineDataSet? {
+    private fun generatePonctualDataset(items: List<EntryObject>, intervalTimeStamp: Pair<Long, Long>, color: Int, context: Context): LineDataSet? {
         if (items.isEmpty())
             return null
         val yValues = mutableListOf<Entry>()
         for (item in items) {
-            yValues.add(Entry((item.time - intervalTimeStamp.first).toFloat(), 100f))
+            yValues.add(Entry((((TimeHandler.instance.getTimestampFromFormat(item.time, context.getString(R.string.format_time_api)) ?: 0) - intervalTimeStamp.first).toFloat()), 100f))
         }
         val set = LineDataSet(yValues, items[0].type.toString())
         setPonctualElementDatasetStyle(set, color)
         return set
     }
 
-    fun generateBloodDataset(bloodValues: List<BloodSugarObject>, intervalTimeStamp: Pair<Long, Long>, context: Context): LineDataSet{
+    private fun generateBloodDataset(bloodValues: List<BloodSugarObject>, intervalTimeStamp: Pair<Long, Long>, context: Context): LineDataSet{
         val yValues = mutableListOf<Entry>()
         for (bloodValue in bloodValues) {
-            yValues.add(Entry((bloodValue.timestamp - intervalTimeStamp.first).toFloat(), bloodValue.value.toFloat()))
+            yValues.add(Entry(((TimeHandler.instance.getTimestampFromFormat(bloodValue.time, context.getString(R.string.format_time_api)) ?: 0) - intervalTimeStamp.first).toFloat(), bloodValue.value.toFloat()))
         }
         val set = LineDataSet(yValues, "Glucose")
         setGlucoseDatasetStyle(set, context)
         return set
     }
 
-    fun setGlucoseDatasetStyle(dataSet: LineDataSet, context: Context) {
+    private fun generateLimitLine(value: Float, color: Int, label: String = ""): LimitLine {
+        return LimitLine(value, label).apply {
+            lineColor = color
+        }
+    }
+
+    private fun setGlucoseDatasetStyle(dataSet: LineDataSet, context: Context) {
         val typedValue = TypedValue()
         context.theme.resolveAttribute(R.attr.colorPrimary, typedValue, true)
         dataSet.color = typedValue.data
@@ -151,7 +166,7 @@ class ChartHandler {
         dataSet.setDrawValues(false)
     }
 
-    fun setPonctualElementDatasetStyle(dataSet: LineDataSet, color: Int) {
+    private fun setPonctualElementDatasetStyle(dataSet: LineDataSet, color: Int) {
         dataSet.color = Color.TRANSPARENT
         dataSet.mode = LineDataSet.Mode.LINEAR
         dataSet.lineWidth = 0f
@@ -177,15 +192,15 @@ class HoursFormatter(private val intervalTimeStamp: Pair<Long, Long>, context: C
 
     init {
         val localDateTimes = getDatesBetween(LocalDateTime.ofInstant(
-            Instant.ofEpochSecond(intervalTimeStamp.first),
+            Instant.ofEpochMilli(intervalTimeStamp.first),
             ZoneOffset.UTC), LocalDateTime.ofInstant(
-            Instant.ofEpochSecond(intervalTimeStamp.second),
+            Instant.ofEpochMilli(intervalTimeStamp.second),
             ZoneOffset.UTC))
         if (localDateTimes != null) {
             for (time in localDateTimes) {
-                val timestamp = time!!.toInstant(ZoneOffset.UTC).toEpochMilli() / 1000
+                val timestamp = time!!.toInstant(ZoneOffset.UTC).toEpochMilli()
                 val index: Float = (timestamp - intervalTimeStamp.first).toFloat()
-                val label: String = TimeHandler.instance.formatTimestamp(timestamp, context.getString(R.string.format_hour_24))
+                val label: String = TimeHandler.instance.formatTimestamp(timestamp, context.getString(if (DateFormat.is24HourFormat(context)) R.string.format_hour_24 else R.string.format_hour_12))
                 labels[index] = label
             }
         }
@@ -212,10 +227,7 @@ class HoursFormatter(private val intervalTimeStamp: Pair<Long, Long>, context: C
         return chosen
     }
 
-    fun getDatesBetween(
-        startDate: LocalDateTime, endDate: LocalDateTime
-    ): List<LocalDateTime?>? {
-
+    fun getDatesBetween(startDate: LocalDateTime, endDate: LocalDateTime): List<LocalDateTime?>? {
         val numOfHoursBetween: Long = ChronoUnit.HOURS.between(startDate, endDate)
         var date = startDate.minusMinutes(startDate.minute.toLong())
         date = date.minusSeconds(startDate.second.toLong())

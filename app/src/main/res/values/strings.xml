@@ -1,9 +1,15 @@
 <resources>
     <!--application data start-->
     <string name="app_name" translatable="false">Diabetips</string>
-    <string name="api_base_url" translatable="false">https://api.diabetips.fr/v1</string> <!-- URL API PROD -->
-    <!--string name="api_base_url" translatable="false">https://api.dev.diabetips.fr/v1</string--> <!-- URL API DEV -->
+    <!--string name="api_base_url" translatable="false">https://api.diabetips.fr/v1</string--> <!-- URL API PROD -->
+    <string name="api_base_url" translatable="false">https://api.dev.diabetips.fr/v1</string> <!-- URL API DEV -->
+    <string name="client_id" translatable="false">diabetips-android</string>
+    <string name="client_secret" translatable="false">DayeeW6efeeTiequuphaereiShaephoi</string>
+    <string name="scope" translatable="false">biometrics:read biometrics:write connections:read connections:write meals:read meals:write notes:read notes:write notifications predictions:new profile:read profile:write recipe:read recipe:write user:delete</string>
+    <string name="content_json" translatable="false">application/json; charset=utf-8</string>
+    <string name="content_urlencoded" translatable="false">application/x-www-form-urlencoded; charset=utf-8"</string>
     <string name="pagination_header" translatable="false">X-Pages</string>
+    <string name="default_notification_channel_id" translatable="false">Diabetips</string>
     <!--application data end-->
 
     <!--parameters name start-->
@@ -11,6 +17,7 @@
     <string name="param_meal" translatable="false">Meal</string>
     <string name="param_recipe" translatable="false">Recipe</string>
     <string name="param_food" translatable="false">Food</string>
+    <string name="param_notification" translatable="false">Notification</string>
     <!--parameters name end-->
 
     <!--placeholder start-->
@@ -22,7 +29,7 @@
     <!--format start-->
     <string name="format_hour_12" translatable="false">h:mm a</string>
     <string name="format_hour_24" translatable="false">HH:mm</string>
-    <string name="format_time_api" translatable="false">yyyy-MM-ddTHH:mm:ss.SSSZ</string>
+    <string name="format_time_api" translatable="false">yyyy-MM-dd\'T\'HH:mm:ss.SSS\'Z\'</string>
     <string name="format_date_api" translatable="false">yyyy-MM-dd</string>
     <string name="format_date_birth">MMMM d yyyy</string>
     <string name="format_date">EEE, MMM d yyyy</string>
@@ -36,8 +43,10 @@
     <string name="unit_unit">unit</string>
     <string name="unit_units">units</string>
     <string name="unit_minute">minutes</string>
+    <string name="unit_portions">portions</string>
     <string name="unit_g" translatable="false">g</string>
     <string name="unit_u" translatable="false">u</string>
+    <string name="unit_calorie" translatable="false">kcal</string>
     <string name="unit_glucose" translatable="false">mg/dl</string>
     <!--unit end-->
 
@@ -47,8 +56,12 @@
     <string name="unsaved_change">Some changes haven\'t been saved, do you want to save them ?</string>
     <string name="saved_change">Saved</string>
     <string name="change_comment">Edit comment</string>
+    <string name="change_insulin">Edit insulin injection</string>
+    <string name="add_hba1c">Add HbA1c value</string>
+    <string name="change_hba1c">Edit HbA1c value</string>
     <string name="select_quantity">Select quantity</string>
     <string name="select_quantity_input">Quantity</string>
+    <string name="select_percentage_input">Percentage (%)</string>
     <string name="delete">Delete</string>
     <string name="deleted">Deleted</string>
     <!--dialog end-->
@@ -80,11 +93,15 @@
 
     <!--Dashboard start-->
     <string name="dashboard_title">Dashboard</string>
+    <string name="event_notebook_title">Event notebook</string>
+    <string name="glucose_average_title">Average glucose level</string>
+    <string name="hba1c_title">Glycated hemoglobin</string>
     <string name="meal">Meal</string>
     <string name="insulin_slow">Slow insulin</string>
     <string name="insulin_fast">Fast insulin</string>
     <string name="comment">Comment</string>
     <string name="sugar">Sugar</string>
+    <string name="add_value">Add a value</string>
     <!--Dashboard end-->
 
     <!--Profile screen start-->
@@ -96,6 +113,8 @@
     <string name="birth_input">Date of birth</string>
     <string name="sex_input">Sex</string>
     <string name="diabetes_type_input">Diabetes type</string>
+    <string name="hyperglycemia">Hyperglycemia</string>
+    <string name="hypoglycemia">Hypoglycemia</string>
     <string name="medical_informations">Medical informations</string>
     <string name="new_password_button">Change Password</string>
     <string name="change_profile_picture">Change profile picture</string>
@@ -106,14 +125,19 @@
     <string name="update">Update</string>
     <string name="update_profile">Profile updated</string>
     <string name="logout">Logged out</string>
+    <string name="logout_button">Logout</string>
     <string name="logout_confirm">Do you want to logout ?</string>
+    <string name="deactivated">Account deactivated with success</string>
+    <string name="deactivate">Deactivate account</string>
     <string name="deactivate_account_confirm">Are you sure to deactivate your account ?</string>
     <!--Profile screen end-->
 
     <!--Settings screen start-->
     <string name="settings_title">Settings</string>
     <string name="dark_mode">Dark mode</string>
-    <string name="lang">eng</string>
+    <string name="lang">en</string>
+    <string name="test_notification">Send test notification</string>
+    <string name="test_notification_send">Notification sent</string>
     <!--Settings screen end-->
 
     <!--entry screen start-->
@@ -134,7 +158,15 @@
     <string name="recipe_title">My recipe</string>
     <string name="meal_recipe_subtitle">Recipes</string>
     <string name="recipe_food_subtitle">Foods</string>
+    <string name="meal_nutrition_text">Nutritional summary of your meal</string>
     <string name="recipe_name">Recipe name</string>
+    <string name="recipe_portion">Portions</string>>
+    <string name="recipe_nutrition_portion">Quantity to analyse (in portions)</string>>
+    <string name="recipe_favorite_add">Recipe added to favorites</string>>
+    <string name="recipe_favorite_remove">Recipe removed from favorites</string>>
+    <string name="recipe_all">All recipes</string>>
+    <string name="recipe_favorite">Favorites</string>>
+    <string name="recipe_personal">My recipes</string>
     <string name="view_meal">My meals</string>
     <string name="view_recipe">Recipes</string>
     <string name="add_meal">Add a new meal</string>
@@ -148,7 +180,17 @@
     <string name="food_not_found">Sorry, but no food with that name has been found.</string>
     <string name="validate">Validate</string>
     <string name="description">Description</string>
-    <string name="sugar_100g">"Sugar for 100g: "</string>
+    <string name="sugar_100g">Sugar for 100g: </string>
+    <string name="nutritional_values">Nutritional values</string>
+    <string name="nutritional_calorie">Calories</string>
+    <string name="nutritional_carbohydrate">Carbohydrates</string>
+    <string name="nutritional_sugar">Sugars</string>
+    <string name="nutritional_fat">Fat</string>
+    <string name="nutritional_saturated_fat">Saturated fat</string>
+    <string name="nutritional_fiber">Dietary Fibers</string>
+    <string name="nutritional_protein">Proteins</string>
+    <string name="toggle_content">Content</string>
+    <string name="toggle_nutrition">Nutrition</string>
     <!--meal / recipe / food screen end-->
 
     <!--login / sign up errors start-->
@@ -174,10 +216,13 @@
     <string name="recipe_empty">Recipe must have at least 1 ingredient</string>
     <string name="recipe_food_empty">No food yet, add some with the button below</string>
     <string name="recipe_name_empty">Recipe name mustn\'t be empty</string>
+    <string name="recipe_portion_empty">Recipe must have a portion</string>
     <string name="quantity_null">Quantity must be greater than 0</string>
-    <string name="deactivated">Account deactivated with success</string>
-    <string name="deactivate">Deactivate account</string>
     <!--meal / recipe / food errors end-->
+
+    <!--Dashboard errors start-->
+    <string name="percentage_error">Percentage must be between 0% and 100%.</string>
+    <!--Dashboard errors end-->
 
     <!--sex start-->
     <string name="sex_male">Man</string>

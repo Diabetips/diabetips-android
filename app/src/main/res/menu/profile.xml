@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/profileSettings"
+        android:icon="@drawable/ic_settings"
+        android:title="@string/settings_title"/>
+
+    <!--item
+        android:id="@+id/profileImage"
+        android:icon="@drawable/ic_photo_camera"
+        android:title="@string/change_profile_picture"/-->
+
+    <item
+        android:id="@+id/profileLogout"
+        android:icon="@drawable/ic_power"
+        android:title="@string/logout_button" />
+
+    <item
+        android:id="@+id/profileDeactivate"
+        android:icon="@drawable/ic_deactivate"
+        android:title="@string/deactivate" />
+</menu>

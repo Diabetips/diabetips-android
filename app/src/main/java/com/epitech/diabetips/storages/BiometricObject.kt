@@ -7,6 +7,8 @@ import java.io.Serializable
 data class BiometricObject (
     var mass: Int? = null,
     var height: Int? = null,
+    var hypoglycemia: Int? = null,
+    var hyperglycemia: Int? = null,
     var date_of_birth: String? = null,
     var sex: String? = null,
     var diabetes_type: String? = null) : Serializable {
