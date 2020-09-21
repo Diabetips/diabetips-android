@@ -25,6 +25,7 @@ import com.github.kittinunf.fuel.core.FuelManager
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.dialog_password_forgot.view.*
 import org.json.JSONObject
+import java.lang.Exception
 import java.nio.charset.Charset
 
 class MainActivity : ADiabetipsActivity(R.layout.activity_main) {
@@ -83,12 +84,16 @@ class MainActivity : ADiabetipsActivity(R.layout.activity_main) {
                 } else {
                     var error = it.first.data.toString(Charset.defaultCharset())
                     if (error.isNotBlank())
+                    try {
                         error = JSONObject(error).getString("error")
-                    if (error == "registration_incomplete") {
-                        emailInputLayout.error = getString(R.string.registration_incomplete)
-                    } else {
-                        emailInputLayout.error = getString(R.string.login_invalid)
-                        passwordInputLayout.error = getString(R.string.login_invalid)
+                        if (error == "registration_incomplete") {
+                            emailInputLayout.error = getString(R.string.registration_incomplete)
+                        } else {
+                            emailInputLayout.error = getString(R.string.login_invalid)
+                            passwordInputLayout.error = getString(R.string.login_invalid)
+                        }
+                    } catch (e: Exception) {
+                        Toast.makeText(this, getString(R.string.connexion_error), Toast.LENGTH_SHORT).show()
                     }
                 }
                 changeSwipeLayoutState(false)

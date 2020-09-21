@@ -26,7 +26,7 @@ class SettingsActivity : ADiabetipsActivity(R.layout.activity_settings) {
             ModeManager.instance.saveDarkMode(this, AppCompatDelegate.getDefaultNightMode())
             recreate()
         }
-        testNotificationButton.visibility = if (getString(R.string.api_base_url).contains("dev", true)) View.VISIBLE else View.GONE
+        testNotificationButton.visibility = if (getString(R.string.api_base_url).contains("dev")) View.VISIBLE else View.GONE
         testNotificationButton.setOnClickListener {
             NotificationService.instance.test().doOnSuccess {
                 if (it.second.component2() == null) {
