@@ -137,7 +137,7 @@
                                 <PersistentState>
                                   <option name="values">
                                     <map>
-                                      <entry key="url" value="jar:file:/E:/Program%20Files/Android/Android%20Studio/plugins/android/lib/android.jar!/images/material/icons/materialicons/delete_sweep/baseline_delete_sweep_24.xml" />
+                                      <entry key="url" value="jar:file:/E:/Program%20Files/Android/Android%20Studio/plugins/android/lib/android.jar!/images/material/icons/materialicons/lens/baseline_lens_24.xml" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -147,9 +147,8 @@
                         </option>
                         <option name="values">
                           <map>
-                            <entry key="assetSourceType" value="FILE" />
-                            <entry key="outputName" value="ic_diabetips" />
-                            <entry key="sourceFile" value="C:\Users\Out-Feu\Downloads\layer1.svg" />
+                            <entry key="outputName" value="ic_circle" />
+                            <entry key="sourceFile" value="C:\Users\Out-Feu\Downloads\search.svg" />
                           </map>
                         </option>
                       </PersistentState>

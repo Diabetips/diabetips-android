@@ -13,33 +13,44 @@ import com.epitech.diabetips.adapters.RecipeAdapter
 import com.epitech.diabetips.R
 import com.epitech.diabetips.activities.NewRecipeActivity
 import com.epitech.diabetips.services.RecipeService
+import com.epitech.diabetips.services.UserService
 import com.epitech.diabetips.storages.PaginationObject
 import com.epitech.diabetips.storages.RecipeObject
+import com.github.kittinunf.fuel.core.FuelError
+import com.github.kittinunf.fuel.core.Response
+import com.github.kittinunf.result.Result
 import kotlinx.android.synthetic.main.activity_recipe.view.*
+import me.ibrahimsn.lib.SmoothBottomBar
 
-interface IRecipe {
+interface IRecipe : me.ibrahimsn.lib.OnItemSelectedListener {
 
     enum class ActivityMode {SELECT, UPDATE}
+    enum class SearchMode {ALL, FAVORITE, PERSONAL}
     enum class RequestCode {NEW_RECIPE, UPDATE_RECIPE}
 
     var activityMode: ActivityMode
+    var searchMode: SearchMode
     var page: PaginationObject
     var recipeActivity: Activity
     var recipeContext: Context
     var recipeSearchView: SearchView
     var recipeSearchList: RecyclerView
     var recipeSwipeRefresh: SwipeRefreshLayout
+    var recipeSelectionBar: SmoothBottomBar
 
 
-    fun initView(activity: Activity, context: Context, searchView: SearchView, recyclerView: RecyclerView, swipeRefreshLayout: SwipeRefreshLayout) {
+    fun initView(activity: Activity, context: Context, searchView: SearchView, recyclerView: RecyclerView, swipeRefreshLayout: SwipeRefreshLayout, selectionBar: SmoothBottomBar) {
+        searchMode = SearchMode.ALL
         this.recipeContext = context
         this.recipeActivity = activity
         this.recipeSearchView = searchView
         this.recipeSearchList = recyclerView
         this.recipeSwipeRefresh = swipeRefreshLayout
+        this.recipeSelectionBar = selectionBar
         page = PaginationObject(recipeContext.resources.getInteger(R.integer.pagination_size), recipeContext.resources.getInteger(R.integer.pagination_default))
         getParams()
         initSearchList()
+        recipeSelectionBar.onItemSelectedListener = this
         recipeSearchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextChange(s: String): Boolean {
                 return true
@@ -58,8 +69,7 @@ interface IRecipe {
         if (recipeActivity.intent.hasExtra(recipeContext.getString(R.string.param_mode))) {
             activityMode = (recipeActivity.intent.getSerializableExtra(recipeContext.getString(R.string.param_mode)) as ActivityMode)
         } else {
-            activityMode =
-                ActivityMode.UPDATE
+            activityMode = ActivityMode.UPDATE
         }
     }
 
@@ -96,17 +106,32 @@ interface IRecipe {
             page.reset()
         else
             page.nextPage()
-        RecipeService.instance.getAll<RecipeObject>(page, recipeSearchView.query.toString()).doOnSuccess {
-            if (it.second.component2() == null) {
-                page.updateFromHeader(it.first.headers[recipeContext.getString(R.string.pagination_header)]?.get(0))
-                if (resetPage)
-                    (recipeSearchList.adapter as RecipeAdapter).setRecipes(it.second.component1()!!)
-                else
-                    (recipeSearchList.adapter as RecipeAdapter).addRecipes(it.second.component1()!!)
-            }
-            recipeSwipeRefresh.isRefreshing = false
-        }.subscribe()
-        getParams()
+        when (searchMode) {
+            SearchMode.ALL -> RecipeService.instance.getAll<RecipeObject>(page, recipeSearchView.query.toString()).doOnSuccess { displayResult(it, resetPage) }.subscribe()
+            SearchMode.FAVORITE -> UserService.instance.getUserFavoriteRecipe(page, recipeSearchView.query.toString()).doOnSuccess { displayResult(it, resetPage) }.subscribe()
+            SearchMode.PERSONAL -> UserService.instance.getUserRecipe(page, recipeSearchView.query.toString()).doOnSuccess { displayResult(it, resetPage) }.subscribe()
+        }
+    }
+
+    fun displayResult(result: Pair<Response, Result<Array<RecipeObject>, FuelError>>, resetPage: Boolean) {
+        if (result.second.component2() == null) {
+            page.updateFromHeader(result.first.headers[recipeContext.getString(R.string.pagination_header)]?.get(0))
+            if (resetPage)
+                (recipeSearchList.adapter as RecipeAdapter).setRecipes(result.second.component1()!!)
+            else
+                (recipeSearchList.adapter as RecipeAdapter).addRecipes(result.second.component1()!!)
+        }
+        recipeSwipeRefresh.isRefreshing = false
+    }
+
+    override fun onItemSelect(pos: Int) : Boolean {
+        when (pos) {
+            SearchMode.ALL.ordinal -> searchMode = SearchMode.ALL
+            SearchMode.FAVORITE.ordinal -> searchMode = SearchMode.FAVORITE
+            SearchMode.PERSONAL.ordinal -> searchMode = SearchMode.PERSONAL
+        }
+        getRecipe()
+        return true
     }
 
     fun onRecipeActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

@@ -81,7 +81,9 @@ class MainActivity : ADiabetipsActivity(R.layout.activity_main) {
                     UserManager.instance.removePreferences(this)
                     launchHomeActivity()
                 } else {
-                    val error = JSONObject(it.first.data.toString(Charset.defaultCharset())).getString("error")
+                    var error = it.first.data.toString(Charset.defaultCharset())
+                    if (error.isNotBlank())
+                        error = JSONObject(error).getString("error")
                     if (error == "registration_incomplete") {
                         emailInputLayout.error = getString(R.string.registration_incomplete)
                     } else {
@@ -116,7 +118,7 @@ class MainActivity : ADiabetipsActivity(R.layout.activity_main) {
                     view.emailResetPasswordInputLayout.error = getString(R.string.email_invalid_error)
                 } else {
                     view.emailResetPasswordInputLayout.error = null
-                    TokenService.instance.resetPassword(view.emailResetPasswordInput.text.toString()).doOnSuccess {
+                    TokenService.instance.resetPassword(this, view.emailResetPasswordInput.text.toString()).doAfterSuccess() {
                         if (it.second.component2() == null) {
                             Toast.makeText(this, getString(R.string.reset_password), Toast.LENGTH_LONG).show()
                             dialog.dismiss()

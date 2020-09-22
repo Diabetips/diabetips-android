@@ -12,6 +12,7 @@ import com.epitech.diabetips.R
 import com.epitech.diabetips.activities.MainActivity
 import com.epitech.diabetips.activities.NotificationActivity
 import com.epitech.diabetips.services.NotificationService
+import com.epitech.diabetips.utils.TimeHandler
 import java.io.Serializable
 
 data class NotificationObject (

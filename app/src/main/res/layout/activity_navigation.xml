@@ -13,7 +13,7 @@
         android:layout_height="match_parent"/>
 
     <me.ibrahimsn.lib.SmoothBottomBar
-        android:id="@+id/smoothBottomBaBar"
+        android:id="@+id/smoothBottomBar"
         style="@style/SmoothBottomBarTheme"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

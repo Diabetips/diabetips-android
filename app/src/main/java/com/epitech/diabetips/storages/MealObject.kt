@@ -1,6 +1,5 @@
 package com.epitech.diabetips.storages
 
-import com.epitech.diabetips.utils.TimeHandler
 import com.google.gson.TypeAdapter
 import com.google.gson.stream.JsonReader
 import com.google.gson.stream.JsonWriter
@@ -8,38 +7,81 @@ import java.io.Serializable
 
 data class MealObject (
     var id: Int = 0,
-    var timestamp: Long = TimeHandler.instance.currentTimeSecond(),
+    var time: String = "",
     var description: String = "",
-    var total_sugar: Float = 0f,
+    var total_energy: Float = 0f,
+    var total_carbohydrates: Float = 0f,
+    var total_sugars: Float = 0f,
+    var total_fat: Float = 0f,
+    var total_saturated_fat: Float = 0f,
+    var total_fiber: Float = 0f,
+    var total_proteins: Float = 0f,
     var recipes: Array<MealRecipeObject> = arrayOf(),
     var foods: Array<IngredientObject> = arrayOf()) : Serializable {
 
-    fun calculateTotalSugar() : Float {
-        total_sugar = 0f
+    fun calculateTotalSugars() : Float {
+        total_sugars = 0f
         recipes.forEach {
-            total_sugar += it.calculateTotalSugar()
+            total_sugars += it.calculateTotalSugars()
         }
         foods.forEach {
-            total_sugar += it.calculateTotalSugar()
+            total_sugars += it.calculateTotalSugars()
         }
-        return total_sugar
+        return total_sugars
     }
 
     fun getSummary(separator: String = "\n") : String {
         var summary = ""
-        recipes.forEach {
+        recipes.forEach { recipe ->
             if (summary.isNotEmpty()) {
                 summary += separator
             }
-            summary += it.recipe.name
+            summary += recipe.recipe.name
         }
-        foods.forEach {
+        foods.forEach { ingredient ->
             if (summary.isNotEmpty()) {
                 summary += separator
             }
-            summary += it.food.name
+            summary += ingredient.food.name
         }
         return summary
+    }
+
+
+    fun getQuantity(): Float {
+        var quantity = 0f
+        recipes.forEach { recipe ->
+            quantity += recipe.getQuantity()
+        }
+        foods.forEach { food ->
+            quantity += food.quantity
+        }
+        return quantity
+    }
+
+    fun getNutritionalValues() : ArrayList<NutritionalObject> {
+        val nutritionalValues =  NutritionalObject.getDefaultValues()
+        recipes.forEach { recipe ->
+            recipe.getNutritionalValues().forEach { recipeNutrition ->
+                val index = nutritionalValues.indexOfFirst { it.type == recipeNutrition.type }
+                if (index >= 0) {
+                    nutritionalValues[index].value += recipeNutrition.value
+                } else {
+                    nutritionalValues.add(recipeNutrition)
+                }
+            }
+        }
+        foods.forEach { ingredient ->
+            ingredient.getNutritionalValues().forEach { ingredientNutrition ->
+                val index = nutritionalValues.indexOfFirst { it.type == ingredientNutrition.type }
+                if (index >= 0) {
+                    nutritionalValues[index].value += ingredientNutrition.value
+                } else {
+                    nutritionalValues.add(ingredientNutrition)
+                }
+            }
+        }
+        return nutritionalValues
     }
 }
 
@@ -49,7 +91,7 @@ class MealObjectAdapter : TypeAdapter<MealObject>() {
         writer?.beginObject()
 
         writer?.name("description")?.value(mealObject?.description)
-        writer?.name("timestamp")?.value(mealObject?.timestamp)
+        writer?.name("time")?.value(mealObject?.time)
 
         writer?.name("recipes")
         writer?.beginArray()

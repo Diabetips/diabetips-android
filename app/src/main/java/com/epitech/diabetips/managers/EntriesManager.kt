@@ -72,13 +72,13 @@ class EntriesManager(
             return ItemsUpdated.invoke(items, resetPage)
 
         val manager = itemsManagers[index]
-        if (!manager.needRefresh())
+        if (!manager.activated)
             return getItemsRec(resetPage, index + 1, items)
 
         manager.getter(manager.page).doOnSuccess{
             manager.page.updateFromHeader(it.first.headers[context.getString(R.string.pagination_header)]?.get(0))
-            manager.page.nextPage()
             val newIndex = index + (!manager.needRefresh()).toInt()
+            manager.page.nextPage()
             val newItems = items + if (it.third == null && it.second != null) it.second as Array<EntryObject> else arrayOf()
             getItemsRec(resetPage, newIndex, newItems)
         }.subscribe()

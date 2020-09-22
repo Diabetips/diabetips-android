@@ -13,7 +13,7 @@ data class UserObject (
     var first_name: String = "",
     var last_name: String = "",
     var lang: String = "",
-    var timeZone: String = "") : Serializable
+    var timezone: String = "") : Serializable
 
 class UserObjectAdapter : TypeAdapter<UserObject>() {
 

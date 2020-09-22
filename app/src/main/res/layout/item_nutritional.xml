@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/EmptyBackgroundTheme"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:id="@+id/nutritionalValueLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="@dimen/quarter_margin_size"
+        android:layout_marginBottom="@dimen/quarter_margin_size"
+        android:orientation="vertical"
+        style="@style/EmptyBackgroundTheme">
+
+        <RelativeLayout
+            android:id="@+id/nutritionalTextLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            style="@style/EmptyBackgroundTheme">
+
+            <TextView
+                android:id="@+id/nutritionalText"
+                style="@style/TextAltTheme"
+                android:layout_alignParentStart="true"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:text="@string/placeholder_text"/>
+
+            <TextView
+                android:id="@+id/nutritionalValueText"
+                style="@style/TextAltTheme"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:text="@string/placeholder_text"
+                tools:ignore="RelativeOverlap" />
+
+        </RelativeLayout>
+
+        <ProgressBar
+            android:id="@+id/nutritionalProgressBar"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:elevation="@dimen/shadow_size"
+            android:indeterminate="false"
+            android:max="100"
+            android:progress="100"/>
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

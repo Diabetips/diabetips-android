@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/ClearBackgroundTheme"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragments.DashboardFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/DashboardActionBar"
+        style="@style/ActionBarTheme"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/titleDashboardText"
+            style="@style/TitleTheme"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/half_margin_size"
+            android:text="@string/dashboard_title"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/dashboardEventNotebookCard"
+        style="@style/BackgroundCardTheme"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dashboard_button_size"
+        app:layout_constraintTop_toBottomOf="@+id/DashboardActionBar">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/dashboardEventNotebookLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/dashboardEventNotebookText"
+                style="@style/SubtitleTheme"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="@dimen/half_margin_size"
+                android:text="@string/event_notebook_title"
+                android:gravity="center_vertical"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/dashboardEventNotebookImage"/>
+
+            <ImageView
+                android:id="@+id/dashboardEventNotebookImage"
+                android:layout_width="@dimen/dashboard_image_size"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="@dimen/half_margin_size"
+                android:contentDescription="@string/placeholder_text"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_notebook"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/dashboardGlucoseCard"
+        style="@style/BackgroundCardTheme"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dashboard_button_size"
+        app:layout_constraintTop_toBottomOf="@+id/dashboardEventNotebookCard">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/dashboardGlucoseLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/dashboardGlucoseText"
+                style="@style/SubtitleTheme"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="@dimen/half_margin_size"
+                android:text="@string/glucose_average_title"
+                android:gravity="center_vertical"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/dashboardGlucoseImage"/>
+
+            <ImageView
+                android:id="@+id/dashboardGlucoseImage"
+                android:layout_width="@dimen/dashboard_image_size"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="@dimen/half_margin_size"
+                android:contentDescription="@string/placeholder_text"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_glucose"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/dashboardHemoglobinCard"
+        style="@style/BackgroundCardTheme"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dashboard_button_size"
+        app:layout_constraintTop_toBottomOf="@+id/dashboardGlucoseCard">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/dashboardHemoglobinLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/dashboardHemoglobinText"
+                style="@style/SubtitleTheme"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="@dimen/half_margin_size"
+                android:text="@string/hba1c_title"
+                android:gravity="center_vertical"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/dashboardHemoglobinImage"/>
+
+            <ImageView
+                android:id="@+id/dashboardHemoglobinImage"
+                android:layout_width="@dimen/dashboard_image_size"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="@dimen/half_margin_size"
+                android:contentDescription="@string/placeholder_text"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_hba1c"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

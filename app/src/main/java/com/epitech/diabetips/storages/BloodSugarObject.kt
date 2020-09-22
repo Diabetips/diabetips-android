@@ -9,7 +9,7 @@ data class BloodSugarObject (
     var value: Int = 0,
     var start: Long? = null,
     var interval: Int? = null,
-    var timestamp: Long = 0,
+    var time: String = "",
     var measures: Array<Int> = arrayOf()) : Serializable {
 }
 
