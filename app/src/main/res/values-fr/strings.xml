@@ -127,6 +127,7 @@
     <string name="hyperglycemia">Hyperglycémie</string>
     <string name="hypoglycemia">Hypoglycémie</string>
     <string name="change_insulin">Modifier l\'injection d\'insuline</string>
+    <string name="version_demo">Version de démonstration</string>
     <string name="recipe_all">Toutes</string>
     <string name="recipe_favorite">Favorites</string>
     <string name="recipe_personal">Mes recettes</string>
@@ -155,5 +156,5 @@
     <string name="recipe_nutrition_portion">Quantité à analyser (en portions)</string>
     <string name="meal_nutrition_text">Récapitulatif nutritionnel de votre repas</string>
     <string name="unit_portions">portions</string>
-    <string name="version_demo">Version de démonstration</string>
+    <string name="connexion_error">Une erreur est survenue lors de la connexion au serveur</string>
 </resources>

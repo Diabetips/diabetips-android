@@ -195,6 +195,7 @@
     <!--meal / recipe / food screen end-->
 
     <!--login / sign up errors start-->
+    <string name="connexion_error">An error occurred while connecting to the server</string>
     <string name="empty_field_error">This field cannot be empty</string>
     <string name="password_match_error">Password doesn\'t match</string>
     <string name="password_incorrect_error">Incorrect password</string>
