@@ -1,12 +1,8 @@
 package com.epitech.diabetips.activities
 
-import android.app.AlertDialog
 import android.content.Intent
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.util.Patterns
-import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatDelegate
 import com.epitech.diabetips.R
@@ -20,7 +16,7 @@ import com.epitech.diabetips.storages.UserObject
 import com.epitech.diabetips.textWatchers.EmailWatcher
 import com.epitech.diabetips.textWatchers.PasswordWatcher
 import com.epitech.diabetips.utils.ADiabetipsActivity
-import com.epitech.diabetips.utils.MaterialHandler
+import com.epitech.diabetips.utils.DialogHandler
 import com.github.kittinunf.fuel.core.FuelManager
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.dialog_password_forgot.view.*
@@ -113,27 +109,24 @@ class MainActivity : ADiabetipsActivity(R.layout.activity_main) {
 
     private fun forgotPassword() {
         if (!mainSwipeRefresh.isRefreshing) {
-            val view = layoutInflater.inflate(R.layout.dialog_password_forgot, null)
-            MaterialHandler.instance.handleTextInputLayoutSize(view as ViewGroup)
-            val dialog = AlertDialog.Builder(this).setView(view).create()
-            dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-            view.emailResetPasswordInput.setText(emailInput.text.toString())
-            view.resetPasswordButton.setOnClickListener {
-                if (view.emailResetPasswordInput.text.toString().isEmpty() || !Patterns.EMAIL_ADDRESS.matcher(view.emailResetPasswordInput.text.toString()).matches()) {
-                    view.emailResetPasswordInputLayout.error = getString(R.string.email_invalid_error)
-                } else {
-                    view.emailResetPasswordInputLayout.error = null
-                    TokenService.instance.resetPassword(this, view.emailResetPasswordInput.text.toString()).doAfterSuccess() {
-                        if (it.second.component2() == null) {
-                            Toast.makeText(this, getString(R.string.reset_password), Toast.LENGTH_LONG).show()
-                            dialog.dismiss()
-                        } else {
-                            Toast.makeText(this, it.second.component2()!!.exception.message, Toast.LENGTH_SHORT).show()
-                        }
-                    }.subscribe()
+            DialogHandler.createDialog(this, layoutInflater, R.layout.dialog_password_forgot) { view, dialog ->
+                view.emailResetPasswordInput.setText(emailInput.text.toString())
+                view.resetPasswordButton.setOnClickListener {
+                    if (view.emailResetPasswordInput.text.toString().isEmpty() || !Patterns.EMAIL_ADDRESS.matcher(view.emailResetPasswordInput.text.toString()).matches()) {
+                        view.emailResetPasswordInputLayout.error = getString(R.string.email_invalid_error)
+                    } else {
+                        view.emailResetPasswordInputLayout.error = null
+                        TokenService.instance.resetPassword(this, view.emailResetPasswordInput.text.toString()).doAfterSuccess {
+                            if (it.second.component2() == null) {
+                                Toast.makeText(this, getString(R.string.reset_password), Toast.LENGTH_LONG).show()
+                                dialog.dismiss()
+                            } else {
+                                Toast.makeText(this, it.second.component2()!!.exception.message, Toast.LENGTH_SHORT).show()
+                            }
+                        }.subscribe()
+                    }
                 }
             }
-            dialog.show()
         }
     }
 

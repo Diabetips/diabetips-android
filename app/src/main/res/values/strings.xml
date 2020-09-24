@@ -99,6 +99,10 @@
     <string name="meal">Meal</string>
     <string name="insulin_slow">Slow insulin</string>
     <string name="insulin_fast">Fast insulin</string>
+    <string name="comment_delete">Are you sure you want to delete this comment?</string>
+    <string name="insulin_delete">Are you sure you want to delete this injection?</string>
+    <string name="hba1c_delete">Are you sure you want to delete this HbA1c value?</string>
+
     <string name="comment">Comment</string>
     <string name="sugar">Sugar</string>
     <string name="add_value">Add a value</string>
@@ -129,7 +133,7 @@
     <string name="logout_confirm">Do you want to logout ?</string>
     <string name="deactivated">Account deactivated with success</string>
     <string name="deactivate">Deactivate account</string>
-    <string name="deactivate_account_confirm">Are you sure to deactivate your account ?</string>
+    <string name="deactivate_account_confirm">Are you sure you want to deactivate your account?</string>
     <!--Profile screen end-->
 
     <!--Settings screen start-->
@@ -159,11 +163,12 @@
     <string name="meal_recipe_subtitle">Recipes</string>
     <string name="recipe_food_subtitle">Foods</string>
     <string name="meal_nutrition_text">Nutritional summary of your meal</string>
+    <string name="meal_delete">Are you sure you want to delete this meal?</string>
     <string name="recipe_name">Recipe name</string>
     <string name="recipe_portion">Portions</string>>
-    <string name="recipe_nutrition_portion">Quantity to analyse (in portions)</string>>
-    <string name="recipe_favorite_add">Recipe added to favorites</string>>
-    <string name="recipe_favorite_remove">Recipe removed from favorites</string>>
+    <string name="recipe_nutrition_portion">Quantity to analyse (in portions)</string>
+    <string name="recipe_favorite_add">Recipe added to favorites</string>
+    <string name="recipe_favorite_remove">Recipe removed from favorites</string>
     <string name="recipe_all">All recipes</string>>
     <string name="recipe_favorite">Favorites</string>>
     <string name="recipe_personal">My recipes</string>

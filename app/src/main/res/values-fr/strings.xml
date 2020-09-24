@@ -94,7 +94,7 @@
     <string name="diabetes_type_2">Type 2</string>
     <string name="diabetes_type_1">Type 1</string>
     <string name="total_sugar">Total glucide</string>
-    <string name="deactivate_account_confirm">Etes vous certain de vouloir désactiver votre compte ?</string>
+    <string name="deactivate_account_confirm">Êtes-vous sûr de vouloir désactiver votre compte ?</string>
     <string name="deactivated">Compte desactivé avec succès !</string>
     <string name="deactivate">Désactiver mon compte</string>
     <string name="open_dashboard_button">Tableau de bord</string>
@@ -156,4 +156,8 @@
     <string name="meal_nutrition_text">Récapitulatif nutritionnel de votre repas</string>
     <string name="unit_portions">portions</string>
     <string name="connexion_error">Une erreur est survenue lors de la connexion au serveur</string>
+    <string name="comment_delete">Êtes-vous sûr de vouloir supprimer ce commentaire ?</string>
+    <string name="insulin_delete">Êtes-vous sûr de vouloir supprimer cette injection ?</string>
+    <string name="meal_delete">Êtes-vous certain de vouloir supprimer ce repas ?</string>
+    <string name="hba1c_delete">Êtes-vous sûr de vouloir supprimer cette valeur d\'HbA1c ?</string>
 </resources>

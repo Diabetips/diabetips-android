@@ -26,162 +26,159 @@ import kotlin.math.abs
 
 class ChartHandler {
 
-    private object Holder { val INSTANCE = ChartHandler() }
-
     companion object {
-        val instance: ChartHandler by lazy { Holder.INSTANCE }
-    }
 
-    fun handleLineChartStyle(lineChart: LineChart, context: Context) {
-        lineChart.setViewPortOffsets(0f, 10f, 0f, 50f)
-        lineChart.description.isEnabled = false
-        lineChart.legend.isEnabled = false
-        lineChart.axisLeft.isEnabled = true
-        lineChart.axisLeft.setDrawGridLines(false)
-        lineChart.axisLeft.setDrawAxisLine(false)
-        lineChart.axisLeft.disableGridDashedLine()
-        lineChart.axisLeft.setPosition(YAxis.YAxisLabelPosition.INSIDE_CHART)
-        lineChart.axisLeft.setDrawLimitLinesBehindData(true)
-        lineChart.axisRight.isEnabled = false
-        lineChart.xAxis.disableGridDashedLine()
-        lineChart.setDrawGridBackground(false)
-        lineChart.xAxis.isEnabled = true
-        lineChart.xAxis.setDrawAxisLine(false)
-        lineChart.xAxis.position = XAxis.XAxisPosition.BOTTOM
-        lineChart.xAxis.gridColor = ContextCompat.getColor(context, R.color.colorHint)
-        lineChart.axisLeft.setDrawZeroLine(false)
-        lineChart.setDrawMarkers(true)
-        lineChart.setDrawBorders(false)
-    }
-
-    fun updateChartData(items: List<EntryObject>, intervalTimeStamp: Pair<Long, Long>, lineChart: DetailLineChart, context: Context) {
-        val formatter = HoursFormatter(intervalTimeStamp, context)
-        lineChart.xAxis.valueFormatter = formatter
-
-        val lineData = LineData()
-
-        val bloodValues: List<BloodSugarObject> = items.filter{ it.type == EntryObject.Type.SUGAR}
-            .map{it.orignal as (BloodSugarObject)}
-        val bloodValuesChunks = cutBloodValuesIntoChunks(bloodValues, 1800f, context)
-        for (bloodValueChunk in bloodValuesChunks) {
-            lineData.addDataSet(generateBloodDataset(bloodValueChunk, intervalTimeStamp, context))
+        fun handleLineChartStyle(lineChart: LineChart, context: Context) {
+            lineChart.setViewPortOffsets(0f, 10f, 0f, 50f)
+            lineChart.description.isEnabled = false
+            lineChart.legend.isEnabled = false
+            lineChart.axisLeft.isEnabled = true
+            lineChart.axisLeft.setDrawGridLines(false)
+            lineChart.axisLeft.setDrawAxisLine(false)
+            lineChart.axisLeft.disableGridDashedLine()
+            lineChart.axisLeft.setPosition(YAxis.YAxisLabelPosition.INSIDE_CHART)
+            lineChart.axisLeft.setDrawLimitLinesBehindData(true)
+            lineChart.axisRight.isEnabled = false
+            lineChart.xAxis.disableGridDashedLine()
+            lineChart.setDrawGridBackground(false)
+            lineChart.xAxis.isEnabled = true
+            lineChart.xAxis.setDrawAxisLine(false)
+            lineChart.xAxis.position = XAxis.XAxisPosition.BOTTOM
+            lineChart.xAxis.gridColor = ContextCompat.getColor(context, R.color.colorHint)
+            lineChart.axisLeft.setDrawZeroLine(false)
+            lineChart.setDrawMarkers(true)
+            lineChart.setDrawBorders(false)
         }
 
-        if (items.isNotEmpty())
-            drawLimits(lineData)
+        fun updateChartData(items: List<EntryObject>, intervalTimeStamp: Pair<Long, Long>, lineChart: DetailLineChart, context: Context) {
+            val formatter = HoursFormatter(intervalTimeStamp, context)
+            lineChart.xAxis.valueFormatter = formatter
 
-        val punctualInfo = mapOf(
-            EntryObject.Type.MEAL to ContextCompat.getColor(context, R.color.colorPrimary),
-            EntryObject.Type.INSULIN_FAST to ContextCompat.getColor(context, R.color.colorAccent),
-            EntryObject.Type.INSULIN_SLOW to ContextCompat.getColor(context, R.color.colorAccentLight),
-            EntryObject.Type.COMMENT to ContextCompat.getColor(context, R.color.colorBackgroundDarkLight))
-        for (info in punctualInfo) {
-            val filteredItems: List<EntryObject> = items.filter{ it.type == info.key}
-            lineData.addDataSet(generatePonctualDataset(filteredItems, intervalTimeStamp, info.value, context))
-        }
-        lineChart.axisLeft.removeAllLimitLines()
-        val biometrics = UserManager.instance.getBiometric(context)
-        if (biometrics.hypoglycemia != null && biometrics.hyperglycemia != null) {
-            val limitColor = ContextCompat.getColor(context, R.color.colorPrimaryLight)
-            lineChart.setLimitZoneColor(limitColor)
-            lineChart.axisLeft.addLimitLine(generateLimitLine(biometrics.hypoglycemia!!.toFloat(), limitColor))
-            lineChart.axisLeft.addLimitLine(generateLimitLine(biometrics.hyperglycemia!!.toFloat(), limitColor))
-        }
-        lineChart.data = lineData
-        lineChart.animateY(800)
-        // refresh the drawing
-        lineChart.invalidate()
-    }
+            val lineData = LineData()
 
-    private fun drawLimits(lineData: LineData) {
-        val d = LineDataSet(listOf(Entry(0f,0f)), "ShowBottom")
-        d.color = Color.TRANSPARENT
-        d.setDrawCircles(false)
-        d.setDrawValues(false)
-        d.setDrawFilled(false)
-        d.setDrawVerticalHighlightIndicator(false)
-        d.setDrawHorizontalHighlightIndicator(false)
-        lineData.addDataSet(d)
-    }
-
-    private fun cutBloodValuesIntoChunks(bloodValues: List<BloodSugarObject>, limit: Float, context: Context): List<List<BloodSugarObject>> {
-        val chunks = mutableListOf<List<BloodSugarObject>>()
-        if (bloodValues.isEmpty())
-            return chunks
-        var lastValue: BloodSugarObject = bloodValues[0]
-        var lastChunkIndex: Int = 0
-        for ((index, value) in bloodValues.withIndex().drop(1)) {
-            if (TimeHandler.instance.getSecondDiffFormat(value.time, lastValue.time, context.getString(R.string.format_time_api)) > limit) {
-                chunks.add(bloodValues.subList(lastChunkIndex, index - 1))
-                lastChunkIndex = index
+            val bloodValues: List<BloodSugarObject> = items.filter { it.type == EntryObject.Type.SUGAR }
+                .map { it.orignal as (BloodSugarObject) }
+            val bloodValuesChunks = cutBloodValuesIntoChunks(bloodValues, 1800f, context)
+            for (bloodValueChunk in bloodValuesChunks) {
+                lineData.addDataSet(generateBloodDataset(bloodValueChunk, intervalTimeStamp, context))
             }
-            lastValue = value
+
+            if (items.isNotEmpty())
+                drawLimits(lineData)
+
+            val punctualInfo = mapOf(
+                EntryObject.Type.MEAL to ContextCompat.getColor(context, R.color.colorPrimary),
+                EntryObject.Type.INSULIN_FAST to ContextCompat.getColor(context, R.color.colorAccent),
+                EntryObject.Type.INSULIN_SLOW to ContextCompat.getColor(context, R.color.colorAccentLight),
+                EntryObject.Type.COMMENT to ContextCompat.getColor(context, R.color.colorBackgroundDarkLight))
+            for (info in punctualInfo) {
+                val filteredItems: List<EntryObject> = items.filter { it.type == info.key }
+                lineData.addDataSet(generatePonctualDataset(filteredItems, intervalTimeStamp, info.value, context))
+            }
+            lineChart.axisLeft.removeAllLimitLines()
+            val biometrics = UserManager.instance.getBiometric(context)
+            if (biometrics.hypoglycemia != null && biometrics.hyperglycemia != null) {
+                val limitColor = ContextCompat.getColor(context, R.color.colorPrimaryLight)
+                lineChart.setLimitZoneColor(limitColor)
+                lineChart.axisLeft.addLimitLine(generateLimitLine(biometrics.hypoglycemia!!.toFloat(), limitColor))
+                lineChart.axisLeft.addLimitLine(generateLimitLine(biometrics.hyperglycemia!!.toFloat(), limitColor))
+            }
+            lineChart.data = lineData
+            lineChart.animateY(800)
+            // refresh the drawing
+            lineChart.invalidate()
         }
-        chunks.add(bloodValues.takeLast(bloodValues.size - lastChunkIndex))
-        return chunks
-    }
 
-    private fun generatePonctualDataset(items: List<EntryObject>, intervalTimeStamp: Pair<Long, Long>, color: Int, context: Context): LineDataSet? {
-        if (items.isEmpty())
-            return null
-        val yValues = mutableListOf<Entry>()
-        for (item in items) {
-            yValues.add(Entry((((TimeHandler.instance.getTimestampFromFormat(item.time, context.getString(R.string.format_time_api)) ?: 0) - intervalTimeStamp.first).toFloat()), 100f))
+        private fun drawLimits(lineData: LineData) {
+            val d = LineDataSet(listOf(Entry(0f, 0f)), "ShowBottom")
+            d.color = Color.TRANSPARENT
+            d.setDrawCircles(false)
+            d.setDrawValues(false)
+            d.setDrawFilled(false)
+            d.setDrawVerticalHighlightIndicator(false)
+            d.setDrawHorizontalHighlightIndicator(false)
+            lineData.addDataSet(d)
         }
-        val set = LineDataSet(yValues, items[0].type.toString())
-        setPonctualElementDatasetStyle(set, color)
-        return set
-    }
 
-    private fun generateBloodDataset(bloodValues: List<BloodSugarObject>, intervalTimeStamp: Pair<Long, Long>, context: Context): LineDataSet{
-        val yValues = mutableListOf<Entry>()
-        for (bloodValue in bloodValues) {
-            yValues.add(Entry(((TimeHandler.instance.getTimestampFromFormat(bloodValue.time, context.getString(R.string.format_time_api)) ?: 0) - intervalTimeStamp.first).toFloat(), bloodValue.value.toFloat()))
+        private fun cutBloodValuesIntoChunks(bloodValues: List<BloodSugarObject>, limit: Float, context: Context): List<List<BloodSugarObject>> {
+            val chunks = mutableListOf<List<BloodSugarObject>>()
+            if (bloodValues.isEmpty())
+                return chunks
+            var lastValue: BloodSugarObject = bloodValues[0]
+            var lastChunkIndex: Int = 0
+            for ((index, value) in bloodValues.withIndex().drop(1)) {
+                if (TimeHandler.instance.getSecondDiffFormat(value.time, lastValue.time, context.getString(R.string.format_time_api)) > limit) {
+                    chunks.add(bloodValues.subList(lastChunkIndex, index - 1))
+                    lastChunkIndex = index
+                }
+                lastValue = value
+            }
+            chunks.add(bloodValues.takeLast(bloodValues.size - lastChunkIndex))
+            return chunks
         }
-        val set = LineDataSet(yValues, "Glucose")
-        setGlucoseDatasetStyle(set, context)
-        return set
-    }
 
-    private fun generateLimitLine(value: Float, color: Int, label: String = ""): LimitLine {
-        return LimitLine(value, label).apply {
-            lineColor = color
+        private fun generatePonctualDataset(items: List<EntryObject>, intervalTimeStamp: Pair<Long, Long>, color: Int, context: Context): LineDataSet? {
+            if (items.isEmpty())
+                return null
+            val yValues = mutableListOf<Entry>()
+            for (item in items) {
+                yValues.add(Entry((((TimeHandler.instance.getTimestampFromFormat(item.time, context.getString(R.string.format_time_api)) ?: 0) - intervalTimeStamp.first).toFloat()), 100f))
+            }
+            val set = LineDataSet(yValues, items[0].type.toString())
+            setPonctualElementDatasetStyle(set, color)
+            return set
         }
-    }
 
-    private fun setGlucoseDatasetStyle(dataSet: LineDataSet, context: Context) {
-        val typedValue = TypedValue()
-        context.theme.resolveAttribute(R.attr.colorPrimary, typedValue, true)
-        dataSet.color = typedValue.data
-        dataSet.mode = LineDataSet.Mode.LINEAR
-        dataSet.lineWidth = 2f
-        dataSet.setDrawCircles(false)
-        dataSet.setDrawValues(false)
-        dataSet.setDrawVerticalHighlightIndicator(true)
-        dataSet.setDrawHorizontalHighlightIndicator(true)
-        dataSet.setDrawFilled(true)
-        dataSet.fillAlpha = 50
-        dataSet.valueTextSize = 9f
-        dataSet.isHighlightEnabled = true
-        dataSet.setDrawValues(false)
-    }
+        private fun generateBloodDataset(bloodValues: List<BloodSugarObject>, intervalTimeStamp: Pair<Long, Long>, context: Context): LineDataSet {
+            val yValues = mutableListOf<Entry>()
+            for (bloodValue in bloodValues) {
+                yValues.add(Entry(((TimeHandler.instance.getTimestampFromFormat(bloodValue.time, context.getString(R.string.format_time_api)) ?: 0) - intervalTimeStamp.first).toFloat(), bloodValue.value.toFloat()))
+            }
+            val set = LineDataSet(yValues, "Glucose")
+            setGlucoseDatasetStyle(set, context)
+            return set
+        }
 
-    private fun setPonctualElementDatasetStyle(dataSet: LineDataSet, color: Int) {
-        dataSet.color = Color.TRANSPARENT
-        dataSet.mode = LineDataSet.Mode.LINEAR
-        dataSet.lineWidth = 0f
-        dataSet.setDrawCircles(true)
-        dataSet.setCircleColor(color)
-        dataSet.circleHoleColor = color
-        dataSet.circleRadius = 6f
-        dataSet.circleHoleRadius = 6f
-        dataSet.setDrawCircleHole(true)
-        dataSet.setDrawValues(false)
-        dataSet.setDrawVerticalHighlightIndicator(false)
-        dataSet.setDrawHorizontalHighlightIndicator(false)
-        dataSet.setDrawFilled(false)
-        dataSet.isHighlightEnabled = false
-        dataSet.setDrawValues(false)
+        private fun generateLimitLine(value: Float, color: Int, label: String = ""): LimitLine {
+            return LimitLine(value, label).apply {
+                lineColor = color
+            }
+        }
+
+        private fun setGlucoseDatasetStyle(dataSet: LineDataSet, context: Context) {
+            val typedValue = TypedValue()
+            context.theme.resolveAttribute(R.attr.colorPrimary, typedValue, true)
+            dataSet.color = typedValue.data
+            dataSet.mode = LineDataSet.Mode.LINEAR
+            dataSet.lineWidth = 2f
+            dataSet.setDrawCircles(false)
+            dataSet.setDrawValues(false)
+            dataSet.setDrawVerticalHighlightIndicator(true)
+            dataSet.setDrawHorizontalHighlightIndicator(true)
+            dataSet.setDrawFilled(true)
+            dataSet.fillAlpha = 50
+            dataSet.valueTextSize = 9f
+            dataSet.isHighlightEnabled = true
+            dataSet.setDrawValues(false)
+        }
+
+        private fun setPonctualElementDatasetStyle(dataSet: LineDataSet, color: Int) {
+            dataSet.color = Color.TRANSPARENT
+            dataSet.mode = LineDataSet.Mode.LINEAR
+            dataSet.lineWidth = 0f
+            dataSet.setDrawCircles(true)
+            dataSet.setCircleColor(color)
+            dataSet.circleHoleColor = color
+            dataSet.circleRadius = 6f
+            dataSet.circleHoleRadius = 6f
+            dataSet.setDrawCircleHole(true)
+            dataSet.setDrawValues(false)
+            dataSet.setDrawVerticalHighlightIndicator(false)
+            dataSet.setDrawHorizontalHighlightIndicator(false)
+            dataSet.setDrawFilled(false)
+            dataSet.isHighlightEnabled = false
+            dataSet.setDrawValues(false)
+        }
     }
 }
 

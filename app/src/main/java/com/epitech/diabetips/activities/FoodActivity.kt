@@ -2,28 +2,19 @@ package com.epitech.diabetips.activities
 
 import android.app.Activity
 import android.content.Intent
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.view.ViewGroup
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.epitech.diabetips.R
 import com.epitech.diabetips.adapters.FoodAdapter
-import com.epitech.diabetips.adapters.NutritionalAdapter
 import com.epitech.diabetips.services.FoodService
 import com.epitech.diabetips.storages.FoodObject
 import com.epitech.diabetips.storages.IngredientObject
 import com.epitech.diabetips.storages.PaginationObject
-import com.epitech.diabetips.textWatchers.NumberWatcher
-import com.epitech.diabetips.textWatchers.TextChangedWatcher
 import com.epitech.diabetips.utils.ADiabetipsActivity
-import com.epitech.diabetips.utils.MaterialHandler
+import com.epitech.diabetips.utils.DialogHandler
 import com.epitech.diabetips.utils.PaginationScrollListener
 import kotlinx.android.synthetic.main.activity_food.*
-import kotlinx.android.synthetic.main.dialog_save_change.view.*
-import kotlinx.android.synthetic.main.dialog_select_quantity.view.*
 
 class FoodActivity : ADiabetipsActivity(R.layout.activity_food) {
 
@@ -51,42 +42,13 @@ class FoodActivity : ADiabetipsActivity(R.layout.activity_food) {
             layoutManager = LinearLayoutManager(this@FoodActivity)
             adapter = FoodAdapter { foodObject, checkBox ->
                 if (checkBox != null && checkBox.isChecked) {
-                    val view = layoutInflater.inflate(R.layout.dialog_select_quantity, null)
-                    MaterialHandler.instance.handleTextInputLayoutSize(view as ViewGroup)
-                    val dialog = AlertDialog.Builder(this@FoodActivity).setView(view).create()
-                    dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
                     val ingredientObject: IngredientObject = (adapter as FoodAdapter).getSelectedIngredientOrNew(foodObject)
-                    view.selectQuantityInputLayout.hint = "${view.selectQuantityInputLayout.hint} (${foodObject.unit})"
-                    view.selectQuantityNutritionalList.apply {
-                        val quantity = view.selectQuantityInput.toString().toFloatOrNull() ?: 0f
-                        layoutManager = LinearLayoutManager(this@FoodActivity)
-                        adapter = NutritionalAdapter(foodObject.getNutritionalValues(quantity), quantity)
-                    }
-                    view.selectQuantityInput.addTextChangedListener(NumberWatcher(this@FoodActivity, view.selectQuantityInputLayout, R.string.quantity_null, 0f))
-                    view.selectQuantityInput.addTextChangedListener(TextChangedWatcher {
-                        val quantity = it.toString().toFloatOrNull() ?: 0f
-                        (view.selectQuantityNutritionalList.adapter as NutritionalAdapter).setNutritions(foodObject.getNutritionalValues(quantity), quantity)
-                    })
-                    if (ingredientObject.quantity > 0) {
+                    checkBox.isChecked = (ingredientObject.quantity > 0)
+                    DialogHandler.dialogSelectQuantity(this@FoodActivity, layoutInflater, ingredientObject) {
+                        (adapter as FoodAdapter).addSelectedIngredient(ingredientObject)
                         checkBox.isChecked = true
-                        view.selectQuantityInput.setText(ingredientObject.quantity.toBigDecimal().stripTrailingZeros().toPlainString())
-                    } else {
-                        checkBox.isChecked = false
+                        saved = false
                     }
-                    view.selectQuantityNegativeButton.setOnClickListener {
-                        dialog.dismiss()
-                    }
-                    view.selectQuantityPositiveButton.setOnClickListener {
-                        view.selectQuantityInput.text = view.selectQuantityInput.text
-                        if (view.selectQuantityInputLayout.error == null) {
-                            ingredientObject.quantity = view.selectQuantityInput.text.toString().toFloatOrNull() ?: 0f
-                            (adapter as FoodAdapter).addSelectedIngredient(ingredientObject)
-                            checkBox.isChecked = true
-                            saved = false
-                            dialog.dismiss()
-                        }
-                    }
-                    dialog.show()
                 } else {
                     saved = false
                 }
@@ -151,18 +113,7 @@ class FoodActivity : ADiabetipsActivity(R.layout.activity_food) {
         } else if (saved!!) {
             returnFoods()
         } else {
-            val view = layoutInflater.inflate(R.layout.dialog_save_change, null)
-            MaterialHandler.instance.handleTextInputLayoutSize(view as ViewGroup)
-            val dialog = AlertDialog.Builder(this@FoodActivity).setView(view).create()
-            dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-            view.saveChangeNegativeButton.setOnClickListener {
-                finish()
-            }
-            view.saveChangePositiveButton.setOnClickListener {
-                returnFoods()
-                dialog.dismiss()
-            }
-            dialog.show()
+            DialogHandler.dialogSaveChange(this, layoutInflater, { returnFoods() }, { finish() })
         }
     }
 

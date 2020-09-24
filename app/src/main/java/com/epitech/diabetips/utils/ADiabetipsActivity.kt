@@ -15,7 +15,7 @@ abstract class ADiabetipsActivity(private val layoutId: Int) : AppCompatActivity
         }
         super.onCreate(savedInstanceState)
         setContentView(layoutId)
-        MaterialHandler.instance.handleTextInputLayoutSize(this.findViewById(android.R.id.content))
+        MaterialHandler.handleTextInputLayoutSize(this.findViewById(android.R.id.content))
     }
 
 }

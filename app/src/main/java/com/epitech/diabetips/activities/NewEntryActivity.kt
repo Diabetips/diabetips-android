@@ -2,13 +2,9 @@ package com.epitech.diabetips.activities
 
 import android.app.Activity
 import android.content.Intent
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.View
-import android.view.ViewGroup
 import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
 import com.epitech.diabetips.R
 import com.epitech.diabetips.services.EventService
 import com.epitech.diabetips.services.InsulinService
@@ -20,14 +16,11 @@ import com.epitech.diabetips.storages.MealObject
 import com.epitech.diabetips.storages.NoteObject
 import com.epitech.diabetips.textWatchers.TextChangedWatcher
 import com.epitech.diabetips.utils.ADiabetipsActivity
-import com.epitech.diabetips.utils.MaterialHandler
+import com.epitech.diabetips.utils.DialogHandler
 import com.epitech.diabetips.utils.TimeHandler
-import com.wdullaer.materialdatetimepicker.date.DatePickerDialog
-import com.wdullaer.materialdatetimepicker.time.TimePickerDialog
 import kotlinx.android.synthetic.main.activity_new_entry.*
-import kotlinx.android.synthetic.main.dialog_save_change.view.*
 
-class NewEntryActivity : ADiabetipsActivity(R.layout.activity_new_entry), DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
+class NewEntryActivity : ADiabetipsActivity(R.layout.activity_new_entry) {
 
     enum class RequestCode {NEW_MEAL, UPDATE_MEAL}
     enum class ObjectType {MEAL, SLOW_INSULIN, FAST_INSULIN, NOTE, EVENT}
@@ -42,10 +35,14 @@ class NewEntryActivity : ADiabetipsActivity(R.layout.activity_new_entry), DatePi
         initObjectMap()
         addTextChangedListener()
         newEntryTimeDate.setOnClickListener {
-            TimeHandler.instance.getDatePickerDialog(this, this, entryTime).show(supportFragmentManager, "DatePickerDialog")
+            DialogHandler.datePickerDialog(this, supportFragmentManager, entryTime, newEntryTimeDate) { time ->
+                entryTime = time
+            }
         }
         newEntryTimeHour.setOnClickListener {
-            TimeHandler.instance.getTimePickerDialog(this, this, entryTime).show(supportFragmentManager, "TimePickerDialog")
+            DialogHandler.timePickerDialog(this, supportFragmentManager, entryTime, newEntryTimeHour) { time ->
+                entryTime = time
+            }
         }
         newMealButton.setOnClickListener {
             startActivityForResult(Intent(this, NewMealActivity::class.java), RequestCode.NEW_MEAL.ordinal)
@@ -211,10 +208,6 @@ class NewEntryActivity : ADiabetipsActivity(R.layout.activity_new_entry), DatePi
         }
     }
 
-    private fun updateTimeDisplay() {
-        TimeHandler.instance.updateTimeDisplay(this, entryTime, newEntryTimeDate, newEntryTimeHour)
-    }
-
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK
@@ -225,32 +218,11 @@ class NewEntryActivity : ADiabetipsActivity(R.layout.activity_new_entry), DatePi
         }
     }
 
-    override fun onDateSet(view: DatePickerDialog?, year: Int, monthOfYear: Int, dayOfMonth: Int) {
-        entryTime = TimeHandler.instance.changeFormatDate(entryTime, getString(R.string.format_time_api), year, monthOfYear, dayOfMonth)
-        updateTimeDisplay()
-    }
-
-    override fun onTimeSet(view: TimePickerDialog?, hourOfDay: Int, minute: Int, second: Int) {
-        entryTime = TimeHandler.instance.changeFormatTime(entryTime, getString(R.string.format_time_api), hourOfDay, minute)
-        updateTimeDisplay()
-    }
-
     override fun onBackPressed() {
         if (objects.all { obj -> obj.value.second != false }) {
             finish()
         } else {
-            val view = layoutInflater.inflate(R.layout.dialog_save_change, null)
-            MaterialHandler.instance.handleTextInputLayoutSize(view as ViewGroup)
-            val dialog = AlertDialog.Builder(this@NewEntryActivity).setView(view).create()
-            dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-            view.saveChangeNegativeButton.setOnClickListener {
-                finish()
-            }
-            view.saveChangePositiveButton.setOnClickListener {
-                saveEntry(true)
-                dialog.dismiss()
-            }
-            dialog.show()
+            DialogHandler.dialogSaveChange(this, layoutInflater, { saveEntry(true) }, { finish() })
         }
     }
 }

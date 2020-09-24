@@ -7,7 +7,7 @@
     style="@style/EmptyBackgroundTheme">
 
     <LinearLayout
-        android:id="@+id/changePictureLayout"
+        android:id="@+id/dialogConfirmLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
@@ -16,21 +16,22 @@
         style="@style/EmptyBackgroundTheme">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/logoutTextLayout"
+            android:id="@+id/dialogConfirmTextLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingBottom="@dimen/margin_size"
             style="@style/BackgroundDialogTheme">
 
             <TextView
-                android:id="@+id/logoutText"
+                android:id="@+id/dialogConfirmText"
                 style="@style/SubtitleTheme"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/half_margin_size"
-                android:layout_marginEnd="@dimen/half_margin_size"
                 android:layout_marginTop="@dimen/half_margin_size"
-                android:text="@string/logout_confirm"
+                android:paddingStart="@dimen/half_margin_size"
+                android:paddingEnd="@dimen/margin_size"
+                android:text="@string/placeholder_text"
+                android:textAlignment="center"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -38,7 +39,7 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <LinearLayout
-            android:id="@+id/logoutButtonLayout"
+            android:id="@+id/dialogConfirmButtonLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -48,17 +49,17 @@
             style="@style/EmptyBackgroundTheme">
 
             <ImageButton
-                android:id="@+id/logoutNegativeButton"
+                android:id="@+id/dialogConfirmNegativeButton"
                 style="@style/ImageButtonTheme"
                 android:layout_marginEnd="@dimen/half_margin_size"
-                android:contentDescription="@string/new_picture"
+                android:contentDescription="@string/placeholder_text"
                 android:src="@drawable/ic_close"/>
 
             <ImageButton
-                android:id="@+id/logoutPositiveButton"
+                android:id="@+id/dialogConfirmPositiveButton"
                 style="@style/ImageButtonAltTheme"
                 android:layout_marginEnd="@dimen/half_margin_size"
-                android:contentDescription="@string/picture_gallery"
+                android:contentDescription="@string/placeholder_text"
                 android:src="@drawable/ic_check"/>
 
         </LinearLayout>

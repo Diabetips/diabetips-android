@@ -12,8 +12,6 @@ import com.bumptech.glide.load.model.GlideUrl
 import com.bumptech.glide.load.model.LazyHeaders
 import com.bumptech.glide.request.RequestOptions
 import com.epitech.diabetips.R
-import com.epitech.diabetips.managers.AuthManager
-import com.github.kittinunf.fuel.core.FuelManager
 import java.io.ByteArrayOutputStream
 
 

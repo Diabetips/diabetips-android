@@ -11,7 +11,7 @@ abstract class ANavigationFragment(val fragmentType: FragmentType) : Fragment() 
 
     protected fun createFragmentView(layoutId: Int, inflater: LayoutInflater, container: ViewGroup?): View {
         val view = inflater.inflate(layoutId, container, false)
-        MaterialHandler.instance.handleTextInputLayoutSize(view as ViewGroup)
+        MaterialHandler.handleTextInputLayoutSize(view as ViewGroup)
         return view;
     }
 

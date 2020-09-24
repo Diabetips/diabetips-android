@@ -37,10 +37,10 @@ class HomeFragment : ANavigationFragment(FragmentType.HOME) {
         view.openDashboardButton.setOnClickListener {
             startActivity(Intent(requireContext(), DashboardFragment::class.java))
         }
-        ChartHandler.instance.handleLineChartStyle(view.sugarLineChart, requireContext())
+        ChartHandler.handleLineChartStyle(view.sugarLineChart, requireContext())
         //Draw empty chart
         val interval: Pair<Long, Long> = entriesManager.getPage()!!.getTimestampInterval(requireContext())
-        ChartHandler.instance.updateChartData(listOf(), interval, view.sugarLineChart, requireContext())
+        ChartHandler.updateChartData(listOf(), interval, view.sugarLineChart, requireContext())
         //Call Api to update chart
         updateChart()
 
@@ -59,7 +59,7 @@ class HomeFragment : ANavigationFragment(FragmentType.HOME) {
     private fun itemsUpdateTrigger(reset: Boolean, items: Array<EntryObject>) {
         val interval: Pair<Long, Long> = entriesManager.getPage()!!.getTimestampInterval(requireContext())
         view?.sugarLineChart?.let {
-            ChartHandler.instance.updateChartData(items.sortedBy{ it.time }, interval, it, requireContext())
+            ChartHandler.updateChartData(items.sortedBy{ it.time }, interval, it, requireContext())
             loading = false
         }
     }
