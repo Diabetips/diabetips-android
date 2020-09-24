@@ -7,6 +7,7 @@ import com.epitech.diabetips.adapters.DashboardGroupedItemsAdapter
 import com.epitech.diabetips.storages.EntryObject
 import com.epitech.diabetips.managers.EntriesManager
 import com.epitech.diabetips.utils.ADiabetipsActivity
+import com.epitech.diabetips.utils.ObjectType
 import com.epitech.diabetips.utils.PaginationScrollListener
 import com.epitech.diabetips.utils.TimeHandler
 import kotlin.collections.ArrayList
@@ -30,7 +31,7 @@ class EventNotebookActivity : ADiabetipsActivity(R.layout.activity_event_noteboo
         entriesManager = EntriesManager(context = this) { items, reset ->
                 setItemsInDashBoardAdapter(reset, items)
             }
-        entriesManager.deactivate(EntryObject.Type.SUGAR)
+        entriesManager.deactivate(ObjectType.SUGAR)
         entriesManager.getPage()?.setInterval(
             LocalDate.now(ZoneOffset.UTC).atStartOfDay().minusDays(7).format(DateTimeFormatter.ISO_DATE_TIME),
             LocalDate.now(ZoneOffset.UTC).atStartOfDay().plusDays(2).format(DateTimeFormatter.ISO_DATE_TIME))

@@ -16,10 +16,7 @@ import com.epitech.diabetips.storages.*
 import com.epitech.diabetips.utils.*
 import kotlinx.android.synthetic.main.activity_new_meal.*
 
-class NewMealActivity : ADiabetipsActivity(R.layout.activity_new_meal){
-
-    enum class DisplayMode {CONTENT, NUTRITION}
-    enum class RequestCode {SEARCH_RECIPE, EDIT_RECIPE, SEARCH_FOOD}
+class NewMealActivity : ADiabetipsActivity(R.layout.activity_new_meal) {
 
     private var mealId: Int = 0
     private var saved: Boolean? = null
@@ -40,7 +37,7 @@ class NewMealActivity : ADiabetipsActivity(R.layout.activity_new_meal){
         }
         addRecipeButton.setOnClickListener {
             startActivityForResult(Intent(this, RecipeActivity::class.java)
-                .putExtra(getString(R.string.param_mode), IRecipe.ActivityMode.SELECT),
+                .putExtra(getString(R.string.param_mode), ActivityMode.SELECT),
                 RequestCode.SEARCH_RECIPE.ordinal)
         }
         newMealToggleContent.setOnClickListener {
@@ -53,9 +50,9 @@ class NewMealActivity : ADiabetipsActivity(R.layout.activity_new_meal){
             layoutManager = LinearLayoutManager(this@NewMealActivity)
             adapter = MealRecipeAdapter { mealRecipeObject ->
                 val intent = Intent(this@NewMealActivity, NewRecipeActivity::class.java)
-                intent.putExtra(getString(R.string.param_mode), NewRecipeActivity.ActivityMode.MEAL_RECIPE)
+                intent.putExtra(getString(R.string.param_mode), ActivityMode.MEAL_RECIPE)
                 intent.putExtra(getString(R.string.param_recipe), mealRecipeObject)
-                startActivityForResult(intent, RequestCode.EDIT_RECIPE.ordinal)
+                startActivityForResult(intent, RequestCode.UPDATE_RECIPE.ordinal)
             }
             (adapter as MealRecipeAdapter).setVisibilityElements(recipeListEmptyLayout, recipeList)
             addItemDecoration(DividerItemDecorator(ContextCompat.getDrawable(this@NewMealActivity, R.drawable.list_divider)!!))
@@ -173,7 +170,7 @@ class NewMealActivity : ADiabetipsActivity(R.layout.activity_new_meal){
                 val mealRecipe = MealRecipeObject(portions_eaten = recipe.portions, recipe = recipe)
                 (recipeList.adapter as MealRecipeAdapter).addRecipe(mealRecipe)
                 updateNutritionalValueDisplay()
-            } else if (requestCode == RequestCode.EDIT_RECIPE.ordinal) {
+            } else if (requestCode == RequestCode.UPDATE_RECIPE.ordinal) {
                 saved = false
                 (recipeList.adapter as MealRecipeAdapter).updateRecipe(data?.getSerializableExtra(getString(R.string.param_recipe)) as MealRecipeObject)
                 updateNutritionalValueDisplay()

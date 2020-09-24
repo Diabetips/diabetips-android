@@ -9,8 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.epitech.diabetips.R
 import com.epitech.diabetips.storages.PaginationObject
-import com.epitech.diabetips.utils.ADiabetipsActivity
-import com.epitech.diabetips.utils.IRecipe
+import com.epitech.diabetips.utils.*
 import com.google.android.material.button.MaterialButton
 import kotlinx.android.synthetic.main.activity_recipe.*
 import kotlinx.android.synthetic.main.activity_recipe.recipeSearchList as searchList
@@ -22,8 +21,8 @@ import kotlinx.android.synthetic.main.activity_recipe.recipeTogglePersonal as to
 
 class RecipeActivity : ADiabetipsActivity(R.layout.activity_recipe), IRecipe {
 
-    override lateinit var activityMode: IRecipe.ActivityMode
-    override lateinit var searchMode: IRecipe.SearchMode
+    override lateinit var activityMode: ActivityMode
+    override lateinit var displayMode: DisplayMode
     override lateinit var page: PaginationObject
     override lateinit var recipeActivity: Activity
     override lateinit var recipeContext: Context
@@ -41,7 +40,7 @@ class RecipeActivity : ADiabetipsActivity(R.layout.activity_recipe), IRecipe {
             finish()
         }
         newRecipeButton.setOnClickListener {
-            startActivityForResult(Intent(this, NewRecipeActivity::class.java), IRecipe.RequestCode.NEW_RECIPE.ordinal)
+            startActivityForResult(Intent(this, NewRecipeActivity::class.java), RequestCode.NEW_RECIPE.ordinal)
         }
         recipeNotFoundButton.setOnClickListener {
             newRecipeButton.callOnClick()

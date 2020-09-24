@@ -1,6 +1,5 @@
 package com.epitech.diabetips.holders
 
-import android.graphics.PorterDuff
 import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.View
@@ -12,6 +11,7 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.epitech.diabetips.R
 import com.epitech.diabetips.storages.EntryObject
+import com.epitech.diabetips.utils.ObjectType
 import kotlinx.android.synthetic.main.grouped_items_dashboard.view.*
 
 class DashboardGroupedItemsViewHolder (var inflater: LayoutInflater, var parent: ViewGroup)
@@ -21,7 +21,7 @@ class DashboardGroupedItemsViewHolder (var inflater: LayoutInflater, var parent:
         var icon: ImageView,
         var quantity: TextView,
         var color: Int,
-        var type: EntryObject.Type,
+        var type: ObjectType,
         var activated: Boolean = false,
         var resetDisplay: Boolean = true)
 
@@ -39,10 +39,10 @@ class DashboardGroupedItemsViewHolder (var inflater: LayoutInflater, var parent:
         itemView.dateGroupedItems.text = date
 
         topbarItems = listOf(
-            ItemInfo(itemView.foodIcon, itemView.foodQuantity, R.color.colorPrimary, EntryObject.Type.MEAL),
-            ItemInfo(itemView.insulinIcon, itemView.insulinQuantity, R.color.colorAccent, EntryObject.Type.INSULIN_FAST),
-            ItemInfo(itemView.insulinIcon, itemView.insulinQuantity, R.color.colorAccent, EntryObject.Type.INSULIN_SLOW, resetDisplay = false),
-            ItemInfo(itemView.commentIcon, itemView.commentQuantity, R.color.searchBarSearchIconTintColor, EntryObject.Type.COMMENT)
+            ItemInfo(itemView.foodIcon, itemView.foodQuantity, R.color.colorPrimary, ObjectType.MEAL),
+            ItemInfo(itemView.insulinIcon, itemView.insulinQuantity, R.color.colorAccent, ObjectType.INSULIN_FAST),
+            ItemInfo(itemView.insulinIcon, itemView.insulinQuantity, R.color.colorAccent, ObjectType.INSULIN_SLOW, resetDisplay = false),
+            ItemInfo(itemView.commentIcon, itemView.commentQuantity, R.color.searchBarSearchIconTintColor, ObjectType.NOTE)
         )
         topbarItems.forEach {
             setupIcon(it)
@@ -76,7 +76,7 @@ class DashboardGroupedItemsViewHolder (var inflater: LayoutInflater, var parent:
     }
 
     fun changeState(expand: Boolean) {
-        topbarItems.forEach() {item ->
+        topbarItems.forEach { item ->
             setItemVisibility(item, !expand)
         }
     }

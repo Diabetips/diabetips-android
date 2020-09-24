@@ -12,12 +12,12 @@ import com.epitech.diabetips.fragments.RecipeFragment
 import com.epitech.diabetips.managers.FavoriteManager
 import com.epitech.diabetips.services.NfcReaderService
 import com.epitech.diabetips.services.NotificationService
-import com.epitech.diabetips.services.PENDING_INTENT_TECH_DISCOVERED
 import com.epitech.diabetips.storages.FCMTokenObject
 import com.epitech.diabetips.storages.NotificationObject
 import com.epitech.diabetips.storages.PaginationObject
 import com.epitech.diabetips.utils.ADiabetipsActivity
 import com.epitech.diabetips.utils.ANavigationFragment
+import com.epitech.diabetips.utils.RequestCode
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.iid.FirebaseInstanceId
 import kotlinx.android.synthetic.main.activity_navigation.*
@@ -130,14 +130,11 @@ class NavigationActivity : ADiabetipsActivity(R.layout.activity_navigation), me.
         nfcReader!!.onNewIntent(intent)
     }
 
-    override fun onActivityResult(
-        requestCode: Int,
-        resultCode: Int,
-        data: Intent?
-    ) {
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         when (requestCode) {
-            PENDING_INTENT_TECH_DISCOVERED -> nfcReader!!.onNewIntent(data)
+            RequestCode.NFC_READER.ordinal -> nfcReader!!.onNewIntent(data)
+            else -> (supportFragmentManager.findFragmentById(R.id.navigationFragment) as ANavigationFragment?)?.onActivityResult(requestCode, resultCode, data)
         }
     }
 

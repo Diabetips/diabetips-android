@@ -31,10 +31,6 @@ import java.io.InputStream
 
 class NewRecipeActivity : ADiabetipsActivity(R.layout.activity_new_recipe) {
 
-    enum class ActivityMode {RECIPE, MEAL_RECIPE}
-    enum class DisplayMode {CONTENT, NUTRITION}
-    enum class RequestCode {SEARCH_FOOD, GET_IMAGE, GET_PHOTO}
-
     private var saved: Boolean? = null
     private var changedPicture: Boolean = false
     private var activityMode: ActivityMode = ActivityMode.RECIPE
@@ -58,26 +54,8 @@ class NewRecipeActivity : ADiabetipsActivity(R.layout.activity_new_recipe) {
             updateNutritionalValueDisplay()
         }
         imagePhotoRecipe.setOnClickListener {
-            DialogHandler.createDialog(this, layoutInflater, R.layout.dialog_change_picture) { view, dialog ->
-                view.newPictureButton.setOnClickListener {
-                    val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-                    startActivityForResult(intent, RequestCode.GET_PHOTO.ordinal)
-                    dialog.dismiss()
-                }
-                view.pictureGalleryButton.setOnClickListener {
-                    val intent = Intent(Intent.ACTION_GET_CONTENT)
-                    intent.type = "image/*"
-                    startActivityForResult(intent, RequestCode.GET_IMAGE.ordinal)
-                    dialog.dismiss()
-                }
-                view.deletePictureButton.setOnClickListener {
-                    if (!changedPicture) {
-                        dialog.dismiss()
-                    } else if (recipe.id == 0) {
-                        changedPicture = false
-                        loadImage()
-                        dialog.dismiss()
-                    }
+            DialogHandler.dialogChangePicture(this, layoutInflater, this) {
+                if (recipe.id > 0) {
                     RecipeService.instance.removePicture<RecipeObject>(recipe.id).doOnSuccess {
                         if (it.second.component2() == null) {
                             changedPicture = false
@@ -86,10 +64,11 @@ class NewRecipeActivity : ADiabetipsActivity(R.layout.activity_new_recipe) {
                         } else {
                             Toast.makeText(this, it.second.component2()!!.exception.message, Toast.LENGTH_SHORT).show()
                         }
-                        dialog.dismiss()
                     }.subscribe()
+                } else if (changedPicture && recipe.id == 0) {
+                    changedPicture = false
+                    loadImage()
                 }
-                dialog.show()
             }
         }
         addFoodButton.setOnClickListener {

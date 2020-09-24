@@ -7,6 +7,7 @@ import com.epitech.diabetips.services.InsulinService
 import com.epitech.diabetips.services.MealService
 import com.epitech.diabetips.services.NoteService
 import com.epitech.diabetips.storages.*
+import com.epitech.diabetips.utils.ObjectType
 import com.epitech.diabetips.utils.toInt
 import com.github.kittinunf.fuel.core.FuelError
 import com.github.kittinunf.fuel.core.Response
@@ -23,7 +24,7 @@ class EntriesManager(
     data class EntryManager(
         var page: PaginationObject,
         val getter: (PaginationObject) -> DashboardItemsResponse,
-        val type: EntryObject.Type,
+        val type: ObjectType,
         var activated: Boolean = true) {
          fun needRefresh(): Boolean {
              return activated && !page.isLast()
@@ -37,14 +38,14 @@ class EntriesManager(
                 context.resources.getInteger(R.integer.pagination_default))
 
         itemsManagers = arrayOf(
-            EntryManager(page!!.copy(), ::getSugars, EntryObject.Type.SUGAR),
-            EntryManager(page!!.copy(), ::getMeals, EntryObject.Type.MEAL),
-            EntryManager(page!!.copy(), ::getInsulins, EntryObject.Type.INSULIN),
-            EntryManager(page!!.copy(), ::getComments, EntryObject.Type.COMMENT)
+            EntryManager(page!!.copy(), ::getSugars, ObjectType.SUGAR),
+            EntryManager(page!!.copy(), ::getMeals, ObjectType.MEAL),
+            EntryManager(page!!.copy(), ::getInsulins, ObjectType.INSULIN),
+            EntryManager(page!!.copy(), ::getComments, ObjectType.NOTE)
         )
     }
 
-    fun deactivate(type: EntryObject.Type) {
+    fun deactivate(type: ObjectType) {
         itemsManagers.find { it.type === type }?.activated = false
     }
 

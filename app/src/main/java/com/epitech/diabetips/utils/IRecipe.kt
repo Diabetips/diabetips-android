@@ -24,12 +24,8 @@ import kotlinx.android.synthetic.main.activity_recipe.view.*
 
 interface IRecipe {
 
-    enum class ActivityMode {SELECT, UPDATE}
-    enum class SearchMode {ALL, FAVORITE, PERSONAL}
-    enum class RequestCode {NEW_RECIPE, UPDATE_RECIPE}
-
     var activityMode: ActivityMode
-    var searchMode: SearchMode
+    var displayMode: DisplayMode
     var page: PaginationObject
     var recipeActivity: Activity
     var recipeContext: Context
@@ -42,7 +38,7 @@ interface IRecipe {
 
 
     fun initView(activity: Activity, context: Context, searchView: SearchView, recyclerView: RecyclerView, swipeRefreshLayout: SwipeRefreshLayout, recipeToggleAll: MaterialButton, recipeToggleFavorite: MaterialButton, recipeTogglePersonal: MaterialButton) {
-        searchMode = SearchMode.ALL
+        displayMode = DisplayMode.ALL
         this.recipeContext = context
         this.recipeActivity = activity
         this.recipeSearchView = searchView
@@ -79,22 +75,22 @@ interface IRecipe {
 
     private fun initToggleButtons() {
         recipeToggleAll.setOnClickListener {
-            changeSearchMode(SearchMode.ALL)
+            changeSearchMode(DisplayMode.ALL)
         }
         recipeToggleFavorite.setOnClickListener {
-            changeSearchMode(SearchMode.FAVORITE)
+            changeSearchMode(DisplayMode.FAVORITE)
         }
         recipeTogglePersonal.setOnClickListener {
-            changeSearchMode(SearchMode.PERSONAL)
+            changeSearchMode(DisplayMode.PERSONAL)
         }
         changeSearchMode()
     }
 
-    private fun changeSearchMode(newSearchMode: SearchMode = searchMode) {
-        searchMode = newSearchMode
-        recipeToggleAll.isChecked = (searchMode == SearchMode.ALL)
-        recipeToggleFavorite.isChecked = (searchMode == SearchMode.FAVORITE)
-        recipeTogglePersonal.isChecked = (searchMode == SearchMode.PERSONAL)
+    private fun changeSearchMode(newDisplayMode: DisplayMode = displayMode) {
+        displayMode = newDisplayMode
+        recipeToggleAll.isChecked = (displayMode == DisplayMode.ALL)
+        recipeToggleFavorite.isChecked = (displayMode == DisplayMode.FAVORITE)
+        recipeTogglePersonal.isChecked = (displayMode == DisplayMode.PERSONAL)
         getRecipe()
     }
 
@@ -131,10 +127,11 @@ interface IRecipe {
             page.reset()
         else
             page.nextPage()
-        when (searchMode) {
-            SearchMode.ALL -> RecipeService.instance.getAll<RecipeObject>(page, recipeSearchView.query.toString()).doOnSuccess { displayResult(it, resetPage) }.subscribe()
-            SearchMode.FAVORITE -> UserService.instance.getUserFavoriteRecipe(page, recipeSearchView.query.toString()).doOnSuccess { displayResult(it, resetPage) }.subscribe()
-            SearchMode.PERSONAL -> UserService.instance.getUserRecipe(page, recipeSearchView.query.toString()).doOnSuccess { displayResult(it, resetPage) }.subscribe()
+        when (displayMode) {
+            DisplayMode.ALL -> RecipeService.instance.getAll<RecipeObject>(page, recipeSearchView.query.toString()).doOnSuccess { displayResult(it, resetPage) }.subscribe()
+            DisplayMode.FAVORITE -> UserService.instance.getUserFavoriteRecipe(page, recipeSearchView.query.toString()).doOnSuccess { displayResult(it, resetPage) }.subscribe()
+            DisplayMode.PERSONAL -> UserService.instance.getUserRecipe(page, recipeSearchView.query.toString()).doOnSuccess { displayResult(it, resetPage) }.subscribe()
+            else -> changeSearchMode(DisplayMode.ALL)
         }
     }
 

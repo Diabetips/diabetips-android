@@ -32,7 +32,7 @@ class HomeFragment : ANavigationFragment(FragmentType.HOME) {
         }
         view.viewRecipeButton.setOnClickListener {
             startActivity(Intent(requireContext(), RecipeActivity::class.java)
-                .putExtra(getString(R.string.param_mode), IRecipe.ActivityMode.UPDATE))
+                .putExtra(getString(R.string.param_mode), ActivityMode.UPDATE))
         }
         view.openDashboardButton.setOnClickListener {
             startActivity(Intent(requireContext(), DashboardFragment::class.java))

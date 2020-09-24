@@ -20,13 +20,13 @@ import com.epitech.diabetips.freestylelibre.GlucoseData
 import com.epitech.diabetips.freestylelibre.RawTagData
 import com.epitech.diabetips.freestylelibre.SensorData
 import com.epitech.diabetips.storages.BloodSugarObject
+import com.epitech.diabetips.utils.RequestCode
 import com.epitech.diabetips.utils.TimeHandler
 import java.io.*
 import java.util.*
 import kotlin.experimental.and
 
 var NFC_USE_MULTI_BLOCK_READ = true
-var PENDING_INTENT_TECH_DISCOVERED = 1
 
 class NfcReaderService(var context: Context, myIntent: Intent, var activity: Activity, private val GlucoseUpdated: () -> Unit) {
     val MIME_TEXT_PLAIN = "text/plain"
@@ -118,7 +118,7 @@ class NfcReaderService(var context: Context, myIntent: Intent, var activity: Act
      * @param adapter The [NfcAdapter] used for the foreground dispatch.
      */
     private fun setupForegroundDispatch(activity: Activity, adapter: NfcAdapter?) {
-        val pi: PendingIntent = activity.createPendingResult(PENDING_INTENT_TECH_DISCOVERED, Intent(), 0)
+        val pi: PendingIntent = activity.createPendingResult(RequestCode.NFC_READER.ordinal, Intent(), 0)
         if (updateNfcStatus()) {
             try {
                 mNfcAdapter?.enableForegroundDispatch(

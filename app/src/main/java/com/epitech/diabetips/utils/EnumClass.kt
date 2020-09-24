@@ -1,0 +1,6 @@
+package com.epitech.diabetips.utils
+
+enum class RequestCode { SEARCH_FOOD, SEARCH_RECIPE, NEW_RECIPE, UPDATE_RECIPE, NEW_MEAL, UPDATE_MEAL, GET_IMAGE, GET_PHOTO, NFC_READER}
+enum class DisplayMode { ALL, FAVORITE, PERSONAL, CONTENT, NUTRITION }
+enum class ActivityMode { SELECT, UPDATE, RECIPE, MEAL_RECIPE }
+enum class ObjectType { INSULIN, INSULIN_SLOW, INSULIN_FAST, SUGAR, MEAL, NOTE, EVENT }

@@ -56,7 +56,7 @@ class ChartHandler {
 
             val lineData = LineData()
 
-            val bloodValues: List<BloodSugarObject> = items.filter { it.type == EntryObject.Type.SUGAR }
+            val bloodValues: List<BloodSugarObject> = items.filter { it.type == ObjectType.SUGAR }
                 .map { it.orignal as (BloodSugarObject) }
             val bloodValuesChunks = cutBloodValuesIntoChunks(bloodValues, 1800f, context)
             for (bloodValueChunk in bloodValuesChunks) {
@@ -67,10 +67,10 @@ class ChartHandler {
                 drawLimits(lineData)
 
             val punctualInfo = mapOf(
-                EntryObject.Type.MEAL to ContextCompat.getColor(context, R.color.colorPrimary),
-                EntryObject.Type.INSULIN_FAST to ContextCompat.getColor(context, R.color.colorAccent),
-                EntryObject.Type.INSULIN_SLOW to ContextCompat.getColor(context, R.color.colorAccentLight),
-                EntryObject.Type.COMMENT to ContextCompat.getColor(context, R.color.colorBackgroundDarkLight))
+                ObjectType.MEAL to ContextCompat.getColor(context, R.color.colorPrimary),
+                ObjectType.INSULIN_FAST to ContextCompat.getColor(context, R.color.colorAccent),
+                ObjectType.INSULIN_SLOW to ContextCompat.getColor(context, R.color.colorAccentLight),
+                ObjectType.NOTE to ContextCompat.getColor(context, R.color.colorBackgroundDarkLight))
             for (info in punctualInfo) {
                 val filteredItems: List<EntryObject> = items.filter { it.type == info.key }
                 lineData.addDataSet(generatePonctualDataset(filteredItems, intervalTimeStamp, info.value, context))

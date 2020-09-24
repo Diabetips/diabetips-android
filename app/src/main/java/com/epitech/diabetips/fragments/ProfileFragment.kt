@@ -28,16 +28,12 @@ import com.epitech.diabetips.textWatchers.PasswordConfirmWatcher
 import com.epitech.diabetips.textWatchers.PasswordWatcher
 import com.epitech.diabetips.utils.*
 import com.google.android.material.appbar.AppBarLayout
-import kotlinx.android.synthetic.main.dialog_change_comment.view.*
-import kotlinx.android.synthetic.main.dialog_change_picture.view.*
 import kotlinx.android.synthetic.main.fragment_profile.view.*
 import kotlinx.android.synthetic.main.dialog_menu.view.*
 import java.io.InputStream
 import kotlin.math.abs
 
 class ProfileFragment : ANavigationFragment(FragmentType.PROFILE) {
-
-    enum class RequestCode { GET_IMAGE, GET_PHOTO }
 
     private var loading: Boolean = false
 
@@ -61,7 +57,7 @@ class ProfileFragment : ANavigationFragment(FragmentType.PROFILE) {
                 view.birthDateProfileInput.clearFocus()
                 DialogHandler.datePickerDialog(requireContext(), requireActivity().supportFragmentManager,
                     TimeHandler.instance.changeTimeFormat(view.birthDateProfileInput.text.toString(), getString(R.string.format_date_birth), getString(R.string.format_time_api))
-                        ?: TimeHandler.instance.currentTimeFormat(getString(R.string.format_time_api)), view.changeCommentTimeDate) { time ->
+                        ?: TimeHandler.instance.currentTimeFormat(getString(R.string.format_time_api))) { time ->
                     this.view?.birthDateProfileInput?.setText(TimeHandler.instance.changeTimeFormat(time, getString(R.string.format_time_api), getString(R.string.format_date_birth)))
                 }
             }
@@ -89,31 +85,17 @@ class ProfileFragment : ANavigationFragment(FragmentType.PROFILE) {
 
     private fun handleProfileImage(view: View) {
         view.imagePhotoProfile.setOnClickListener {
-            DialogHandler.createDialog(requireContext(), layoutInflater, R.layout.dialog_change_picture) { view, dialog ->
-                view.newPictureButton.setOnClickListener {
-                    val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-                    startActivityForResult(intent, RequestCode.GET_PHOTO.ordinal)
-                    dialog.dismiss()
-                }
-                view.pictureGalleryButton.setOnClickListener {
-                    val intent = Intent(Intent.ACTION_GET_CONTENT)
-                    intent.type = "image/*"
-                    startActivityForResult(intent, RequestCode.GET_IMAGE.ordinal)
-                    dialog.dismiss()
-                }
-                view.deletePictureButton.setOnClickListener {
-                    loading = true
-                    UserService.instance.removePicture<UserObject>("me").doOnSuccess {
-                        if (it.second.component2() == null) {
-                            Toast.makeText(requireContext(), R.string.remove_profile_picture, Toast.LENGTH_SHORT).show()
-                            setAccountInfo(UserManager.instance.getUser(requireContext()))
-                        } else {
-                            Toast.makeText(requireContext(), it.second.component2()!!.exception.message, Toast.LENGTH_SHORT).show()
-                        }
-                        loading = false
-                        dialog.dismiss()
-                    }.subscribe()
-                }
+            DialogHandler.dialogChangePicture(requireContext(), layoutInflater, requireActivity()) {
+                loading = true
+                UserService.instance.removePicture<UserObject>("me").doOnSuccess {
+                    if (it.second.component2() == null) {
+                        Toast.makeText(requireContext(), R.string.remove_profile_picture, Toast.LENGTH_SHORT).show()
+                        setAccountInfo(UserManager.instance.getUser(requireContext()))
+                    } else {
+                        Toast.makeText(requireContext(), it.second.component2()!!.exception.message, Toast.LENGTH_SHORT).show()
+                    }
+                    loading = false
+                }.subscribe()
             }
         }
     }

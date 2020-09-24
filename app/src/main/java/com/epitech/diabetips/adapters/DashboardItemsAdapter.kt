@@ -78,12 +78,13 @@ class DashboardItemsAdapter(
 
         holder.itemView.setOnClickListener {
             when (items[position].type) {
-                    EntryObject.Type.MEAL -> launchMeal(items[position])
-                    EntryObject.Type.COMMENT -> changeComment(items[position], position)
-                    EntryObject.Type.INSULIN -> changeInsulin(items[position], position)
-                    EntryObject.Type.INSULIN_SLOW -> changeInsulin(items[position], position)
-                    EntryObject.Type.INSULIN_FAST -> changeInsulin(items[position], position)
-                    EntryObject.Type.SUGAR -> TODO()
+                ObjectType.MEAL -> launchMeal(items[position])
+                ObjectType.NOTE -> changeComment(items[position], position)
+                ObjectType.INSULIN -> changeInsulin(items[position], position)
+                ObjectType.INSULIN_SLOW -> changeInsulin(items[position], position)
+                ObjectType.INSULIN_FAST -> changeInsulin(items[position], position)
+                ObjectType.EVENT -> TODO()
+                ObjectType.SUGAR -> TODO()
             }
         }
     }

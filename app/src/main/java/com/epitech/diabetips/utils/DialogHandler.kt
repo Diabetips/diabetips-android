@@ -1,20 +1,33 @@
 package com.epitech.diabetips.utils
 
+import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.core.app.ActivityCompat
+import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.epitech.diabetips.R
 import com.epitech.diabetips.adapters.NutritionalAdapter
+import com.epitech.diabetips.fragments.ProfileFragment
+import com.epitech.diabetips.managers.UserManager
+import com.epitech.diabetips.services.RecipeService
+import com.epitech.diabetips.services.UserService
 import com.epitech.diabetips.storages.IngredientObject
+import com.epitech.diabetips.storages.RecipeObject
+import com.epitech.diabetips.storages.UserObject
 import com.epitech.diabetips.textWatchers.NumberWatcher
 import com.epitech.diabetips.textWatchers.TextChangedWatcher
+import kotlinx.android.synthetic.main.dialog_change_picture.view.*
 import kotlinx.android.synthetic.main.dialog_confirm.view.*
 import kotlinx.android.synthetic.main.dialog_save_change.view.*
 import kotlinx.android.synthetic.main.dialog_select_quantity.view.*
@@ -53,6 +66,26 @@ class DialogHandler {
                 }
                 view.saveChangePositiveButton.setOnClickListener {
                     positiveCallback.invoke()
+                    dialog.dismiss()
+                }
+            }
+        }
+
+        fun dialogChangePicture(context: Context, layoutInflater: LayoutInflater, activity: Activity, deleteCallback: (() -> Unit)) {
+            createDialog(context, layoutInflater, R.layout.dialog_change_picture) { view, dialog ->
+                view.newPictureButton.setOnClickListener {
+                    val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+                    ActivityCompat.startActivityForResult(activity, intent, RequestCode.GET_PHOTO.ordinal, null)
+                    dialog.dismiss()
+                }
+                view.pictureGalleryButton.setOnClickListener {
+                    val intent = Intent(Intent.ACTION_GET_CONTENT)
+                    intent.type = "image/*"
+                    ActivityCompat.startActivityForResult(activity, intent, RequestCode.GET_IMAGE.ordinal, null)
+                    dialog.dismiss()
+                }
+                view.deletePictureButton.setOnClickListener {
+                    deleteCallback.invoke()
                     dialog.dismiss()
                 }
             }

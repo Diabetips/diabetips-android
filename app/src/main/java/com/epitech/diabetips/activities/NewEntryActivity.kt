@@ -15,15 +15,10 @@ import com.epitech.diabetips.storages.InsulinObject
 import com.epitech.diabetips.storages.MealObject
 import com.epitech.diabetips.storages.NoteObject
 import com.epitech.diabetips.textWatchers.TextChangedWatcher
-import com.epitech.diabetips.utils.ADiabetipsActivity
-import com.epitech.diabetips.utils.DialogHandler
-import com.epitech.diabetips.utils.TimeHandler
+import com.epitech.diabetips.utils.*
 import kotlinx.android.synthetic.main.activity_new_entry.*
 
 class NewEntryActivity : ADiabetipsActivity(R.layout.activity_new_entry) {
-
-    enum class RequestCode {NEW_MEAL, UPDATE_MEAL}
-    enum class ObjectType {MEAL, SLOW_INSULIN, FAST_INSULIN, NOTE, EVENT}
 
     private val objects: MutableMap<ObjectType, Triple<Int, Boolean?, Boolean>> = mutableMapOf()
     private var entryTime: String = ""
@@ -80,8 +75,8 @@ class NewEntryActivity : ADiabetipsActivity(R.layout.activity_new_entry) {
 
     private fun initObjectMap() {
         changeObjectMapValue(ObjectType.MEAL, Triple<Int, Boolean?, Boolean>(0, null, false))
-        changeObjectMapValue(ObjectType.SLOW_INSULIN, Triple<Int, Boolean?, Boolean>(0, null, false))
-        changeObjectMapValue(ObjectType.FAST_INSULIN, Triple<Int, Boolean?, Boolean>(0, null, false))
+        changeObjectMapValue(ObjectType.INSULIN_SLOW, Triple<Int, Boolean?, Boolean>(0, null, false))
+        changeObjectMapValue(ObjectType.INSULIN_FAST, Triple<Int, Boolean?, Boolean>(0, null, false))
         changeObjectMapValue(ObjectType.NOTE, Triple<Int, Boolean?, Boolean>(0, null, false))
         changeObjectMapValue(ObjectType.EVENT, Triple<Int, Boolean?, Boolean>(0, null, false))
     }
@@ -93,12 +88,12 @@ class NewEntryActivity : ADiabetipsActivity(R.layout.activity_new_entry) {
 
     private fun addTextChangedListener() {
         insulinSlowEntryInput.addTextChangedListener(TextChangedWatcher {
-            changeObjectMapValue(ObjectType.SLOW_INSULIN, Triple(objects[ObjectType.SLOW_INSULIN]!!.first,
-                if (((it.toString().toIntOrNull() ?: 0 > 0) || objects[ObjectType.SLOW_INSULIN]!!.first > 0)) false else null, false))
+            changeObjectMapValue(ObjectType.INSULIN_SLOW, Triple(objects[ObjectType.INSULIN_SLOW]!!.first,
+                if (((it.toString().toIntOrNull() ?: 0 > 0) || objects[ObjectType.INSULIN_SLOW]!!.first > 0)) false else null, false))
         })
         insulinFastEntryInput.addTextChangedListener(TextChangedWatcher {
-            changeObjectMapValue(ObjectType.FAST_INSULIN, Triple(objects[ObjectType.FAST_INSULIN]!!.first,
-                if (((it.toString().toIntOrNull() ?: 0) > 0 || objects[ObjectType.FAST_INSULIN]!!.first > 0)) false else null, false))
+            changeObjectMapValue(ObjectType.INSULIN_FAST, Triple(objects[ObjectType.INSULIN_FAST]!!.first,
+                if (((it.toString().toIntOrNull() ?: 0) > 0 || objects[ObjectType.INSULIN_FAST]!!.first > 0)) false else null, false))
         })
         commentEntryInput.addTextChangedListener(TextChangedWatcher {
             changeObjectMapValue(ObjectType.NOTE, Triple(objects[ObjectType.NOTE]!!.first,
@@ -129,9 +124,9 @@ class NewEntryActivity : ADiabetipsActivity(R.layout.activity_new_entry) {
     }
 
     private fun saveEntry(finishView: Boolean = false) {
-        if (objects[ObjectType.SLOW_INSULIN]!!.second == false && !objects[ObjectType.SLOW_INSULIN]!!.third)
+        if (objects[ObjectType.INSULIN_SLOW]!!.second == false && !objects[ObjectType.INSULIN_SLOW]!!.third)
             saveInsulin(getSlowInsulin(), finishView)
-        if (objects[ObjectType.FAST_INSULIN]!!.second == false && !objects[ObjectType.FAST_INSULIN]!!.third)
+        if (objects[ObjectType.INSULIN_FAST]!!.second == false && !objects[ObjectType.INSULIN_FAST]!!.third)
             saveInsulin(getFastInsulin(), finishView)
         if (objects[ObjectType.NOTE]!!.second == false && !objects[ObjectType.NOTE]!!.third)
             saveNote(finishView)
@@ -142,7 +137,7 @@ class NewEntryActivity : ADiabetipsActivity(R.layout.activity_new_entry) {
     }
 
     private fun getSlowInsulin() : InsulinObject {
-        return InsulinObject(objects[ObjectType.SLOW_INSULIN]!!.first,
+        return InsulinObject(objects[ObjectType.INSULIN_SLOW]!!.first,
             "",
             insulinSlowEntryInput.text.toString().toIntOrNull()?: 0,
             entryTime,
@@ -150,7 +145,7 @@ class NewEntryActivity : ADiabetipsActivity(R.layout.activity_new_entry) {
     }
 
     private fun getFastInsulin() : InsulinObject {
-       return InsulinObject(objects[ObjectType.FAST_INSULIN]!!.first,
+       return InsulinObject(objects[ObjectType.INSULIN_FAST]!!.first,
             "",
             insulinFastEntryInput.text.toString().toIntOrNull()?: 0,
            entryTime,
@@ -158,7 +153,7 @@ class NewEntryActivity : ADiabetipsActivity(R.layout.activity_new_entry) {
     }
 
     private fun saveInsulin(insulin: InsulinObject, finishView: Boolean = false) {
-        val objectType: ObjectType = if (insulin.type == InsulinObject.Type.slow.name) ObjectType.SLOW_INSULIN else ObjectType.FAST_INSULIN
+        val objectType: ObjectType = if (insulin.type == InsulinObject.Type.slow.name) ObjectType.INSULIN_SLOW else ObjectType.INSULIN_FAST
         objects[objectType] = objects[objectType]!!.copy(third = true)
         InsulinService.instance.createOrUpdate(insulin, insulin.id).doOnSuccess {
             if (it.second.component2() == null) {
@@ -166,7 +161,7 @@ class NewEntryActivity : ADiabetipsActivity(R.layout.activity_new_entry) {
                 displaySavedMessage(finishView)
             } else {
                 Toast.makeText(this, it.second.component2()!!.exception.message, Toast.LENGTH_SHORT).show()
-                objects[objectType] = objects[ObjectType.SLOW_INSULIN]!!.copy(third = false)
+                objects[objectType] = objects[ObjectType.INSULIN_SLOW]!!.copy(third = false)
             }
         }.subscribe()
     }
