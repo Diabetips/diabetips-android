@@ -118,7 +118,7 @@ class NewMealActivity : ADiabetipsActivity(R.layout.activity_new_meal){
             if (mealId > 0 && meal.foods.isNotEmpty())
                 (mealFoodList.adapter as RecipeFoodAdapter).setFoods(meal.foods)
         }
-        deleteNewMealButton.visibility = if (mealId > 0) View.VISIBLE else View.INVISIBLE
+        deleteNewMealButton.visibility = if (mealId > 0) View.INVISIBLE else View.GONE //TODO change to allow for deletion of meals
         TimeHandler.instance.updateTimeDisplay(this, mealTime, newMealTimeDate, newMealTimeHour)
         updateNutritionalValueDisplay()
     }
