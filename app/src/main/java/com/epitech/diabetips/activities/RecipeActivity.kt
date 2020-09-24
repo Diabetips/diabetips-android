@@ -11,12 +11,14 @@ import com.epitech.diabetips.R
 import com.epitech.diabetips.storages.PaginationObject
 import com.epitech.diabetips.utils.ADiabetipsActivity
 import com.epitech.diabetips.utils.IRecipe
+import com.google.android.material.button.MaterialButton
 import kotlinx.android.synthetic.main.activity_recipe.*
-import me.ibrahimsn.lib.SmoothBottomBar
 import kotlinx.android.synthetic.main.activity_recipe.recipeSearchList as searchList
 import kotlinx.android.synthetic.main.activity_recipe.recipeSearchView as searchView
 import kotlinx.android.synthetic.main.activity_recipe.recipeSwipeRefresh as swipeRefresh
-import kotlinx.android.synthetic.main.activity_recipe.recipeSelectionBar as selectionBar
+import kotlinx.android.synthetic.main.activity_recipe.recipeToggleAll as toggleAll
+import kotlinx.android.synthetic.main.activity_recipe.recipeToggleFavorite as toggleFavorite
+import kotlinx.android.synthetic.main.activity_recipe.recipeTogglePersonal as togglePersonal
 
 class RecipeActivity : ADiabetipsActivity(R.layout.activity_recipe), IRecipe {
 
@@ -28,11 +30,13 @@ class RecipeActivity : ADiabetipsActivity(R.layout.activity_recipe), IRecipe {
     override lateinit var recipeSearchView: SearchView
     override lateinit var recipeSearchList: RecyclerView
     override lateinit var recipeSwipeRefresh: SwipeRefreshLayout
-    override lateinit var recipeSelectionBar: SmoothBottomBar
+    override lateinit var recipeToggleAll: MaterialButton
+    override lateinit var recipeToggleFavorite: MaterialButton
+    override lateinit var recipeTogglePersonal: MaterialButton
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        initView(this, this, searchView, searchList, swipeRefresh, selectionBar)
+        initView(this, this, searchView, searchList, swipeRefresh, toggleAll, toggleFavorite, togglePersonal)
         closeRecipeButton.setOnClickListener {
             finish()
         }

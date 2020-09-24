@@ -7,7 +7,7 @@ import java.io.Serializable
 
 data class BloodSugarObject (
     var value: Int = 0,
-    var start: Long? = null,
+    var start: String = "",
     var interval: Int? = null,
     var time: String = "",
     var measures: Array<Int> = arrayOf()) : Serializable {

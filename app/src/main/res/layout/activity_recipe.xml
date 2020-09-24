@@ -56,13 +56,31 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <me.ibrahimsn.lib.SmoothBottomBar
-        android:id="@+id/recipeSelectionBar"
-        style="@style/SmoothBottomBarTheme"
-        app:menu="@menu/recipe"
+    <LinearLayout
+        android:id="@+id/recipeToggleGroupLayout"
+        style="@style/ToggleBackgroundTheme"
+        android:layout_marginStart="@dimen/half_margin_size"
+        android:layout_marginEnd="@dimen/half_margin_size"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/recipeActionBar"/>
+        app:layout_constraintTop_toBottomOf="@+id/recipeActionBar">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/recipeToggleAll"
+            style="@style/MaterialButtonToggleTheme"
+            android:text="@string/recipe_all"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/recipeToggleFavorite"
+            style="@style/MaterialButtonToggleTheme"
+            android:text="@string/recipe_favorite"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/recipeTogglePersonal"
+            style="@style/MaterialButtonToggleTheme"
+            android:visibility="gone"
+            android:text="@string/recipe_personal"/>
+
+    </LinearLayout>
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/recipeSwipeRefresh"
@@ -71,7 +89,7 @@
         android:layout_height="0dp"
         android:visibility="visible"
         app:layout_constraintBottom_toTopOf="@+id/navigationRecipeLayout"
-        app:layout_constraintTop_toBottomOf="@+id/recipeSelectionBar">
+        app:layout_constraintTop_toBottomOf="@+id/recipeToggleGroupLayout">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recipeSearchList"

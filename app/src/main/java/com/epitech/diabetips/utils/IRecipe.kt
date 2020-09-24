@@ -19,10 +19,10 @@ import com.epitech.diabetips.storages.RecipeObject
 import com.github.kittinunf.fuel.core.FuelError
 import com.github.kittinunf.fuel.core.Response
 import com.github.kittinunf.result.Result
+import com.google.android.material.button.MaterialButton
 import kotlinx.android.synthetic.main.activity_recipe.view.*
-import me.ibrahimsn.lib.SmoothBottomBar
 
-interface IRecipe : me.ibrahimsn.lib.OnItemSelectedListener {
+interface IRecipe {
 
     enum class ActivityMode {SELECT, UPDATE}
     enum class SearchMode {ALL, FAVORITE, PERSONAL}
@@ -36,21 +36,25 @@ interface IRecipe : me.ibrahimsn.lib.OnItemSelectedListener {
     var recipeSearchView: SearchView
     var recipeSearchList: RecyclerView
     var recipeSwipeRefresh: SwipeRefreshLayout
-    var recipeSelectionBar: SmoothBottomBar
+    var recipeToggleAll: MaterialButton
+    var recipeToggleFavorite: MaterialButton
+    var recipeTogglePersonal: MaterialButton
 
 
-    fun initView(activity: Activity, context: Context, searchView: SearchView, recyclerView: RecyclerView, swipeRefreshLayout: SwipeRefreshLayout, selectionBar: SmoothBottomBar) {
+    fun initView(activity: Activity, context: Context, searchView: SearchView, recyclerView: RecyclerView, swipeRefreshLayout: SwipeRefreshLayout, recipeToggleAll: MaterialButton, recipeToggleFavorite: MaterialButton, recipeTogglePersonal: MaterialButton) {
         searchMode = SearchMode.ALL
         this.recipeContext = context
         this.recipeActivity = activity
         this.recipeSearchView = searchView
         this.recipeSearchList = recyclerView
         this.recipeSwipeRefresh = swipeRefreshLayout
-        this.recipeSelectionBar = selectionBar
+        this.recipeToggleAll = recipeToggleAll
+        this.recipeToggleFavorite = recipeToggleFavorite
+        this.recipeTogglePersonal = recipeTogglePersonal
         page = PaginationObject(recipeContext.resources.getInteger(R.integer.pagination_size), recipeContext.resources.getInteger(R.integer.pagination_default))
         getParams()
         initSearchList()
-        recipeSelectionBar.onItemSelectedListener = this
+        initToggleButtons()
         recipeSearchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextChange(s: String): Boolean {
                 return true
@@ -71,6 +75,27 @@ interface IRecipe : me.ibrahimsn.lib.OnItemSelectedListener {
         } else {
             activityMode = ActivityMode.UPDATE
         }
+    }
+
+    private fun initToggleButtons() {
+        recipeToggleAll.setOnClickListener {
+            changeSearchMode(SearchMode.ALL)
+        }
+        recipeToggleFavorite.setOnClickListener {
+            changeSearchMode(SearchMode.FAVORITE)
+        }
+        recipeTogglePersonal.setOnClickListener {
+            changeSearchMode(SearchMode.PERSONAL)
+        }
+        changeSearchMode()
+    }
+
+    private fun changeSearchMode(newSearchMode: SearchMode = searchMode) {
+        searchMode = newSearchMode
+        recipeToggleAll.isChecked = (searchMode == SearchMode.ALL)
+        recipeToggleFavorite.isChecked = (searchMode == SearchMode.FAVORITE)
+        recipeTogglePersonal.isChecked = (searchMode == SearchMode.PERSONAL)
+        getRecipe()
     }
 
     private fun initSearchList() {
@@ -122,16 +147,6 @@ interface IRecipe : me.ibrahimsn.lib.OnItemSelectedListener {
                 (recipeSearchList.adapter as RecipeAdapter).addRecipes(result.second.component1()!!)
         }
         recipeSwipeRefresh.isRefreshing = false
-    }
-
-    override fun onItemSelect(pos: Int) : Boolean {
-        when (pos) {
-            SearchMode.ALL.ordinal -> searchMode = SearchMode.ALL
-            SearchMode.FAVORITE.ordinal -> searchMode = SearchMode.FAVORITE
-            SearchMode.PERSONAL.ordinal -> searchMode = SearchMode.PERSONAL
-        }
-        getRecipe()
-        return true
     }
 
     fun onRecipeActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

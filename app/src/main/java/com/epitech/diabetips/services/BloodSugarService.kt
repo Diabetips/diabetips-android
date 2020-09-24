@@ -15,9 +15,8 @@ class BloodSugarService : AService("/users/me/blood_sugar") {
         return getRequest("?${page.getRequestParameters()}")
     }
 
-    fun getMeasures(timestamp: Int) : FuelResponse<BloodSugarObject> {
-
-        return getRequest()
+    fun getLastMeasure() : FuelResponse<BloodSugarObject> {
+        return getRequest("/last")
     }
 
     fun postMeasures(biometric: BloodSugarObject) : FuelResponse<BloodSugarObject> {

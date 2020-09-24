@@ -20,6 +20,7 @@ import com.epitech.diabetips.freestylelibre.GlucoseData
 import com.epitech.diabetips.freestylelibre.RawTagData
 import com.epitech.diabetips.freestylelibre.SensorData
 import com.epitech.diabetips.storages.BloodSugarObject
+import com.epitech.diabetips.utils.TimeHandler
 import java.io.*
 import java.util.*
 import kotlin.experimental.and
@@ -245,7 +246,10 @@ class NfcReaderService(var context: Context, myIntent: Intent, var activity: Act
                 Toast.makeText(context, context.getString(R.string.sensor_not_ready), Toast.LENGTH_SHORT).show()
                 return null
             }
-            bs.start = sensor.startDate / 1000 + glucoseDatas[0].date * 60
+            bs.start = TimeHandler.instance.addMinuteToFormat(
+                TimeHandler.instance.formatTimestamp(sensor.startDate, context.getString(R.string.format_time_api)),
+                context.getString(R.string.format_time_api),
+                glucoseDatas[0].date.toInt())
             bs.measures = glucoseLevels.map { it -> it / 10 }.toTypedArray()
             Log.d("MEASURES", bs.measures.joinToString(","))
             Log.d("LAST", bs.measures[bs.measures.size - 1].toString())
