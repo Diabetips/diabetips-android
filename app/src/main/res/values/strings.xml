@@ -194,6 +194,7 @@
     <string name="nutritional_saturated_fat">Saturated fat</string>
     <string name="nutritional_fiber">Dietary Fibers</string>
     <string name="nutritional_protein">Proteins</string>
+    <string name="nutritional_score">Nutri-Score</string>
     <string name="toggle_content">Content</string>
     <string name="toggle_nutrition">Nutrition</string>
     <!--meal / recipe / food screen end-->

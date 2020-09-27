@@ -5,7 +5,6 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
-import android.provider.MediaStore
 import android.text.InputType
 import android.view.View
 import android.widget.ImageView
@@ -26,7 +25,6 @@ import com.epitech.diabetips.textWatchers.InputWatcher
 import com.epitech.diabetips.textWatchers.NumberWatcher
 import com.epitech.diabetips.utils.*
 import kotlinx.android.synthetic.main.activity_new_recipe.*
-import kotlinx.android.synthetic.main.dialog_change_picture.view.*
 import java.io.InputStream
 
 class NewRecipeActivity : ADiabetipsActivity(R.layout.activity_new_recipe) {
@@ -85,13 +83,13 @@ class NewRecipeActivity : ADiabetipsActivity(R.layout.activity_new_recipe) {
         }
         foodList.apply {
             layoutManager = LinearLayoutManager(this@NewRecipeActivity)
-            adapter = RecipeFoodAdapter {ingredientObject, textQuantity ->
+            adapter = RecipeFoodAdapter (onItemClickListener = { ingredientObject, textQuantity ->
                 DialogHandler.dialogSelectQuantity(this@NewRecipeActivity, layoutInflater, ingredientObject) {
                     saved = false
                     textQuantity?.text = "${ingredientObject.quantity} ${ingredientObject.food.unit}"
                     updateNutritionalValueDisplay()
                 }
-            }
+            }, onItemRemovedListener =  { updateNutritionalValueDisplay() })
             (adapter as RecipeFoodAdapter).setVisibilityElements(foodListEmptyLayout, foodList)
             addItemDecoration(DividerItemDecorator(ContextCompat.getDrawable(this@NewRecipeActivity, R.drawable.list_divider)!!))
         }
@@ -129,7 +127,7 @@ class NewRecipeActivity : ADiabetipsActivity(R.layout.activity_new_recipe) {
                 (foodList.adapter as RecipeFoodAdapter).setFoods(mealRecipe.getIngredients())
                 newRecipePortion.inputType = (InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_DECIMAL)
                 newRecipePortionLayout.suffixText = "/ ${recipe.portions.toInt()}"
-                newRecipePortion.setText(mealRecipe.portions_eaten.toString())
+                newRecipePortion.setText(mealRecipe.portions_eaten.toBigDecimal().stripTrailingZeros().toPlainString())
             } else {
                 recipe = (intent.getSerializableExtra(getString(R.string.param_recipe)) as RecipeObject)
                 newRecipeName.setText(recipe.name)

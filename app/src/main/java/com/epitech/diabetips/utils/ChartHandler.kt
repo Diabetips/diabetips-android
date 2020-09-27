@@ -105,7 +105,7 @@ class ChartHandler {
             if (bloodValues.isEmpty())
                 return chunks
             var lastValue: BloodSugarObject = bloodValues[0]
-            var lastChunkIndex: Int = 0
+            var lastChunkIndex = 0
             for ((index, value) in bloodValues.withIndex().drop(1)) {
                 if (TimeHandler.instance.getSecondDiffFormat(value.time, lastValue.time, context.getString(R.string.format_time_api)) > limit) {
                     chunks.add(bloodValues.subList(lastChunkIndex, index - 1))

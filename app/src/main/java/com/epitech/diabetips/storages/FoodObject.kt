@@ -32,6 +32,7 @@ data class FoodObject (
             nutritionalValues.add(NutritionalObject(NutritionalObject.NutritionalType.FIBER, fiber_100g!! * multiplier))
         if (proteins_100g != null)
             nutritionalValues.add(NutritionalObject(NutritionalObject.NutritionalType.PROTEIN, proteins_100g!! * multiplier))
+        nutritionalValues.add(NutritionalObject(NutritionalObject.NutritionalType.NUTRI_SCORE, nutriscore?.get(0)?.toFloat() ?: 0f))
         return nutritionalValues
     }
 }

@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.epitech.diabetips.R
 import com.epitech.diabetips.storages.NutritionalObject
 import kotlinx.android.synthetic.main.item_nutritional.view.*
+import kotlin.math.roundToInt
 import kotlin.math.roundToLong
 
 class NutritionalItemViewHolder(inflater: LayoutInflater, parent: ViewGroup)
@@ -41,13 +42,39 @@ class NutritionalItemViewHolder(inflater: LayoutInflater, parent: ViewGroup)
             NutritionalObject.NutritionalType.SATURATED_FAT -> changeNutritionalValue(R.string.nutritional_saturated_fat, R.color.colorPrimary, nutrition.value, R.string.unit_g, true)
             NutritionalObject.NutritionalType.FIBER -> changeNutritionalValue(R.string.nutritional_fiber, R.color.colorWarm, nutrition.value, R.string.unit_g)
             NutritionalObject.NutritionalType.PROTEIN -> changeNutritionalValue(R.string.nutritional_protein, R.color.colorGreen, nutrition.value, R.string.unit_g)
+            NutritionalObject.NutritionalType.NUTRI_SCORE -> changeNutriScore(nutrition.value)
         }
     }
 
     private fun changeNutritionalValue(nameId: Int, colorId: Int, value: Float, unitId: Int, isChild: Boolean = false, displayPercent: Boolean = true) {
+        val progress = (if (displayPercent) (value / nutritionalQuantity * 100f).toInt() else (nutritionalProgressBar?.max ?: 0))
+        val text = "${value.roundToLong()} ${context.getString(unitId)}${if (displayPercent) " • ${progress}%" else ""}"
+        changeNutritionalDisplay(nameId, colorId, text, progress, isChild)
+    }
+
+    private fun changeNutriScore(value: Float) {
+        val text = when (value) {
+            !in 'A'.toFloat()..'E'.toFloat() -> "?"
+            value.roundToInt().toFloat() -> "${value.roundToInt().toChar()}"
+            in Float.MIN_VALUE..value.roundToInt().toFloat() -> "${value.roundToInt().toChar()}+"
+            else -> "${value.roundToInt().toChar()}-"
+        }
+        val colorId = when (text[0]) {
+            'A' -> R.color.colorGreen
+            'B' -> R.color.colorGreen
+            'C' -> R.color.colorAccent
+            'D' -> R.color.colorWarm
+            'E' -> R.color.colorWarm
+            else -> R.color.colorHint
+        }
+        val progress = if (value in 'A'.toFloat()..'E'.toFloat()) (nutritionalProgressBar?.max ?: 0) else 0
+        changeNutritionalDisplay(R.string.nutritional_score, colorId, text, progress)
+    }
+
+    private fun changeNutritionalDisplay(nameId: Int, colorId: Int, value: String, progress: Int, isChild: Boolean = false) {
         nutritionalText?.setText(nameId)
-        nutritionalProgressBar?.progress = if (displayPercent) (value / nutritionalQuantity * 100f).toInt() else (nutritionalProgressBar?.max ?: 0)
-        nutritionalValueText?.text = "${value.roundToLong()} ${context.getString(unitId)}${if (displayPercent && nutritionalProgressBar != null) " • ${nutritionalProgressBar?.progress}%" else ""}"
+        nutritionalValueText?.text = value
+        nutritionalProgressBar?.progress = progress
         nutritionalProgressBar?.progressTintList = ColorStateList.valueOf(ContextCompat.getColor(context, colorId))
         nutritionalProgressBar?.progressBackgroundTintList = nutritionalProgressBar?.progressTintList?.withAlpha(128)
         nutritionalValueLayout?.apply {

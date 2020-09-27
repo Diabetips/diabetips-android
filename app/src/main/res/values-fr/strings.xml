@@ -128,7 +128,7 @@
     <string name="hypoglycemia">Hypoglycémie</string>
     <string name="change_insulin">Modifier l\'injection d\'insuline</string>
     <string name="recipe_all">Toutes</string>
-    <string name="recipe_favorite">Favorites</string>
+    <string name="recipe_favorite">Favoris</string>
     <string name="recipe_personal">Mes recettes</string>
     <string name="recipe_favorite_add">Recette ajouté aux favoris</string>
     <string name="recipe_favorite_remove">Recette retiré des favoris</string>
@@ -160,4 +160,5 @@
     <string name="insulin_delete">Êtes-vous sûr de vouloir supprimer cette injection ?</string>
     <string name="meal_delete">Êtes-vous certain de vouloir supprimer ce repas ?</string>
     <string name="hba1c_delete">Êtes-vous sûr de vouloir supprimer cette valeur d\'HbA1c ?</string>
+    <string name="nutritional_score">Nutri-Score</string>
 </resources>

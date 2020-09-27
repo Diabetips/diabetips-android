@@ -9,6 +9,7 @@ import com.epitech.diabetips.managers.UserManager
 import com.epitech.diabetips.managers.AuthManager
 import com.epitech.diabetips.managers.ModeManager
 import com.epitech.diabetips.storages.*
+import com.epitech.diabetips.utils.TimeHandler
 import org.junit.Assert.*
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -24,15 +25,22 @@ class InstrumentedUnitTest {
 
     private lateinit var instrumentationContext: Context
 
+    private var timeFormat: String = ""
+    private var currentTime: String = ""
+    private var currentTimestamp: Long = 0
     private val foodArray = arrayOf(FoodObject(1, "Food"), FoodObject(2), FoodObject(3))
-    private val ingredientArray = arrayOf(IngredientObject(5f, food = FoodObject(1, "Food")), IngredientObject(1f, food =  FoodObject(2, "Ingredient")), IngredientObject(8f, food = FoodObject(3)))
+    private val ingredientArray = arrayOf(IngredientObject(5f, food = FoodObject(1, "Food")), IngredientObject(1f, food = FoodObject(2, "Ingredient")), IngredientObject(8f, food = FoodObject(3)))
     private val recipeArray = arrayOf(RecipeObject(1, "Recipe"), RecipeObject(2), RecipeObject(3))
     private val mealRecipeArray = arrayOf(MealRecipeObject(0f, recipe = RecipeObject(1, "Recipe")), MealRecipeObject(0f, recipe = RecipeObject(2)), MealRecipeObject(0f, recipe = RecipeObject(3)))
     private val mealArray = arrayOf(MealObject(1, "", "Meal"), MealObject(2), MealObject(3))
+    private val hba1cArray = arrayOf(HbA1cObject(1, 5.5f), HbA1cObject(2, 10f), HbA1cObject(3, 7f))
 
     @Before
     fun setup() {
         instrumentationContext = InstrumentationRegistry.getInstrumentation().targetContext
+        timeFormat = instrumentationContext.getString(R.string.format_time_api)
+        currentTimestamp = TimeHandler.instance.currentTime()
+        currentTime = TimeHandler.instance.formatTimestamp(currentTimestamp, timeFormat)
     }
 
     @Test
@@ -157,6 +165,20 @@ class InstrumentedUnitTest {
     }
 
     @Test
+    fun hba1cAdapterSetHbA1c() {
+        val hbA1cAdapter = HbA1cAdapter()
+        hbA1cAdapter.setHbA1c(hba1cArray)
+        assertEquals(hba1cArray.size, hbA1cAdapter.itemCount)
+    }
+
+    @Test
+    fun hba1cAdapterAddHbA1c() {
+        val hbA1cAdapter = HbA1cAdapter()
+        hbA1cAdapter.addHbA1c(hba1cArray)
+        assertEquals(hba1cArray.size, hbA1cAdapter.itemCount)
+    }
+
+    @Test
     fun biometricObjectSex() {
         val biometric = BiometricObject(80, 175, 60, 180, "2020-10-05")
         biometric.setSex(instrumentationContext, instrumentationContext.resources.getStringArray(R.array.sex)[0])
@@ -168,5 +190,40 @@ class InstrumentedUnitTest {
         val biometric = BiometricObject(80, 175, 60, 180, "2020-10-05")
         biometric.setDiabetesType(instrumentationContext, instrumentationContext.resources.getStringArray(R.array.diabetes_type)[0])
         assertEquals("Wrong diabetes type", instrumentationContext.resources.getStringArray(R.array.diabetes_type)[0], biometric.getDiabetesType(instrumentationContext))
+    }
+
+    @Test
+    fun timeHandlerTimestampToTime() {
+        assertEquals("Wrong Timestamp to Time", currentTime, TimeHandler.instance.formatTimestamp(currentTimestamp, timeFormat))
+    }
+
+    @Test
+    fun timeHandlerTimeToTimestamp() {
+        assertEquals("Wrong Time to Timestamp", currentTimestamp, TimeHandler.instance.getTimestampFromFormat(currentTime, timeFormat))
+    }
+
+    @Test
+    fun timeHandlerChangeDate() {
+        assertEquals("Wrong Change Date",
+            TimeHandler.instance.changeTimestampDate(currentTimestamp, 2000, 9, 12),
+            TimeHandler.instance.getTimestampFromFormat(TimeHandler.instance.changeFormatDate(currentTime, timeFormat, 2000, 9, 12), timeFormat))
+    }
+
+    @Test
+    fun timeHandlerChangeTime() {
+        assertEquals("Wrong Change Time",
+            TimeHandler.instance.changeTimestampTime(currentTimestamp, 12, 30),
+            TimeHandler.instance.getTimestampFromFormat(TimeHandler.instance.changeFormatTime(currentTime, timeFormat, 12, 30), timeFormat))
+    }
+
+    @Test
+    fun timeHandlerSecondDiff() {
+        assertEquals("Wrong Second Diff",
+            TimeHandler.instance.getSecondDiffFormat(
+                TimeHandler.instance.changeFormatTime(currentTime, timeFormat, 12, 0),
+                TimeHandler.instance.changeFormatTime(currentTime, timeFormat, 14, 30), timeFormat),
+            TimeHandler.instance.getSecondDiff(
+                TimeHandler.instance.changeTimestampTime(currentTimestamp, 12, 0),
+                TimeHandler.instance.changeTimestampTime(currentTimestamp, 14, 30)))
     }
 }

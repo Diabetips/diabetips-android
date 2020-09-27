@@ -27,10 +27,6 @@ class TimeHandler {
         return System.currentTimeMillis()
     }
 
-    fun currentTimeSecond() : Long {
-        return System.currentTimeMillis() / 1000
-    }
-
     fun currentTimeFormat(format: String) : String {
         return formatTimestamp(System.currentTimeMillis(), format)
     }
@@ -93,11 +89,11 @@ class TimeHandler {
     }
 
     fun getSecondDiffFormat(start: String, end: String, format: String): Long {
-        return ((getTimestampFromFormat(start, format) ?: currentTime()) - (getTimestampFromFormat(end, format) ?: 0)) / 1000
+        return getSecondDiff(getTimestampFromFormat(start, format) ?: currentTime(), getTimestampFromFormat(end, format) ?: currentTime())
     }
 
-    fun getTimestampDate(year: Int, month: Int, day: Int): Long {
-        return changeTimestampDate(currentTimeSecond(), year, month, day)
+    fun getSecondDiff(start: Long, end: Long): Long {
+        return (start - end) / 1000
     }
 
     fun changeFormatDate(date: String, format: String, year: Int, month: Int, day: Int): String {

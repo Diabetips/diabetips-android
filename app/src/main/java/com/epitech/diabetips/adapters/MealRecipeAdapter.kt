@@ -6,7 +6,8 @@ import com.epitech.diabetips.holders.MealRecipeItemViewHolder
 import com.epitech.diabetips.storages.MealRecipeObject
 
 class MealRecipeAdapter(private val recipes: ArrayList<MealRecipeObject> = arrayListOf(),
-                        private val onItemClickListener : ((MealRecipeObject) -> Unit)? = null)
+                        private val onItemClickListener : ((MealRecipeObject) -> Unit)? = null,
+                        private val onItemRemovedListener: (() -> Unit)? = null)
     : AVisibilityAdapter<MealRecipeItemViewHolder>() {
 
     override fun getItemCount(): Int = recipes.size
@@ -53,6 +54,7 @@ class MealRecipeAdapter(private val recipes: ArrayList<MealRecipeObject> = array
         holder.bind(recipes[position], onItemClickListener)
         holder.getMealRecipeButton()?.setOnClickListener {
             removeRecipe(position)
+            onItemRemovedListener?.invoke()
         }
     }
 

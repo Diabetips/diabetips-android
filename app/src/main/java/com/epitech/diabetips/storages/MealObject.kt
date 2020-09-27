@@ -59,28 +59,53 @@ data class MealObject (
         return quantity
     }
 
+    fun getNutriscore(): Float {
+        var nutriScore = 0f
+        var quantity = 0f
+        recipes.forEach { recipe ->
+            val recipeQuantity = recipe.getQuantity()
+            val recipeNutriScore = recipe.getNutriscore()
+            if (recipeNutriScore > 0f && recipeQuantity > 0f) {
+                quantity += recipeQuantity
+                nutriScore += recipeNutriScore * recipeQuantity
+            }
+        }
+        foods.forEach { ingredient ->
+            if (ingredient.food.nutriscore != null && ingredient.quantity > 0f) {
+                quantity += ingredient.quantity
+                nutriScore += ingredient.food.nutriscore!![0].toFloat() * ingredient.quantity
+            }
+        }
+        return if (quantity > 0) nutriScore / quantity else 0f
+    }
+
     fun getNutritionalValues() : ArrayList<NutritionalObject> {
         val nutritionalValues =  NutritionalObject.getDefaultValues()
         recipes.forEach { recipe ->
             recipe.getNutritionalValues().forEach { recipeNutrition ->
-                val index = nutritionalValues.indexOfFirst { it.type == recipeNutrition.type }
-                if (index >= 0) {
-                    nutritionalValues[index].value += recipeNutrition.value
-                } else {
-                    nutritionalValues.add(recipeNutrition)
+                if (recipeNutrition.type != NutritionalObject.NutritionalType.NUTRI_SCORE) {
+                    val index = nutritionalValues.indexOfFirst { it.type == recipeNutrition.type }
+                    if (index >= 0) {
+                        nutritionalValues[index].value += recipeNutrition.value
+                    } else {
+                        nutritionalValues.add(recipeNutrition)
+                    }
                 }
             }
         }
         foods.forEach { ingredient ->
             ingredient.getNutritionalValues().forEach { ingredientNutrition ->
-                val index = nutritionalValues.indexOfFirst { it.type == ingredientNutrition.type }
-                if (index >= 0) {
-                    nutritionalValues[index].value += ingredientNutrition.value
-                } else {
-                    nutritionalValues.add(ingredientNutrition)
+                if (ingredientNutrition.type != NutritionalObject.NutritionalType.NUTRI_SCORE) {
+                    val index = nutritionalValues.indexOfFirst { it.type == ingredientNutrition.type }
+                    if (index >= 0) {
+                        nutritionalValues[index].value += ingredientNutrition.value
+                    } else {
+                        nutritionalValues.add(ingredientNutrition)
+                    }
                 }
             }
         }
+        nutritionalValues.add(NutritionalObject(NutritionalObject.NutritionalType.NUTRI_SCORE, getNutriscore()))
         return nutritionalValues
     }
 }

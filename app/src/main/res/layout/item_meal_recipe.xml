@@ -42,7 +42,6 @@
         <TextView
             android:id="@+id/mealRecipeQuantity"
             style="@style/HintAltTheme"
-            android:visibility="invisible"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/half_margin_size"

@@ -120,7 +120,7 @@ class NewEntryActivity : ADiabetipsActivity(R.layout.activity_new_entry) {
     }
 
     private fun updateValidateDisplay() {
-        //validateNewEntryButton.isEnabled = (meal.id > 0 || objects.any { obj -> obj.value.second == false }) //TODO Uncomment to disable button when needed
+        validateNewEntryButton.isEnabled = (meal.id > 0 || objects.any { obj -> obj.value.second == false })
     }
 
     private fun saveEntry(finishView: Boolean = false) {

@@ -48,12 +48,12 @@ class NewMealActivity : ADiabetipsActivity(R.layout.activity_new_meal) {
         }
         recipeList.apply {
             layoutManager = LinearLayoutManager(this@NewMealActivity)
-            adapter = MealRecipeAdapter { mealRecipeObject ->
+            adapter = MealRecipeAdapter (onItemClickListener = { mealRecipeObject ->
                 val intent = Intent(this@NewMealActivity, NewRecipeActivity::class.java)
                 intent.putExtra(getString(R.string.param_mode), ActivityMode.MEAL_RECIPE)
                 intent.putExtra(getString(R.string.param_recipe), mealRecipeObject)
                 startActivityForResult(intent, RequestCode.UPDATE_RECIPE.ordinal)
-            }
+            }, onItemRemovedListener =  { updateNutritionalValueDisplay() })
             (adapter as MealRecipeAdapter).setVisibilityElements(recipeListEmptyLayout, recipeList)
             addItemDecoration(DividerItemDecorator(ContextCompat.getDrawable(this@NewMealActivity, R.drawable.list_divider)!!))
         }
@@ -65,13 +65,13 @@ class NewMealActivity : ADiabetipsActivity(R.layout.activity_new_meal) {
         }
         mealFoodList.apply {
             layoutManager = LinearLayoutManager(this@NewMealActivity)
-            adapter = RecipeFoodAdapter { ingredientObject, textQuantity ->
+            adapter = RecipeFoodAdapter (onItemClickListener = { ingredientObject, textQuantity ->
                 DialogHandler.dialogSelectQuantity(this@NewMealActivity, layoutInflater, ingredientObject) {
                     saved = false
                     textQuantity?.text = "${ingredientObject.quantity} ${ingredientObject.food.unit}"
                     updateNutritionalValueDisplay()
                 }
-            }
+            }, onItemRemovedListener =  { updateNutritionalValueDisplay() })
             (adapter as RecipeFoodAdapter).setVisibilityElements(mealFoodListEmptyLayout, mealFoodList)
             addItemDecoration(DividerItemDecorator(ContextCompat.getDrawable(this@NewMealActivity, R.drawable.list_divider)!!))
         }
@@ -115,7 +115,7 @@ class NewMealActivity : ADiabetipsActivity(R.layout.activity_new_meal) {
             if (mealId > 0 && meal.foods.isNotEmpty())
                 (mealFoodList.adapter as RecipeFoodAdapter).setFoods(meal.foods)
         }
-        deleteNewMealButton.visibility = if (mealId > 0) View.INVISIBLE else View.GONE //TODO change to allow for deletion of meals
+        deleteNewMealButton.visibility = if (mealId > 0) View.VISIBLE else View.GONE
         TimeHandler.instance.updateTimeDisplay(this, mealTime, newMealTimeDate, newMealTimeHour)
         updateNutritionalValueDisplay()
     }

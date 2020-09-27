@@ -160,4 +160,5 @@
     <string name="insulin_delete">Are you sure you want to delete this injection?</string>
     <string name="meal_delete">Are you sure you want to delete this meal?</string>
     <string name="hba1c_delete">Are you sure you want to delete this HbA1c value?</string>
+    <string name="nutritional_score">Nutri-Score</string>
 </resources>
