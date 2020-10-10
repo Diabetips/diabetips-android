@@ -291,10 +291,12 @@
 
     <style name="PasswordInputLayoutTheme" parent="TextInputLayoutTheme">
         <item name="endIconMode">password_toggle</item>
+        <item name="errorIconDrawable">@null</item>
     </style>
 
     <style name="PasswordInputNoHintLayoutTheme" parent="TextInputNoHintLayoutTheme">
         <item name="endIconMode">password_toggle</item>
+        <item name="errorIconDrawable">@null</item>
     </style>
 
     <style name="PasswordCounterInputLayoutTheme" parent="PasswordInputLayoutTheme">

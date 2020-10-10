@@ -27,6 +27,7 @@ import java.nio.charset.Charset
 class MainActivity : ADiabetipsActivity(R.layout.activity_main) {
 
     private var notification: NotificationObject = NotificationObject()
+    private var passwordWatcher: PasswordWatcher? = null
 
     companion object {
         var running = false
@@ -37,8 +38,9 @@ class MainActivity : ADiabetipsActivity(R.layout.activity_main) {
         super.onCreate(savedInstanceState)
         FuelManager.instance.basePath = getString(R.string.api_base_url)
         FuelManager.instance.baseHeaders = mapOf("Content-Type" to "application/json; charset=utf-8")
+        passwordWatcher = PasswordWatcher(this, passwordInputLayout)
+        passwordInput.addTextChangedListener(passwordWatcher)
         emailInput.addTextChangedListener(EmailWatcher(this, emailInputLayout))
-        passwordInput.addTextChangedListener(PasswordWatcher(this, passwordInputLayout))
         loginButton.setOnClickListener {
             login()
         }
@@ -86,7 +88,7 @@ class MainActivity : ADiabetipsActivity(R.layout.activity_main) {
                             emailInputLayout.error = getString(R.string.registration_incomplete)
                         } else {
                             emailInputLayout.error = getString(R.string.login_invalid)
-                            passwordInputLayout.error = getString(R.string.login_invalid)
+                            passwordWatcher?.setError(R.string.login_invalid)
                         }
                     } catch (e: Exception) {
                         Toast.makeText(this, getString(R.string.connexion_error), Toast.LENGTH_SHORT).show()

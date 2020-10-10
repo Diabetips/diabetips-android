@@ -13,10 +13,14 @@ open class InputWatcher(protected val context: Context?,
 
     override fun afterTextChanged(s: Editable?) {
         if (emptyCheck && s.toString().isBlank()) {
-            inputLayout.error = context?.getString(emptyErrorId)
+            setError(emptyErrorId)
         } else {
-            inputLayout.error = null
+            setError(null)
         }
+    }
+
+    open fun setError(errorId: Int?) {
+        inputLayout.error = if (errorId != null) context?.getString(errorId) else null
     }
 
     override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {

@@ -106,6 +106,7 @@ class ProfileFragment : ANavigationFragment(FragmentType.PROFILE) {
                     gravity = Gravity.TOP or Gravity.END
                     y = requireContext().resources.getDimension(R.dimen.input_size).toInt() + requireContext().resources.getDimension(R.dimen.half_margin_size).toInt()
                 }
+                view.menuBackground.setOnClickListener { dialog.dismiss() }
                 view.menuList.apply {
                     layoutManager = LinearLayoutManager(requireContext())
                     adapter = MenuAdapter(R.menu.profile, requireContext()) { item ->

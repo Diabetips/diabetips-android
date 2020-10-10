@@ -1,9 +1,8 @@
 package com.epitech.diabetips
 
 import com.epitech.diabetips.storages.*
-import org.junit.Test
-
 import org.junit.Assert.*
+import org.junit.Test
 
 /**
  * Local unit test, which will execute on the development machine.
