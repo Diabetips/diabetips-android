@@ -7,6 +7,7 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
 import com.epitech.diabetips.R
+import com.epitech.diabetips.managers.ModeManager
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog
 import java.text.SimpleDateFormat
@@ -60,7 +61,7 @@ class TimeHandler {
             calendar.get(Calendar.DAY_OF_MONTH)
         )
         datePickerDialog.version = DatePickerDialog.Version.VERSION_1
-        datePickerDialog.isThemeDark = AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES
+        datePickerDialog.isThemeDark = (ModeManager.instance.getDarkMode(context) == AppCompatDelegate.MODE_NIGHT_YES)
         datePickerDialog.accentColor = ContextCompat.getColor(context, R.color.colorPrimary)
         calendar.time = Calendar.getInstance().time
         calendar.add(Calendar.DATE, 1)
@@ -77,7 +78,7 @@ class TimeHandler {
             DateFormat.is24HourFormat(context)
         )
         timePickerDialog.version = TimePickerDialog.Version.VERSION_2
-        timePickerDialog.isThemeDark = AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES
+        timePickerDialog.isThemeDark = (ModeManager.instance.getDarkMode(context) == AppCompatDelegate.MODE_NIGHT_YES)
         timePickerDialog.accentColor = ContextCompat.getColor(context, R.color.colorPrimary)
         return timePickerDialog
     }

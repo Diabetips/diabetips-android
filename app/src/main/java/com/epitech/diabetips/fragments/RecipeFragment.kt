@@ -24,8 +24,8 @@ class RecipeFragment : ANavigationFragment(FragmentType.RECIPES), IRecipe {
     override lateinit var page: PaginationObject
     override lateinit var recipeActivity: Activity
     override lateinit var recipeContext: Context
-    override lateinit var recipeSearchList: RecyclerView
     override lateinit var recipeSearchView: SearchView
+    override lateinit var recipeSearchList: RecyclerView
     override lateinit var recipeSwipeRefresh: SwipeRefreshLayout
     override lateinit var recipeToggleAll: MaterialButton
     override lateinit var recipeToggleFavorite: MaterialButton

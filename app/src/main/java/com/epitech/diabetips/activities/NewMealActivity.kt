@@ -90,6 +90,7 @@ class NewMealActivity : ADiabetipsActivity(R.layout.activity_new_meal) {
                 MealService.instance.remove<MealObject>(mealId).doOnSuccess {
                     if (it.second.component2() == null) {
                         Toast.makeText(this, getString(R.string.deleted), Toast.LENGTH_SHORT).show()
+                        setResult(Activity.RESULT_OK, Intent())
                         finish()
                     } else {
                         Toast.makeText(this, it.second.component2()!!.exception.message, Toast.LENGTH_SHORT).show()

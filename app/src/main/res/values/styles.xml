@@ -3,7 +3,7 @@
         <item name="statusBarBackground">@null</item>
     </style>
 
-    <style name="MaterialTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="MaterialTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="colorPrimaryVariant">@color/colorPrimary</item>
         <item name="colorSecondaryVariant">@color/colorAccent</item>
         <item name="colorSurface">@color/colorBackground</item>
@@ -33,14 +33,17 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="colorWarm">@color/colorWarm</item>
         <item name="colorBackground">@color/colorBackground</item>
+        <item name="colorDialogBackground">@color/colorBackground</item>
         <item name="colorMainBackground">@color/colorPrimary</item>
         <item name="colorInputBackground">@color/colorBackground</item>
         <item name="colorNavigationBackground">@color/colorPrimaryLight</item>
         <item name="colorSearchBackground">@color/colorBackgroundSearch</item>
+        <item name="colorDarkBackground">@color/colorBackgroundSearch</item>
         <item name="colorCardBackground">@color/colorBackgroundCard</item>
         <item name="colorText">@color/colorTextDark</item>
         <item name="colorBackgroundText">@color/colorTextDark</item>
         <item name="colorNavigationText">@color/colorPrimary</item>
+        <item name="colorComment">@color/colorBackgroundDarkLight</item>
         <item name="colorHint">@color/colorHint</item>
         <item name="colorTextButton">@color/colorText</item>
         <item name="colorDivider">@color/colorDivider</item>
@@ -52,11 +55,14 @@
 
     <style name="DarkTheme" parent="AppTheme">
         <item name="colorBackground">@color/colorBackgroundDark</item>
+        <item name="colorDialogBackground">@color/colorBackgroundDarkLight</item>
         <item name="colorMainBackground">@color/colorBackgroundDarkLight</item>
         <item name="colorNavigationBackground">@color/colorBackgroundDarkLight</item>
         <item name="colorCardBackground">@color/colorBackgroundDarkLight</item>
+        <item name="colorDarkBackground">@color/colorBackgroundDarkGray</item>
         <item name="colorBackgroundText">@color/colorText</item>
         <item name="colorNavigationText">@color/colorText</item>
+        <item name="colorComment">@color/colorBackgroundSearch</item>
         <item name="imageBackground">@drawable/ic_background_black</item>
         <item name="imageMainBackground">@drawable/ic_background_black</item>
         <item name="imageHomeBackground">@drawable/ic_background_logo_black</item>
@@ -196,6 +202,7 @@
         <item name="android:layout_margin">0dp</item>
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_weight">1</item>
+        <item name="android:padding">0dp</item>
         <item name="android:checkable">true</item>
         <item name="android:elevation">0dp</item>
     </style>
@@ -337,12 +344,12 @@
         <item name="android:paddingBottom">@dimen/quarter_margin_size</item>
     </style>
 
-    <style name="TitleAppearance" parent="TextAppearance.MaterialComponents.Headline1">
+    <style name="TitleAppearance" parent="TextViewAltTheme">
         <item name="fontFamily">@font/muli_black</item>
         <item name="android:textSize">@dimen/title_size</item>
     </style>
 
-    <style name="SubtitleAppearance" parent="TextAppearance.MaterialComponents.Headline1">
+    <style name="SubtitleAppearance" parent="TextViewAltTheme">
         <item name="fontFamily">@font/muli_bold</item>
         <item name="android:textSize">@dimen/subtitle_size</item>
     </style>
@@ -445,19 +452,23 @@
         <item name="android:queryBackground">@android:color/transparent</item>
         <item name="queryBackground">@android:color/transparent</item>
         <item name="iconifiedByDefault">false</item>
+
+        <item name="android:editTextColor">?attr/colorBackgroundText</item>
+
     </style>
 
     <style name="SearchBarTheme" parent="MaterialSearchBarLight">
         <item name="android:layout_height">@dimen/action_bar_height</item>
         <item name="mt_maxSuggestionsCount">10</item>
         <item name="mt_searchBarColor">?attr/colorBackground</item>
-        <item name="mt_textColor">?attr/colorText</item>
+        <item name="mt_textColor">?attr/colorBackgroundText</item>
+        <item name="mt_hintColor">?attr/colorHint</item>
         <item name="mt_backIconDrawable">@null</item>
-        <item name="mt_backIconTint">?attr/colorText</item>
-        <item name="mt_navIconTint">?attr/colorText</item>
-        <item name="mt_searchIconTint">?attr/colorText</item>
-        <item name="mt_clearIconTint">?attr/colorText</item>
-        <item name="mt_menuIconTint">?attr/colorText</item>
+        <item name="mt_backIconTint">?attr/colorBackgroundText</item>
+        <item name="mt_navIconTint">?attr/colorBackgroundText</item>
+        <item name="mt_searchIconTint">?attr/colorBackgroundText</item>
+        <item name="mt_clearIconTint">?attr/colorBackgroundText</item>
+        <item name="mt_menuIconTint">?attr/colorBackgroundText</item>
     </style>
 
     <style name="SmoothBottomBarTheme" parent="ThemeOverlay.AppCompat.Dark">

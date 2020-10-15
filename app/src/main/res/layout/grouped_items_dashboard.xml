@@ -23,11 +23,10 @@
             style="@style/SoftTextAppearance"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
+            android:layout_marginStart="@dimen/half_margin_size"
             android:layout_weight="1"
             android:fontFamily="@font/rubik_regular"
-            android:text="TextView"
-            tools:text="04/18/2020" />
+            android:text="@string/placeholder_date"/>
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -39,6 +38,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:contentDescription="@string/placeholder_text"
                 app:srcCompat="@drawable/ic_fork" />
 
             <TextView
@@ -47,15 +47,16 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="16dp"
-                android:text="0" />
+                android:layout_marginStart="@dimen/quarter_margin_size"
+                android:layout_marginEnd="@dimen/half_margin_size"
+                android:text="@string/placeholder_number" />
 
             <ImageView
                 android:id="@+id/insulinIcon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:contentDescription="@string/placeholder_text"
                 app:srcCompat="@drawable/ic_syringe" />
 
             <TextView
@@ -64,15 +65,16 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="16dp"
-                android:text="0" />
+                android:layout_marginStart="@dimen/quarter_margin_size"
+                android:layout_marginEnd="@dimen/half_margin_size"
+                android:text="@string/placeholder_number"/>
 
             <ImageView
                 android:id="@+id/commentIcon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:contentDescription="@string/placeholder_text"
                 app:srcCompat="@drawable/ic_comment" />
 
             <TextView
@@ -81,21 +83,22 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="16dp"
-                android:text="0" />
+                android:layout_marginStart="@dimen/quarter_margin_size"
+                android:layout_marginEnd="@dimen/half_margin_size"
+                android:text="@string/placeholder_number" />
         </LinearLayout>
 
         <ImageView
             android:id="@+id/imageView2"
             style="@style/ImageButtonTransparentTheme"
             android:layout_width="wrap_content"
-            android:layout_height="48dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
+            android:layout_height="@dimen/image_size"
+            android:layout_marginStart="@dimen/half_margin_size"
+            android:layout_marginEnd="@dimen/half_margin_size"
             android:layout_weight="0"
             android:clickable="true"
             android:focusable="true"
+            android:contentDescription="@string/placeholder_text"
             app:srcCompat="@drawable/ic_keyboard_arrow_down" />
 
     </LinearLayout>

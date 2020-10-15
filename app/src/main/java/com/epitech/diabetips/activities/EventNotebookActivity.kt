@@ -1,15 +1,14 @@
 package com.epitech.diabetips.activities
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.epitech.diabetips.R
 import com.epitech.diabetips.adapters.DashboardGroupedItemsAdapter
 import com.epitech.diabetips.storages.EntryObject
 import com.epitech.diabetips.managers.EntriesManager
-import com.epitech.diabetips.utils.ADiabetipsActivity
-import com.epitech.diabetips.utils.ObjectType
-import com.epitech.diabetips.utils.PaginationScrollListener
-import com.epitech.diabetips.utils.TimeHandler
+import com.epitech.diabetips.utils.*
 import kotlin.collections.ArrayList
 import kotlinx.android.synthetic.main.activity_event_notebook.*
 import org.threeten.bp.LocalDate
@@ -76,5 +75,12 @@ class EventNotebookActivity : ADiabetipsActivity(R.layout.activity_event_noteboo
             return entriesManager.getItems(false)
         }
         itemsSwipeRefresh.isRefreshing = false
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == Activity.RESULT_OK && requestCode == RequestCode.UPDATE_MEAL.ordinal) {
+            getItems()
+        }
     }
 }

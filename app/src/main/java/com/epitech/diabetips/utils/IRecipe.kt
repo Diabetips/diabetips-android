@@ -149,10 +149,13 @@ interface IRecipe {
     fun onRecipeActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (resultCode == Activity.RESULT_OK) {
             if (requestCode == RequestCode.NEW_RECIPE.ordinal) {
-                selectRecipe(data?.getSerializableExtra(recipeContext.getString(R.string.param_recipe)) as RecipeObject)
+                if (activityMode == ActivityMode.UPDATE) {
+                    (recipeSearchList.adapter as RecipeAdapter).addRecipe(data?.getSerializableExtra(recipeContext.getString(R.string.param_recipe)) as RecipeObject)
+                } else {
+                    selectRecipe(data?.getSerializableExtra(recipeContext.getString(R.string.param_recipe)) as RecipeObject)
+                }
             } else if (requestCode == RequestCode.UPDATE_RECIPE.ordinal) {
-                (recipeSearchList.adapter as RecipeAdapter).updateRecipe(
-                    data?.getSerializableExtra(recipeContext.getString(R.string.param_recipe)) as RecipeObject)
+                (recipeSearchList.adapter as RecipeAdapter).updateRecipe(data?.getSerializableExtra(recipeContext.getString(R.string.param_recipe)) as RecipeObject)
             }
         }
     }

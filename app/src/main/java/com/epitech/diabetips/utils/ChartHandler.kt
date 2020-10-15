@@ -1,10 +1,16 @@
 package com.epitech.diabetips.utils
 
 import android.content.Context
+import android.graphics.Bitmap
 import android.graphics.Color
+import android.graphics.drawable.BitmapDrawable
+import android.graphics.drawable.Drawable
+import android.graphics.drawable.ScaleDrawable
+import android.graphics.drawable.VectorDrawable
 import android.text.format.DateFormat
 import android.util.TypedValue
 import androidx.core.content.ContextCompat
+import androidx.core.graphics.drawable.toBitmap
 import com.epitech.diabetips.R
 import com.epitech.diabetips.managers.UserManager
 import com.epitech.diabetips.storages.BloodSugarObject
@@ -38,6 +44,7 @@ class ChartHandler {
             lineChart.axisLeft.disableGridDashedLine()
             lineChart.axisLeft.setPosition(YAxis.YAxisLabelPosition.INSIDE_CHART)
             lineChart.axisLeft.setDrawLimitLinesBehindData(true)
+            lineChart.axisLeft.textColor = MaterialHandler.getColorFromAttribute(context, R.attr.colorBackgroundText)
             lineChart.axisRight.isEnabled = false
             lineChart.xAxis.disableGridDashedLine()
             lineChart.setDrawGridBackground(false)
@@ -45,6 +52,7 @@ class ChartHandler {
             lineChart.xAxis.setDrawAxisLine(false)
             lineChart.xAxis.position = XAxis.XAxisPosition.BOTTOM
             lineChart.xAxis.gridColor = ContextCompat.getColor(context, R.color.colorHint)
+            lineChart.xAxis.textColor = MaterialHandler.getColorFromAttribute(context, R.attr.colorBackgroundText)
             lineChart.axisLeft.setDrawZeroLine(false)
             lineChart.setDrawMarkers(true)
             lineChart.setDrawBorders(false)
@@ -67,10 +75,18 @@ class ChartHandler {
                 drawLimits(lineData)
 
             val punctualInfo = mapOf(
-                ObjectType.MEAL to ContextCompat.getColor(context, R.color.colorPrimary),
-                ObjectType.INSULIN_FAST to ContextCompat.getColor(context, R.color.colorAccent),
-                ObjectType.INSULIN_SLOW to ContextCompat.getColor(context, R.color.colorAccentLight),
-                ObjectType.NOTE to ContextCompat.getColor(context, R.color.colorBackgroundDarkLight))
+                ObjectType.MEAL to ContextCompat.getDrawable(context, R.drawable.ic_fork).apply {
+                    this?.setTint(ContextCompat.getColor(context, R.color.colorPrimary))
+                },
+                ObjectType.INSULIN_FAST to ContextCompat.getDrawable(context, R.drawable.ic_syringe).apply {
+                    this?.setTint(ContextCompat.getColor(context, R.color.colorAccent))
+                },
+                ObjectType.INSULIN_SLOW to ContextCompat.getDrawable(context, R.drawable.ic_syringe_alt).apply {
+                    this?.setTint(ContextCompat.getColor(context, R.color.colorAccentLight))
+                },
+                ObjectType.NOTE to ContextCompat.getDrawable(context, R.drawable.ic_comment).apply {
+                    this?.setTint(MaterialHandler.getColorFromAttribute(context, R.attr.colorComment))
+                })
             for (info in punctualInfo) {
                 val filteredItems: List<EntryObject> = items.filter { it.type == info.key }
                 lineData.addDataSet(generatePonctualDataset(filteredItems, intervalTimeStamp, info.value, context))
@@ -117,15 +133,16 @@ class ChartHandler {
             return chunks
         }
 
-        private fun generatePonctualDataset(items: List<EntryObject>, intervalTimeStamp: Pair<Long, Long>, color: Int, context: Context): LineDataSet? {
+        private fun generatePonctualDataset(items: List<EntryObject>, intervalTimeStamp: Pair<Long, Long>, drawable: Drawable?, context: Context): LineDataSet? {
             if (items.isEmpty())
                 return null
             val yValues = mutableListOf<Entry>()
+            val bitmapDrawable = BitmapDrawable(context.resources, drawable?.toBitmap(42, 42))
             for (item in items) {
-                yValues.add(Entry((((TimeHandler.instance.getTimestampFromFormat(item.time, context.getString(R.string.format_time_api)) ?: 0) - intervalTimeStamp.first).toFloat()), 100f))
+                yValues.add(Entry((((TimeHandler.instance.getTimestampFromFormat(item.time, context.getString(R.string.format_time_api)) ?: 0) - intervalTimeStamp.first).toFloat()), 100f, bitmapDrawable))
             }
             val set = LineDataSet(yValues, items[0].type.toString())
-            setPonctualElementDatasetStyle(set, color)
+            setPonctualElementDatasetStyle(set)
             return set
         }
 
@@ -162,16 +179,16 @@ class ChartHandler {
             dataSet.setDrawValues(false)
         }
 
-        private fun setPonctualElementDatasetStyle(dataSet: LineDataSet, color: Int) {
+        private fun setPonctualElementDatasetStyle(dataSet: LineDataSet) {
             dataSet.color = Color.TRANSPARENT
             dataSet.mode = LineDataSet.Mode.LINEAR
             dataSet.lineWidth = 0f
             dataSet.setDrawCircles(true)
-            dataSet.setCircleColor(color)
-            dataSet.circleHoleColor = color
-            dataSet.circleRadius = 6f
-            dataSet.circleHoleRadius = 6f
-            dataSet.setDrawCircleHole(true)
+            dataSet.setCircleColor(Color.TRANSPARENT)
+            dataSet.circleHoleColor = Color.TRANSPARENT
+            dataSet.circleRadius = 0f
+            dataSet.circleHoleRadius = 0f
+            dataSet.setDrawCircleHole(false)
             dataSet.setDrawValues(false)
             dataSet.setDrawVerticalHighlightIndicator(false)
             dataSet.setDrawHorizontalHighlightIndicator(false)

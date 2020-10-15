@@ -1,5 +1,6 @@
 package com.epitech.diabetips.adapters
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.view.LayoutInflater
@@ -90,12 +91,8 @@ class DashboardItemsAdapter(
     }
 
     private fun launchMeal(item: EntryObject) {
-        val intent = Intent(context, NewMealActivity::class.java)
-            .putExtra(
-                    context.getString(R.string.param_meal),
-                    item.orignal as MealObject
-            )
-        context.startActivity(intent)
+        (context as Activity).startActivityForResult(Intent(context, NewMealActivity::class.java)
+            .putExtra(context.getString(R.string.param_meal), item.orignal as MealObject), RequestCode.UPDATE_MEAL.ordinal)
     }
 
     private fun changeInsulin(item: EntryObject, position: Int) {

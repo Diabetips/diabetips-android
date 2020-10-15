@@ -3,6 +3,6 @@
     <item android:color="?attr/colorHint" android:state_enabled="false"/>
     <item android:color="?attr/colorAccent" android:state_checkable="false"/>
     <item android:color="?attr/colorAccent" android:state_selected="true" />
-    <item android:color="?attr/colorSearchBackground" android:state_checked="false"/>
+    <item android:color="?attr/colorDarkBackground" android:state_checked="false"/>
     <item android:color="?attr/colorAccent" />
 </selector>

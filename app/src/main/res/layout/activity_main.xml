@@ -23,7 +23,7 @@
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
-    <de.hdodenhof.circleimageview.CircleImageView
+    <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/imageDiabiConnection"
         android:maxHeight="216dp"
         android:maxWidth="216dp"
@@ -31,7 +31,6 @@
         android:layout_height="216dp"
         android:layout_margin="@dimen/margin_size"
         android:src="@drawable/ic_diabi"
-        app:civ_circle_background_color="?attr/colorInputBackground"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

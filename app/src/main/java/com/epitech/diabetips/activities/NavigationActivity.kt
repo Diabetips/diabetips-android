@@ -138,8 +138,4 @@ class NavigationActivity : ADiabetipsActivity(R.layout.activity_navigation), me.
         }
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-    }
-
 }

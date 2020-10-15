@@ -1,9 +1,13 @@
 package com.epitech.diabetips.utils
 
+import android.content.Context
+import android.graphics.Color
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.AppCompatTextView
+import androidx.core.content.ContextCompat
+import com.epitech.diabetips.R
 import com.google.android.material.internal.CheckableImageButton
 import com.google.android.material.textfield.TextInputLayout
 
@@ -36,6 +40,14 @@ class MaterialHandler {
                     handleCheckableImageButtonSize(child)
                 }
             }
+        }
+
+        fun getColorFromAttribute(context: Context, attributeId: Int) : Int {
+            val attribute = intArrayOf(attributeId)
+            val array = context.theme.obtainStyledAttributes(attribute)
+            val color = array.getColor(0, ContextCompat.getColor(context, R.color.colorTextDark))
+            array.recycle()
+            return color
         }
     }
 }

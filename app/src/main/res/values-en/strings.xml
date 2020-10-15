@@ -112,8 +112,8 @@
     <string name="remove_profile_picture">Profile picture removed</string>
     <string name="deleted">Deleted</string>
     <string name="calculate">Predict</string>
-    <string name="sugar_100g">"Sugar for 100g: "</string>
-    <string name="total_sugar">Total sugar :</string>
+    <string name="sugar_100g">"Carbohydrate for 100g: "</string>
+    <string name="total_sugar">Total carbohydrate</string>
     <string name="format_date_dashboard">MM/dd/yyyy</string>
     <string name="glycemie">Blood glucose</string>
     <string name="ready_to_scan">Ready to scan</string>

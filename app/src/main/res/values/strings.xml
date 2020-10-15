@@ -22,6 +22,7 @@
 
     <!--placeholder start-->
     <string name="placeholder_text" translatable="false">Placeholder Text</string>
+    <string name="placeholder_date" translatable="false">XX/XX/XXXX</string>
     <string name="placeholder_hour" translatable="false">XX:XX</string>
     <string name="placeholder_number" translatable="false">X</string>
     <!--placeholder end-->
@@ -147,7 +148,7 @@
     <!--entry screen start-->
     <string name="entry_title">New entry</string>
     <string name="add_entry">Add a new entry</string>
-    <string name="total_sugar">Total sugar</string>
+    <string name="total_sugar">Total carbohydrate</string>
     <string name="summary">Summary</string>
     <string name="calculate_insulin">Predict my quantity of insulin</string>
     <string name="calculate">Predict</string>
@@ -185,7 +186,7 @@
     <string name="food_not_found">Sorry, but no food with that name has been found.</string>
     <string name="validate">Validate</string>
     <string name="description">Description</string>
-    <string name="sugar_100g">Sugar for 100g: </string>
+    <string name="sugar_100g">"Carbohydrate for 100g: "</string>
     <string name="nutritional_values">Nutritional values</string>
     <string name="nutritional_calorie">Calories</string>
     <string name="nutritional_carbohydrate">Carbohydrates</string>

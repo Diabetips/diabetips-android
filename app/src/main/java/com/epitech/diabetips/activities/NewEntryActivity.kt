@@ -205,10 +205,8 @@ class NewEntryActivity : ADiabetipsActivity(R.layout.activity_new_entry) {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode == Activity.RESULT_OK
-            && (requestCode == RequestCode.NEW_MEAL.ordinal
-                    || requestCode == RequestCode.UPDATE_MEAL.ordinal)) {
-                meal = data?.getSerializableExtra(getString(R.string.param_meal)) as MealObject
+        if (resultCode == Activity.RESULT_OK && (requestCode == RequestCode.NEW_MEAL.ordinal || requestCode == RequestCode.UPDATE_MEAL.ordinal)) {
+                meal = (data?.getSerializableExtra(getString(R.string.param_meal)) as MealObject?) ?: MealObject()
                 updateMealDisplay()
         }
     }

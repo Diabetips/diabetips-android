@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.drawable.Drawable
 import androidx.core.content.ContextCompat
 import com.epitech.diabetips.R
+import com.epitech.diabetips.utils.MaterialHandler
 import com.epitech.diabetips.utils.ObjectType
 import java.io.Serializable
 
@@ -47,7 +48,7 @@ data class EntryObject (
         time = note.time,
         icon = ContextCompat.getDrawable(context, R.drawable.ic_comment)) {
             type = ObjectType.NOTE
-            icon?.setTint(ContextCompat.getColor(context, R.color.searchBarSearchIconTintColor))
+            icon?.setTint(MaterialHandler.getColorFromAttribute(context, R.attr.colorComment))
     }
 
     constructor (bloodSugar: BloodSugarObject, context: Context) : this(

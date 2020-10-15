@@ -34,7 +34,6 @@ class MainActivity : ADiabetipsActivity(R.layout.activity_main) {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        AppCompatDelegate.setDefaultNightMode(ModeManager.instance.getDarkMode(this))
         super.onCreate(savedInstanceState)
         FuelManager.instance.basePath = getString(R.string.api_base_url)
         FuelManager.instance.baseHeaders = mapOf("Content-Type" to "application/json; charset=utf-8")

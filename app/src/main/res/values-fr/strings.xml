@@ -113,7 +113,7 @@
     <string name="remove_profile_picture">Photo de profil supprimé</string>
     <string name="deleted">Supprimé</string>
     <string name="calculate">Prédire</string>
-    <string name="sugar_100g">"Sucre pour 100g: "</string>
+    <string name="sugar_100g">"Glucide pour 100g: "</string>
     <string name="format_date_dashboard">dd/MM/yyyy</string>
     <string name="glycemie">Glycémies</string>
     <string name="ready_to_scan">Prêt à scanner</string>

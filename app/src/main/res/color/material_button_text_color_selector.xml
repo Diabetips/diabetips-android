@@ -3,6 +3,6 @@
     <item android:color="?attr/colorText" android:state_enabled="false"/>
     <item android:color="?attr/colorTextButton" android:state_checkable="false"/>
     <item android:color="?attr/colorTextButton" android:state_selected="true" />
-    <item android:color="?attr/colorText" android:state_checked="false"/>
+    <item android:color="?attr/colorBackgroundText" android:state_checked="false"/>
     <item android:color="?attr/colorTextButton" />
 </selector>
