@@ -35,4 +35,8 @@ data class FoodObject (
         nutritionalValues.add(NutritionalObject(NutritionalObject.NutritionalType.NUTRI_SCORE, nutriscore?.get(0)?.toFloat() ?: 0f))
         return nutritionalValues
     }
+
+    fun getIngredient(quantity: Float = 0f): IngredientObject {
+        return IngredientObject(quantity = quantity, food = this)
+    }
 }

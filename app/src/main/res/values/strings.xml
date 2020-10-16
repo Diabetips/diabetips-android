@@ -83,12 +83,13 @@
     <!--login / sign up screen end-->
 
     <!--Home / Dashboard start-->
-    <string name="glycemie">Glycémies</string>
+    <string name="glycemie">Blood glucose</string>
     <string name="ready_to_scan">Ready to scan</string>
     <string name="no_nfc">This device doesn\'t support NFC</string>
     <string name="nfc_disable">NFC is disabled</string>
     <string name="sensor_not_ready">The sensor isn\'t ready yet</string>
     <string name="home_title">Home</string>
+    <string name="last_prediction">• Last prediction</string>
     <string name="open_dashboard_button">Open Dashboard</string>
     <!--Home / Dashboard end-->
 
@@ -96,6 +97,7 @@
     <string name="dashboard_title">Dashboard</string>
     <string name="event_notebook_title">Event notebook</string>
     <string name="glucose_average_title">Average glucose level</string>
+    <string name="glucose_curve_title">Blood glucose curve</string>
     <string name="hba1c_title">Glycated hemoglobin</string>
     <string name="meal">Meal</string>
     <string name="insulin_slow">Slow insulin</string>
@@ -103,10 +105,12 @@
     <string name="comment_delete">Are you sure you want to delete this comment?</string>
     <string name="insulin_delete">Are you sure you want to delete this injection?</string>
     <string name="hba1c_delete">Are you sure you want to delete this HbA1c value?</string>
-
     <string name="comment">Comment</string>
     <string name="sugar">Sugar</string>
     <string name="add_value">Add a value</string>
+    <string name="no_data">No data to display</string>
+    <string name="no_data_24">No data to display for the last 24 hours</string>
+    <string name="no_data_period">No data to display for the selected period</string>
     <!--Dashboard end-->
 
     <!--Profile screen start-->
@@ -129,6 +133,7 @@
     <string name="remove_profile_picture">Profile picture removed</string>
     <string name="update">Update</string>
     <string name="update_profile">Profile updated</string>
+    <string name="change_theme">Change theme</string>
     <string name="logout">Logged out</string>
     <string name="logout_button">Logout</string>
     <string name="logout_confirm">Do you want to logout ?</string>
@@ -150,7 +155,7 @@
     <string name="add_entry">Add a new entry</string>
     <string name="total_sugar">Total carbohydrate</string>
     <string name="summary">Summary</string>
-    <string name="calculate_insulin">Predict my quantity of insulin</string>
+    <string name="calculate_insulin">Predict my insulin</string>
     <string name="calculate">Predict</string>
     <string name="insulin_fast_input">Fast insulin</string>
     <string name="insulin_slow_input">Slow insulin</string>
@@ -198,6 +203,11 @@
     <string name="nutritional_score">Nutri-Score</string>
     <string name="toggle_content">Content</string>
     <string name="toggle_nutrition">Nutrition</string>
+    <string name="scan">Scan</string>
+    <string name="scan_again">Scan again</string>
+    <string name="scan_unavailable">Product unavailable</string>
+    <string name="scan_not_found">The scanned product isn\'t available in our registered products</string>
+    <string name="scan_error">An error occurred while scanning your product</string>
     <!--meal / recipe / food screen end-->
 
     <!--login / sign up errors start-->
@@ -229,7 +239,7 @@
     <!--meal / recipe / food errors end-->
 
     <!--Dashboard errors start-->
-    <string name="percentage_error">Percentage must be between 0% and 100%.</string>
+    <string name="percentage_error" formatted="false">Percentage must be between 0% and 100%.</string>
     <!--Dashboard errors end-->
 
     <!--sex start-->

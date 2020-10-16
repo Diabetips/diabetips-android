@@ -12,9 +12,13 @@ import com.epitech.diabetips.adapters.MealRecipeAdapter
 import com.epitech.diabetips.adapters.NutritionalAdapter
 import com.epitech.diabetips.adapters.RecipeFoodAdapter
 import com.epitech.diabetips.services.MealService
-import com.epitech.diabetips.storages.*
+import com.epitech.diabetips.storages.IngredientObject
+import com.epitech.diabetips.storages.MealObject
+import com.epitech.diabetips.storages.MealRecipeObject
+import com.epitech.diabetips.storages.RecipeObject
 import com.epitech.diabetips.utils.*
 import kotlinx.android.synthetic.main.activity_new_meal.*
+
 
 class NewMealActivity : ADiabetipsActivity(R.layout.activity_new_meal) {
 
@@ -36,8 +40,9 @@ class NewMealActivity : ADiabetipsActivity(R.layout.activity_new_meal) {
             }
         }
         addRecipeButton.setOnClickListener {
-            startActivityForResult(Intent(this, RecipeActivity::class.java)
-                .putExtra(getString(R.string.param_mode), ActivityMode.SELECT),
+            startActivityForResult(
+                Intent(this, RecipeActivity::class.java)
+                    .putExtra(getString(R.string.param_mode), ActivityMode.SELECT),
                 RequestCode.SEARCH_RECIPE.ordinal)
         }
         newMealToggleContent.setOnClickListener {
@@ -48,12 +53,12 @@ class NewMealActivity : ADiabetipsActivity(R.layout.activity_new_meal) {
         }
         recipeList.apply {
             layoutManager = LinearLayoutManager(this@NewMealActivity)
-            adapter = MealRecipeAdapter (onItemClickListener = { mealRecipeObject ->
+            adapter = MealRecipeAdapter(onItemClickListener = { mealRecipeObject ->
                 val intent = Intent(this@NewMealActivity, NewRecipeActivity::class.java)
                 intent.putExtra(getString(R.string.param_mode), ActivityMode.MEAL_RECIPE)
                 intent.putExtra(getString(R.string.param_recipe), mealRecipeObject)
                 startActivityForResult(intent, RequestCode.UPDATE_RECIPE.ordinal)
-            }, onItemRemovedListener =  { updateNutritionalValueDisplay() })
+            }, onItemRemovedListener = { updateNutritionalValueDisplay() })
             (adapter as MealRecipeAdapter).setVisibilityElements(recipeListEmptyLayout, recipeList)
             addItemDecoration(DividerItemDecorator(ContextCompat.getDrawable(this@NewMealActivity, R.drawable.list_divider)!!))
         }
@@ -63,15 +68,18 @@ class NewMealActivity : ADiabetipsActivity(R.layout.activity_new_meal) {
                     .putExtra(getString(R.string.param_food), (mealFoodList.adapter as RecipeFoodAdapter).getFoods()),
                 RequestCode.SEARCH_FOOD.ordinal)
         }
+        scanMealFoodButton.setOnClickListener {
+            ImageHandler.instance.startBarcodeActivity(this)
+        }
         mealFoodList.apply {
             layoutManager = LinearLayoutManager(this@NewMealActivity)
-            adapter = RecipeFoodAdapter (onItemClickListener = { ingredientObject, textQuantity ->
+            adapter = RecipeFoodAdapter(onItemClickListener = { ingredientObject, textQuantity ->
                 DialogHandler.dialogSelectQuantity(this@NewMealActivity, layoutInflater, ingredientObject) {
                     saved = false
                     textQuantity?.text = "${ingredientObject.quantity} ${ingredientObject.food.unit}"
                     updateNutritionalValueDisplay()
                 }
-            }, onItemRemovedListener =  { updateNutritionalValueDisplay() })
+            }, onItemRemovedListener = { updateNutritionalValueDisplay() })
             (adapter as RecipeFoodAdapter).setVisibilityElements(mealFoodListEmptyLayout, mealFoodList)
             addItemDecoration(DividerItemDecorator(ContextCompat.getDrawable(this@NewMealActivity, R.drawable.list_divider)!!))
         }
@@ -148,7 +156,8 @@ class NewMealActivity : ADiabetipsActivity(R.layout.activity_new_meal) {
     }
 
     private fun getMeal() : MealObject {
-        val meal = MealObject(mealId, mealTime, "",
+        val meal = MealObject(
+            mealId, mealTime, "",
             recipes = (recipeList.adapter as MealRecipeAdapter).getRecipes().toTypedArray(),
             foods = (mealFoodList.adapter as RecipeFoodAdapter).getFoods().toTypedArray())
         meal.calculateTotalSugars()
@@ -179,6 +188,10 @@ class NewMealActivity : ADiabetipsActivity(R.layout.activity_new_meal) {
                 saved = false
                 (mealFoodList.adapter as RecipeFoodAdapter).setFoods(ArrayList((data?.getSerializableExtra(getString(R.string.param_food)) as ArrayList<*>).filterIsInstance<IngredientObject>()))
                 updateNutritionalValueDisplay()
+            } else if (requestCode == RequestCode.SCAN_BARCODE.ordinal) {
+                DialogHandler.dialogBarcode(this, data) { ingredient ->
+                    (mealFoodList.adapter as RecipeFoodAdapter).addFood(ingredient)
+                }
             }
         }
     }

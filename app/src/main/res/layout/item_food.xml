@@ -11,7 +11,9 @@
         android:id="@+id/foodImage"
         android:layout_width="@dimen/image_size"
         android:layout_height="@dimen/image_size"
-        android:layout_margin="@dimen/quarter_margin_size"
+        android:layout_marginTop="@dimen/quarter_margin_size"
+        android:layout_marginBottom="@dimen/quarter_margin_size"
+        android:layout_marginStart="@dimen/half_margin_size"
         android:src="@drawable/ic_food"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -68,6 +70,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/quarter_margin_size"
         android:text="@string/placeholder_text"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/foodCheckBox"
         app:layout_constraintTop_toTopOf="parent" />

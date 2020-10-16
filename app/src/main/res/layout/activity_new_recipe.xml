@@ -284,13 +284,35 @@
 
                     </com.google.android.material.card.MaterialCardView>
 
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/addFoodButton"
-                        style="@style/MaterialButtonAltTheme"
-                        android:layout_width="wrap_content"
-                        android:text="@string/add_food"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_marginTop="@dimen/negative_margin_size"/>
+                    <LinearLayout
+                        android:id="@+id/mealFoodButtonLayout"
+                        style="@style/EmptyBackgroundTheme"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center"
+                        android:elevation="@dimen/shadow_size"
+                        android:layout_marginTop="@dimen/negative_margin_size">
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/addFoodButton"
+                            style="@style/MaterialButtonAltTheme"
+                            android:layout_width="wrap_content"
+                            android:layout_margin="0dp"
+                            android:text="@string/add_food"
+                            android:layout_gravity="center_horizontal"/>
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/scanFoodButton"
+                            style="@style/MaterialButtonTheme"
+                            android:layout_width="wrap_content"
+                            app:icon="@drawable/ic_barcode"
+                            android:layout_marginStart="@dimen/half_margin_size"
+                            android:layout_marginEnd="0dp"
+                            android:text="@string/scan"
+                            android:layout_gravity="center_horizontal"/>
+
+                    </LinearLayout>
 
                 </LinearLayout>
 

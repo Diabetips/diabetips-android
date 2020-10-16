@@ -76,7 +76,7 @@ class NutritionalItemViewHolder(inflater: LayoutInflater, parent: ViewGroup)
         nutritionalValueText?.text = value
         nutritionalProgressBar?.progress = progress
         nutritionalProgressBar?.progressTintList = ColorStateList.valueOf(ContextCompat.getColor(context, colorId))
-        nutritionalProgressBar?.progressBackgroundTintList = nutritionalProgressBar?.progressTintList?.withAlpha(128)
+        nutritionalProgressBar?.progressBackgroundTintList = nutritionalProgressBar?.progressTintList?.withAlpha(96)
         nutritionalValueLayout?.apply {
             (layoutParams as ViewGroup.MarginLayoutParams).also {
                 it.leftMargin = if (isChild) context.resources.getDimension(R.dimen.margin_size).toInt() else 0

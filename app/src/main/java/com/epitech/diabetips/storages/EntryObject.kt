@@ -59,6 +59,6 @@ data class EntryObject (
         time = bloodSugar.time,
         icon = ContextCompat.getDrawable(context, R.drawable.ic_syringe)) {
             type = ObjectType.SUGAR
-            icon?.setTint(ContextCompat.getColor(context, R.color.colorAccent))
+            icon?.setTint(ContextCompat.getColor(context, R.color.colorWarm))
     }
 }

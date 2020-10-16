@@ -1,5 +1,6 @@
 package com.epitech.diabetips.utils
 
+import android.app.Activity
 import android.content.Context
 import android.graphics.Bitmap
 import android.widget.ImageView
@@ -12,8 +13,8 @@ import com.bumptech.glide.load.model.GlideUrl
 import com.bumptech.glide.load.model.LazyHeaders
 import com.bumptech.glide.request.RequestOptions
 import com.epitech.diabetips.R
+import com.google.zxing.integration.android.IntentIntegrator
 import java.io.ByteArrayOutputStream
-
 
 class ImageHandler {
 
@@ -59,5 +60,9 @@ class ImageHandler {
         }
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream)
         return byteArrayOutputStream.toByteArray()
+    }
+
+    fun startBarcodeActivity(activity: Activity) {
+        IntentIntegrator(activity).setRequestCode(RequestCode.SCAN_BARCODE.ordinal).setOrientationLocked(false).setTorchEnabled(true).initiateScan()
     }
 }

@@ -4,20 +4,30 @@
     <item
         android:id="@+id/profileSettings"
         android:icon="@drawable/ic_settings"
-        android:title="@string/settings_title"/>
+        android:title="@string/settings_title"
+        android:visible="false"/>
 
-    <!--item
+    <item
+        android:id="@+id/profileDarkMode"
+        android:icon="@drawable/ic_dark_mode"
+        android:title="@string/change_theme"
+        android:visible="true"/>
+
+    <item
         android:id="@+id/profileImage"
         android:icon="@drawable/ic_photo_camera"
-        android:title="@string/change_profile_picture"/-->
+        android:title="@string/change_profile_picture"
+        android:visible="false"/>
 
     <item
         android:id="@+id/profileLogout"
         android:icon="@drawable/ic_power"
-        android:title="@string/logout_button" />
+        android:title="@string/logout_button"
+        android:visible="true" />
 
     <item
         android:id="@+id/profileDeactivate"
         android:icon="@drawable/ic_deactivate"
-        android:title="@string/deactivate" />
+        android:title="@string/deactivate"
+        android:visible="true" />
 </menu>

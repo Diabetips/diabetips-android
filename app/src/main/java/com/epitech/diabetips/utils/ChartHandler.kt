@@ -58,7 +58,7 @@ class ChartHandler {
             lineChart.setDrawBorders(false)
         }
 
-        fun updateChartData(items: List<EntryObject>, intervalTimeStamp: Pair<Long, Long>, lineChart: DetailLineChart, context: Context) {
+        fun updateChartData(items: List<EntryObject>, intervalTimeStamp: Pair<Long, Long>, lineChart: DetailLineChart, context: Context, noDataTextId: Int = R.string.no_data) {
             val formatter = HoursFormatter(intervalTimeStamp, context)
             lineChart.xAxis.valueFormatter = formatter
 
@@ -99,7 +99,11 @@ class ChartHandler {
                 lineChart.axisLeft.addLimitLine(generateLimitLine(biometrics.hypoglycemia!!.toFloat(), limitColor))
                 lineChart.axisLeft.addLimitLine(generateLimitLine(biometrics.hyperglycemia!!.toFloat(), limitColor))
             }
-            lineChart.data = lineData
+            if (lineData.entryCount > 0) {
+                lineChart.data = lineData
+            } else {
+                lineChart.setData(null, noDataTextId)
+            }
             lineChart.animateY(800)
             // refresh the drawing
             lineChart.invalidate()

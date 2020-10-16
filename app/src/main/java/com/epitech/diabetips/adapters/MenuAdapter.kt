@@ -3,6 +3,7 @@ package com.epitech.diabetips.adapters
 import android.content.Context
 import android.view.*
 import android.widget.PopupMenu
+import androidx.core.view.iterator
 import com.epitech.diabetips.holders.MenuItemViewHolder
 
 class MenuAdapter(menuId: Int,
@@ -16,6 +17,14 @@ class MenuAdapter(menuId: Int,
         val popupMenu = PopupMenu(context, null)
         popupMenu.menuInflater.inflate(menuId, popupMenu.menu)
         menu = popupMenu.menu
+
+        val menuIterator = menu.iterator()
+        menuIterator.forEach { item ->
+            if (!item.isVisible) {
+                menu.removeItem(item.itemId)
+                menuIterator.remove()
+            }
+        }
         popupMenu.dismiss()
     }
 

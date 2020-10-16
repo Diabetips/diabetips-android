@@ -284,16 +284,39 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <TextView
-                android:id="@+id/calculateInsulinQuantity"
-                style="@style/SubtitleTheme"
-                android:layout_width="wrap_content"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/calculateInsulinResultLayout"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:visibility="gone"
-                android:layout_marginTop="@dimen/quarter_margin_size"
+                android:layout_marginTop="@dimen/negative_half_margin_size"
                 android:layout_marginBottom="@dimen/quarter_margin_size"
-                android:text="@string/unit_units"
-                android:layout_gravity="center_horizontal" />
+                android:layout_marginStart="@dimen/margin_size"
+                android:layout_marginEnd="@dimen/margin_size"
+                android:visibility="gone"
+                android:orientation="vertical"
+                android:gravity="center">
+
+                <TextView
+                    android:id="@+id/calculateInsulinResultTime"
+                    style="@style/HintTextAppearance"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:text="@string/placeholder_hour"/>
+
+                <TextView
+                    android:id="@+id/calculateInsulinResult"
+                    style="@style/AccentSubtitleAppearance"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:text="@string/placeholder_number"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/insulinSlowEntryInputLayout"

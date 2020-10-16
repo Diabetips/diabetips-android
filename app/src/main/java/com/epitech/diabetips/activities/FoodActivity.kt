@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.widget.SearchView
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.epitech.diabetips.R
 import com.epitech.diabetips.adapters.FoodAdapter
@@ -13,6 +14,7 @@ import com.epitech.diabetips.storages.IngredientObject
 import com.epitech.diabetips.storages.PaginationObject
 import com.epitech.diabetips.utils.ADiabetipsActivity
 import com.epitech.diabetips.utils.DialogHandler
+import com.epitech.diabetips.utils.DividerItemDecorator
 import com.epitech.diabetips.utils.PaginationScrollListener
 import kotlinx.android.synthetic.main.activity_food.*
 
@@ -54,6 +56,7 @@ class FoodActivity : ADiabetipsActivity(R.layout.activity_food) {
                 }
             }
             (adapter as FoodAdapter).setVisibilityElements(foodNotFoundLayout, foodSwipeRefresh, false)
+            addItemDecoration(DividerItemDecorator(ContextCompat.getDrawable(this@FoodActivity, R.drawable.list_divider)!!))
         }
         foodSearchList.addOnScrollListener(object : PaginationScrollListener(foodSearchList.layoutManager as LinearLayoutManager) {
             override fun isLastPage(): Boolean {

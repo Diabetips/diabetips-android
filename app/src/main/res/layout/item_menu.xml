@@ -5,7 +5,7 @@
     style="@style/EmptyBackgroundTheme"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:padding="@dimen/quarter_margin_size">
+    android:padding="@dimen/half_margin_size">
 
     <ImageView
         android:id="@+id/menuIcon"

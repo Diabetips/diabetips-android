@@ -18,9 +18,6 @@ class DashboardFragment : ANavigationFragment(FragmentType.DASHBOARD) {
         view.dashboardEventNotebookCard.setOnClickListener {
             startActivity(Intent(requireContext(), EventNotebookActivity::class.java))
         }
-        view.dashboardGlucoseCard.setOnClickListener {
-            startActivity(Intent(requireContext(), EventNotebookActivity::class.java))
-        }
         view.dashboardHemoglobinCard.setOnClickListener {
             startActivity(Intent(requireContext(), HbA1cActivity::class.java))
         }

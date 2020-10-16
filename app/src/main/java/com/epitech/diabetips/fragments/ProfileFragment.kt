@@ -9,14 +9,17 @@ import android.util.DisplayMetrics
 import android.view.*
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.epitech.diabetips.managers.UserManager
 import com.epitech.diabetips.R
+import com.epitech.diabetips.activities.NavigationActivity
 import com.epitech.diabetips.activities.SettingsActivity
 import com.epitech.diabetips.adapters.DropdownAdapter
 import com.epitech.diabetips.adapters.MenuAdapter
 import com.epitech.diabetips.managers.AuthManager
+import com.epitech.diabetips.managers.ModeManager
 import com.epitech.diabetips.services.BiometricService
 import com.epitech.diabetips.services.UserService
 import com.epitech.diabetips.storages.UserObject
@@ -27,6 +30,7 @@ import com.epitech.diabetips.textWatchers.PasswordConfirmWatcher
 import com.epitech.diabetips.textWatchers.PasswordWatcher
 import com.epitech.diabetips.utils.*
 import com.google.android.material.appbar.AppBarLayout
+import kotlinx.android.synthetic.main.dialog_deactivate_account.view.*
 import kotlinx.android.synthetic.main.fragment_profile.view.*
 import kotlinx.android.synthetic.main.dialog_menu.view.*
 import java.io.InputStream
@@ -73,7 +77,9 @@ class ProfileFragment : ANavigationFragment(FragmentType.PROFILE) {
         view.deactivateAccountButton.setOnClickListener {
             deactivateAccount()
         }
-        handleProfileImage(view)
+        view.imagePhotoProfile.setOnClickListener {
+            handleProfileImage()
+        }
         handlePopupMenu(view)
         handleAnimation(view)
         view.sexProfileDropdown.setAdapter(DropdownAdapter(requireContext(), R.array.sex))
@@ -82,20 +88,18 @@ class ProfileFragment : ANavigationFragment(FragmentType.PROFILE) {
         return view
     }
 
-    private fun handleProfileImage(view: View) {
-        view.imagePhotoProfile.setOnClickListener {
-            DialogHandler.dialogChangePicture(requireContext(), layoutInflater, requireActivity()) {
-                loading = true
-                UserService.instance.removePicture<UserObject>("me").doOnSuccess {
-                    if (it.second.component2() == null) {
-                        Toast.makeText(requireContext(), R.string.remove_profile_picture, Toast.LENGTH_SHORT).show()
-                        setAccountInfo(UserManager.instance.getUser(requireContext()))
-                    } else {
-                        Toast.makeText(requireContext(), it.second.component2()!!.exception.message, Toast.LENGTH_SHORT).show()
-                    }
-                    loading = false
-                }.subscribe()
-            }
+    private fun handleProfileImage() {
+        DialogHandler.dialogChangePicture(requireContext(), layoutInflater, requireActivity()) {
+            loading = true
+            UserService.instance.removePicture<UserObject>("me").doOnSuccess {
+                if (it.second.component2() == null) {
+                    Toast.makeText(requireContext(), R.string.remove_profile_picture, Toast.LENGTH_SHORT).show()
+                    setAccountInfo(UserManager.instance.getUser(requireContext()))
+                } else {
+                    Toast.makeText(requireContext(), it.second.component2()!!.exception.message, Toast.LENGTH_SHORT).show()
+                }
+                loading = false
+            }.subscribe()
         }
     }
 
@@ -113,6 +117,8 @@ class ProfileFragment : ANavigationFragment(FragmentType.PROFILE) {
                         dialog.dismiss()
                         when (item.itemId) {
                             R.id.profileSettings -> openSettings()
+                            R.id.profileDarkMode -> changeDarkMode()
+                            R.id.profileImage -> handleProfileImage()
                             R.id.profileLogout -> logout()
                             R.id.profileDeactivate -> deactivateAccount()
                         }
@@ -280,6 +286,16 @@ class ProfileFragment : ANavigationFragment(FragmentType.PROFILE) {
         }.subscribe()
     }
 
+    private fun changeDarkMode() {
+        if (ModeManager.instance.getDarkMode(requireContext()) == AppCompatDelegate.MODE_NIGHT_NO) {
+            ModeManager.instance.saveDarkMode(requireContext(), AppCompatDelegate.MODE_NIGHT_YES)
+        } else {
+            ModeManager.instance.saveDarkMode(requireContext(), AppCompatDelegate.MODE_NIGHT_NO)
+        }
+        (requireActivity() as ADiabetipsActivity).changeTheme()
+        NavigationActivity.defaultFragmentSelect = FragmentType.PROFILE
+    }
+
     private fun openSettings() {
         startActivity(Intent(context, SettingsActivity::class.java))
     }
@@ -294,17 +310,22 @@ class ProfileFragment : ANavigationFragment(FragmentType.PROFILE) {
     }
 
     private fun deactivateAccount() {
-        DialogHandler.dialogConfirm(requireContext(), layoutInflater, R.string.deactivate_account_confirm) {
-            UserService.instance.remove<UserObject>("me").doOnSuccess {
-                if (it.second.component2() == null) {
-                    UserManager.instance.removePreferences(requireContext())
-                    AuthManager.instance.removePreferences(requireContext())
-                    Toast.makeText(context, getString(R.string.deactivated), Toast.LENGTH_SHORT).show()
-                    activity?.finish()
-                } else {
-                    Toast.makeText(context, it.second.component2()!!.exception.message, Toast.LENGTH_SHORT).show()
-                }
-            }.subscribe()
+        DialogHandler.createDialog(requireContext(), layoutInflater, R.layout.dialog_deactivate_account) { view, dialog ->
+            view.deactivateAccountCloseButton.setOnClickListener {
+                dialog.dismiss()
+            }
+            view.deactivateAccountConfirmButton.setOnClickListener {
+                UserService.instance.remove<UserObject>("me").doOnSuccess {
+                    if (it.second.component2() == null) {
+                        UserManager.instance.removePreferences(requireContext())
+                        AuthManager.instance.removePreferences(requireContext())
+                        Toast.makeText(context, getString(R.string.deactivated), Toast.LENGTH_SHORT).show()
+                        activity?.finish()
+                    } else {
+                        Toast.makeText(context, it.second.component2()!!.exception.message, Toast.LENGTH_SHORT).show()
+                    }
+                }.subscribe()
+            }
         }
     }
 

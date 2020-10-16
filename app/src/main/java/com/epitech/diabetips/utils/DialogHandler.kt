@@ -10,15 +10,20 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.epitech.diabetips.R
 import com.epitech.diabetips.adapters.NutritionalAdapter
+import com.epitech.diabetips.services.FoodService
+import com.epitech.diabetips.storages.FoodObject
 import com.epitech.diabetips.storages.IngredientObject
 import com.epitech.diabetips.textWatchers.NumberWatcher
 import com.epitech.diabetips.textWatchers.TextChangedWatcher
+import com.google.zxing.integration.android.IntentIntegrator
+import kotlinx.android.synthetic.main.dialog_barcode_not_found.view.*
 import kotlinx.android.synthetic.main.dialog_change_picture.view.*
 import kotlinx.android.synthetic.main.dialog_confirm.view.*
 import kotlinx.android.synthetic.main.dialog_save_change.view.*
@@ -109,6 +114,33 @@ class DialogHandler {
                         dialog.dismiss()
                     }
                 }
+            }
+        }
+
+        private fun dialogBarCodeNotFound(activity: Activity, textId: Int = R.string.scan_not_found) {
+            createDialog(activity, activity.layoutInflater, R.layout.dialog_barcode_not_found) { view, dialog ->
+                view.dialogBarcodeText.setText(textId)
+                view.dialogBarcodeScanButton.setOnClickListener {
+                    ImageHandler.instance.startBarcodeActivity(activity)
+                }
+                view.dialogBarcodeCloseButton.setOnClickListener {
+                    dialog.dismiss()
+                }
+            }
+        }
+
+        fun dialogBarcode(activity: Activity, data: Intent?, callback: ((IngredientObject) -> Unit)) {
+            val result = IntentIntegrator.parseActivityResult(Activity.RESULT_OK, data)
+            if (result?.contents != null) {
+                FoodService.instance.get<FoodObject>(result.contents).doOnSuccess {
+                    if ((it.second.component1()?.id ?: 0) > 0) {
+                        dialogSelectQuantity(activity, activity.layoutInflater, it.second.component1()!!.getIngredient(), callback)
+                    } else {
+                        dialogBarCodeNotFound(activity)
+                    }
+                }.subscribe()
+            } else {
+                dialogBarCodeNotFound(activity, R.string.scan_error)
             }
         }
 

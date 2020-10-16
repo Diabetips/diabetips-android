@@ -75,6 +75,9 @@ class NewRecipeActivity : ADiabetipsActivity(R.layout.activity_new_recipe) {
                     .putExtra(getString(R.string.param_food), (foodList.adapter as RecipeFoodAdapter).getFoods()),
                 RequestCode.SEARCH_FOOD.ordinal)
         }
+        scanFoodButton.setOnClickListener {
+            ImageHandler.instance.startBarcodeActivity(this)
+        }
         newRecipeToggleContent.setOnClickListener {
             changeDisplayMode(DisplayMode.CONTENT)
         }
@@ -188,7 +191,7 @@ class NewRecipeActivity : ADiabetipsActivity(R.layout.activity_new_recipe) {
         val ingredients = (foodList.adapter as RecipeFoodAdapter).getFoods()
         recipe.ingredients.forEach { ingredient ->
             if (ingredients.find { it.food.id == ingredient.food.id } == null) {
-                ingredients.add(IngredientObject(quantity = 0f, food = ingredient.food))
+                ingredients.add(ingredient.food.getIngredient(0f))
             }
         }
         val mealRecipe = MealRecipeObject(
@@ -266,6 +269,10 @@ class NewRecipeActivity : ADiabetipsActivity(R.layout.activity_new_recipe) {
                 saved = false
                 (foodList.adapter as RecipeFoodAdapter).setFoods(ArrayList((data?.getSerializableExtra(getString(R.string.param_food)) as ArrayList<*>).filterIsInstance<IngredientObject>()))
                 updateNutritionalValueDisplay()
+            } else if (requestCode == RequestCode.SCAN_BARCODE.ordinal) {
+                DialogHandler.dialogBarcode(this, data) { ingredient ->
+                    (foodList.adapter as RecipeFoodAdapter).addFood(ingredient)
+                }
             } else if (requestCode == RequestCode.GET_IMAGE.ordinal) {
                 val imageStream: InputStream? = contentResolver.openInputStream(data?.data!!)
                 setRecipePicture(BitmapFactory.decodeStream(imageStream))

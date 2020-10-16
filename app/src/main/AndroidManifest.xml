@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.epitech.diabetips">
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -19,6 +20,7 @@
         android:requestLegacyExternalStorage="true"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
+        android:hardwareAccelerated="true"
         android:allowBackup="true">
         <service
             android:name=".services.FirebaseNotificationService"
@@ -31,6 +33,10 @@
                 android:name="com.google.firebase.messaging.default_notification_channel_id"
                 android:value="@string/default_notification_channel_id" />
         </service>
+        <activity
+            android:name="com.journeyapps.barcodescanner.CaptureActivity"
+            android:screenOrientation="fullSensor"
+            tools:replace="screenOrientation" />
         <activity
             android:name=".activities.MainActivity"
             android:screenOrientation="fullSensor"

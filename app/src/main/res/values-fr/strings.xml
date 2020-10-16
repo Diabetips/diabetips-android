@@ -6,7 +6,7 @@
     <string name="name_input">Nom</string>
     <string name="new_password_button">Changer de mot de passe</string>
     <string name="new_password_input">Nouveau mot de passe</string>
-    <string name="password_confirm_input">Confirmation du MDP</string>
+    <string name="password_confirm_input">Confirmation</string>
     <string name="password_input">Mot de passe</string>
     <string name="password_match_error">Le mot de passe ne correspond pas</string>
     <string name="profile_title">Profil</string>
@@ -83,7 +83,7 @@
     <string name="unit_minute">minutes</string>
     <string name="unit_unit">unité</string>
     <string name="saved_change">Sauvegardé</string>
-    <string name="calculate_insulin">Prédire ma quantité d\'insuline</string>
+    <string name="calculate_insulin">Prédire mon insuline</string>
     <string name="unit_units">unités</string>
     <string name="sex_input">Sexe</string>
     <string name="birth_input">Date de naissance</string>
@@ -145,7 +145,7 @@
     <string name="add_hba1c">Ajouter une valeur d\'HbA1c</string>
     <string name="change_hba1c">Modifier une valeur d\'HbA1c</string>
     <string name="add_value">Ajouter une valeur</string>
-    <string name="percentage_error">Le pourcentage doit-être entre 0% et 100%</string>
+    <string name="percentage_error" formatted="false">Le pourcentage doit-être entre 0% et 100%</string>
     <string name="select_percentage_input">Pourcentage (%)</string>
     <string name="nutritional_values">Informations nutritionnelles</string>
     <string name="test_notification">Envoyer une notification de test</string>
@@ -161,4 +161,15 @@
     <string name="meal_delete">Êtes-vous certain de vouloir supprimer ce repas ?</string>
     <string name="hba1c_delete">Êtes-vous sûr de vouloir supprimer cette valeur d\'HbA1c ?</string>
     <string name="nutritional_score">Nutri-Score</string>
+    <string name="change_theme">Changer de thème</string>
+    <string name="scan">Scanner</string>
+    <string name="scan_again">Scanner à nouveau</string>
+    <string name="scan_not_found">Le produit scanné n\'est pas disponible dans nos produits enregistrés</string>
+    <string name="scan_error">Une erreur est survenue lors du scan de votre produit</string>
+    <string name="scan_unavailable">Produit indisponible</string>
+    <string name="no_data_24">Aucune donnée à afficher pour les dernières 24 heures</string>
+    <string name="no_data_period">Aucune donnée à afficher pour la période sélectionnée</string>
+    <string name="no_data">Aucune donnée à afficher</string>
+    <string name="last_prediction">• Dernière prédiction</string>
+    <string name="glucose_curve_title">Courbe glycémique</string>
 </resources>

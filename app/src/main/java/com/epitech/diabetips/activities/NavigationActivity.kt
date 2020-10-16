@@ -100,7 +100,7 @@ class NavigationActivity : ADiabetipsActivity(R.layout.activity_navigation), me.
         return false
     }
 
-    fun setDefaultFragmentSelect(navigationFragment: ANavigationFragment.FragmentType = ANavigationFragment.FragmentType.HOME) {
+    private fun setDefaultFragmentSelect(navigationFragment: ANavigationFragment.FragmentType = ANavigationFragment.FragmentType.HOME) {
         defaultFragmentSelect = navigationFragment
     }
 

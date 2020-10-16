@@ -10,10 +10,7 @@ import com.epitech.diabetips.services.EventService
 import com.epitech.diabetips.services.InsulinService
 import com.epitech.diabetips.services.NoteService
 import com.epitech.diabetips.services.PredictionService
-import com.epitech.diabetips.storages.EventObject
-import com.epitech.diabetips.storages.InsulinObject
-import com.epitech.diabetips.storages.MealObject
-import com.epitech.diabetips.storages.NoteObject
+import com.epitech.diabetips.storages.*
 import com.epitech.diabetips.textWatchers.TextChangedWatcher
 import com.epitech.diabetips.utils.*
 import kotlinx.android.synthetic.main.activity_new_entry.*
@@ -55,13 +52,19 @@ class NewEntryActivity : ADiabetipsActivity(R.layout.activity_new_entry) {
         closeNewEntryButton.setOnClickListener {
             onBackPressed()
         }
+        handlePrediction()
+        TimeHandler.instance.updateTimeDisplay(this, entryTime, newEntryTimeDate, newEntryTimeHour)
+    }
+
+    private fun handlePrediction() {
         calculateInsulinButton.setOnClickListener {
             PredictionService.instance.getUserPrediction().doOnSuccess {
-                if (it.second.component2() == null) {
-                    calculateInsulinQuantity.text = "${it.second.component1()?.insulin} ${getString(R.string.unit_units)}"
-                    calculateInsulinQuantity.visibility = View.VISIBLE
-                } else {
-                    Toast.makeText(this, it.second.component2()!!.exception.message, Toast.LENGTH_SHORT).show()
+                PredictionService.instance.getUserPrediction().doOnSuccess {
+                    if (it.second.component2() == null) {
+                        updatePrediction(it.second.component1())
+                    } else {
+                        Toast.makeText(this, it.second.component2()!!.exception.message, Toast.LENGTH_SHORT).show()
+                    }
                 }
             }.subscribe()
         }
@@ -70,7 +73,19 @@ class NewEntryActivity : ADiabetipsActivity(R.layout.activity_new_entry) {
                 calculateInsulinButton.visibility = View.VISIBLE
             }
         }.subscribe()
-        TimeHandler.instance.updateTimeDisplay(this, entryTime, newEntryTimeDate, newEntryTimeHour)
+        updatePrediction(PredictionService.lastPrediction)
+    }
+
+    private fun updatePrediction(prediction: PredictionObject?) {
+        PredictionService.lastPrediction = prediction
+        if ((prediction?.id ?: 0) > 0) {
+            calculateInsulinResult.text = "${prediction!!.insulin.toBigDecimal().stripTrailingZeros().toPlainString()} ${getString(R.string.unit_units)}"
+            TimeHandler.instance.updateTimeDisplay(this, prediction.time, null, calculateInsulinResultTime)
+            calculateInsulinResultTime.text = "${calculateInsulinResultTime.text} ${getString(R.string.last_prediction)}"
+            calculateInsulinResultLayout.visibility = View.VISIBLE
+        } else {
+            calculateInsulinResultLayout.visibility = View.GONE
+        }
     }
 
     private fun initObjectMap() {

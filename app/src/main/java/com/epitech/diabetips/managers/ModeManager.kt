@@ -20,7 +20,7 @@ class ModeManager : AManager("mode_preference") {
     }
 
     fun getDarkMode(context: Context) : Int {
-        return getInt(context, DARK_MODE, AppCompatDelegate.getDefaultNightMode())
+        return getInt(context, DARK_MODE, AppCompatDelegate.MODE_NIGHT_NO)
     }
 
 }

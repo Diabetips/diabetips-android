@@ -354,6 +354,11 @@
         <item name="android:textSize">@dimen/subtitle_size</item>
     </style>
 
+    <style name="AccentSubtitleAppearance" parent="TextViewAccentTheme">
+        <item name="fontFamily">@font/muli_bold</item>
+        <item name="android:textSize">@dimen/subtitle_size</item>
+    </style>
+
     <style name="BoldTextAppearance" parent="TextViewAltTheme">
         <item name="fontFamily">@font/muli_bold</item>
         <item name="android:textSize">@dimen/text_size</item>
@@ -369,7 +374,7 @@
         <item name="android:textSize">@dimen/text_size</item>
     </style>
 
-    <style name="HintTextAppearance" parent="TextAppearance.MaterialComponents.Subtitle1">
+    <style name="HintTextAppearance" parent="HintViewTheme">
         <item name="fontFamily">@font/rubik_regular</item>
         <item name="android:textSize">@dimen/hint_size</item>
     </style>
@@ -401,6 +406,12 @@
         <item name="android:textColor">?attr/colorTextButton</item>
         <item name="android:textColorHint">?attr/colorTextButton</item>
         <item name="android:textColorHintInverse">?attr/colorTextButton</item>
+    </style>
+
+    <style name="TextViewAccentTheme" parent="ThemeOverlay.AppCompat.Dark">
+        <item name="android:textColor">?attr/colorAccent</item>
+        <item name="android:textColorHint">?attr/colorAccent</item>
+        <item name="android:textColorHintInverse">?attr/colorAccent</item>
     </style>
 
     <style name="TitleTheme" parent="TextViewTheme">

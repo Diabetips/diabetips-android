@@ -18,7 +18,7 @@ abstract class ADiabetipsActivity(private val layoutId: Int) : AppCompatActivity
         MaterialHandler.handleTextInputLayoutSize(this.findViewById(android.R.id.content))
     }
 
-    protected fun changeTheme(refreshView: Boolean = true) {
+    fun changeTheme(refreshView: Boolean = true) {
         if (lastDarkMode == AppCompatDelegate.MODE_NIGHT_YES) {
             setTheme(R.style.DarkTheme)
         } else {
