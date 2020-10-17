@@ -48,278 +48,327 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <LinearLayout
-        android:id="@+id/homeLayout"
-        style="@style/ClearBackgroundTheme"
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/profileScrollView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:orientation="vertical"
-        android:layout_marginBottom="@dimen/quarter_margin_size"
+        android:elevation="-1dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/homeActionBar">
 
-        <TextView
-            android:id="@+id/readyToScan"
-            style="@style/BoldTextAppearance"
+        <LinearLayout
+            android:id="@+id/homeLayout"
+            style="@style/ClearBackgroundTheme"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/half_margin_size"
-            android:text="@string/ready_to_scan"
-            android:textAlignment="center" />
-
-        <LinearLayout
-            android:id="@+id/homeContentLayout"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
             android:orientation="vertical"
-            app:layout_constraintBottom_toBottomOf="parent">
+            android:layout_marginBottom="@dimen/quarter_margin_size">
+
+            <TextView
+                android:id="@+id/readyToScan"
+                style="@style/TextBoldTheme"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/half_margin_size"
+                android:text="@string/ready_to_scan"
+                android:textAlignment="center" />
 
             <LinearLayout
-                android:id="@+id/homeChartLayout"
+                android:id="@+id/homeContentLayout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
-                <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/sugarLineChartCard"
-                    style="@style/BackgroundCardTheme"
+                <LinearLayout
+                    android:id="@+id/homeChartLayout"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
 
-                    <LinearLayout
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/sugarLineChartCard"
+                        style="@style/BackgroundCardTheme"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="vertical">
+                        android:layout_height="match_parent">
 
-                        <TextView
-                            android:id="@+id/bloodGlucoseTitle"
-                            style="@style/SubtitleTheme"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/half_margin_size"
-                            android:layout_marginTop="@dimen/half_margin_size"
-                            android:text="@string/glycemie" />
-
-                        <TextView
-                            android:id="@+id/bloodGlucoseSubtitle"
-                            style="@style/BoldTextAppearance"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/half_margin_size"
-                            android:text="@string/unit_glucose" />
-
-                        <com.epitech.diabetips.utils.DetailLineChart
-                            android:id="@+id/sugarLineChart"
-                            android:layout_width="match_parent"
-                            android:layout_height="0dp"
-                            android:layout_weight="1"
-                            android:layout_marginTop="@dimen/quarter_margin_size" />
-
-                        <LinearLayout
+                        <androidx.constraintlayout.widget.ConstraintLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:gravity="center_horizontal"
-                            android:background="?attr/colorDarkBackground"
-                            android:paddingTop="@dimen/quarter_margin_size">
+                            android:minHeight="400dp">
 
-                            <LinearLayout
-                                android:layout_width="0dp"
+                            <TextView
+                                android:id="@+id/bloodGlucoseTitle"
+                                style="@style/SubtitleTheme"
+                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginStart="@dimen/margin_size"
-                                android:baselineAligned="true"
-                                android:gravity="center|start"
-                                android:layout_weight="1"
-                                android:orientation="horizontal">
+                                android:layout_marginStart="@dimen/half_margin_size"
+                                android:layout_marginTop="@dimen/half_margin_size"
+                                android:text="@string/glycemie"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"/>
 
-                                <ImageView
-                                    android:layout_width="@dimen/icon_size"
-                                    android:layout_height="@dimen/icon_size"
-                                    app:srcCompat="@drawable/ic_syringe"
-                                    app:tint="@color/colorAccent"
-                                    android:contentDescription="@string/placeholder_text" />
+                            <TextView
+                                android:id="@+id/bloodGlucoseSubtitle"
+                                style="@style/TextAltTheme"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/half_margin_size"
+                                android:text="@string/unit_glucose"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@+id/bloodGlucoseTitle" />
+
+                            <androidx.constraintlayout.widget.ConstraintLayout
+                                android:id="@+id/lastBloodGlucoseLayout"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:visibility="gone"
+                                android:background="@color/colorPrimary"
+                                android:layout_marginTop="@dimen/quarter_margin_size"
+                                android:paddingTop="@dimen/quarter_margin_size"
+                                android:paddingBottom="@dimen/quarter_margin_size"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@+id/bloodGlucoseSubtitle">
 
                                 <TextView
-                                    style="@style/SoftTextAppearance"
+                                    android:id="@+id/lastBloodGlucose"
+                                    style="@style/TextBoldReverseTheme"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginStart="@dimen/quarter_margin_size"
-                                    android:text="@string/insulin_fast">
+                                    android:layout_marginStart="@dimen/half_margin_size"
+                                    app:layout_constraintTop_toTopOf="parent"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    android:text="@string/placeholder_number"/>
 
-                                </TextView>
+                                <TextView
+                                    android:id="@+id/lastBloodGlucoseTime"
+                                    style="@style/HintReverseTheme"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginEnd="@dimen/half_margin_size"
+                                    app:layout_constraintTop_toTopOf="parent"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    android:text="@string/placeholder_hour"/>
+
+                            </androidx.constraintlayout.widget.ConstraintLayout>
+
+                            <com.epitech.diabetips.utils.DetailLineChart
+                                android:id="@+id/sugarLineChart"
+                                android:layout_width="match_parent"
+                                android:layout_height="0dp"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@+id/lastBloodGlucoseLayout"
+                                app:layout_constraintBottom_toTopOf="@id/sugarLineChartLegendTopLayout"/>
+
+                            <LinearLayout
+                                android:id="@+id/sugarLineChartLegendTopLayout"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:gravity="center_horizontal"
+                                android:background="?attr/colorDarkBackground"
+                                android:paddingTop="@dimen/quarter_margin_size"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintBottom_toTopOf="@+id/sugarLineChartLegendBottomLayout"
+                                android:baselineAligned="false">
+
+                                <LinearLayout
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="@dimen/margin_size"
+                                    android:baselineAligned="true"
+                                    android:gravity="center|start"
+                                    android:layout_weight="1"
+                                    android:orientation="horizontal">
+
+                                    <ImageView
+                                        android:layout_width="@dimen/icon_size"
+                                        android:layout_height="@dimen/icon_size"
+                                        app:srcCompat="@drawable/ic_syringe"
+                                        app:tint="@color/colorAccent"
+                                        android:contentDescription="@string/placeholder_text" />
+
+                                    <TextView
+                                        style="@style/TextAltTheme"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginStart="@dimen/quarter_margin_size"
+                                        android:text="@string/insulin_fast"/>
+
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="@dimen/quarter_margin_size"
+                                    android:baselineAligned="true"
+                                    android:layout_weight="1"
+                                    android:gravity="center|start"
+                                    android:orientation="horizontal">
+
+                                    <ImageView
+                                        android:layout_width="@dimen/icon_size"
+                                        android:layout_height="@dimen/icon_size"
+                                        app:srcCompat="@drawable/ic_syringe"
+                                        app:tint="@color/colorAccentLight"
+                                        android:contentDescription="@string/placeholder_text" />
+
+                                    <TextView
+                                        style="@style/TextAltTheme"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginStart="@dimen/quarter_margin_size"
+                                        android:text="@string/insulin_slow"/>
+
+                                </LinearLayout>
 
                             </LinearLayout>
 
                             <LinearLayout
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="@dimen/quarter_margin_size"
-                                android:baselineAligned="true"
-                                android:layout_weight="1"
-                                android:gravity="center|start"
-                                android:orientation="horizontal">
+                                android:id="@+id/sugarLineChartLegendBottomLayout"
+                                android:layout_width="match_parent"
+                                android:layout_height="55dp"
+                                android:background="?attr/colorDarkBackground"
+                                android:paddingTop="@dimen/quarter_margin_size"
+                                android:orientation="horizontal"
+                                android:gravity="center_horizontal"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                android:baselineAligned="false">
 
-                                <ImageView
-                                    android:layout_width="@dimen/icon_size"
-                                    android:layout_height="@dimen/icon_size"
-                                    app:srcCompat="@drawable/ic_syringe"
-                                    app:tint="@color/colorAccentLight"
-                                    android:contentDescription="@string/placeholder_text" />
-
-                                <TextView
-                                    style="@style/SoftTextAppearance"
-                                    android:layout_width="wrap_content"
+                                <LinearLayout
+                                    android:layout_width="0dp"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginStart="@dimen/quarter_margin_size"
-                                    android:text="@string/insulin_slow">
+                                    android:layout_marginStart="@dimen/margin_size"
+                                    android:gravity="center|start"
+                                    android:layout_weight="1"
+                                    android:baselineAligned="true"
+                                    android:orientation="horizontal">
 
-                                </TextView>
-                            </LinearLayout>
-                        </LinearLayout>
+                                    <ImageView
+                                        android:layout_width="@dimen/icon_size"
+                                        android:layout_height="@dimen/icon_size"
+                                        app:srcCompat="@drawable/ic_fork"
+                                        app:tint="@color/colorPrimary"
+                                        android:contentDescription="@string/placeholder_text" />
 
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="55dp"
-                            android:background="?attr/colorDarkBackground"
-                            android:paddingTop="@dimen/quarter_margin_size"
-                            android:orientation="horizontal"
-                            android:gravity="center_horizontal">
+                                    <TextView
+                                        style="@style/TextAltTheme"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginStart="@dimen/quarter_margin_size"
+                                        android:text="@string/meal" />
+                                </LinearLayout>
 
-                            <LinearLayout
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="@dimen/margin_size"
-                                android:gravity="center|start"
-                                android:layout_weight="1"
-                                android:baselineAligned="true"
-                                android:orientation="horizontal">
-
-                                <ImageView
-                                    android:layout_width="@dimen/icon_size"
-                                    android:layout_height="@dimen/icon_size"
-                                    app:srcCompat="@drawable/ic_fork"
-                                    app:tint="@color/colorPrimary"
-                                    android:contentDescription="@string/placeholder_text" />
-
-                                <TextView
-                                    style="@style/SoftTextAppearance"
-                                    android:layout_width="wrap_content"
+                                <LinearLayout
+                                    android:layout_width="0dp"
                                     android:layout_height="wrap_content"
+                                    android:gravity="center|start"
                                     android:layout_marginStart="@dimen/quarter_margin_size"
-                                    android:text="@string/meal">
+                                    android:baselineAligned="true"
+                                    android:layout_weight="1"
+                                    android:orientation="horizontal">
 
-                                </TextView>
-                            </LinearLayout>
+                                    <ImageView
+                                        android:id="@+id/src"
+                                        android:layout_width="@dimen/icon_size"
+                                        android:layout_height="@dimen/icon_size"
+                                        app:srcCompat="@drawable/ic_comment"
+                                        app:tint="?attr/colorComment"
+                                        android:contentDescription="@string/placeholder_text" />
 
-                            <LinearLayout
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:gravity="center|start"
-                                android:layout_marginStart="@dimen/quarter_margin_size"
-                                android:baselineAligned="true"
-                                android:layout_weight="1"
-                                android:orientation="horizontal">
+                                    <TextView
+                                        style="@style/TextAltTheme"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginStart="@dimen/quarter_margin_size"
+                                        android:text="@string/comment" />
 
-                                <ImageView
-                                    android:id="@+id/src"
-                                    android:layout_width="@dimen/icon_size"
-                                    android:layout_height="@dimen/icon_size"
-                                    app:srcCompat="@drawable/ic_comment"
-                                    app:tint="?attr/colorComment"
-                                    android:contentDescription="@string/placeholder_text" />
-
-                                <TextView
-                                    style="@style/SoftTextAppearance"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginStart="@dimen/quarter_margin_size"
-                                    android:text="@string/comment">
-
-                                </TextView>
+                                </LinearLayout>
 
                             </LinearLayout>
 
-                        </LinearLayout>
+                        </androidx.constraintlayout.widget.ConstraintLayout>
 
-                    </LinearLayout>
+                    </com.google.android.material.card.MaterialCardView>
 
-                </com.google.android.material.card.MaterialCardView>
+                </LinearLayout>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/newEntryButton"
+                    style="@style/MaterialButtonAltTheme"
+                    android:layout_width="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="@dimen/negative_margin_size"
+                    android:text="@string/add_entry" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/homePredictionLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/half_margin_size"
+                android:visibility="gone"
+                android:orientation="vertical">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/imageDiabiPrediction"
+                    android:layout_width="match_parent"
+                    android:layout_height="96dp"
+                    android:src="@drawable/ic_diabi_insulin" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/homePredictionButton"
+                    style="@style/MaterialButtonAltTheme"
+                    android:layout_width="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:text="@string/calculate_insulin" />
+
+                 <LinearLayout
+                    android:id="@+id/homePredictionResultLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    android:orientation="vertical"
+                    android:gravity="center">
+
+                     <TextView
+                         android:id="@+id/homePredictionResultTime"
+                         style="@style/HintAltTheme"
+                         android:layout_width="wrap_content"
+                         android:layout_height="wrap_content"
+                         android:layout_marginTop="@dimen/quarter_margin_size"
+                         android:text="@string/placeholder_hour"/>
+
+                     <TextView
+                         android:id="@+id/homePredictionResult"
+                         style="@style/SubtitleAccentTheme"
+                         android:layout_width="wrap_content"
+                         android:layout_height="wrap_content"
+                         android:text="@string/placeholder_number"/>
+
+                 </LinearLayout>
 
             </LinearLayout>
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/newEntryButton"
-                style="@style/MaterialButtonAltTheme"
-                android:layout_width="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="@dimen/negative_margin_size"
-                android:text="@string/add_entry" />
+                android:id="@+id/openDashboardButton"
+                style="@style/MaterialButtonTheme"
+                android:layout_width="match_parent"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/half_margin_size"
+                android:layout_marginBottom="@dimen/half_margin_size"
+                android:visibility="gone"
+                android:orientation="vertical"
+                android:text="@string/open_dashboard_button"
+                tools:layout_marginTop="@dimen/half_margin_size" />
 
         </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/homePredictionLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/half_margin_size"
-        android:visibility="gone"
-        android:orientation="vertical">
-
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/imageDiabiPrediction"
-            android:layout_width="match_parent"
-            android:layout_height="96dp"
-            android:src="@drawable/ic_diabi_insulin" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/homePredictionButton"
-            style="@style/MaterialButtonAltTheme"
-            android:layout_width="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:text="@string/calculate_insulin" />
-
-         <LinearLayout
-            android:id="@+id/homePredictionResultLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:visibility="gone"
-            android:orientation="vertical"
-            android:gravity="center">
-
-             <TextView
-                 android:id="@+id/homePredictionResultTime"
-                 style="@style/HintTextAppearance"
-                 android:layout_width="wrap_content"
-                 android:layout_height="wrap_content"
-                 android:layout_marginTop="@dimen/quarter_margin_size"
-                 android:text="@string/placeholder_hour"/>
-
-             <TextView
-                 android:id="@+id/homePredictionResult"
-                 style="@style/AccentSubtitleAppearance"
-                 android:layout_width="wrap_content"
-                 android:layout_height="wrap_content"
-                 android:text="@string/placeholder_number"/>
-
-         </LinearLayout>
-
-    </LinearLayout>
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/openDashboardButton"
-            style="@style/MaterialButtonTheme"
-            android:layout_width="match_parent"
-            android:layout_gravity="center"
-            android:layout_marginTop="@dimen/half_margin_size"
-            android:layout_marginBottom="@dimen/half_margin_size"
-            android:visibility="gone"
-            android:orientation="vertical"
-            android:text="@string/open_dashboard_button"
-            tools:layout_marginTop="@dimen/half_margin_size" />
-
-    </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

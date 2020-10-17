@@ -17,7 +17,7 @@ class DetailLineChart @JvmOverloads constructor(context: Context, attrs: Attribu
         super.init()
         mYAxisLimitZonePaint.style = Paint.Style.FILL
         mYAxisLimitZonePaint.color = Color.TRANSPARENT
-        setNoDataText(context.getString(R.string.no_data))
+        setNoDataText("")
         setNoDataTextColor(MaterialHandler.getColorFromAttribute(context, R.attr.colorBackgroundText))
     }
 

@@ -63,9 +63,11 @@
         <activity android:name=".activities.NewMealActivity" android:windowSoftInputMode="adjustPan" android:screenOrientation="portrait" />
         <activity android:name=".activities.NewRecipeActivity" android:windowSoftInputMode="adjustPan" android:screenOrientation="portrait" />
         <activity android:name=".activities.EventNotebookActivity" android:windowSoftInputMode="adjustPan" android:screenOrientation="portrait" />
+        <activity android:name=".activities.AverageGlucoseActivity" android:windowSoftInputMode="adjustPan" android:screenOrientation="portrait" />
         <activity android:name=".activities.HbA1cActivity" android:windowSoftInputMode="adjustPan" android:screenOrientation="portrait" />
         <activity android:name=".activities.SettingsActivity" android:windowSoftInputMode="adjustPan" android:screenOrientation="portrait" />
         <activity android:name=".activities.NotificationActivity" android:windowSoftInputMode="adjustPan" android:screenOrientation="portrait" />
+        <activity android:name=".activities.ChatActivity" android:windowSoftInputMode="adjustPan" android:screenOrientation="portrait" />
     </application>
 
 </manifest>

@@ -292,13 +292,11 @@
                 android:layout_marginBottom="@dimen/quarter_margin_size"
                 android:layout_marginStart="@dimen/margin_size"
                 android:layout_marginEnd="@dimen/margin_size"
-                android:visibility="gone"
-                android:orientation="vertical"
-                android:gravity="center">
+                android:visibility="gone">
 
                 <TextView
                     android:id="@+id/calculateInsulinResultTime"
-                    style="@style/HintTextAppearance"
+                    style="@style/HintAltTheme"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:layout_constraintTop_toTopOf="parent"
@@ -308,7 +306,7 @@
 
                 <TextView
                     android:id="@+id/calculateInsulinResult"
-                    style="@style/AccentSubtitleAppearance"
+                    style="@style/SubtitleAccentTheme"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:layout_constraintTop_toTopOf="parent"

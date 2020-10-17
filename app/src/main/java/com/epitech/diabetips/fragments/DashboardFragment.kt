@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.epitech.diabetips.R
+import com.epitech.diabetips.activities.AverageGlucoseActivity
 import com.epitech.diabetips.activities.EventNotebookActivity
 import com.epitech.diabetips.activities.HbA1cActivity
 import com.epitech.diabetips.utils.ANavigationFragment
@@ -18,9 +19,16 @@ class DashboardFragment : ANavigationFragment(FragmentType.DASHBOARD) {
         view.dashboardEventNotebookCard.setOnClickListener {
             startActivity(Intent(requireContext(), EventNotebookActivity::class.java))
         }
+        view.dashboardGlucoseCurveCard.setOnClickListener {
+            startActivity(Intent(requireContext(), AverageGlucoseActivity::class.java))
+        }
+        view.dashboardGlucoseChartCard.setOnClickListener {
+            startActivity(Intent(requireContext(), AverageGlucoseActivity::class.java))
+        }
         view.dashboardHemoglobinCard.setOnClickListener {
             startActivity(Intent(requireContext(), HbA1cActivity::class.java))
         }
+
         return view
     }
 

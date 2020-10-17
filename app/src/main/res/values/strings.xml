@@ -72,7 +72,7 @@
     <string name="password_input">Password</string>
     <string name="password_confirm_input">Confirm Password</string>
     <string name="name_input">Name</string>
-    <string name="first_name_input">Firstname</string>
+    <string name="first_name_input">First name</string>
     <string name="login_button">Connection</string>
     <string name="sign_up_button">Sign Up</string>
     <string name="back_to_login_button">Back to login page</string>
@@ -91,11 +91,14 @@
     <string name="home_title">Home</string>
     <string name="last_prediction">• Last prediction</string>
     <string name="open_dashboard_button">Open Dashboard</string>
+    <string name="chat_title">Diabetologist discussion</string>
+    <string name="chat_input">Type your message</string>
     <!--Home / Dashboard end-->
 
     <!--Dashboard start-->
     <string name="dashboard_title">Dashboard</string>
     <string name="event_notebook_title">Event notebook</string>
+    <string name="average">Average</string>
     <string name="glucose_average_title">Average glucose level</string>
     <string name="glucose_curve_title">Blood glucose curve</string>
     <string name="hba1c_title">Glycated hemoglobin</string>
@@ -124,7 +127,7 @@
     <string name="diabetes_type_input">Diabetes type</string>
     <string name="hyperglycemia">Hyperglycemia</string>
     <string name="hypoglycemia">Hypoglycemia</string>
-    <string name="medical_informations">Medical informations</string>
+    <string name="medical_information">Medical information</string>
     <string name="new_password_button">Change Password</string>
     <string name="change_profile_picture">Change profile picture</string>
     <string name="new_picture">Take a new picture</string>
@@ -222,7 +225,7 @@
     <string name="date_format_error">Invalid date</string>
     <string name="email_invalid_error">Invalid email</string>
     <string name="name_invalid_error">Invalid name</string>
-    <string name="first_name_invalid_error">Invalid firstname</string>
+    <string name="first_name_invalid_error">Invalid first name</string>
     <string name="email_already_taken">This email is already linked to another account</string>
     <string name="login_invalid">Invalid email or password</string>
     <string name="registration_incomplete">Email address not confirmed</string>

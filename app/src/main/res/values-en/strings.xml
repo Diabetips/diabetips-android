@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="first_name_input">Firstname</string>
+    <string name="first_name_input">First name</string>
     <string name="name_input">Name</string>
     <string name="login_button">Connection</string>
     <string name="mail_input">Email</string>
@@ -33,7 +33,7 @@
     <string name="search_food">Search food</string>
     <string name="search_recipe">Search a recipe</string>
     <string name="forgot_password_button">Forgot Password</string>
-    <string name="first_name_invalid_error">Invalid firstname</string>
+    <string name="first_name_invalid_error">Invalid first name</string>
     <string name="home_title">Home</string>
     <string name="settings_title">Settings</string>
     <string name="dark_mode">Dark mode</string>
@@ -73,7 +73,7 @@
     <string name="height_input">Height (cm)</string>
     <string name="age_input">Age (year)</string>
     <string name="diabetes_type_input">Diabetes type</string>
-    <string name="medical_informations">Medical informations</string>
+    <string name="medical_information">Medical information</string>
     <string name="add_entry">Add a new entry</string>
     <string name="entry_title">New entry</string>
     <string name="unit_unit">unit</string>
@@ -172,4 +172,7 @@
     <string name="no_data">No data to display</string>
     <string name="last_prediction">• Last prediction</string>
     <string name="glucose_curve_title">Blood glucose curve</string>
+    <string name="average">Average</string>
+    <string name="chat_title">Diabetologist discussion</string>
+    <string name="chat_input">Type your message</string>
 </resources>

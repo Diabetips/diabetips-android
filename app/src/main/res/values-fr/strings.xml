@@ -69,7 +69,7 @@
     <string name="password_lowercase_error">Le mot de passe doit contenir au moins 1 lettre minuscule</string>
     <string name="password_uppercase_error">Le mot de passe doit contenir au moins 1 lettre majuscule</string>
     <string name="password_digit_error">Le mot de passe doit contenir au moins 1 chiffre</string>
-    <string name="medical_informations">Informations médicales</string>
+    <string name="medical_information">Informations médicales</string>
     <string name="diabetes_type_input">Type de diabète</string>
     <string name="age_input">Age (année)</string>
     <string name="height_input">Taille (cm)</string>
@@ -172,4 +172,7 @@
     <string name="no_data">Aucune donnée à afficher</string>
     <string name="last_prediction">• Dernière prédiction</string>
     <string name="glucose_curve_title">Courbe glycémique</string>
+    <string name="average">Moyenne</string>
+    <string name="chat_title">Discussion diabétologue</string>
+    <string name="chat_input">Tape ton message</string>
 </resources>

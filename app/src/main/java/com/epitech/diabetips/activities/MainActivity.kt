@@ -4,13 +4,14 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Patterns
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatDelegate
 import com.epitech.diabetips.R
 import com.epitech.diabetips.managers.UserManager
 import com.epitech.diabetips.managers.AuthManager
-import com.epitech.diabetips.managers.ModeManager
+import com.epitech.diabetips.services.BiometricService
 import com.epitech.diabetips.services.NotificationService
 import com.epitech.diabetips.services.TokenService
+import com.epitech.diabetips.services.UserService
+import com.epitech.diabetips.storages.BiometricObject
 import com.epitech.diabetips.storages.NotificationObject
 import com.epitech.diabetips.storages.UserObject
 import com.epitech.diabetips.textWatchers.EmailWatcher
@@ -56,8 +57,9 @@ class MainActivity : ADiabetipsActivity(R.layout.activity_main) {
             TokenService.instance.refreshToken(this).doAfterSuccess {
                 if (it.second.component2() == null) {
                     launchHomeActivity()
+                } else {
+                    changeSwipeLayoutState(false)
                 }
-                changeSwipeLayoutState(false)
             }.subscribe()
         }
         getParams()
@@ -92,19 +94,37 @@ class MainActivity : ADiabetipsActivity(R.layout.activity_main) {
                     } catch (e: Exception) {
                         Toast.makeText(this, getString(R.string.connexion_error), Toast.LENGTH_SHORT).show()
                     }
+                    changeSwipeLayoutState(false)
                 }
-                changeSwipeLayoutState(false)
             }.subscribe()
         }
     }
 
-    private fun launchHomeActivity() {
-        if (notification.id.isNotEmpty() && !notification.read) {
-            NotificationService.instance.remove<NotificationObject>(notification.id).doOnSuccess {
+    private fun launchHomeActivity(ignoreEmptyUser: Boolean = false) {
+        val account = UserManager.instance.getUser(this)
+        if (ignoreEmptyUser || account.uid != "") {
+            if (notification.id.isNotEmpty() && !notification.read) {
+                NotificationService.instance.remove<NotificationObject>(notification.id).doOnSuccess {
+                    startActivity(Intent(this, NavigationActivity::class.java))
+                }.subscribe()
+            } else {
                 startActivity(Intent(this, NavigationActivity::class.java))
-            }.subscribe()
+            }
+            changeSwipeLayoutState(false)
         } else {
-            startActivity(Intent(this, NavigationActivity::class.java))
+            UserService.instance.get<UserObject>("me").doOnSuccess { userResponse ->
+                if (userResponse.second.component2() == null) {
+                    UserManager.instance.saveUser(this, userResponse.second.component1()!!)
+                    BiometricService.instance.get<BiometricObject>().doOnSuccess { biometricResponse ->
+                        if (biometricResponse.second.component2() == null) {
+                            UserManager.instance.saveBiometric(this, biometricResponse.second.component1()!!)
+                        }
+                        launchHomeActivity()
+                    }.subscribe()
+                } else {
+                    launchHomeActivity(true)
+                }
+            }.subscribe()
         }
     }
 

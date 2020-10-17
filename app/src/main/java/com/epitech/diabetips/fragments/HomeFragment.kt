@@ -7,12 +7,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import com.epitech.diabetips.R
-import com.epitech.diabetips.activities.EventNotebookActivity
-import com.epitech.diabetips.activities.NavigationActivity
-import com.epitech.diabetips.activities.NewEntryActivity
-import com.epitech.diabetips.activities.RecipeActivity
+import com.epitech.diabetips.activities.*
 import com.epitech.diabetips.managers.EntriesManager
+import com.epitech.diabetips.managers.UserManager
+import com.epitech.diabetips.services.BloodSugarService
 import com.epitech.diabetips.services.PredictionService
+import com.epitech.diabetips.storages.BiometricObject
+import com.epitech.diabetips.storages.BloodSugarObject
 import com.epitech.diabetips.storages.EntryObject
 import com.epitech.diabetips.storages.PredictionObject
 import com.epitech.diabetips.utils.*
@@ -20,8 +21,8 @@ import kotlinx.android.synthetic.main.fragment_home.view.*
 
 class HomeFragment : ANavigationFragment(FragmentType.HOME) {
 
-    lateinit var entriesManager: EntriesManager
-    var loading: Boolean = false
+    private lateinit var entriesManager: EntriesManager
+    private var loading: Boolean = false
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         entriesManager = EntriesManager(requireContext()) { items, reset ->
@@ -41,11 +42,12 @@ class HomeFragment : ANavigationFragment(FragmentType.HOME) {
         view.openDashboardButton.setOnClickListener {
             startActivity(Intent(requireContext(),  EventNotebookActivity::class.java))
         }
+        view.viewChatButton.setOnClickListener {
+            startActivity(Intent(requireContext(), ChatActivity::class.java))
+        }
         handlePrediction(view)
+        getLastBloodSugar()
         ChartHandler.handleLineChartStyle(view.sugarLineChart, requireContext())
-        //Draw empty chart
-        val interval: Pair<Long, Long> = entriesManager.getPage()!!.getTimestampInterval(requireContext())
-        ChartHandler.updateChartData(listOf(), interval, view.sugarLineChart, requireContext(), R.string.no_data_24)
         //Call Api to update chart
         updateChart()
         (activity as NavigationActivity).nfcReader
@@ -98,6 +100,35 @@ class HomeFragment : ANavigationFragment(FragmentType.HOME) {
         } else {
             view?.homePredictionResultLayout?.visibility = View.GONE
         }
+    }
+
+    private fun getLastBloodSugar() {
+        BloodSugarService.instance.getLastMeasure().doOnSuccess {
+            updateLastBloodSugar(it.second.component1())
+            updateLastBloodSugar(BloodSugarObject(value = 75, time = TimeHandler.instance.currentTimeFormat(getString(R.string.format_time_api)))) //TODO remove
+        }.subscribe()
+    }
+
+    private fun updateLastBloodSugar(bloodSugar: BloodSugarObject?, view: View? = this.view) {
+        if ((bloodSugar?.value ?: 0) > 0) {
+            view?.lastBloodGlucose?.text = "${bloodSugar!!.value.toBigDecimal().stripTrailingZeros().toPlainString()} ${requireContext().getString(R.string.unit_glucose)}"
+            TimeHandler.instance.updateTimeDisplay(requireContext(), bloodSugar.time, null, view?.lastBloodGlucoseTime)
+            view?.lastBloodGlucoseTime?.text = "${view?.lastBloodGlucoseTime?.text} ${requireContext().getString(R.string.last_prediction)}"
+            val biometric: BiometricObject = UserManager.instance.getBiometric(requireContext())
+            if ((biometric.hyperglycemia ?: bloodSugar.value) < bloodSugar.value || (biometric.hypoglycemia ?: bloodSugar.value) > bloodSugar.value) {
+                view?.lastBloodGlucoseLayout?.background?.setTint(requireContext().getColor(R.color.colorAccent))
+            } else {
+                view?.lastBloodGlucoseLayout?.background?.setTint(requireContext().getColor(R.color.colorPrimary))
+            }
+            view?.lastBloodGlucoseLayout?.visibility = View.VISIBLE
+        } else {
+            view?.lastBloodGlucoseLayout?.visibility = View.GONE
+        }
+    }
+
+    fun onNfc() {
+        getLastBloodSugar()
+        entriesManager.getItems()
     }
 
     override fun isLoading(): Boolean {

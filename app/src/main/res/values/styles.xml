@@ -344,22 +344,17 @@
         <item name="android:paddingBottom">@dimen/quarter_margin_size</item>
     </style>
 
-    <style name="TitleAppearance" parent="TextViewAltTheme">
+    <style name="TitleAppearance" parent="TextAppearance.MaterialComponents.Headline1">
         <item name="fontFamily">@font/muli_black</item>
         <item name="android:textSize">@dimen/title_size</item>
     </style>
 
-    <style name="SubtitleAppearance" parent="TextViewAltTheme">
+    <style name="SubtitleAppearance" parent="TextAppearance.MaterialComponents.Headline1">
         <item name="fontFamily">@font/muli_bold</item>
         <item name="android:textSize">@dimen/subtitle_size</item>
     </style>
 
-    <style name="AccentSubtitleAppearance" parent="TextViewAccentTheme">
-        <item name="fontFamily">@font/muli_bold</item>
-        <item name="android:textSize">@dimen/subtitle_size</item>
-    </style>
-
-    <style name="BoldTextAppearance" parent="TextViewAltTheme">
+    <style name="BoldTextAppearance" parent="TextAppearance.MaterialComponents.Body1">
         <item name="fontFamily">@font/muli_bold</item>
         <item name="android:textSize">@dimen/text_size</item>
     </style>
@@ -369,12 +364,7 @@
         <item name="android:textSize">@dimen/text_size</item>
     </style>
 
-    <style name="SoftTextAppearance" parent="TextViewAltTheme">
-        <item name="fontFamily">@font/rubik_regular</item>
-        <item name="android:textSize">@dimen/text_size</item>
-    </style>
-
-    <style name="HintTextAppearance" parent="HintViewTheme">
+    <style name="HintTextAppearance" parent="TextAppearance.MaterialComponents.Subtitle1">
         <item name="fontFamily">@font/rubik_regular</item>
         <item name="android:textSize">@dimen/hint_size</item>
     </style>
@@ -422,6 +412,10 @@
         <item name="android:textAppearance">@style/SubtitleAppearance</item>
     </style>
 
+    <style name="SubtitleAccentTheme" parent="TextViewAccentTheme">
+        <item name="android:textAppearance">@style/SubtitleAppearance</item>
+    </style>
+
     <style name="TitleAltTheme" parent="TextViewAltTheme">
         <item name="android:textAppearance">@style/TitleAppearance</item>
     </style>
@@ -442,6 +436,14 @@
         <item name="android:textAppearance">@style/TextAppearance</item>
     </style>
 
+    <style name="TextBoldTheme" parent="TextViewAltTheme">
+        <item name="android:textAppearance">@style/BoldTextAppearance</item>
+    </style>
+
+    <style name="TextBoldReverseTheme" parent="TextViewReverseTheme">
+        <item name="android:textAppearance">@style/BoldTextAppearance</item>
+    </style>
+
     <style name="HintTheme" parent="TextViewTheme">
         <item name="android:textAppearance">@style/HintTextAppearance</item>
     </style>
@@ -450,7 +452,7 @@
         <item name="android:textAppearance">@style/HintTextAppearance</item>
     </style>
 
-    <style name="HintReverseTheme" parent="HintViewTheme">
+    <style name="HintReverseTheme" parent="TextViewReverseTheme">
         <item name="android:textAppearance">@style/HintTextAppearance</item>
     </style>
 

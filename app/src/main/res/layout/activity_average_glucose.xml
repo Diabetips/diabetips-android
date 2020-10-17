@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/ClearBackgroundTheme"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.AverageGlucoseActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/averageGlucoseActionBar"
+        style="@style/ActionBarTheme"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageButton
+            android:id="@+id/closeAverageGlucoseButton"
+            style="@style/ImageButtonTransparentTheme"
+            android:layout_marginStart="@dimen/half_margin_size"
+            android:contentDescription="@string/placeholder_text"
+            android:src="@drawable/ic_back"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/titleAverageGlucoseText"
+            style="@style/SubtitleTheme"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/half_margin_size"
+            android:text="@string/glucose_average_title"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/closeAverageGlucoseButton"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/averageGlucoseText"
+        style="@style/TextBoldTheme"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/half_margin_size"
+        android:layout_marginBottom="@dimen/half_margin_size"
+        android:text="@string/average"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

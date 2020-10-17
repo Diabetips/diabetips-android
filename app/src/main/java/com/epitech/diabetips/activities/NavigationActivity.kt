@@ -62,9 +62,9 @@ class NavigationActivity : ADiabetipsActivity(R.layout.activity_navigation), me.
     }
 
     private fun nfcReaderUpdated() {
-        if (currentFragment != null &&
-            (currentFragment as ANavigationFragment).fragmentType == ANavigationFragment.FragmentType.HOME)
-            (currentFragment as HomeFragment).entriesManager.getItems()
+        if (currentFragment != null && (currentFragment as ANavigationFragment).fragmentType == ANavigationFragment.FragmentType.HOME) {
+            (currentFragment as HomeFragment).onNfc()
+        }
     }
 
     private fun selectDefaultFragment() {

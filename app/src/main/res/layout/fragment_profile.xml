@@ -214,7 +214,7 @@
                 android:layout_marginStart="@dimen/margin_size"
                 android:layout_marginTop="@dimen/half_margin_size"
                 android:layout_marginBottom="@dimen/quarter_margin_size"
-                android:text="@string/medical_informations" />
+                android:text="@string/medical_information" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/weightProfileInputLayout"

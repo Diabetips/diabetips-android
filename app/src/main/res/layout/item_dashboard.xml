@@ -34,7 +34,7 @@
 
             <TextView
                 android:id="@+id/dashboardItemTitle"
-                style="@style/BoldTextAppearance"
+                style="@style/TextBoldTheme"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/quarter_margin_size"
@@ -61,7 +61,7 @@
 
         <TextView
             android:id="@+id/dashboardItemTime"
-            style="@style/SoftTextAppearance"
+            style="@style/TextAltTheme"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
