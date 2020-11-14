@@ -19,7 +19,7 @@ import com.epitech.diabetips.utils.ADiabetipsActivity
 import com.epitech.diabetips.utils.ANavigationFragment
 import com.epitech.diabetips.utils.RequestCode
 import com.google.android.gms.tasks.OnCompleteListener
-import com.google.firebase.iid.FirebaseInstanceId
+import com.google.firebase.messaging.FirebaseMessaging
 import kotlinx.android.synthetic.main.activity_navigation.*
 
 class NavigationActivity : ADiabetipsActivity(R.layout.activity_navigation), me.ibrahimsn.lib.OnItemSelectedListener  {
@@ -43,22 +43,21 @@ class NavigationActivity : ADiabetipsActivity(R.layout.activity_navigation), me.
     }
 
     private fun initFirebase() {
-        FirebaseInstanceId.getInstance().instanceId
-            .addOnCompleteListener(OnCompleteListener { task ->
-                if (!task.isSuccessful) {
-                    Log.w("Firebase", "getInstanceId failed", task.exception)
-                    return@OnCompleteListener
+        FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
+            if (!task.isSuccessful) {
+                Log.w("Firebase", "getInstanceId failed", task.exception)
+                return@OnCompleteListener
+            }
+            Log.d("FirebaseToken", "${task.result}")
+            if (task.result != null)
+                NotificationService.instance.register(FCMTokenObject(task.result!!)).subscribe()
+            NotificationService.instance.getAll<NotificationObject>(PaginationObject(1, resources.getInteger(R.integer.pagination_default))).doOnSuccess {
+                if (it.second.component2() == null && it.second.component1()?.firstOrNull() != null && !it.second.component1()?.first()!!.read) {
+                    Log.d("FirebaseNotification", it.second.component1()!!.first().toString())
+                    it.second.component1()!!.first().send(this)
                 }
-                Log.d("FirebaseToken", "${task.result?.token}")
-                if (task.result?.token != null)
-                    NotificationService.instance.register(FCMTokenObject(task.result?.token!!)).subscribe()
-                NotificationService.instance.getAll<NotificationObject>(PaginationObject(1, resources.getInteger(R.integer.pagination_default))).doOnSuccess {
-                    if (it.second.component2() == null && it.second.component1()?.firstOrNull() != null && !it.second.component1()?.first()!!.read) {
-                        Log.d("FirebaseNotification", it.second.component1()!!.first().toString())
-                        it.second.component1()!!.first().send(this)
-                    }
-                }.subscribe()
-            })
+            }.subscribe()
+        })
     }
 
     private fun nfcReaderUpdated() {

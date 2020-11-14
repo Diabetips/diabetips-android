@@ -23,6 +23,7 @@ class TimeHandler {
 
     private val calendar: Calendar = Calendar.getInstance()
     val dayInMinute = 1440
+    val hourInMillis = 3600000
 
     fun currentTime() : Long {
         return System.currentTimeMillis()
@@ -83,18 +84,46 @@ class TimeHandler {
         return timePickerDialog
     }
 
-    fun addMinuteToFormat(date: String, format: String, minuteToAdd: Int = 0): String {
-        calendar.timeInMillis = getTimestampFromFormat(date, format) ?: currentTime()
-        calendar.add(Calendar.MINUTE, minuteToAdd)
-        return formatTimestamp(calendar.timeInMillis, format)
+    fun addTimeToFormat(date: String, format: String, timeToAdd: Int = 0, timeType: Int = Calendar.MINUTE): String {
+        return formatTimestamp(addTimeToTimestamp((getTimestampFromFormat(date, format) ?: currentTime()), timeToAdd, timeType), format)
+    }
+
+    fun addTimeToTimestamp(timestamp: Long, timeToAdd: Int = 0, timeType: Int): Long {
+        calendar.timeInMillis = timestamp
+        calendar.add(timeType, timeToAdd)
+        return calendar.timeInMillis
     }
 
     fun getSecondDiffFormat(start: String, end: String, format: String): Long {
-        return getSecondDiff(getTimestampFromFormat(start, format) ?: currentTime(), getTimestampFromFormat(end, format) ?: currentTime())
+        return getTimeDiffFormat(start, end, format) / 1000
     }
 
     fun getSecondDiff(start: Long, end: Long): Long {
-        return (start - end) / 1000
+        return getTimeDiff(start, end) / 1000
+    }
+
+    fun getFormatDiff(start: String, end: String, inputFormat: String, outputFormat: String = inputFormat): String {
+        return formatTimestamp(getTimeDiffFormat(start, end, inputFormat) - hourInMillis, outputFormat)
+    }
+
+    private fun getTimeDiffFormat(start: String, end: String, format: String): Long {
+        return getTimeDiff(getTimestampFromFormat(start, format) ?: currentTime(), getTimestampFromFormat(end, format) ?: currentTime())
+    }
+
+    private fun getTimeDiff(start: Long, end: Long): Long {
+        return (start - end)
+    }
+
+    fun getIntervalFormat(context: Context, timeRange: String, format: String): Pair<String, String> {
+        val current = currentTimeFormat(format)
+        return when (timeRange) {
+            context.getString(R.string.time_range_week) -> Pair(addTimeToFormat(current, format, -1, Calendar.WEEK_OF_YEAR), current)
+            context.getString(R.string.time_range_week_2) -> Pair(addTimeToFormat(current, format, -2, Calendar.WEEK_OF_YEAR), current)
+            context.getString(R.string.time_range_month) -> Pair(addTimeToFormat(current, format, -1, Calendar.MONTH), current)
+            context.getString(R.string.time_range_month_3) -> Pair(addTimeToFormat(current, format, -3, Calendar.MONTH), current)
+            context.getString(R.string.time_range_year) -> Pair(addTimeToFormat(current, format, -1, Calendar.YEAR), current)
+            else -> Pair(formatTimestamp(0, format), current)
+        }
     }
 
     fun changeFormatDate(date: String, format: String, year: Int, month: Int, day: Int): String {

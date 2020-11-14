@@ -13,10 +13,7 @@ import com.epitech.diabetips.activities.NewMealActivity
 import com.epitech.diabetips.holders.DashboardItemViewHolder
 import com.epitech.diabetips.services.InsulinService
 import com.epitech.diabetips.services.NoteService
-import com.epitech.diabetips.storages.EntryObject
-import com.epitech.diabetips.storages.InsulinObject
-import com.epitech.diabetips.storages.MealObject
-import com.epitech.diabetips.storages.NoteObject
+import com.epitech.diabetips.storages.*
 import com.epitech.diabetips.utils.*
 import kotlinx.android.synthetic.main.dialog_change_comment.view.*
 import kotlinx.android.synthetic.main.dialog_change_insulin.view.*
@@ -84,6 +81,7 @@ class DashboardItemsAdapter(
                 ObjectType.INSULIN -> changeInsulin(items[position], position)
                 ObjectType.INSULIN_SLOW -> changeInsulin(items[position], position)
                 ObjectType.INSULIN_FAST -> changeInsulin(items[position], position)
+                ObjectType.ACTIVITY -> changeActivity(items[position], position)
                 ObjectType.EVENT -> TODO()
                 ObjectType.SUGAR -> TODO()
             }
@@ -192,6 +190,16 @@ class DashboardItemsAdapter(
                         }
                     }.subscribe()
                 }
+            }
+        }
+    }
+
+    private fun changeActivity(item: EntryObject, position: Int) {
+        DialogHandler.dialogActivity(context, LayoutInflater.from(context), fragmentManager, (item.orignal as ActivityObject).copy()) { activityObject ->
+            if (activityObject != null) {
+                setItem(EntryObject(activityObject, context), position)
+            } else {
+                removeItem(position)
             }
         }
     }

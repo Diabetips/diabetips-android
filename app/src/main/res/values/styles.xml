@@ -272,6 +272,7 @@
         <item name="boxCornerRadiusBottomEnd">@dimen/input_corner_size</item>
         <item name="boxCornerRadiusTopEnd">@dimen/input_corner_size</item>
         <item name="boxCornerRadiusTopStart">@dimen/input_corner_size</item>
+        <item name="startIconTint">?attr/colorText</item>
         <item name="endIconTint">?attr/colorHint</item>
         <item name="hintTextAppearance">@style/HintTextAppearance</item>
         <item name="android:textColorHint">?attr/colorHint</item>
@@ -289,6 +290,12 @@
         <item name="hintEnabled">false</item>
         <item name="hintAnimationEnabled">false</item>
         <item name="boxCollapsedPaddingTop">0dp</item>
+    </style>
+
+    <style name="EditInputLayoutTheme" parent="TextInputLayoutTheme">
+        <item name="endIconDrawable">@drawable/ic_edit</item>
+        <item name="endIconTint">?attr/colorText</item>
+        <item name="endIconMode">custom</item>
     </style>
 
     <style name="RemoveInputLayoutTheme" parent="TextInputLayoutTheme">
@@ -319,7 +326,11 @@
         <item name="endIconMode">dropdown_menu</item>
     </style>
 
-    <style name="DropdownTheme" parent="@style/Widget.AppCompat.EditText">
+    <style name="DropdownInputNoHintLayoutTheme" parent="TextInputNoHintLayoutTheme">
+        <item name="endIconMode">dropdown_menu</item>
+    </style>
+
+    <style name="AutocompleteTheme" parent="@style/Widget.AppCompat.EditText">
         <item name="android:paddingStart">@dimen/half_margin_size</item>
         <item name="android:paddingEnd">@dimen/half_margin_size</item>
         <item name="android:paddingTop">@dimen/quarter_margin_size</item>
@@ -327,6 +338,10 @@
         <item name="android:textAppearance">@style/TextAppearance</item>
         <item name="android:textColor">?attr/colorText</item>
         <item name="android:textColorHint">?attr/colorHint</item>
+        <item name="android:popupBackground">?attr/colorInputBackground</item>
+    </style>
+
+    <style name="DropdownTheme" parent="AutocompleteTheme">
         <item name="android:inputType">none</item>
         <item name="android:clickable">false</item>
         <item name="android:cursorVisible">false</item>

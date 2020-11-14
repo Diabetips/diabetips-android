@@ -122,7 +122,8 @@
                         android:maxLength="@integer/portion_max_length"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:inputType="numberDecimal" />
+                        android:inputType="numberDecimal"
+                        android:imeOptions="actionDone"/>
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -206,7 +207,8 @@
                         android:maxLength="@integer/portion_max_length"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:inputType="number" />
+                        android:inputType="number"
+                        android:imeOptions="actionDone" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 

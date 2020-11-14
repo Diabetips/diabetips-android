@@ -9,15 +9,15 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.epitech.diabetips.holders.DashboardGroupedItemsViewHolder
 import com.epitech.diabetips.storages.EntryObject
+import com.epitech.diabetips.utils.toInt
 import java.util.*
 
-var animationPlaybackSpeed: Double = 0.8
+//var animationPlaybackSpeed: Double = 0.8
 
 class DashboardGroupedItemsAdapter(
         val context: Context,
         private val fragmentManager: FragmentManager,
-        private var items: ArrayList<Pair<String?, List<EntryObject>>> = arrayListOf(),
-        private val onItemClickListener: ((EntryObject) -> Unit)? = null)
+        private var items: ArrayList<Pair<String?, List<EntryObject>>> = arrayListOf())
     : RecyclerView.Adapter<DashboardGroupedItemsViewHolder>() {
 
 
@@ -79,35 +79,34 @@ class DashboardGroupedItemsAdapter(
             setRecycledViewPool(viewPool)
         }
 
-        expandItem(holder, model == expandedModel, animate = false)
+        expandItem(holder, expand = false)
 
         holder.more.setOnClickListener {
             if (expandedModel == null) {
                 // expand clicked view
-                expandItem(holder, expand = true, animate = true)
+                expandItem(holder, expand = true)
                 expandedModel = model
             } else if (expandedModel == model) {
                 // collapse clicked view
-                expandItem(holder, expand = false, animate = true)
+                expandItem(holder, expand = false)
                 expandedModel = null
             } else {
                 // collapse previously expanded view
                 val expandedModelPosition = items.indexOf(expandedModel!!)
                 val oldViewHolder = recyclerView.findViewHolderForAdapterPosition(expandedModelPosition) as? DashboardGroupedItemsViewHolder
                 if (oldViewHolder != null) {
-                        expandItem(oldViewHolder, expand = false, animate = true)
+                        expandItem(oldViewHolder, expand = false)
                 }
                 // expand clicked view
-                expandItem(holder, expand = true, animate = true)
+                expandItem(holder, expand = true)
                 expandedModel = model
             }
         }
 
     }
 
-    private fun expandItem(holder: DashboardGroupedItemsViewHolder, expand: Boolean, animate: Boolean) {
+    private fun expandItem(holder: DashboardGroupedItemsViewHolder, expand: Boolean) {
         holder.recyclerView.isVisible = expand
-        holder.more.rotation *= 180
         holder.changeState(expand)
     }
 }

@@ -1,12 +1,9 @@
 package com.epitech.diabetips.utils
 
 import android.content.Context
-import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
-import android.graphics.drawable.ScaleDrawable
-import android.graphics.drawable.VectorDrawable
 import android.text.format.DateFormat
 import android.util.TypedValue
 import androidx.core.content.ContextCompat
@@ -75,14 +72,17 @@ class ChartHandler {
                 drawLimits(lineData)
 
             val punctualInfo = mapOf(
-                ObjectType.MEAL to ContextCompat.getDrawable(context, R.drawable.ic_fork).apply {
-                    this?.setTint(ContextCompat.getColor(context, R.color.colorPrimary))
-                },
                 ObjectType.INSULIN_FAST to ContextCompat.getDrawable(context, R.drawable.ic_syringe).apply {
                     this?.setTint(ContextCompat.getColor(context, R.color.colorAccent))
                 },
                 ObjectType.INSULIN_SLOW to ContextCompat.getDrawable(context, R.drawable.ic_syringe_alt).apply {
                     this?.setTint(ContextCompat.getColor(context, R.color.colorAccentLight))
+                },
+                ObjectType.MEAL to ContextCompat.getDrawable(context, R.drawable.ic_fork).apply {
+                    this?.setTint(ContextCompat.getColor(context, R.color.colorPrimary))
+                },
+                ObjectType.ACTIVITY to ContextCompat.getDrawable(context, R.drawable.ic_activity).apply {
+                    this?.setTint(ContextCompat.getColor(context, R.color.colorGreen))
                 },
                 ObjectType.NOTE to ContextCompat.getDrawable(context, R.drawable.ic_comment).apply {
                     this?.setTint(MaterialHandler.getColorFromAttribute(context, R.attr.colorComment))
@@ -203,7 +203,7 @@ class ChartHandler {
     }
 }
 
-class HoursFormatter(private val intervalTimeStamp: Pair<Long, Long>, context: Context) : ValueFormatter() {
+class HoursFormatter(intervalTimeStamp: Pair<Long, Long>, context: Context) : ValueFormatter() {
 
     var labels = mutableMapOf<Float, String>()
     private var lastTimeValue = (intervalTimeStamp.second - intervalTimeStamp.first).toFloat()

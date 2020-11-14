@@ -15,10 +15,12 @@
     <dimen name="icon_size">16dp</dimen>
     <dimen name="negative_margin_size">-33dp</dimen>
     <dimen name="negative_half_margin_size">-16dp</dimen>
+    <dimen name="big_margin_size">48dp</dimen>
     <dimen name="margin_size">32dp</dimen>
     <dimen name="half_margin_size">16dp</dimen>
     <dimen name="quarter_margin_size">8dp</dimen>
     <dimen name="input_corner_size">25dp</dimen>
+    <dimen name="chart_corner_size">15dp</dimen>
     <dimen name="shadow_size">2dp</dimen>
     <dimen name="button_inset">0dp</dimen>
     <dimen name="search_bar_corner">18dp</dimen>
@@ -28,4 +30,5 @@
     <dimen name="text_size">14sp</dimen>
     <dimen name="hint_size">9sp</dimen>
     <dimen name="error_size">9sp</dimen>
+    <dimen name="chart_value_size">5sp</dimen>
 </resources>

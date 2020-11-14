@@ -28,7 +28,7 @@ class EventNotebookActivity : ADiabetipsActivity(R.layout.activity_event_noteboo
 
     private fun setupEntriesManager() {
         entriesManager = EntriesManager(context = this) { items, reset ->
-                setItemsInDashBoardAdapter(reset, items)
+                setItemsInDashBoardAdapter(items, reset)
             }
         entriesManager.deactivate(ObjectType.SUGAR)
         entriesManager.getPage()?.setInterval(
@@ -65,7 +65,7 @@ class EventNotebookActivity : ADiabetipsActivity(R.layout.activity_event_noteboo
         entriesManager.getItems(resetPage)
     }
 
-    private fun setItemsInDashBoardAdapter(resetPage: Boolean, items: Array<EntryObject>) {
+    private fun setItemsInDashBoardAdapter(items: Array<EntryObject>, resetPage: Boolean) {
         val newItems = ArrayList(items.sortedByDescending{it.time}.toTypedArray().groupBy {
             TimeHandler.instance.changeTimeFormat(it.time, getString(R.string.format_time_api), getString(R.string.format_date_dashboard))
         }.toList())

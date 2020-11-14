@@ -25,19 +25,21 @@
             <TextView
                 android:id="@+id/selectQuantityTitle"
                 style="@style/SubtitleTheme"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_size"
+                android:paddingStart="@dimen/margin_size"
+                android:paddingEnd="@dimen/margin_size"
                 android:layout_marginTop="@dimen/half_margin_size"
                 android:text="@string/select_quantity"
                 app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/selectQuantityInputLayout"
                 style="@style/RemoveInputLayoutTheme"
                 android:layout_width="match_parent"
-                android:layout_marginTop="@dimen/quarter_margin_size"
+                android:layout_marginTop="@dimen/half_margin_size"
                 android:hint="@string/select_quantity_input"
                 android:maxLength="@integer/portion_max_length"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -50,7 +52,8 @@
                     android:maxLength="@integer/portion_max_length"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="numberDecimal" />
+                    android:inputType="numberDecimal"
+                    android:imeOptions="actionDone" />
 
             </com.google.android.material.textfield.TextInputLayout>
 

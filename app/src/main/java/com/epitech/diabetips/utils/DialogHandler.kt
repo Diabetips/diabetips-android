@@ -16,13 +16,18 @@ import androidx.core.app.ActivityCompat
 import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.epitech.diabetips.R
+import com.epitech.diabetips.adapters.DropdownAdapter
 import com.epitech.diabetips.adapters.NutritionalAdapter
+import com.epitech.diabetips.services.ActivityService
 import com.epitech.diabetips.services.FoodService
-import com.epitech.diabetips.storages.FoodObject
+import com.epitech.diabetips.storages.ActivityObject
 import com.epitech.diabetips.storages.IngredientObject
+import com.epitech.diabetips.textWatchers.CustomWatcher
+import com.epitech.diabetips.textWatchers.InputWatcher
 import com.epitech.diabetips.textWatchers.NumberWatcher
 import com.epitech.diabetips.textWatchers.TextChangedWatcher
 import com.google.zxing.integration.android.IntentIntegrator
+import kotlinx.android.synthetic.main.dialog_activity.view.*
 import kotlinx.android.synthetic.main.dialog_barcode_not_found.view.*
 import kotlinx.android.synthetic.main.dialog_change_picture.view.*
 import kotlinx.android.synthetic.main.dialog_confirm.view.*
@@ -55,7 +60,7 @@ class DialogHandler {
             }
         }
 
-        fun dialogSaveChange(context: Context, layoutInflater: LayoutInflater, positiveCallback: (() -> Unit), negativeCallback: (() -> Unit) ) {
+        fun dialogSaveChange(context: Context, layoutInflater: LayoutInflater, positiveCallback: (() -> Unit), negativeCallback: (() -> Unit)) {
             createDialog(context, layoutInflater, R.layout.dialog_save_change) { view, dialog ->
                 view.saveChangeNegativeButton.setOnClickListener {
                     negativeCallback.invoke()
@@ -88,8 +93,90 @@ class DialogHandler {
             }
         }
 
+        fun dialogActivity(context: Context, layoutInflater: LayoutInflater, fragmentManager: FragmentManager, activity: ActivityObject = ActivityObject(), callback: ((ActivityObject?) -> Unit) = {}) {
+            createDialog(context, layoutInflater, R.layout.dialog_activity) { view, dialog ->
+                view.dialogActivityTypeInput.addTextChangedListener(InputWatcher(context, view.dialogActivityTypeInputLayout, true))
+                view.dialogActivityTypeInput.setAdapter(DropdownAdapter(context, R.array.sports, true))
+                if (activity.id > 0) {
+                    view.dialogActivityTitle.text = context.getString(R.string.change_activity)
+                    view.dialogActivityTypeInput.setText(activity.type)
+                    TimeHandler.instance.updateTimeDisplay(context, activity.start, view.dialogActivityTimeDate, view.dialogActivityTimeHour)
+                } else {
+                    view.dialogActivityTitle.setText(R.string.add_activity)
+                    view.dialogActivityTimeLayout.visibility = View.GONE
+                    view.dialogActivityDeleteButton.visibility = View.INVISIBLE
+                    activity.intensity = view.dialogActivityIntensityInput.max / 2
+                }
+                view.dialogActivityIntensityInput.progress = activity.intensity.coerceAtMost(view.dialogActivityIntensityInput.max)
+                view.dialogActivityIntensityText.text = activity.getIntensity(context)
+                view.dialogActivityDurationInput.setText(activity.getDuration(context))
+                view.dialogActivityDurationInput.addTextChangedListener(CustomWatcher(view.dialogActivityDurationInputLayout) {
+                    if (activity.getDurationSecond(context) > 0) null else context.getString(R.string.duration_error)
+                })
+                view.dialogActivityIntensityInput.setOnSeekBarChangeListener(SeekBarListener { intensity ->
+                    activity.intensity = intensity
+                    view.dialogActivityIntensityText.text = activity.getIntensity(context)
+                })
+                view.dialogActivityTimeDate.setOnClickListener {
+                    datePickerDialog(context, fragmentManager, activity.start, view.dialogActivityTimeDate) { time ->
+                        activity.setStart(context, time)
+                    }
+                }
+                view.dialogActivityTimeHour.setOnClickListener {
+                    timePickerDialog(context, fragmentManager, activity.start, view.dialogActivityTimeHour) { time ->
+                        activity.setStart(context, time)
+                    }
+                }
+                view.dialogActivityDurationInput.setOnFocusChangeListener { _, hasFocus ->
+                    if (hasFocus) {
+                        view.dialogActivityDurationInput.clearFocus()
+                        timePickerDialog(
+                            context, fragmentManager,
+                            TimeHandler.instance.changeTimeFormat(view.dialogActivityDurationInput.text.toString(), context.getString(R.string.format_hour_24), context.getString(R.string.format_time_api))
+                                ?: TimeHandler.instance.currentTimeFormat(context.getString(R.string.format_time_api))) { time ->
+                            activity.setDuration(context, time)
+                            view.dialogActivityDurationInput.setText(activity.getDuration(context))
+                        }
+                    }
+                }
+                view.dialogActivityNegativeButton.setOnClickListener {
+                    dialog.dismiss()
+                }
+                view.dialogActivityPositiveButton.setOnClickListener {
+                    view.dialogActivityTypeInput.text = view.dialogActivityTypeInput.text
+                    view.dialogActivityDurationInput.text = view.dialogActivityDurationInput.text
+                    if (view.dialogActivityTypeInputLayout.error == null && view.dialogActivityDurationInputLayout.error == null) {
+                        activity.type = view.dialogActivityTypeInput.text.toString()
+                        activity.intensity = view.dialogActivityIntensityInput.progress
+                        ActivityService.instance.createOrUpdate(activity, activity.id).doOnSuccess {
+                            if (it.second.component2() == null) {
+                                callback.invoke(it.second.component1())
+                                dialog.dismiss()
+                            } else {
+                                Toast.makeText(context, it.second.component2()!!.exception.message, Toast.LENGTH_SHORT).show()
+                            }
+                        }.subscribe()
+                    }
+                }
+                view.dialogActivityDeleteButton.setOnClickListener {
+                    dialogConfirm(context, layoutInflater, R.string.activity_delete) {
+                        ActivityService.instance.remove<ActivityObject>(activity.id).doOnSuccess {
+                            if (it.second.component2() == null) {
+                                callback.invoke(null)
+                                Toast.makeText(context, context.getString(R.string.deleted), Toast.LENGTH_SHORT).show()
+                                dialog.dismiss()
+                            } else {
+                                Toast.makeText(context, it.second.component2()!!.exception.message, Toast.LENGTH_SHORT).show()
+                            }
+                        }.subscribe()
+                    }
+                }
+            }
+        }
+
         fun dialogSelectQuantity(context: Context, layoutInflater: LayoutInflater, ingredientObject: IngredientObject, callback: ((IngredientObject) -> Unit)) {
             createDialog(context, layoutInflater, R.layout.dialog_select_quantity) { view, dialog ->
+                view.selectQuantityTitle.text = ingredientObject.food.name
                 view.selectQuantityInputLayout.hint = "${view.selectQuantityInputLayout.hint} (${ingredientObject.food.unit})"
                 if (ingredientObject.quantity > 0) {
                     view.selectQuantityInput.setText(ingredientObject.quantity.toBigDecimal().stripTrailingZeros().toPlainString())
@@ -121,6 +208,7 @@ class DialogHandler {
             createDialog(activity, activity.layoutInflater, R.layout.dialog_barcode_not_found) { view, dialog ->
                 view.dialogBarcodeText.setText(textId)
                 view.dialogBarcodeScanButton.setOnClickListener {
+                    dialog.dismiss()
                     ImageHandler.instance.startBarcodeActivity(activity)
                 }
                 view.dialogBarcodeCloseButton.setOnClickListener {
@@ -132,9 +220,9 @@ class DialogHandler {
         fun dialogBarcode(activity: Activity, data: Intent?, callback: ((IngredientObject) -> Unit)) {
             val result = IntentIntegrator.parseActivityResult(Activity.RESULT_OK, data)
             if (result?.contents != null) {
-                FoodService.instance.get<FoodObject>(result.contents).doOnSuccess {
-                    if ((it.second.component1()?.id ?: 0) > 0) {
-                        dialogSelectQuantity(activity, activity.layoutInflater, it.second.component1()!!.getIngredient(), callback)
+                FoodService.instance.getBarcode(result.contents).doOnSuccess {
+                    if ((it.second.component1()?.firstOrNull()?.id ?: 0) > 0) {
+                        dialogSelectQuantity(activity, activity.layoutInflater, it.second.component1()!!.first().getIngredient(), callback)
                     } else {
                         dialogBarCodeNotFound(activity)
                     }

@@ -38,12 +38,48 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/averageGlucoseTimeInputLayout"
+        style="@style/DropdownInputNoHintLayoutTheme"
+        android:layout_marginTop="@dimen/half_margin_size"
+        android:layout_width="match_parent"
+        android:hint="@string/time_range_input"
+        android:labelFor="@id/averageGlucoseTimeDropdown"
+        app:layout_constraintTop_toBottomOf="@id/averageGlucoseActionBar">
+
+        <AutoCompleteTextView
+            android:id="@+id/averageGlucoseTimeDropdown"
+            style="@style/DropdownTheme"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView
+        android:id="@+id/averageGlucoseChartUnit"
+        style="@style/HintAltTheme"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/unit_glucose"
+        android:elevation="@dimen/shadow_size"
+        app:layout_constraintEnd_toEndOf="@id/averageBarChart"
+        app:layout_constraintTop_toTopOf="@id/averageBarChart"/>
+
+    <com.epitech.diabetips.utils.DetailBarChart
+        android:id="@+id/averageBarChart"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginStart="@dimen/margin_size"
+        android:layout_marginEnd="@dimen/margin_size"
+        android:layout_marginBottom="@dimen/half_margin_size"
+        app:layout_constraintTop_toBottomOf="@id/averageGlucoseTimeInputLayout"
+        app:layout_constraintBottom_toTopOf="@id/averageGlucoseText" />
+
     <TextView
         android:id="@+id/averageGlucoseText"
         style="@style/TextBoldTheme"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/half_margin_size"
         android:layout_marginBottom="@dimen/half_margin_size"
         android:text="@string/average"
         app:layout_constraintStart_toStartOf="parent"

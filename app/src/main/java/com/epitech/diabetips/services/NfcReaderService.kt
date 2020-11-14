@@ -107,8 +107,8 @@ class NfcReaderService(var context: Context, myIntent: Intent, var activity: Act
             Log.d("Diabetips", "NfcAdapter.ACTION_TECH_DISCOVERED")
             // In case we would still use the Tech Discovered Intent
             val tag = intent.getParcelableExtra<Tag>(NfcAdapter.EXTRA_TAG)
-            val techList = tag?.techList
-            val searchedTech = NfcV::class.java.name
+            //val techList = tag?.techList
+            //val searchedTech = NfcV::class.java.name
             NfcVReaderTask().execute(tag)
         }
     }
@@ -121,7 +121,7 @@ class NfcReaderService(var context: Context, myIntent: Intent, var activity: Act
         val pi: PendingIntent = activity.createPendingResult(RequestCode.NFC_READER.ordinal, Intent(), 0)
         if (updateNfcStatus()) {
             try {
-                mNfcAdapter?.enableForegroundDispatch(
+                adapter?.enableForegroundDispatch(
                     activity,
                     pi,
                     arrayOf(IntentFilter(NfcAdapter.ACTION_TECH_DISCOVERED)),
@@ -246,7 +246,7 @@ class NfcReaderService(var context: Context, myIntent: Intent, var activity: Act
                 Toast.makeText(context, context.getString(R.string.sensor_not_ready), Toast.LENGTH_SHORT).show()
                 return null
             }
-            bs.start = TimeHandler.instance.addMinuteToFormat(
+            bs.start = TimeHandler.instance.addTimeToFormat(
                 TimeHandler.instance.formatTimestamp(sensor.startDate, context.getString(R.string.format_time_api)),
                 context.getString(R.string.format_time_api),
                 glucoseDatas[0].date.toInt())

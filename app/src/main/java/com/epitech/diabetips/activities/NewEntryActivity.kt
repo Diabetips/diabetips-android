@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import com.epitech.diabetips.R
-import com.epitech.diabetips.services.EventService
 import com.epitech.diabetips.services.InsulinService
 import com.epitech.diabetips.services.NoteService
 import com.epitech.diabetips.services.PredictionService
@@ -20,6 +19,7 @@ class NewEntryActivity : ADiabetipsActivity(R.layout.activity_new_entry) {
     private val objects: MutableMap<ObjectType, Triple<Int, Boolean?, Boolean>> = mutableMapOf()
     private var entryTime: String = ""
     private var meal: MealObject = MealObject()
+    private var activity: ActivityObject = ActivityObject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,11 +37,27 @@ class NewEntryActivity : ADiabetipsActivity(R.layout.activity_new_entry) {
             }
         }
         newMealButton.setOnClickListener {
-            startActivityForResult(Intent(this, NewMealActivity::class.java), RequestCode.NEW_MEAL.ordinal)
+            startActivityForResult(Intent(this, NewMealActivity::class.java)
+                .putExtra(getString(R.string.param_meal), MealObject(time = entryTime)), RequestCode.NEW_MEAL.ordinal)
         }
         entryMealCard.setOnClickListener {
             startActivityForResult(Intent(this, NewMealActivity::class.java)
                 .putExtra(getString(R.string.param_meal), meal), RequestCode.UPDATE_MEAL.ordinal)
+        }
+        newActivityButton.setOnClickListener {
+            DialogHandler.dialogActivity(this, layoutInflater, supportFragmentManager, ActivityObject(start = entryTime, end = entryTime)) { activityObject  ->
+                activity = activityObject ?: ActivityObject()
+                updateActivityDisplay()
+            }
+        }
+        activityEntryInput.setOnFocusChangeListener { _, hasFocus ->
+            if (hasFocus) {
+                activityEntryInput.clearFocus()
+                DialogHandler.dialogActivity(this, layoutInflater, supportFragmentManager, activity) { activityObject  ->
+                    activity = activityObject ?: ActivityObject()
+                    updateActivityDisplay()
+                }
+            }
         }
         saveNewEntryButton.setOnClickListener {
             saveEntry()
@@ -89,11 +105,9 @@ class NewEntryActivity : ADiabetipsActivity(R.layout.activity_new_entry) {
     }
 
     private fun initObjectMap() {
-        changeObjectMapValue(ObjectType.MEAL, Triple<Int, Boolean?, Boolean>(0, null, false))
         changeObjectMapValue(ObjectType.INSULIN_SLOW, Triple<Int, Boolean?, Boolean>(0, null, false))
         changeObjectMapValue(ObjectType.INSULIN_FAST, Triple<Int, Boolean?, Boolean>(0, null, false))
         changeObjectMapValue(ObjectType.NOTE, Triple<Int, Boolean?, Boolean>(0, null, false))
-        changeObjectMapValue(ObjectType.EVENT, Triple<Int, Boolean?, Boolean>(0, null, false))
     }
 
     private fun changeObjectMapValue(objectType: ObjectType, value: Triple<Int, Boolean?, Boolean>) {
@@ -114,10 +128,6 @@ class NewEntryActivity : ADiabetipsActivity(R.layout.activity_new_entry) {
             changeObjectMapValue(ObjectType.NOTE, Triple(objects[ObjectType.NOTE]!!.first,
                 if ((it.toString().isNotBlank() || objects[ObjectType.NOTE]!!.first > 0)) false else null, false))
         })
-        physicalActivityEntryInput.addTextChangedListener(TextChangedWatcher {
-            changeObjectMapValue(ObjectType.EVENT, Triple(objects[ObjectType.EVENT]!!.first,
-                if (((it.toString().toIntOrNull() ?: 0) > 0 || objects[ObjectType.EVENT]!!.first > 0)) false else null, false))
-        })
     }
 
     private fun updateMealDisplay() {
@@ -134,8 +144,20 @@ class NewEntryActivity : ADiabetipsActivity(R.layout.activity_new_entry) {
         updateValidateDisplay()
     }
 
+    private fun updateActivityDisplay() {
+        if (activity.id > 0) {
+            newActivityButton.visibility = View.GONE
+            activityEntryInputLayout.visibility = View.VISIBLE
+            activityEntryInput.setText("${activity.getDuration(this)} • ${activity.type} • ${activity.getIntensity(this)}")
+        } else {
+            newActivityButton.visibility = View.VISIBLE
+            activityEntryInputLayout.visibility = View.GONE
+        }
+        updateValidateDisplay()
+    }
+
     private fun updateValidateDisplay() {
-        validateNewEntryButton.isEnabled = (meal.id > 0 || objects.any { obj -> obj.value.second == false })
+        validateNewEntryButton.isEnabled = (meal.id > 0 || activity.id > 0 || objects.any { obj -> obj.value.second == false })
     }
 
     private fun saveEntry(finishView: Boolean = false) {
@@ -145,9 +167,7 @@ class NewEntryActivity : ADiabetipsActivity(R.layout.activity_new_entry) {
             saveInsulin(getFastInsulin(), finishView)
         if (objects[ObjectType.NOTE]!!.second == false && !objects[ObjectType.NOTE]!!.third)
             saveNote(finishView)
-        if (objects[ObjectType.EVENT]!!.second == false && !objects[ObjectType.EVENT]!!.third)
-            saveEvent(finishView)
-        if (meal.id > 0)
+        if (meal.id > 0 || activity.id > 0)
             displaySavedMessage(finishView)
     }
 
@@ -187,21 +207,6 @@ class NewEntryActivity : ADiabetipsActivity(R.layout.activity_new_entry) {
         NoteService.instance.createOrUpdate(note, note.id).doOnSuccess {
             if (it.second.component2() == null) {
                 changeObjectMapValue(ObjectType.NOTE, Triple<Int, Boolean?, Boolean>(it.second.component1()?.id!!, true, false))
-                displaySavedMessage(finishView)
-            } else {
-                Toast.makeText(this, it.second.component2()!!.exception.message, Toast.LENGTH_SHORT).show()
-                objects[ObjectType.NOTE] = objects[ObjectType.NOTE]!!.copy(third = false)
-            }
-        }.subscribe()
-    }
-
-    private fun saveEvent(finishView: Boolean = false) {
-        objects[ObjectType.NOTE] = objects[ObjectType.NOTE]!!.copy(third = true)
-        val event = EventObject(objects[ObjectType.EVENT]!!.first, "Activité Physique", entryTime,
-            TimeHandler.instance.addMinuteToFormat(entryTime, getString(R.string.format_time_api), physicalActivityEntryInput.text.toString().toIntOrNull()?: 0))
-        EventService.instance.createOrUpdate(event, event.id).doOnSuccess {
-            if (it.second.component2() == null) {
-                changeObjectMapValue(ObjectType.EVENT, Triple<Int, Boolean?, Boolean>(it.second.component1()?.id!!, true, false))
                 displaySavedMessage(finishView)
             } else {
                 Toast.makeText(this, it.second.component2()!!.exception.message, Toast.LENGTH_SHORT).show()

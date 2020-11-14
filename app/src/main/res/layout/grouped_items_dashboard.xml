@@ -70,6 +70,24 @@
                 android:text="@string/placeholder_number"/>
 
             <ImageView
+                android:id="@+id/activityIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:contentDescription="@string/placeholder_text"
+                app:srcCompat="@drawable/ic_activity" />
+
+            <TextView
+                android:id="@+id/activityQuantity"
+                style="@style/TextAltTheme"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="@dimen/quarter_margin_size"
+                android:layout_marginEnd="@dimen/half_margin_size"
+                android:text="@string/placeholder_number" />
+
+            <ImageView
                 android:id="@+id/commentIcon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -89,12 +107,11 @@
         </LinearLayout>
 
         <ImageView
-            android:id="@+id/imageView2"
+            android:id="@+id/imageArrow"
             style="@style/ImageButtonTransparentTheme"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/image_size"
-            android:layout_marginStart="@dimen/half_margin_size"
-            android:layout_marginEnd="@dimen/half_margin_size"
+            android:layout_marginEnd="@dimen/quarter_margin_size"
             android:layout_weight="0"
             android:clickable="true"
             android:focusable="true"
@@ -102,6 +119,7 @@
             app:srcCompat="@drawable/ic_keyboard_arrow_down" />
 
     </LinearLayout>
+
     <FrameLayout
         android:id="@+id/card_container"
         android:layout_width="match_parent"

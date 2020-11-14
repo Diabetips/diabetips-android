@@ -25,8 +25,8 @@ class HomeFragment : ANavigationFragment(FragmentType.HOME) {
     private var loading: Boolean = false
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        entriesManager = EntriesManager(requireContext()) { items, reset ->
-            itemsUpdateTrigger(reset, items)
+        entriesManager = EntriesManager(requireContext()) { items, _ ->
+            itemsUpdateTrigger(items)
         }
 
         val view = createFragmentView(R.layout.fragment_home, inflater, container)
@@ -50,19 +50,18 @@ class HomeFragment : ANavigationFragment(FragmentType.HOME) {
         ChartHandler.handleLineChartStyle(view.sugarLineChart, requireContext())
         //Call Api to update chart
         updateChart()
-        (activity as NavigationActivity).nfcReader
         return view
     }
 
     private fun updateChart() {
         loading = true
         val now = TimeHandler.instance.currentTimeFormat(getString(R.string.format_time_api))
-        entriesManager.getPage()?.setInterval(TimeHandler.instance.addMinuteToFormat(now, getString(R.string.format_time_api), -TimeHandler.instance.dayInMinute), now)
+        entriesManager.getPage()?.setInterval(TimeHandler.instance.addTimeToFormat(now, getString(R.string.format_time_api), -TimeHandler.instance.dayInMinute), now)
         entriesManager.updatePages()
         entriesManager.getItems()
     }
 
-    private fun itemsUpdateTrigger(reset: Boolean, items: Array<EntryObject>) {
+    private fun itemsUpdateTrigger(items: Array<EntryObject>) {
         val interval: Pair<Long, Long> = entriesManager.getPage()!!.getTimestampInterval(requireContext())
         view?.sugarLineChart?.let {
             ChartHandler.updateChartData(items.sortedBy{ it.time }, interval, it, requireContext(), R.string.no_data_24)
@@ -71,14 +70,14 @@ class HomeFragment : ANavigationFragment(FragmentType.HOME) {
     }
 
     private fun handlePrediction(view: View? = this.view) {
-        view?.homePredictionLayout?.visibility = View.VISIBLE  //TODO remove
+        view?.homePredictionLayout?.visibility = View.VISIBLE  //TODO remove line
         PredictionService.instance.getUserPredictionSettings().doOnSuccess {
             if (it.second.component2() == null && it.second.component1()?.enabled == true) {
                 view?.homePredictionLayout?.visibility = View.VISIBLE
             }
         }.subscribe()
         view?.homePredictionButton?.setOnClickListener {
-            updatePrediction(PredictionObject(1, 12f, 0f, TimeHandler.instance.currentTimeFormat(getString(R.string.format_time_api))))  //TODO remove
+            updatePrediction(PredictionObject(1, 12f, 0f, TimeHandler.instance.currentTimeFormat(getString(R.string.format_time_api))))  //TODO remove line
             PredictionService.instance.getUserPrediction().doOnSuccess {
                 if (it.second.component2() == null) {
                     updatePrediction(it.second.component1())
@@ -105,7 +104,7 @@ class HomeFragment : ANavigationFragment(FragmentType.HOME) {
     private fun getLastBloodSugar() {
         BloodSugarService.instance.getLastMeasure().doOnSuccess {
             updateLastBloodSugar(it.second.component1())
-            updateLastBloodSugar(BloodSugarObject(value = 75, time = TimeHandler.instance.currentTimeFormat(getString(R.string.format_time_api)))) //TODO remove
+            updateLastBloodSugar(BloodSugarObject(value = 75, time = TimeHandler.instance.currentTimeFormat(getString(R.string.format_time_api)))) //TODO remove line
         }.subscribe()
     }
 
@@ -113,7 +112,7 @@ class HomeFragment : ANavigationFragment(FragmentType.HOME) {
         if ((bloodSugar?.value ?: 0) > 0) {
             view?.lastBloodGlucose?.text = "${bloodSugar!!.value.toBigDecimal().stripTrailingZeros().toPlainString()} ${requireContext().getString(R.string.unit_glucose)}"
             TimeHandler.instance.updateTimeDisplay(requireContext(), bloodSugar.time, null, view?.lastBloodGlucoseTime)
-            view?.lastBloodGlucoseTime?.text = "${view?.lastBloodGlucoseTime?.text} ${requireContext().getString(R.string.last_prediction)}"
+            view?.lastBloodGlucoseTime?.text = "${view?.lastBloodGlucoseTime?.text} ${requireContext().getString(R.string.last_use)}"
             val biometric: BiometricObject = UserManager.instance.getBiometric(requireContext())
             if ((biometric.hyperglycemia ?: bloodSugar.value) < bloodSugar.value || (biometric.hypoglycemia ?: bloodSugar.value) > bloodSugar.value) {
                 view?.lastBloodGlucoseLayout?.background?.setTint(requireContext().getColor(R.color.colorAccent))

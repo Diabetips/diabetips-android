@@ -206,6 +206,32 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/newActivityButton"
+                style="@style/MaterialButtonAltTheme"
+                android:layout_width="match_parent"
+                android:layout_marginTop="@dimen/quarter_margin_size"
+                android:layout_marginBottom="@dimen/quarter_margin_size"
+                android:text="@string/add_activity"
+                app:icon="@drawable/ic_run"
+                android:visibility="visible"
+                android:layout_gravity="center_horizontal"/>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/activityEntryInputLayout"
+                style="@style/EditInputLayoutTheme"
+                android:layout_width="match_parent"
+                android:visibility="gone"
+                android:hint="@string/activity">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/activityEntryInput"
+                    style="@style/TextInputTheme"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/commentEntryInputLayout"
                 style="@style/TextInputLayoutTheme"
@@ -219,25 +245,7 @@
                     android:layout_height="wrap_content"
                     android:inputType="textMultiLine"
                     android:imeOptions="actionNext"
-                    android:nextFocusForward="@+id/physicalActivityEntryInput" />
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/physicalActivityEntryInputLayout"
-                style="@style/TextInputLayoutTheme"
-                android:layout_width="match_parent"
-                android:hint="@string/physical_activity_input"
-                app:suffixText="@string/unit_minute">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/physicalActivityEntryInput"
-                    style="@style/TextInputTheme"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="number"
-                    android:imeOptions="actionNext"
-                    android:nextFocusForward="@+id/insulinFastEntryInput" />
+                    android:nextFocusForward="@+id/insulinFastEntryInputLayout" />
 
             </com.google.android.material.textfield.TextInputLayout>
 

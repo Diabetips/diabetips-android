@@ -1,7 +1,6 @@
 package com.epitech.diabetips.services
 
-import com.epitech.diabetips.storages.BloodSugarObject
-import com.epitech.diabetips.storages.PaginationObject
+import com.epitech.diabetips.storages.*
 
 class BloodSugarService : AService("/users/me/blood_sugar") {
 
@@ -21,6 +20,14 @@ class BloodSugarService : AService("/users/me/blood_sugar") {
 
     fun postMeasures(biometric: BloodSugarObject) : FuelResponse<BloodSugarObject> {
         return putRequest(biometric)
+    }
+
+    fun getCalculations(calculationOption: CalculationOptionObject) : FuelResponse<CalculationObject> {
+        return getRequest("/calculations?" + calculationOption.getRequestParameters())
+    }
+
+    fun getAggregateCalculations(calculationOption: CalculationOptionObject) : FuelResponse<AggregateCalculationObject> {
+        return getRequest("/calculations/aggregate?" + calculationOption.getRequestParameters())
     }
 
 }

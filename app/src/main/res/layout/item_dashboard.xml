@@ -21,13 +21,13 @@
             android:id="@+id/dashboardItemIcon"
             android:layout_width="24dp"
             android:layout_height="24dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
+            android:layout_marginStart="@dimen/half_margin_size"
+            android:layout_marginEnd="@dimen/half_margin_size"
             app:srcCompat="@drawable/circle_background_blue"
-            tools:layout_marginLeft="16dp" />
+            android:contentDescription="@string/placeholder_text" />
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:orientation="vertical">
@@ -38,8 +38,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/quarter_margin_size"
+                android:layout_marginEnd="@dimen/quarter_margin_size"
                 android:layout_marginTop="@dimen/quarter_margin_size"
-                android:fontFamily="@font/muli_bold"
                 android:text="@string/placeholder_text"
                 android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="parent"
@@ -51,8 +51,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/quarter_margin_size"
+                android:layout_marginEnd="@dimen/quarter_margin_size"
                 android:layout_marginBottom="@dimen/quarter_margin_size"
-                android:fontFamily="@font/rubik_regular"
                 android:text="@string/placeholder_text"
                 android:textSize="14sp"
                 app:layout_constraintStart_toStartOf="parent"
@@ -66,8 +66,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
             android:fontFamily="@font/rubik_regular"
-            android:text="TextView"
-            tools:text="12:30" />
+            android:text="@string/placeholder_hour" />
 
     </LinearLayout>
 

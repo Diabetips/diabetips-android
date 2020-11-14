@@ -46,5 +46,4 @@ data class BiometricObject (
         return stringArrayTo[index]
     }
 
-
 }
