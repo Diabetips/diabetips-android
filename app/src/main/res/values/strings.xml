@@ -419,6 +419,7 @@
     <string name="sport_windsurfing">Windsurfing</string>
     <string name="sport_yoga">Yoga</string>
     <string name="sport_zumba">Zumba</string>
+    <string name="insulin_quantity_title">Average Insulins Quantities</string>
 
     <string-array name="sports">
         <item>@string/sport_aerobics</item>

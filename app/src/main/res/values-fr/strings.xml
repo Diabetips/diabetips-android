@@ -289,4 +289,5 @@
     <string name="sport_windsurfing">Planche à voile</string>
     <string name="sport_escalator">Escalier</string>
     <string name="duration_error">La durée doit être supérieur à 0</string>
+    <string name="insulin_quantity_title">Quantités d\'insuline injectées</string>
 </resources>
