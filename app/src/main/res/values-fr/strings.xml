@@ -289,4 +289,9 @@
     <string name="sport_windsurfing">Planche à voile</string>
     <string name="sport_escalator">Escalier</string>
     <string name="duration_error">La durée doit être supérieur à 0</string>
+    <string name="insulin_quantity_title">Quantités d\'insuline injectées</string>
+    <string name="blood_sugar_level_ranges_title">Plages de glycémie</string>
+    <string name="target_hyper">Hyperglycémie > 140 md/dl</string>
+    <string name="target_hypo"><![CDATA[Hypoglycémie < 80 md/dl]]></string>
+    <string name="target_in">Dans la cible</string>
 </resources>
