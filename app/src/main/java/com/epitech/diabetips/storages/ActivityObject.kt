@@ -25,7 +25,7 @@ data class ActivityObject (
     fun setDuration(context: Context, duration: String) {
         end = TimeHandler.instance.addTimeToFormat(
             start, context.getString(R.string.format_time_api),
-            (TimeHandler.instance.getTimestampFromFormat(duration, context.getString(R.string.format_time_api))?.toInt() ?: 0) + TimeHandler.instance.hourInMillis, Calendar.MILLISECOND)
+            (TimeHandler.instance.getTimestampFromFormat(duration, context.getString(R.string.format_time_api), true)?.toInt() ?: 0), Calendar.MILLISECOND)
     }
 
     fun getDuration(context: Context): String {

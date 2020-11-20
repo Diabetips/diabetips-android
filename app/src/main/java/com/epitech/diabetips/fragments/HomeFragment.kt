@@ -40,7 +40,7 @@ class HomeFragment : ANavigationFragment(FragmentType.HOME) {
                 .putExtra(getString(R.string.param_mode), ActivityMode.UPDATE))
         }
         view.openDashboardButton.setOnClickListener {
-            startActivity(Intent(requireContext(),  EventNotebookActivity::class.java))
+            startActivity(Intent(requireContext(), EventNotebookActivity::class.java))
         }
         view.viewChatButton.setOnClickListener {
             startActivity(Intent(requireContext(), ChatActivity::class.java))
@@ -64,20 +64,18 @@ class HomeFragment : ANavigationFragment(FragmentType.HOME) {
     private fun itemsUpdateTrigger(items: Array<EntryObject>) {
         val interval: Pair<Long, Long> = entriesManager.getPage()!!.getTimestampInterval(requireContext())
         view?.sugarLineChart?.let {
-            ChartHandler.updateChartData(items.sortedBy{ it.time }, interval, it, requireContext(), R.string.no_data_24)
+            ChartHandler.updateChartData(items.sortedBy { it.time }, interval, it, requireContext(), R.string.no_data_24)
             loading = false
         }
     }
 
     private fun handlePrediction(view: View? = this.view) {
-        view?.homePredictionLayout?.visibility = View.VISIBLE  //TODO remove line
         PredictionService.instance.getUserPredictionSettings().doOnSuccess {
             if (it.second.component2() == null && it.second.component1()?.enabled == true) {
                 view?.homePredictionLayout?.visibility = View.VISIBLE
             }
         }.subscribe()
         view?.homePredictionButton?.setOnClickListener {
-            updatePrediction(PredictionObject(1, 12f, 0f, TimeHandler.instance.currentTimeFormat(getString(R.string.format_time_api))))  //TODO remove line
             PredictionService.instance.getUserPrediction().doOnSuccess {
                 if (it.second.component2() == null) {
                     updatePrediction(it.second.component1())
@@ -104,7 +102,6 @@ class HomeFragment : ANavigationFragment(FragmentType.HOME) {
     private fun getLastBloodSugar() {
         BloodSugarService.instance.getLastMeasure().doOnSuccess {
             updateLastBloodSugar(it.second.component1())
-            updateLastBloodSugar(BloodSugarObject(value = 75, time = TimeHandler.instance.currentTimeFormat(getString(R.string.format_time_api)))) //TODO remove line
         }.subscribe()
     }
 

@@ -47,13 +47,17 @@ class BarChartHandler {
             val barList: MutableList<IBarDataSet> = ArrayList()
             val biometrics = UserManager.instance.getBiometric(context)
             items.forEach { item ->
-                barList.add(generateBarDataset(context, item.first, item.second,
-                        if (item.second < (biometrics.hypoglycemia ?: 0) || item.second > (biometrics.hyperglycemia ?: Int.MAX_VALUE))
-                            R.color.colorAccent
-                        else
-                            R.color.colorPrimary
+                if (item.second != 0f) {
+                    barList.add(
+                        generateBarDataset(
+                            context, item.first, item.second,
+                            if (item.second < (biometrics.hypoglycemia ?: 0) || item.second > (biometrics.hyperglycemia ?: Int.MAX_VALUE))
+                                R.color.colorAccent
+                            else
+                                R.color.colorPrimary
+                        )
                     )
-                )
+                }
             }
             val barData = BarData(barList)
             barData.isHighlightEnabled = false

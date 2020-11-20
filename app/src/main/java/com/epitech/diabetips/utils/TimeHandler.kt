@@ -1,6 +1,5 @@
 package com.epitech.diabetips.utils
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.text.format.DateFormat
 import android.widget.TextView
@@ -23,7 +22,6 @@ class TimeHandler {
 
     private val calendar: Calendar = Calendar.getInstance()
     val dayInMinute = 1440
-    val hourInMillis = 3600000
 
     fun currentTime() : Long {
         return System.currentTimeMillis()
@@ -33,17 +31,21 @@ class TimeHandler {
         return formatTimestamp(System.currentTimeMillis(), format)
     }
 
-    @SuppressLint("SimpleDateFormat")
-    fun getTimestampFromFormat(date: String, format: String) : Long? {
+    fun getTimestampFromFormat(date: String, format: String, standardize: Boolean = false) : Long? {
         if (date.isBlank())
             return null
-        val dateVar = SimpleDateFormat(format).parse(date) ?: return null
+        val dateVar: Date = SimpleDateFormat(format, Locale.getDefault()).parse(date) ?: return null
+        if (standardize) {
+            return dateVar.time + TimeZone.getDefault().getOffset(dateVar.time)
+        }
         return dateVar.time
     }
 
-    @SuppressLint("SimpleDateFormat")
-    fun formatTimestamp(timestamp: Long, format: String): String {
-        return SimpleDateFormat(format).format(timestamp)
+    fun formatTimestamp(timestamp: Long, format: String, standardize: Boolean = false): String {
+        if (standardize) {
+            return SimpleDateFormat(format, Locale.getDefault()).format(timestamp - TimeZone.getDefault().getOffset(timestamp))
+        }
+        return SimpleDateFormat(format, Locale.getDefault()).format(timestamp)
     }
 
     fun changeTimeFormat(date: String?, oldFormat: String, newFormat: String) : String? {
@@ -103,7 +105,7 @@ class TimeHandler {
     }
 
     fun getFormatDiff(start: String, end: String, inputFormat: String, outputFormat: String = inputFormat): String {
-        return formatTimestamp(getTimeDiffFormat(start, end, inputFormat) - hourInMillis, outputFormat)
+        return formatTimestamp(getTimeDiffFormat(start, end, inputFormat), outputFormat, true)
     }
 
     private fun getTimeDiffFormat(start: String, end: String, format: String): Long {
