@@ -90,7 +90,7 @@ class TimeHandler {
         return formatTimestamp(addTimeToTimestamp((getTimestampFromFormat(date, format) ?: currentTime()), timeToAdd, timeType), format)
     }
 
-    fun addTimeToTimestamp(timestamp: Long, timeToAdd: Int = 0, timeType: Int): Long {
+    fun addTimeToTimestamp(timestamp: Long, timeToAdd: Int = 0, timeType: Int = Calendar.MINUTE): Long {
         calendar.timeInMillis = timestamp
         calendar.add(timeType, timeToAdd)
         return calendar.timeInMillis

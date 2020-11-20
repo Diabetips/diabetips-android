@@ -193,6 +193,26 @@ class InstrumentedUnitTest {
     }
 
     @Test
+    fun activityStart() {
+        val activity = ActivityObject(start = currentTime, end = currentTime)
+        activity.setStart(instrumentationContext, currentTime)
+        assertEquals("Wrong activity start", activity.start, currentTime)
+    }
+
+    @Test
+    fun activityDuration() {
+        val activity = ActivityObject(start = currentTime, end = currentTime)
+        activity.setDuration(instrumentationContext, TimeHandler.instance.formatTimestamp(TimeHandler.instance.addTimeToTimestamp(0, 90), timeFormat, true))
+        assertEquals("Wrong activity end", activity.end, TimeHandler.instance.addTimeToFormat(currentTime, timeFormat, 90))
+    }
+
+    @Test
+    fun activityDurationSecond() {
+        val activity = ActivityObject(start = currentTime, end = currentTime)
+        assertEquals("Wrong activity duration", activity.getDurationSecond(instrumentationContext), 0)
+    }
+
+    @Test
     fun timeHandlerTimestampToTime() {
         assertEquals("Wrong Timestamp to Time", currentTime, TimeHandler.instance.formatTimestamp(currentTimestamp, timeFormat))
     }
@@ -200,6 +220,13 @@ class InstrumentedUnitTest {
     @Test
     fun timeHandlerTimeToTimestamp() {
         assertEquals("Wrong Time to Timestamp", currentTimestamp, TimeHandler.instance.getTimestampFromFormat(currentTime, timeFormat))
+    }
+
+    @Test
+    fun timeHandlerAddTime() {
+        assertEquals("Wrong Add Time",
+            TimeHandler.instance.addTimeToTimestamp(currentTimestamp, 90),
+            TimeHandler.instance.getTimestampFromFormat(TimeHandler.instance.addTimeToFormat(currentTime, timeFormat, 90), timeFormat))
     }
 
     @Test
