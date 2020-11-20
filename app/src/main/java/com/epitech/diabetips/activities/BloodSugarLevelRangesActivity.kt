@@ -47,6 +47,8 @@ class BloodSugarLevelRangesActivity : ADiabetipsActivity(R.layout.activity_blood
 
             if (it.second.component2() == null && it.second.component1() != null) {
                 var bloodSugarRanges: BloodSugarRangesPercentageObject = it.second.component1()!!;
+
+                //TODO Remove random values and push true value on db
                 bloodSugarRanges.in_target = Random.nextInt(60, 80).toFloat();
                 bloodSugarRanges.hyperglycemia = Random.nextInt(10, 100 - bloodSugarRanges.in_target!!.toInt()).toFloat();
                 bloodSugarRanges.hypoglycemia = (100 - bloodSugarRanges.hyperglycemia!!.toInt() - bloodSugarRanges.in_target!!.toInt()).toFloat();
@@ -60,10 +62,6 @@ class BloodSugarLevelRangesActivity : ADiabetipsActivity(R.layout.activity_blood
                 hypoglycemia_target_text.text = bloodSugarRanges.hypoglycemia.toString();
                 hyperglycemia_target_text.text = bloodSugarRanges.hyperglycemia.toString();
                 in_target_text.text = bloodSugarRanges.in_target.toString();
-
-//                val w = hypoglycemia_target_jauge.layoutParams.width;
-//                Log.d("ouiii", w.toString());
-//                hypoglycemia_target_jauge.layoutParams.width = (60f * w / 100f).toInt();
             } else {
                 Toast.makeText(this, it.second.component2()!!.exception.message, Toast.LENGTH_SHORT).show()
             }

@@ -31,7 +31,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/half_margin_size"
-            android:text="@string/glucose_average_title"
+            android:text="@string/blood_sugar_level_ranges_title"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/closeBloodSugarRangesButton"
             app:layout_constraintTop_toTopOf="parent" />
