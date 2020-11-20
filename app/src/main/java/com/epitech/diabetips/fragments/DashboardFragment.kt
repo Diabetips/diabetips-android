@@ -6,10 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.epitech.diabetips.R
-import com.epitech.diabetips.activities.AverageGlucoseActivity
-import com.epitech.diabetips.activities.EventNotebookActivity
-import com.epitech.diabetips.activities.HbA1cActivity
-import com.epitech.diabetips.activities.InsulinQuantityActivity
+import com.epitech.diabetips.activities.*
 import com.epitech.diabetips.utils.ANavigationFragment
 import kotlinx.android.synthetic.main.fragment_dashboard.view.*
 
@@ -32,6 +29,10 @@ class DashboardFragment : ANavigationFragment(FragmentType.DASHBOARD) {
 
         view.dashboardInsulinQuantityCard.setOnClickListener {
             startActivity(Intent(requireContext(), InsulinQuantityActivity::class.java))
+        }
+
+        view.dashboardBloodSugarLevelRangesCard.setOnClickListener {
+            startActivity(Intent(requireContext(), BloodSugarLevelRangesActivity::class.java))
         }
 
         return view

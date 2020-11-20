@@ -67,6 +67,7 @@
         <activity android:name=".activities.AverageGlucoseActivity" android:windowSoftInputMode="adjustPan" android:screenOrientation="portrait" />
         <activity android:name=".activities.HbA1cActivity" android:windowSoftInputMode="adjustPan" android:screenOrientation="portrait" />
         <activity android:name=".activities.InsulinQuantityActivity" android:windowSoftInputMode="adjustPan" android:screenOrientation="portrait" />
+        <activity android:name=".activities.BloodSugarLevelRangesActivity" android:windowSoftInputMode="adjustPan" android:screenOrientation="portrait" />
         <activity android:name=".activities.SettingsActivity" android:windowSoftInputMode="adjustPan" android:screenOrientation="portrait" />
         <activity android:name=".activities.NotificationActivity" android:windowSoftInputMode="adjustPan" android:screenOrientation="portrait" />
         <activity android:name=".activities.ChatActivity" android:windowSoftInputMode="adjustPan" android:screenOrientation="portrait" />

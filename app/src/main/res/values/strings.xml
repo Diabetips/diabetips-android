@@ -420,6 +420,10 @@
     <string name="sport_yoga">Yoga</string>
     <string name="sport_zumba">Zumba</string>
     <string name="insulin_quantity_title">Average Insulins Quantities</string>
+    <string name="blood_sugar_level_ranges_title">Blood sugar level ranges</string>
+    <string name="target_hyper"><![CDATA[Hyperglycemia > 140 md/dl]]></string>
+    <string name="target_hypo"><![CDATA[Hypoglycemia < 80 md/dl]]></string>
+    <string name="target_in">In ranges</string>
 
     <string-array name="sports">
         <item>@string/sport_aerobics</item>
