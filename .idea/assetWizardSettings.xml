@@ -314,8 +314,8 @@
                         <option name="values">
                           <map>
                             <entry key="assetSourceType" value="FILE" />
-                            <entry key="outputName" value="ic_dashboard_icon_insulin" />
-                            <entry key="sourceFile" value="C:\Users\Yannick\Documents\Perso\Diabetips\Graphism\2021_icons_dashboard-insulin.svg" />
+                            <entry key="outputName" value="ic_generate_data" />
+                            <entry key="sourceFile" value="C:\Users\Yannick\Downloads\database-configuration.svg" />
                           </map>
                         </option>
                       </PersistentState>

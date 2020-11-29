@@ -14,6 +14,8 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.epitech.diabetips.managers.UserManager
 import com.epitech.diabetips.R
+import com.epitech.diabetips.activities.DataGenerator
+import com.epitech.diabetips.activities.EventNotebookActivity
 import com.epitech.diabetips.activities.NavigationActivity
 import com.epitech.diabetips.activities.SettingsActivity
 import com.epitech.diabetips.adapters.DropdownAdapter
@@ -121,12 +123,17 @@ class ProfileFragment : ANavigationFragment(FragmentType.PROFILE) {
                             R.id.profileImage -> handleProfileImage()
                             R.id.profileLogout -> logout()
                             R.id.profileDeactivate -> deactivateAccount()
+                            R.id.profileGenerateFakeData -> openDataGenerator()
                         }
                     }
                     addItemDecoration(DividerItemDecorator(ContextCompat.getDrawable(requireContext(), R.drawable.menu_divider)!!))
                 }
             }
         }
+    }
+
+    private fun openDataGenerator() {
+        startActivity(Intent(requireContext(), DataGenerator::class.java))
     }
 
     private fun handleAnimation(view: View) {
