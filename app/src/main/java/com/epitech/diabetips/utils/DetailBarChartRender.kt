@@ -6,6 +6,7 @@ import com.github.mikephil.charting.interfaces.datasets.IBarDataSet
 import com.github.mikephil.charting.renderer.BarChartRenderer
 import com.github.mikephil.charting.utils.Transformer
 import com.github.mikephil.charting.utils.Utils
+import kotlin.math.ceil
 
 class DetailBarChartRender(barChart: BarChart, private val mRadius: Float = 0f) : BarChartRenderer(barChart, barChart.animator, barChart.viewPortHandler) {
 
@@ -26,7 +27,7 @@ class DetailBarChartRender(barChart: BarChart, private val mRadius: Float = 0f) 
             val barWidthHalf = barWidth / 2.0f
             var x: Float
             var i = 0
-            val count = Math.min(Math.ceil((dataSet.entryCount.toFloat() * phaseX).toDouble()), dataSet.entryCount.toDouble())
+            val count = ceil((dataSet.entryCount.toFloat() * phaseX).toDouble()).coerceAtMost(dataSet.entryCount.toDouble())
             while (i < count) {
                 val e = dataSet.getEntryForIndex(i)
                 x = e.x

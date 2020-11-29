@@ -150,6 +150,22 @@ class InstrumentedFunctionalTest {
     }
 
     @Test
+    fun activityObject() {
+        //Values
+        val timeFormat = instrumentationContext.getString(R.string.format_time_api)
+        val currentTimestamp = TimeHandler.instance.currentTime()
+        val currentTime = TimeHandler.instance.formatTimestamp(currentTimestamp, timeFormat)
+        val activity = ActivityObject(start = currentTime, end = currentTime)
+        //Asserts
+        activity.setDuration(instrumentationContext, TimeHandler.instance.formatTimestamp(TimeHandler.instance.addTimeToTimestamp(0, 90), timeFormat, true))
+        activity.setStart(instrumentationContext, currentTime)
+        //Operations
+        assertEquals("Wrong activity start", activity.start, currentTime)
+        assertEquals("Wrong activity end", activity.end, TimeHandler.instance.addTimeToFormat(currentTime, timeFormat, 90))
+        assertEquals("Wrong activity duration", activity.getDurationSecond(instrumentationContext), 90 * 60)
+    }
+
+    @Test
     fun timeHandlers() {
         //Values
         val timeFormat = instrumentationContext.getString(R.string.format_time_api)
@@ -158,6 +174,9 @@ class InstrumentedFunctionalTest {
         //Asserts
         assertEquals("Wrong Timestamp to Time", currentTime, TimeHandler.instance.formatTimestamp(currentTimestamp, timeFormat))
         assertEquals("Wrong Time to Timestamp", currentTimestamp, TimeHandler.instance.getTimestampFromFormat(currentTime, timeFormat))
+        assertEquals("Wrong Add Time",
+            TimeHandler.instance.addTimeToTimestamp(currentTimestamp, 90),
+            TimeHandler.instance.getTimestampFromFormat(TimeHandler.instance.addTimeToFormat(currentTime, timeFormat, 90), timeFormat))
         assertEquals("Wrong Change Date",
             TimeHandler.instance.changeTimestampDate(currentTimestamp, 2000, 9, 12),
             TimeHandler.instance.getTimestampFromFormat(TimeHandler.instance.changeFormatDate(currentTime, timeFormat, 2000, 9, 12), timeFormat))
