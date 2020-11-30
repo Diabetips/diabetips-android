@@ -40,17 +40,22 @@ class DataGenerator : ADiabetipsActivity(R.layout.activity_data_generator) {
         viewCanvas = Canvas(bitmap!!)
         drawBezierCurve(viewCanvas)
         graph.setImageBitmap(bitmap);
-        var p = getPoints();
-        var bs: BloodSugarObject = BloodSugarObject();
+        val p = getPoints();
+        SendData(p);
+        print(p?.joinToString("\n") { it?.x.toString() + "," + it?.y.toString()})
+    }
+
+    private fun SendData(points: List<FloatPoint?>?)
+    {
+        val bs = BloodSugarObject();
         bs.start = TimeHandler.instance.formatTimestamp(TimeHandler.instance.trimTimestamp(TimeHandler.instance.currentTime()), getString(R.string.format_time_api))
-        bs.measures = p?.map { it!!.y.toInt() }!!.toTypedArray()
+        bs.measures = points?.map { it!!.y.toInt() }!!.toTypedArray()
         bs.interval = 15 * 60;
         BloodSugarService.instance.postMeasures(bs).doOnSuccess {
-            if (it.second.component2() != null) {
-                Log.d("BLOOD", it.second.component2()!!.exception.message.toString())
+            if (it.second.component2() == null) {
+                print(it.second.component1()!!.time);
             }
         }.subscribe()
-        print(p?.joinToString("\n") { it?.x.toString() + "," + it?.y.toString()})
     }
 
     private fun getPoints(): List<FloatPoint?>? {
