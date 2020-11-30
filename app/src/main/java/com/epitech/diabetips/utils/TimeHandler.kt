@@ -169,4 +169,8 @@ class TimeHandler {
             dateTimeDisplay.text = DateFormat.format(context.getString(R.string.format_date_simple_12), date)
         }
     }
+
+    fun trimTimestamp(timestamp: Long) : Long {
+        return timestamp - timestamp % (24 * 60 * 60 * 1000);
+    }
 }

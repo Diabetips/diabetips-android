@@ -2,8 +2,12 @@ package com.epitech.diabetips.activities
 
 import android.graphics.*
 import android.os.Bundle
+import android.util.Log
 import com.epitech.diabetips.R
+import com.epitech.diabetips.services.BloodSugarService
+import com.epitech.diabetips.storages.BloodSugarObject
 import com.epitech.diabetips.utils.ADiabetipsActivity
+import com.epitech.diabetips.utils.TimeHandler
 import kotlinx.android.synthetic.main.activity_data_generator.*
 import kotlin.random.Random
 
@@ -37,10 +41,19 @@ class DataGenerator : ADiabetipsActivity(R.layout.activity_data_generator) {
         drawBezierCurve(viewCanvas)
         graph.setImageBitmap(bitmap);
         var p = getPoints();
-        print(p?.sortedWith(compareBy { it?.x })?.joinToString("\n") { it?.x.toString() + "," + it?.y.toString()})
+        var bs: BloodSugarObject = BloodSugarObject();
+        bs.start = TimeHandler.instance.formatTimestamp(TimeHandler.instance.trimTimestamp(TimeHandler.instance.currentTime()), getString(R.string.format_time_api))
+        bs.measures = p?.map { it!!.y.toInt() }!!.toTypedArray()
+        bs.interval = 15 * 60;
+        BloodSugarService.instance.postMeasures(bs).doOnSuccess {
+            if (it.second.component2() != null) {
+                Log.d("BLOOD", it.second.component2()!!.exception.message.toString())
+            }
+        }.subscribe()
+        print(p?.joinToString("\n") { it?.x.toString() + "," + it?.y.toString()})
     }
 
-    private fun getPoints(): Array<FloatPoint?>? {
+    private fun getPoints(): List<FloatPoint?>? {
         val pointArray: Array<FloatPoint?> = arrayOfNulls<FloatPoint>(24 * 4)
         val pm = PathMeasure(path, false)
         val length = pm.length
@@ -57,7 +70,7 @@ class DataGenerator : ADiabetipsActivity(R.layout.activity_data_generator) {
             counter++
             distance = distance + speed
         }
-        return pointArray
+        return pointArray?.sortedWith(compareBy { it?.x })
     }
 
     private fun calculatePointsForData() {
