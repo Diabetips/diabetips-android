@@ -37,19 +37,18 @@ class DataGenerator : ADiabetipsActivity(R.layout.activity_data_generator) {
         drawBezierCurve(viewCanvas)
         graph.setImageBitmap(bitmap);
         var p = getPoints();
-        print(p?.joinToString("\n") { it?.x.toString()})
-        print(p?.joinToString("\n") { it?.y.toString()})
+        print(p?.sortedWith(compareBy { it?.x })?.joinToString("\n") { it?.x.toString() + "," + it?.y.toString()})
     }
 
     private fun getPoints(): Array<FloatPoint?>? {
-        val pointArray: Array<FloatPoint?> = arrayOfNulls<FloatPoint>(20)
+        val pointArray: Array<FloatPoint?> = arrayOfNulls<FloatPoint>(24 * 4)
         val pm = PathMeasure(path, false)
         val length = pm.length
         var distance = 0f
-        val speed = length / 20
+        val speed = length / (24 * 4)
         var counter = 0
         val aCoordinates = FloatArray(2)
-        while (distance < length && counter < 20) {
+        while (distance < length && counter < (24 * 4)) {
             // get point from the path
             pm.getPosTan(distance, aCoordinates, null)
             pointArray[counter] = FloatPoint(
@@ -62,12 +61,34 @@ class DataGenerator : ADiabetipsActivity(R.layout.activity_data_generator) {
     }
 
     private fun calculatePointsForData() {
-        points.add(PointF(0f, 1f))
-        points.add(PointF(1f, 2f))
-        points.add(PointF(2f, 4f))
-        points.add(PointF(3f, 3f))
-        points.add(PointF(4f, 1f))
-        points.add(PointF(5f, 2f))
+        addLimits(100f);
+        addMealToCurve(9f, max = 150f);
+        addMealToCurve(13f, max = 180f);
+        addMealToCurve(18f, max = 170f);
+    }
+
+    private fun addLimits(base: Float = 100f)
+    {
+        var newBase = base + Random.nextInt(-10, 10).toFloat()
+        points.add(PointF(0f, newBase))
+        points.add(PointF(1f, newBase))
+        newBase = base + Random.nextInt(-10, 10).toFloat()
+        points.add(PointF(23f, newBase))
+        points.add(PointF(24f, newBase))
+    }
+
+    private fun addMealToCurve(date: Float, base: Float = 100f, max: Float = 160f)
+    {
+        points.add(PointF(date + (15f / 60f), base + Random.nextInt(-10, 10)))
+        points.add(PointF(date + (60f / 60f), max + Random.nextInt(-20, 30)))
+        points.add(PointF(date + (110f / 60f), base + Random.nextInt(-10, 10)))
+    }
+
+    private fun addHypo(date: Float, base: Float = 100f, max: Float = 160f)
+    {
+        points.add(PointF(date + (15f / 60f), base + Random.nextInt(-10, 10)))
+        points.add(PointF(date + (60f / 60f), max + Random.nextInt(-20, 30)))
+        points.add(PointF(date + (110f / 60f), base + Random.nextInt(-10, 10)))
     }
 
     private fun calculateConnectionPointsForBezierCurve() {
