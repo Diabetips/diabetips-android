@@ -4,6 +4,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.DataGenerator">
+    tools:context=".activities.DataGenerator"
+    style="@style/BackgroundHomeTheme">
 
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/generate"
+        style="@style/MaterialButtonTheme"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_marginTop="20dp"
+        android:text="Generate"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
