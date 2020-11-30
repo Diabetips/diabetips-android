@@ -8,7 +8,7 @@
     style="@style/BackgroundHomeTheme">
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/generate"
+        android:id="@+id/generateButton"
         style="@style/MaterialButtonTheme"
         android:layout_width="0dp"
         android:layout_weight="1"
@@ -17,4 +17,13 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/graph"
+        android:layout_width="match_parent"
+        android:layout_height="600px"
+        android:layout_marginTop="20dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/generateButton">
+    </androidx.appcompat.widget.AppCompatImageView>
 </androidx.constraintlayout.widget.ConstraintLayout>
