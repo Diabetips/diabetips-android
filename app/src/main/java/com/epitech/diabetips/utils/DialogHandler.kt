@@ -18,10 +18,15 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.epitech.diabetips.R
 import com.epitech.diabetips.adapters.DropdownAdapter
 import com.epitech.diabetips.adapters.NutritionalAdapter
+import com.epitech.diabetips.managers.UserManager
 import com.epitech.diabetips.services.ActivityService
+import com.epitech.diabetips.services.ConnectionService
 import com.epitech.diabetips.services.FoodService
+import com.epitech.diabetips.services.UserService
 import com.epitech.diabetips.storages.ActivityObject
 import com.epitech.diabetips.storages.IngredientObject
+import com.epitech.diabetips.storages.NotificationInviteObject
+import com.epitech.diabetips.storages.UserObject
 import com.epitech.diabetips.textWatchers.CustomWatcher
 import com.epitech.diabetips.textWatchers.InputWatcher
 import com.epitech.diabetips.textWatchers.NumberWatcher
@@ -229,6 +234,38 @@ class DialogHandler {
                 }.subscribe()
             } else {
                 dialogBarCodeNotFound(activity, R.string.scan_error)
+            }
+        }
+
+        fun dialogInvite(context: Context, layoutInflater: LayoutInflater, notification: NotificationInviteObject, callback: (() -> Unit), onDismiss: (() -> Unit) = {}) {
+            createDialog(context, layoutInflater, R.layout.dialog_confirm) { view, dialog ->
+                dialog.setOnDismissListener { onDismiss.invoke() }
+                var user = UserObject(uid = notification.from)
+                view.dialogConfirmText.text = context.getString(R.string.invitation_text)
+                UserService.instance.get<UserObject>(user.uid).doOnSuccess {
+                    if (it.second.component2() == null) {
+                        user = it.second.component1()!!
+                        view.dialogConfirmText.text = context.getString(R.string.invitation_text_name, "${user.first_name} ${user.last_name}")
+                    }
+                }.subscribe()
+                view.dialogConfirmNegativeButton.setOnClickListener {
+                    notification.markAsRead()
+                    dialog.dismiss()
+                }
+                view.dialogConfirmPositiveButton.setOnClickListener {
+                    dialog.dismiss()
+                    ConnectionService.instance.update(user, user.uid).doOnSuccess {
+                        if (it.second.component2() == null) {
+                            notification.markAsRead()
+                            Toast.makeText(context, context.getString(R.string.invitation_accepted, "${user.first_name} ${user.last_name}"), Toast.LENGTH_SHORT).show()
+                            UserManager.instance.saveChatUser(context, user)
+                            callback.invoke()
+                            dialog.dismiss()
+                        } else {
+                            Toast.makeText(context, it.second.component2()!!.exception.message, Toast.LENGTH_SHORT).show()
+                        }
+                    }.subscribe()
+                }
             }
         }
 

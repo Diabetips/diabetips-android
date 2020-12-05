@@ -10,21 +10,21 @@ import com.epitech.diabetips.fragments.HomeFragment
 import com.epitech.diabetips.fragments.ProfileFragment
 import com.epitech.diabetips.fragments.RecipeFragment
 import com.epitech.diabetips.managers.FavoriteManager
-import com.epitech.diabetips.services.NfcReaderService
-import com.epitech.diabetips.services.NotificationService
-import com.epitech.diabetips.storages.FCMTokenObject
-import com.epitech.diabetips.storages.NotificationObject
-import com.epitech.diabetips.storages.PaginationObject
+import com.epitech.diabetips.managers.UserManager
+import com.epitech.diabetips.services.*
+import com.epitech.diabetips.storages.*
 import com.epitech.diabetips.utils.ADiabetipsActivity
 import com.epitech.diabetips.utils.ANavigationFragment
+import com.epitech.diabetips.utils.DialogHandler
 import com.epitech.diabetips.utils.RequestCode
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.messaging.FirebaseMessaging
 import kotlinx.android.synthetic.main.activity_navigation.*
 
-class NavigationActivity : ADiabetipsActivity(R.layout.activity_navigation), me.ibrahimsn.lib.OnItemSelectedListener  {
+class NavigationActivity : ADiabetipsActivity(R.layout.activity_navigation), me.ibrahimsn.lib.OnItemSelectedListener {
 
     private var currentFragment: Fragment? = null
+    var unreadMessage: Boolean? = false
     var nfcReader: NfcReaderService? = null
 
     companion object {
@@ -36,6 +36,7 @@ class NavigationActivity : ADiabetipsActivity(R.layout.activity_navigation), me.
         smoothBottomBar.onItemSelectedListener = this
         selectDefaultFragment()
         initFirebase()
+        updateChatUser()
         nfcReader = NfcReaderService(this, intent, this) {
             nfcReaderUpdated()
         }
@@ -43,6 +44,11 @@ class NavigationActivity : ADiabetipsActivity(R.layout.activity_navigation), me.
     }
 
     private fun initFirebase() {
+        var notification = NotificationObject()
+        if (intent.hasExtra(getString(R.string.param_notification))) {
+            notification = (intent.getSerializableExtra(getString(R.string.param_notification)) as NotificationObject)
+            handleNotification(notification)
+        }
         FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
             if (!task.isSuccessful) {
                 Log.w("Firebase", "getInstanceId failed", task.exception)
@@ -52,12 +58,51 @@ class NavigationActivity : ADiabetipsActivity(R.layout.activity_navigation), me.
             if (task.result != null)
                 NotificationService.instance.register(FCMTokenObject(task.result!!)).subscribe()
             NotificationService.instance.getAll<NotificationObject>(PaginationObject(1, resources.getInteger(R.integer.pagination_default))).doOnSuccess {
-                if (it.second.component2() == null && it.second.component1()?.firstOrNull() != null && !it.second.component1()?.first()!!.read) {
-                    Log.d("FirebaseNotification", it.second.component1()!!.first().toString())
-                    it.second.component1()!!.first().send(this)
+                if (it.second.component2() == null) {
+                    it.second.component1()?.forEach { notif ->
+                        if (notif.id != notification.id) {
+                            handleNotification(notif)
+                        }
+                    }
                 }
             }.subscribe()
         })
+    }
+
+    private fun handleNotification(notification: NotificationObject?) {
+        if (notification?.read == false && notification.id.isNotEmpty()) {
+            when (notification.type) {
+                NotificationObject.Type.chat_message.name -> {
+                    DialogHandler.dialogInvite(this, this.layoutInflater, (notification.getTypedNotification() as NotificationInviteObject), { setUnreadMessage() })
+                }
+                NotificationObject.Type.user_invite.name -> {
+                    setUnreadMessage(true)
+                    notification.markAsRead()
+                }
+                else -> notification.markAsRead()
+            }
+            Log.d("FirebaseNotification", "Notification N°${notification.id}")
+        }
+    }
+    private fun updateChatUser() {
+        val paginationObject = PaginationObject(resources.getInteger(R.integer.pagination_size), resources.getInteger(R.integer.pagination_default))
+        ConnectionService.instance.getAll<UserObject>(paginationObject).doOnSuccess  { chatUsers ->
+            if (chatUsers.second.component2() == null && !chatUsers.second.component1().isNullOrEmpty()) {
+                ChatService.instance.getAll<ChatObject>(paginationObject).doOnSuccess { conversations ->
+                    val chatUser : UserObject?
+                    if (conversations.second.component2() == null && !conversations.second.component1().isNullOrEmpty()) {
+                        val lastConversationUser = conversations.second.component1()?.firstOrNull()?.with
+                        chatUser = chatUsers.second.component1()?.find { it.uid == lastConversationUser }
+                    } else {
+                        chatUser = chatUsers.second.component1()?.firstOrNull()
+                    }
+                    if (chatUser?.uid?.isNotEmpty() == true) {
+                        UserManager.instance.saveChatUser(this, chatUser)
+                        setUnreadMessage()
+                    }
+                }.subscribe()
+            }
+        }.subscribe()
     }
 
     private fun nfcReaderUpdated() {
@@ -101,6 +146,13 @@ class NavigationActivity : ADiabetipsActivity(R.layout.activity_navigation), me.
 
     private fun setDefaultFragmentSelect(navigationFragment: ANavigationFragment.FragmentType = ANavigationFragment.FragmentType.HOME) {
         defaultFragmentSelect = navigationFragment
+    }
+
+    fun setUnreadMessage(value: Boolean = (unreadMessage ?: false)) {
+        unreadMessage = value
+        if (currentFragment != null && (currentFragment as ANavigationFragment).fragmentType == ANavigationFragment.FragmentType.HOME) {
+            (currentFragment as HomeFragment).updateChatIcon()
+        }
     }
 
     override fun onBackPressed() {

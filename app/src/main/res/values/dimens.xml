@@ -13,6 +13,7 @@
     <dimen name="image_size">48dp</dimen>
     <dimen name="input_size">32dp</dimen>
     <dimen name="icon_size">16dp</dimen>
+    <dimen name="message_margin_size">128dp</dimen>
     <dimen name="negative_margin_size">-33dp</dimen>
     <dimen name="negative_half_margin_size">-16dp</dimen>
     <dimen name="big_margin_size">48dp</dimen>

@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/EmptyBackgroundTheme"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/otherChatLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:orientation="vertical"
+        android:visibility="gone"
+        style="@style/EmptyBackgroundTheme">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/otherChatImage"
+            android:layout_width="@dimen/image_size"
+            android:layout_height="@dimen/image_size"
+            android:layout_marginStart="@dimen/half_margin_size"
+            android:src="@drawable/ic_person"
+            app:layout_constraintBottom_toBottomOf="@+id/otherChatItemCard"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/otherChatItemCard"
+            style="@style/BackgroundCardTheme"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/otherChatImage"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <LinearLayout
+                android:id="@+id/otherChatMessageLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@id/otherChatImage"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_margin="@dimen/quarter_margin_size"
+                android:orientation="vertical"
+                style="@style/EmptyBackgroundTheme">
+
+                <TextView
+                    android:id="@+id/otherChatText"
+                    style="@style/TextAltTheme"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:layout_marginTop="@dimen/quarter_margin_size"
+                    android:layout_marginStart="@dimen/quarter_margin_size"
+                    android:layout_marginEnd="@dimen/quarter_margin_size"
+                    android:text="@string/placeholder_text"/>
+
+                <TextView
+                    android:id="@+id/otherChatTime"
+                    style="@style/HintAltTheme"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:layout_marginTop="@dimen/quarter_margin_size"
+                    android:layout_marginStart="@dimen/quarter_margin_size"
+                    android:layout_marginEnd="@dimen/quarter_margin_size"
+                    android:layout_marginBottom="@dimen/quarter_margin_size"
+                    android:textAlignment="textStart"
+                    android:text="@string/placeholder_hour" />
+
+            </LinearLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/myChatLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:orientation="vertical"
+        style="@style/EmptyBackgroundTheme">
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/myChatItemCard"
+            style="@style/BackgroundCardAltTheme"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/message_margin_size"
+            android:layout_marginEnd="@dimen/half_margin_size"
+            android:layout_marginTop="@dimen/half_margin_size"
+            android:layout_marginBottom="@dimen/half_margin_size"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <LinearLayout
+                android:id="@+id/myChatMessageLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_margin="@dimen/quarter_margin_size"
+                android:orientation="vertical"
+                style="@style/EmptyBackgroundTheme">
+
+                <TextView
+                    android:id="@+id/myChatText"
+                    style="@style/TextReverseTheme"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:layout_marginTop="@dimen/quarter_margin_size"
+                    android:layout_marginStart="@dimen/quarter_margin_size"
+                    android:layout_marginEnd="@dimen/quarter_margin_size"
+                    android:text="@string/placeholder_text"/>
+
+                <TextView
+                    android:id="@+id/myChatTime"
+                    style="@style/HintReverseTheme"
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:layout_marginTop="@dimen/quarter_margin_size"
+                    android:layout_marginStart="@dimen/quarter_margin_size"
+                    android:layout_marginEnd="@dimen/quarter_margin_size"
+                    android:layout_marginBottom="@dimen/quarter_margin_size"
+                    android:textAlignment="textEnd"
+                    android:text="@string/placeholder_hour" />
+
+            </LinearLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

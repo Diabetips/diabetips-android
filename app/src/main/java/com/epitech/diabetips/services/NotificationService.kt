@@ -4,7 +4,7 @@ import com.epitech.diabetips.storages.FCMTokenObject
 import com.epitech.diabetips.storages.NotificationObject
 import com.epitech.diabetips.storages.TokenObject
 
-class NotificationService : AObjectService<NotificationObject>("/users/me/notifications") {
+class NotificationService : AObjectService<NotificationObject>("/notifications") {
 
     private object Holder { val INSTANCE = NotificationService() }
 

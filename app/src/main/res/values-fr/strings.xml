@@ -294,4 +294,17 @@
     <string name="target_hyper">Hyperglycémie > 140 md/dl</string>
     <string name="target_hypo"><![CDATA[Hypoglycémie < 80 md/dl]]></string>
     <string name="target_in">Dans la cible</string>
+    <string name="notification_title">Notification</string>
+    <string name="notification_body">Vous avez reçu une nouvelle notification</string>
+    <string name="notification_chat_title">Nouveau message</string>
+    <string name="notification_chat_body">Vous avez reçu un nouveau message de votre diabétologue</string>
+    <string name="notification_invite_title">Nouvelle invitation</string>
+    <string name="notification_invite_body">Votre diabétologue vous à inviter à devenir son patient</string>
+    <string name="notification_channel_default">Toutes les notifications</string>
+    <string name="notification_channel_invite">Invitations</string>
+    <string name="notification_channel_chat">Messages</string>
+    <string name="notification_channel_other">Autre</string>
+    <string name="invitation_text">Voulez-vous devenir le patient de votre diabétologue sur Diabetips?</string>
+    <string name="invitation_text_name">Voulez-vous devenir le patient de %1$s sur Diabetips ?</string>
+    <string name="invitation_accepted">Vous êtes maintenant le patient de %1$s</string>
 </resources>

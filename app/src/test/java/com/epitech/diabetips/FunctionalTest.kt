@@ -1,5 +1,6 @@
 package com.epitech.diabetips
 
+import android.app.Notification
 import com.epitech.diabetips.storages.*
 import org.junit.Assert.*
 import org.junit.Test
@@ -44,6 +45,27 @@ class FunctionalTest {
         assertEquals("Wrong mealRecipe total sugar", expectedSugar, mealRecipe.calculateTotalSugars())
         expectedSugar = meal.total_carbohydrates
         assertEquals("Wrong meal total sugar", expectedSugar, meal.calculateTotalSugars())
+    }
 
+    @Test
+    fun notificationObject() {
+        val notificationChat = NotificationChatObject(from = "2B2T42666-693607202B", msg_id = "2B72036069-666422B2T")
+        notificationChat.id = "2B72036069-666422B2T"
+        notificationChat.read = true
+        notificationChat.type = NotificationObject.Type.chat_message.name
+        notificationChat.data = """{"from": "2B2T42666-693607202B", "msg_id": "2B72036069-666422B2T"}"""
+        val notificationInvite = NotificationInviteObject(from = "2B2T42666-693607202B")
+        notificationInvite.id = "2B72036069-666422B2T"
+        notificationInvite.read = true
+        notificationInvite.type = NotificationObject.Type.user_invite.name
+        notificationInvite.data = """{"from": "2B2T42666-693607202B"}"""
+        val notificationTest = NotificationTestObject(foo = "aled", bar = "oskour")
+        notificationTest.id = "2B72036069-666422B2T"
+        notificationTest.read = true
+        notificationTest.type = NotificationObject.Type.test.name
+        notificationTest.data = """{"foo": "aled", "bar": "oskour"}"""
+        assertEquals("Wrong Notification Chat", notificationChat, NotificationObject(id = notificationChat.id, read = notificationChat.read, type = notificationChat.type, data = notificationChat.data).getTypedNotification())
+        assertEquals("Wrong Notification Invite", notificationInvite, NotificationObject(id = notificationInvite.id, read = notificationInvite.read, type = notificationInvite.type, data = notificationInvite.data).getTypedNotification())
+        assertEquals("Wrong Notification Test", notificationTest, NotificationObject(id = notificationTest.id, read = notificationTest.read, type = notificationTest.type, data = notificationTest.data).getTypedNotification())
     }
 }

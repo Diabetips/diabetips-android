@@ -26,15 +26,12 @@ class DashboardFragment : ANavigationFragment(FragmentType.DASHBOARD) {
         view.dashboardHemoglobinCard.setOnClickListener {
             startActivity(Intent(requireContext(), HbA1cActivity::class.java))
         }
-
         view.dashboardInsulinQuantityCard.setOnClickListener {
             startActivity(Intent(requireContext(), InsulinQuantityActivity::class.java))
         }
-
         view.dashboardBloodSugarLevelRangesCard.setOnClickListener {
             startActivity(Intent(requireContext(), BloodSugarLevelRangesActivity::class.java))
         }
-
         return view
     }
 

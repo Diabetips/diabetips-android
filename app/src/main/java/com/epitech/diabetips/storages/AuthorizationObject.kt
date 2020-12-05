@@ -9,7 +9,7 @@ data class AuthorizationObject (
     var refresh_token: String = "",
     var scope: String = "") : Serializable {
 
-    enum class Type {password, refresh_token}
+    enum class Type { password, refresh_token }
 
     fun getParameters() : List<Pair<String, String>> {
         val map = ArrayList<Pair<String, String>>()

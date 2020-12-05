@@ -5,7 +5,7 @@
         android:id="@+id/profileSettings"
         android:icon="@drawable/ic_settings"
         android:title="@string/settings_title"
-        android:visible="false"/>
+        android:visible="true"/>
 
     <item
         android:id="@+id/profileDarkMode"

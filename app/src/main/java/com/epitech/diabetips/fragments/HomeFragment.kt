@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import com.epitech.diabetips.R
 import com.epitech.diabetips.activities.*
 import com.epitech.diabetips.managers.EntriesManager
@@ -28,10 +29,8 @@ class HomeFragment : ANavigationFragment(FragmentType.HOME) {
         entriesManager = EntriesManager(requireContext()) { items, _ ->
             itemsUpdateTrigger(items)
         }
-
         val view = createFragmentView(R.layout.fragment_home, inflater, container)
         view.readyToScan.text = (activity as NavigationActivity).nfcReader?.nfcStatus
-
         view.newEntryButton.setOnClickListener {
             startActivity(Intent(requireContext(), NewEntryActivity::class.java))
         }
@@ -43,8 +42,10 @@ class HomeFragment : ANavigationFragment(FragmentType.HOME) {
             startActivity(Intent(requireContext(), EventNotebookActivity::class.java))
         }
         view.viewChatButton.setOnClickListener {
+            (activity as NavigationActivity).setUnreadMessage(false)
             startActivity(Intent(requireContext(), ChatActivity::class.java))
         }
+        updateChatIcon(view)
         handlePrediction(view)
         getLastBloodSugar()
         ChartHandler.handleLineChartStyle(view.sugarLineChart, requireContext())
@@ -119,6 +120,19 @@ class HomeFragment : ANavigationFragment(FragmentType.HOME) {
             view?.lastBloodGlucoseLayout?.visibility = View.VISIBLE
         } else {
             view?.lastBloodGlucoseLayout?.visibility = View.GONE
+        }
+    }
+
+    fun updateChatIcon(view: View? = this.view) {
+        if (UserManager.instance.getChatUser(requireContext()).uid.isNotEmpty()) {
+            view?.viewChatButton?.visibility = View.VISIBLE
+            if ((activity as NavigationActivity).unreadMessage == true) {
+                view?.viewChatButton?.setColorFilter(ContextCompat.getColor(requireContext(), R.color.colorPrimary))
+            } else {
+                view?.viewChatButton?.setColorFilter(MaterialHandler.getColorFromAttribute(requireContext(), R.attr.colorBackgroundText))
+            }
+        } else {
+            view?.viewChatButton?.visibility = View.GONE
         }
     }
 

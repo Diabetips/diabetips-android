@@ -1,15 +1,16 @@
 <resources>
     <!--application data start-->
     <string name="app_name" translatable="false">Diabetips</string>
-    <!--string name="api_base_url" translatable="false">https://api.diabetips.fr/v1</string--> <!-- URL API PROD -->
+    <!--string name="websocket_url" translatable="false">wss:///api.dev.diabetips.fr/v1/chat</string>
+    <string name="api_base_url" translatable="false">https://api.diabetips.fr/v1</string--> <!-- URL API PROD -->
+    <string name="websocket_url" translatable="false">wss:///api.dev.diabetips.fr/v1/chat</string>
     <string name="api_base_url" translatable="false">https://api.dev.diabetips.fr/v1</string> <!-- URL API DEV -->
     <string name="client_id" translatable="false">diabetips-android</string>
     <string name="client_secret" translatable="false">DayeeW6efeeTiequuphaereiShaephoi</string>
-    <string name="scope" translatable="false">biometrics:read biometrics:write connections:read connections:write meals:read meals:write notes:read notes:write notifications predictions:new profile:read profile:write recipe:read recipe:write user:delete</string>
+    <string name="scope" translatable="false">biometrics:read biometrics:write chat connections:read connections:write meals:read meals:write notes:read notes:write notifications predictions:new profile:read profile:write recipe:read recipe:write user:delete</string>
     <string name="content_json" translatable="false">application/json; charset=utf-8</string>
     <string name="content_urlencoded" translatable="false">application/x-www-form-urlencoded; charset=utf-8"</string>
     <string name="pagination_header" translatable="false">X-Pages</string>
-    <string name="default_notification_channel_id" translatable="false">Diabetips</string>
     <!--application data end-->
 
     <!--parameters name start-->
@@ -123,6 +124,11 @@
     <string name="no_data">No data to display</string>
     <string name="no_data_24">No data to display for the last 24 hours</string>
     <string name="no_data_period">No data to display for the selected period</string>
+    <string name="insulin_quantity_title">Average Insulins Quantities</string>
+    <string name="blood_sugar_level_ranges_title">Blood sugar level ranges</string>
+    <string name="target_hyper"><![CDATA[Hyperglycemia > 140 md/dl]]></string>
+    <string name="target_hypo"><![CDATA[Hypoglycemia < 80 md/dl]]></string>
+    <string name="target_in">In ranges</string>
     <!--Dashboard end-->
 
     <!--Profile screen start-->
@@ -221,6 +227,22 @@
     <string name="scan_not_found">The scanned product isn\'t available in our registered products</string>
     <string name="scan_error">An error occurred while scanning your product</string>
     <!--meal / recipe / food screen end-->
+
+    <!--Notifications start-->
+    <string name="notification_channel_default">All notifications</string>
+    <string name="notification_channel_invite">Invitations</string>
+    <string name="notification_channel_chat">Chat</string>
+    <string name="notification_channel_other">Other</string>
+    <string name="notification_title">Notification</string>
+    <string name="notification_body">You have received a new notification</string>
+    <string name="notification_chat_title">New message</string>
+    <string name="notification_chat_body">You have received a new message from your diabetologist</string>
+    <string name="notification_invite_title">New invitation</string>
+    <string name="notification_invite_body">Your diabetologist has invited you to become their patient</string>
+    <string name="invitation_text">Do you want to become the patient of your diabetologist on Diabetips?</string>
+    <string name="invitation_text_name">Do you want to become the patient of %1$s on Diabetips?</string>
+    <string name="invitation_accepted">You now are the patient of %1$s</string>
+    <!--Notification screen end-->
 
     <!--login / sign up errors start-->
     <string name="connexion_error">An error occurred while connecting to the server</string>
@@ -419,11 +441,6 @@
     <string name="sport_windsurfing">Windsurfing</string>
     <string name="sport_yoga">Yoga</string>
     <string name="sport_zumba">Zumba</string>
-    <string name="insulin_quantity_title">Average Insulins Quantities</string>
-    <string name="blood_sugar_level_ranges_title">Blood sugar level ranges</string>
-    <string name="target_hyper"><![CDATA[Hyperglycemia > 140 md/dl]]></string>
-    <string name="target_hypo"><![CDATA[Hypoglycemia < 80 md/dl]]></string>
-    <string name="target_in">In ranges</string>
 
     <string-array name="sports">
         <item>@string/sport_aerobics</item>

@@ -23,6 +23,7 @@ abstract class AService(var baseRoute : String = "") {
         .registerTypeAdapter(RecipeObject::class.java, RecipeObjectAdapter())
         .registerTypeAdapter(MealObject::class.java, MealObjectAdapter())
         .registerTypeAdapter(IngredientObject::class.java, IngredientObjectAdapter())
+        .registerTypeAdapter(ChatObject::class.java, ChatObjectAdapter())
         .create()
 
     inline fun <reified T : Any> getRequest(route : String = "") : FuelResponse<T> {

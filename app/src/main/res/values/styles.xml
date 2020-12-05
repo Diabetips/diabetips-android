@@ -118,6 +118,11 @@
         <item name="cardCornerRadius">@dimen/margin_size</item>
     </style>
 
+    <style name="BackgroundCardAltTheme" parent="BackgroundTheme">
+        <item name="cardBackgroundColor">?attr/colorPrimary</item>
+        <item name="cardCornerRadius">@dimen/margin_size</item>
+    </style>
+
     <style name="BackgroundCardColorTheme">
         <item name="android:colorBackground">?attr/colorCardBackground</item>
     </style>
@@ -147,6 +152,12 @@
     <style name="ActionBarTheme" parent="ClearBackgroundTheme">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">@dimen/action_bar_height</item>
+        <item name="android:elevation">@dimen/shadow_size</item>
+    </style>
+
+    <style name="ChatBarTheme" parent="ClearBackgroundTheme">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/navigation_height</item>
         <item name="android:elevation">@dimen/shadow_size</item>
     </style>
 
@@ -290,6 +301,10 @@
         <item name="hintEnabled">false</item>
         <item name="hintAnimationEnabled">false</item>
         <item name="boxCollapsedPaddingTop">0dp</item>
+    </style>
+
+    <style name="TextInputNoHintAndErrorLayoutTheme" parent="TextInputNoHintLayoutTheme">
+        <item name="errorEnabled">false</item>
     </style>
 
     <style name="EditInputLayoutTheme" parent="TextInputLayoutTheme">

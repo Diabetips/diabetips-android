@@ -7,7 +7,8 @@ import androidx.fragment.app.Fragment
 
 abstract class ANavigationFragment(val fragmentType: FragmentType) : Fragment() {
 
-    enum class FragmentType {HOME, DASHBOARD, RECIPES, PROFILE, SETTINGS}
+    enum class FragmentType { HOME, DASHBOARD, RECIPES, PROFILE, SETTINGS }
+    enum class UpdateType { CHAT, MESSAGE }
 
     protected fun createFragmentView(layoutId: Int, inflater: LayoutInflater, container: ViewGroup?): View {
         val view = inflater.inflate(layoutId, container, false)
@@ -16,5 +17,7 @@ abstract class ANavigationFragment(val fragmentType: FragmentType) : Fragment() 
     }
 
     abstract fun isLoading(): Boolean
+
+    open fun updateData(updateType: UpdateType) {}
 
 }

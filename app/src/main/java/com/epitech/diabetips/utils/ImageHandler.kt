@@ -6,7 +6,6 @@ import android.graphics.Bitmap
 import android.widget.ImageView
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.scale
-import com.bumptech.glide.Glide
 import com.bumptech.glide.Priority
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.model.GlideUrl
@@ -26,10 +25,6 @@ class ImageHandler {
 
     private var header = LazyHeaders.Builder().build()
 
-    private val options = RequestOptions()
-        .fitCenter()
-        .priority(Priority.HIGH)
-
     fun updateHeader(authorization: String) {
         header = LazyHeaders.Builder().addHeader("Authorization", "Bearer $authorization").build()
     }
@@ -37,9 +32,8 @@ class ImageHandler {
     fun loadImage(image: ImageView, context: Context, url: String, placeholder: Int, cacheImage: Boolean = true, placeholderColor: Int = R.color.colorHint) {
         val drawable = ContextCompat.getDrawable(context, placeholder)
         drawable?.setTint(ContextCompat.getColor(context, placeholderColor))
-        Glide.with(context)
+        GlideApp.with(context)
             .load(GlideUrl(url, header))
-            .apply(options)
             .placeholder(drawable)
             .error(drawable)
             .diskCacheStrategy(if (cacheImage) DiskCacheStrategy.ALL else DiskCacheStrategy.NONE)

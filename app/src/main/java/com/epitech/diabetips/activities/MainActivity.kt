@@ -8,7 +8,6 @@ import com.epitech.diabetips.R
 import com.epitech.diabetips.managers.UserManager
 import com.epitech.diabetips.managers.AuthManager
 import com.epitech.diabetips.services.BiometricService
-import com.epitech.diabetips.services.NotificationService
 import com.epitech.diabetips.services.TokenService
 import com.epitech.diabetips.services.UserService
 import com.epitech.diabetips.storages.BiometricObject
@@ -36,7 +35,6 @@ class MainActivity : ADiabetipsActivity(R.layout.activity_main) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        FuelManager.instance.basePath = getString(R.string.api_base_url)
         FuelManager.instance.baseHeaders = mapOf("Content-Type" to "application/json; charset=utf-8")
         passwordWatcher = PasswordWatcher(this, passwordInputLayout)
         passwordInput.addTextChangedListener(passwordWatcher)
@@ -103,10 +101,9 @@ class MainActivity : ADiabetipsActivity(R.layout.activity_main) {
     private fun launchHomeActivity(ignoreEmptyUser: Boolean = false) {
         val account = UserManager.instance.getUser(this)
         if (ignoreEmptyUser || account.uid != "") {
-            if (notification.id.isNotEmpty() && !notification.read) {
-                NotificationService.instance.remove<NotificationObject>(notification.id).doOnSuccess {
-                    startActivity(Intent(this, NavigationActivity::class.java))
-                }.subscribe()
+            if (notification.id.isNotEmpty()) {
+                startActivity(Intent(this, NavigationActivity::class.java)
+                    .putExtra(getString(R.string.param_notification), notification))
             } else {
                 startActivity(Intent(this, NavigationActivity::class.java))
             }

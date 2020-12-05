@@ -9,6 +9,6 @@ data class InsulinObject (
     var time: String = "",
     var type: String = "") : Serializable {
 
-    enum class Type {slow, fast, very_fast}
+    enum class Type { slow, fast, very_fast }
 
 }
