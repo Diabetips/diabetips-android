@@ -2,6 +2,8 @@ package com.epitech.diabetips.storages
 
 import android.content.Context
 import com.epitech.diabetips.R
+import com.epitech.diabetips.activities.ChatActivity
+import com.epitech.diabetips.activities.NavigationActivity
 import org.json.JSONException
 import org.json.JSONObject
 
@@ -25,7 +27,8 @@ data class NotificationChatObject(
     }
 
     override fun send(context: Context, title: String?, body: String?) {
-        displayNotification(context, title, body)
+            NavigationActivity.setUnreadMessage(true)
+            ChatActivity.instance?.getLastMessage() ?: displayNotification(context, title, body)
     }
 
     override fun getNotificationChannel(context: Context) : String {

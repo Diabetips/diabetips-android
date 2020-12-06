@@ -42,7 +42,7 @@ class HomeFragment : ANavigationFragment(FragmentType.HOME) {
             startActivity(Intent(requireContext(), EventNotebookActivity::class.java))
         }
         view.viewChatButton.setOnClickListener {
-            (activity as NavigationActivity).setUnreadMessage(false)
+            NavigationActivity.setUnreadMessage(false)
             startActivity(Intent(requireContext(), ChatActivity::class.java))
         }
         updateChatIcon(view)
@@ -113,9 +113,9 @@ class HomeFragment : ANavigationFragment(FragmentType.HOME) {
             view?.lastBloodGlucoseTime?.text = "${view?.lastBloodGlucoseTime?.text} ${requireContext().getString(R.string.last_use)}"
             val biometric: BiometricObject = UserManager.instance.getBiometric(requireContext())
             if ((biometric.hyperglycemia ?: bloodSugar.value) < bloodSugar.value || (biometric.hypoglycemia ?: bloodSugar.value) > bloodSugar.value) {
-                view?.lastBloodGlucoseLayout?.background?.setTint(requireContext().getColor(R.color.colorAccent))
+                view?.lastBloodGlucoseLayout?.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.colorAccent))
             } else {
-                view?.lastBloodGlucoseLayout?.background?.setTint(requireContext().getColor(R.color.colorPrimary))
+                view?.lastBloodGlucoseLayout?.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.colorPrimary))
             }
             view?.lastBloodGlucoseLayout?.visibility = View.VISIBLE
         } else {
@@ -126,7 +126,7 @@ class HomeFragment : ANavigationFragment(FragmentType.HOME) {
     fun updateChatIcon(view: View? = this.view) {
         if (UserManager.instance.getChatUser(requireContext()).uid.isNotEmpty()) {
             view?.viewChatButton?.visibility = View.VISIBLE
-            if ((activity as NavigationActivity).unreadMessage == true) {
+            if (NavigationActivity.getUnreadMessage()) {
                 view?.viewChatButton?.setColorFilter(ContextCompat.getColor(requireContext(), R.color.colorPrimary))
             } else {
                 view?.viewChatButton?.setColorFilter(MaterialHandler.getColorFromAttribute(requireContext(), R.attr.colorBackgroundText))

@@ -22,7 +22,7 @@ open class NotificationObject (
     var type: String = "",
     var data: Any? = null) : Serializable {
 
-    enum class Type { chat_message, user_invite, test }
+    enum class Type { chat_message, user_invite, user_invite_accepted, test }
 
     open fun send(context: Context, title: String? = null, body: String? = null) {
         getTypedNotification().send(context, title, body)

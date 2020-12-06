@@ -1,6 +1,5 @@
 package com.epitech.diabetips
 
-import android.app.Notification
 import com.epitech.diabetips.storages.*
 import org.junit.Assert.*
 import org.junit.Test

@@ -11,14 +11,17 @@ class ChatAdapter(private val userId: String = "", private val messages: ArrayLi
 
     fun setMessages(messageList: Array<ChatObject>) {
         messages.clear()
-        addMessages(messageList)
+        messageList.forEach {
+            messages.add(0, it)
+        }
+        notifyDataSetChanged()
     }
 
     fun addMessages(messageList: Array<ChatObject>) {
         messageList.forEach {
             messages.add(0, it)
         }
-        notifyDataSetChanged()
+        notifyItemRangeInserted(0, messageList.size)
     }
 
     fun addMessage(message: ChatObject) {

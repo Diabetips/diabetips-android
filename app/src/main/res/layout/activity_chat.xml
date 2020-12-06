@@ -76,6 +76,7 @@
             android:id="@+id/sendChatButton"
             style="@style/ImageButtonAltTheme"
             android:layout_marginEnd="@dimen/half_margin_size"
+            android:layout_marginBottom="@dimen/half_margin_size"
             android:contentDescription="@string/placeholder_text"
             android:src="@drawable/ic_send"
             android:visibility="gone"

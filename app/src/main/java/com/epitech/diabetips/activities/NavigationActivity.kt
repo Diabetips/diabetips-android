@@ -22,13 +22,23 @@ import com.google.firebase.messaging.FirebaseMessaging
 import kotlinx.android.synthetic.main.activity_navigation.*
 
 class NavigationActivity : ADiabetipsActivity(R.layout.activity_navigation), me.ibrahimsn.lib.OnItemSelectedListener {
-
-    private var currentFragment: Fragment? = null
-    var unreadMessage: Boolean? = false
     var nfcReader: NfcReaderService? = null
 
     companion object {
+        private var currentFragment: Fragment? = null
+        private var unreadMessage: Boolean = false
         var defaultFragmentSelect = ANavigationFragment.FragmentType.HOME
+
+        fun setUnreadMessage(value: Boolean = unreadMessage) {
+            unreadMessage = value
+            if ((currentFragment as ANavigationFragment?)?.fragmentType == ANavigationFragment.FragmentType.HOME) {
+                (currentFragment as HomeFragment).updateChatIcon()
+            }
+        }
+
+        fun getUnreadMessage(): Boolean {
+            return unreadMessage
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -72,10 +82,10 @@ class NavigationActivity : ADiabetipsActivity(R.layout.activity_navigation), me.
     private fun handleNotification(notification: NotificationObject?) {
         if (notification?.read == false && notification.id.isNotEmpty()) {
             when (notification.type) {
-                NotificationObject.Type.chat_message.name -> {
+                NotificationObject.Type.user_invite.name -> {
                     DialogHandler.dialogInvite(this, this.layoutInflater, (notification.getTypedNotification() as NotificationInviteObject), { setUnreadMessage() })
                 }
-                NotificationObject.Type.user_invite.name -> {
+                NotificationObject.Type.chat_message.name -> {
                     setUnreadMessage(true)
                     notification.markAsRead()
                 }
@@ -96,10 +106,8 @@ class NavigationActivity : ADiabetipsActivity(R.layout.activity_navigation), me.
                     } else {
                         chatUser = chatUsers.second.component1()?.firstOrNull()
                     }
-                    if (chatUser?.uid?.isNotEmpty() == true) {
-                        UserManager.instance.saveChatUser(this, chatUser)
-                        setUnreadMessage()
-                    }
+                    UserManager.instance.saveChatUser(this, chatUser ?: UserObject())
+                    setUnreadMessage()
                 }.subscribe()
             }
         }.subscribe()
@@ -148,13 +156,6 @@ class NavigationActivity : ADiabetipsActivity(R.layout.activity_navigation), me.
         defaultFragmentSelect = navigationFragment
     }
 
-    fun setUnreadMessage(value: Boolean = (unreadMessage ?: false)) {
-        unreadMessage = value
-        if (currentFragment != null && (currentFragment as ANavigationFragment).fragmentType == ANavigationFragment.FragmentType.HOME) {
-            (currentFragment as HomeFragment).updateChatIcon()
-        }
-    }
-
     override fun onBackPressed() {
         val fragment = supportFragmentManager.findFragmentById(R.id.navigationFragment) as ANavigationFragment?
         if (fragment != null && fragment.isLoading()) {
@@ -168,10 +169,12 @@ class NavigationActivity : ADiabetipsActivity(R.layout.activity_navigation), me.
 
     override fun onResume() {
         super.onResume()
+        currentFragment = supportFragmentManager.findFragmentById(R.id.navigationFragment)
         nfcReader!!.onResume()
     }
 
     override fun onPause() {
+        currentFragment = null
         nfcReader!!.onPause()
         super.onPause()
     }
@@ -187,6 +190,11 @@ class NavigationActivity : ADiabetipsActivity(R.layout.activity_navigation), me.
             RequestCode.NFC_READER.ordinal -> nfcReader!!.onNewIntent(data)
             else -> (supportFragmentManager.findFragmentById(R.id.navigationFragment) as ANavigationFragment?)?.onActivityResult(requestCode, resultCode, data)
         }
+    }
+
+    override fun onDestroy() {
+        currentFragment = null
+        super.onDestroy()
     }
 
 }
