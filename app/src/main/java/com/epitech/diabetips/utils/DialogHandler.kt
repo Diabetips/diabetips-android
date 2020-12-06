@@ -240,7 +240,7 @@ class DialogHandler {
         fun dialogInvite(context: Context, layoutInflater: LayoutInflater, notification: NotificationInviteObject, callback: (() -> Unit), onDismiss: (() -> Unit) = {}) {
             createDialog(context, layoutInflater, R.layout.dialog_confirm) { view, dialog ->
                 dialog.setOnDismissListener { onDismiss.invoke() }
-                var user = UserObject(uid = notification.from)
+                var user = UserObject(uid = notification.from_uid)
                 view.dialogConfirmText.text = context.getString(R.string.invitation_text)
                 UserService.instance.get<UserObject>(user.uid).doOnSuccess {
                     if (it.second.component2() == null) {

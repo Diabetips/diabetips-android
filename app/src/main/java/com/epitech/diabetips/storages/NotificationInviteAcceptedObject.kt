@@ -5,7 +5,7 @@ import com.epitech.diabetips.R
 import org.json.JSONException
 import org.json.JSONObject
 
-data class NotificationInviteObject(
+data class NotificationInviteAcceptedObject(
     var from_uid: String = "") : NotificationObject() {
 
     constructor(notificationObject: NotificationObject) : this() {
@@ -31,10 +31,10 @@ data class NotificationInviteObject(
     }
 
     override fun getTitle(context: Context) : String {
-        return context.getString(R.string.notification_invite_title)
+        return context.getString(R.string.notification_invite_accepted_title)
     }
 
     override fun getBody(context: Context) : String {
-        return context.getString(R.string.notification_invite_body)
+        return context.getString(R.string.notification_invite_accepted_body)
     }
 }

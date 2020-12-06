@@ -9,7 +9,7 @@ import org.json.JSONObject
 
 data class NotificationChatObject(
     var msg_id: String = "",
-    var from: String = "") : NotificationObject() {
+    var from_uid: String = "") : NotificationObject() {
 
     constructor(notificationObject: NotificationObject) : this() {
         id = notificationObject.id
@@ -20,7 +20,7 @@ data class NotificationChatObject(
         try {
             val jsonObject = JSONObject(data.toString())
             msg_id = jsonObject.getString("msg_id")
-            from = jsonObject.getString("from")
+            from_uid = jsonObject.getString("from_uid")
         } catch (e: JSONException) {
             e.printStackTrace()
         }

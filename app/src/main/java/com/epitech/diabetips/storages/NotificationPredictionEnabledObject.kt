@@ -2,11 +2,8 @@ package com.epitech.diabetips.storages
 
 import android.content.Context
 import com.epitech.diabetips.R
-import org.json.JSONException
-import org.json.JSONObject
 
-data class NotificationInviteObject(
-    var from_uid: String = "") : NotificationObject() {
+data class NotificationPredictionEnabledObject(var enabled: Boolean = true) : NotificationObject() {
 
     constructor(notificationObject: NotificationObject) : this() {
         id = notificationObject.id
@@ -14,12 +11,6 @@ data class NotificationInviteObject(
         read = notificationObject.read
         type = notificationObject.type
         data = notificationObject.data.toString()
-        try {
-            val jsonObject = JSONObject(data.toString())
-            from_uid = jsonObject.getString("from_uid")
-        } catch (e: JSONException) {
-            e.printStackTrace()
-        }
     }
 
     override fun send(context: Context, title: String?, body: String?) {
@@ -27,14 +18,14 @@ data class NotificationInviteObject(
     }
 
     override fun getNotificationChannel(context: Context) : String {
-        return context.getString(R.string.notification_channel_invite)
+        return context.getString(R.string.notification_channel_AI)
     }
 
     override fun getTitle(context: Context) : String {
-        return context.getString(R.string.notification_invite_title)
+        return context.getString(R.string.notification_prediction_enabled_title)
     }
 
     override fun getBody(context: Context) : String {
-        return context.getString(R.string.notification_invite_body)
+        return context.getString(R.string.notification_prediction_enabled_body)
     }
 }

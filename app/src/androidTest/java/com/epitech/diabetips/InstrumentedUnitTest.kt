@@ -34,6 +34,7 @@ class InstrumentedUnitTest {
     private val mealRecipeArray = arrayOf(MealRecipeObject(0f, recipe = RecipeObject(1, "Recipe")), MealRecipeObject(0f, recipe = RecipeObject(2)), MealRecipeObject(0f, recipe = RecipeObject(3)))
     private val mealArray = arrayOf(MealObject(1, "", "Meal"), MealObject(2), MealObject(3))
     private val hba1cArray = arrayOf(HbA1cObject(1, 5.5f), HbA1cObject(2, 10f), HbA1cObject(3, 7f))
+    private val chatArray = arrayOf(ChatObject("1", content = "Message 1"), ChatObject("2", content = "Message 2"), ChatObject("3", content = "Message 3"))
 
     @Before
     fun setup() {
@@ -48,7 +49,7 @@ class InstrumentedUnitTest {
         val expectedToken = "49fad390491a5b547d0f782309b6a5b33f7ac087"
         AuthManager.instance.saveAccessToken(instrumentationContext, expectedToken)
         val actualToken = AuthManager.instance.getAccessToken(instrumentationContext)
-        assertEquals("Wrong access token.", expectedToken, actualToken)
+        assertEquals("Wrong access token", expectedToken, actualToken)
     }
 
     @Test
@@ -56,7 +57,7 @@ class InstrumentedUnitTest {
         val expectedToken = "8xLOxBtZp8"
         AuthManager.instance.saveRefreshToken(instrumentationContext, expectedToken)
         val actualToken = AuthManager.instance.getRefreshToken(instrumentationContext)
-        assertEquals("Wrong refresh token.", expectedToken, actualToken)
+        assertEquals("Wrong refresh token", expectedToken, actualToken)
     }
 
     @Test
@@ -64,7 +65,7 @@ class InstrumentedUnitTest {
         val expectedMode =  AppCompatDelegate.MODE_NIGHT_YES
         ModeManager.instance.saveDarkMode(instrumentationContext, expectedMode)
         val actualMode =  ModeManager.instance.getDarkMode(instrumentationContext)
-        assertEquals("Wrong dark mode.", expectedMode, actualMode)
+        assertEquals("Wrong dark mode", expectedMode, actualMode)
     }
 
     @Test
@@ -72,7 +73,7 @@ class InstrumentedUnitTest {
         val expectedAccount = UserObject("nom.prenom@email.com", "password", "NOM", "Prénom")
         UserManager.instance.saveUser(instrumentationContext, expectedAccount)
         val actualAccount =  UserManager.instance.getUser(instrumentationContext)
-        assertEquals("Wrong account.", expectedAccount, actualAccount)
+        assertEquals("Wrong account", expectedAccount, actualAccount)
     }
 
     @Test
@@ -81,7 +82,7 @@ class InstrumentedUnitTest {
         UserManager.instance.saveUser(instrumentationContext, expectedAccount)
         UserManager.instance.removeUser(instrumentationContext)
         val actualAccount =  UserManager.instance.getUser(instrumentationContext)
-        assertNotEquals("Wrong account.", expectedAccount, actualAccount)
+        assertNotEquals("Wrong account", expectedAccount, actualAccount)
     }
 
     @Test
@@ -89,7 +90,7 @@ class InstrumentedUnitTest {
         val expectedBiometric = BiometricObject(80, 175, 60, 180, "2020-10-05", "male")
         UserManager.instance.saveBiometric(instrumentationContext, expectedBiometric)
         val actualBiometric =  UserManager.instance.getBiometric(instrumentationContext)
-        assertEquals("Wrong account.", expectedBiometric, actualBiometric)
+        assertEquals("Wrong account", expectedBiometric, actualBiometric)
     }
 
     @Test
@@ -98,84 +99,105 @@ class InstrumentedUnitTest {
         UserManager.instance.saveBiometric(instrumentationContext, expectedBiometric)
         UserManager.instance.removeBiometric(instrumentationContext)
         val actualBiometric =  UserManager.instance.getBiometric(instrumentationContext)
-        assertNotEquals("Wrong account.", expectedBiometric, actualBiometric)
+        assertNotEquals("Wrong account", expectedBiometric, actualBiometric)
     }
 
     @Test
-    fun foodAdapterSetFood() {
+    fun foodAdapterSetFoods() {
         val foodAdapter = FoodAdapter()
         foodAdapter.setFoods(foodArray)
-        assertEquals(foodArray.size, foodAdapter.itemCount)
+        assertEquals("Wrong Food Adapter Set Foods", foodArray.size, foodAdapter.itemCount)
     }
 
     @Test
-    fun foodAdapterAddFood() {
+    fun foodAdapterAddFoods() {
         val foodAdapter = FoodAdapter()
         foodAdapter.addFoods(foodArray)
-        assertEquals(foodArray.size, foodAdapter.itemCount)
+        assertEquals("Wrong Food Adapter Add Foods", foodArray.size, foodAdapter.itemCount)
     }
 
     @Test
     fun recipeAdapterSetRecipes() {
         val recipeAdapter = RecipeAdapter()
         recipeAdapter.setRecipes(recipeArray)
-        assertEquals(recipeArray.size, recipeAdapter.itemCount)
+        assertEquals("Wrong Recipe Adapter Set Recipes", recipeArray.size, recipeAdapter.itemCount)
     }
 
     @Test
     fun recipeAdapterAddRecipe() {
         val recipeAdapter = RecipeAdapter()
         recipeAdapter.addRecipe(recipeArray[0])
-        assertEquals(1, recipeAdapter.itemCount)
+        assertEquals("Wrong Recipe Adapter Add Recipe",1, recipeAdapter.itemCount)
     }
 
     @Test
     fun recipeAdapterAddRecipes() {
         val recipeAdapter = RecipeAdapter()
         recipeAdapter.addRecipes(recipeArray)
-        assertEquals(recipeArray.size, recipeAdapter.itemCount)
+        assertEquals("Wrong Recipe Adapter Add Recipes", recipeArray.size, recipeAdapter.itemCount)
     }
 
     @Test
     fun recipeFoodAdapterSetFoods() {
         val recipeFoodAdapter = RecipeFoodAdapter()
         recipeFoodAdapter.setFoods(ingredientArray)
-        assertArrayEquals(ingredientArray, recipeFoodAdapter.getFoods().toTypedArray())
+        assertArrayEquals("Wrong Recipe Food Adapter Set Foods", ingredientArray, recipeFoodAdapter.getFoods().toTypedArray())
     }
 
     @Test
     fun recipeFoodAdapterAddFood() {
         val recipeFoodAdapter = RecipeFoodAdapter()
         recipeFoodAdapter.addFood(ingredientArray[0])
-        assertEquals(ingredientArray[0], recipeFoodAdapter.getFoods()[0])
+        assertEquals("Wrong Recipe Food Adapter Add Food", ingredientArray[0], recipeFoodAdapter.getFoods()[0])
     }
 
     @Test
-    fun mealRecipeAdapterAddRecipes() {
+    fun mealRecipeAdapterSetRecipes() {
         val mealRecipeAdapter = MealRecipeAdapter()
-        mealRecipeAdapter.addRecipe(mealRecipeArray[0])
-        assertEquals(1, mealRecipeAdapter.itemCount)
+        mealRecipeAdapter.setRecipes(mealRecipeArray)
+        assertEquals("Wrong Meal Recipe Adapter Set Recipes", mealRecipeArray.size, mealRecipeAdapter.itemCount)
     }
 
     @Test
     fun mealRecipeAdapterAddRecipe() {
         val mealRecipeAdapter = MealRecipeAdapter()
         mealRecipeAdapter.addRecipe(mealRecipeArray[0])
-        assertEquals(mealRecipeArray[0], mealRecipeAdapter.getRecipes()[0])
+        assertEquals("Wrong Meal Recipe Adapter Add Recipe", mealRecipeArray[0], mealRecipeAdapter.getRecipes()[0])
     }
 
     @Test
     fun hba1cAdapterSetHbA1c() {
         val hbA1cAdapter = HbA1cAdapter()
         hbA1cAdapter.setHbA1c(hba1cArray)
-        assertEquals(hba1cArray.size, hbA1cAdapter.itemCount)
+        assertEquals("Wrong HbA1c Adapter Set HbA1c", hba1cArray.size, hbA1cAdapter.itemCount)
     }
 
     @Test
     fun hba1cAdapterAddHbA1c() {
         val hbA1cAdapter = HbA1cAdapter()
         hbA1cAdapter.addHbA1c(hba1cArray)
-        assertEquals(hba1cArray.size, hbA1cAdapter.itemCount)
+        assertEquals("Wrong HbA1c Adapter Add HbA1c", hba1cArray.size, hbA1cAdapter.itemCount)
+    }
+
+    @Test
+    fun chatAdapterSetMessages() {
+        val chatAdapter = ChatAdapter()
+        chatAdapter.setMessages(chatArray)
+        assertEquals("Wrong Chat Adapter Set Messages", chatArray.size, chatAdapter.itemCount)
+    }
+
+    @Test
+    fun chatAdapterAddMessage() {
+        val chatAdapter = ChatAdapter()
+        chatAdapter.addMessage(chatArray[0])
+        assertEquals("Wrong Chat Adapter Add Message", 1, chatAdapter.itemCount)
+    }
+
+    @Test
+    fun chatAdapterAddMessages() {
+        val chatAdapter = ChatAdapter()
+        chatAdapter.addMessages(chatArray)
+        assertEquals("Wrong Chat Adapter Add Messages", chatArray.size, chatAdapter.itemCount)
     }
 
     @Test

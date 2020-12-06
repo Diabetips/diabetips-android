@@ -109,6 +109,9 @@ class NavigationActivity : ADiabetipsActivity(R.layout.activity_navigation), me.
                     UserManager.instance.saveChatUser(this, chatUser ?: UserObject())
                     setUnreadMessage()
                 }.subscribe()
+            } else {
+                UserManager.instance.saveChatUser(this, UserObject())
+                setUnreadMessage()
             }
         }.subscribe()
     }

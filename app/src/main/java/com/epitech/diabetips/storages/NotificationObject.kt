@@ -22,7 +22,7 @@ open class NotificationObject (
     var type: String = "",
     var data: Any? = null) : Serializable {
 
-    enum class Type { chat_message, user_invite, user_invite_accepted, test }
+    enum class Type { chat_message, predictions_enabled, user_invite, user_invite_accepted, test }
 
     open fun send(context: Context, title: String? = null, body: String? = null) {
         getTypedNotification().send(context, title, body)
@@ -63,6 +63,8 @@ open class NotificationObject (
     fun getTypedNotification() : NotificationObject {
         return when (type) {
             Type.user_invite.name -> NotificationInviteObject(this)
+            Type.user_invite_accepted.name -> NotificationInviteAcceptedObject(this)
+            Type.predictions_enabled.name -> NotificationPredictionEnabledObject(this)
             Type.chat_message.name -> NotificationChatObject(this)
             else -> NotificationTestObject(this)
         }

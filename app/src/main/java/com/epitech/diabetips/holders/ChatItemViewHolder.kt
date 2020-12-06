@@ -33,7 +33,7 @@ class ChatItemViewHolder(inflater: LayoutInflater, parent: ViewGroup)
 
     init {
         dateFormatAPI = context.getString(R.string.format_time_api)
-        dateFormatHour = context.getString(if (DateFormat.is24HourFormat(context)) R.string.format_hour_24 else R.string.format_hour_12)
+        dateFormatHour = context.getString(if (DateFormat.is24HourFormat(context)) R.string.format_date_simple_24 else R.string.format_date_simple_12)
     }
 
     fun bind(chat: ChatObject, myMessage: Boolean = false) {
@@ -51,4 +51,3 @@ class ChatItemViewHolder(inflater: LayoutInflater, parent: ViewGroup)
         }
     }
 }
-

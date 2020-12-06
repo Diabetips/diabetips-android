@@ -229,6 +229,7 @@
 
     <!--Notifications start-->
     <string name="notification_channel_default">All notifications</string>
+    <string name="notification_channel_AI">Diaby</string>
     <string name="notification_channel_invite">Invitations</string>
     <string name="notification_channel_chat">Chat</string>
     <string name="notification_channel_other">Other</string>
@@ -238,6 +239,10 @@
     <string name="notification_chat_body">You have received a new message from your diabetologist</string>
     <string name="notification_invite_title">New invitation</string>
     <string name="notification_invite_body">Your diabetologist has invited you to become their patient</string>
+    <string name="notification_invite_accepted_title">Invitation accepted</string>
+    <string name="notification_invite_accepted_body">Your invitation has been accepted</string>
+    <string name="notification_prediction_enabled_title">Predictions enabled</string>
+    <string name="notification_prediction_enabled_body">Your diabetologist has enabled predictions on your account</string>
     <string name="invitation_text">Do you want to become the patient of your diabetologist on Diabetips?</string>
     <string name="invitation_text_name">Do you want to become the patient of %1$s on Diabetips?</string>
     <string name="invitation_accepted">You now are the patient of %1$s</string>

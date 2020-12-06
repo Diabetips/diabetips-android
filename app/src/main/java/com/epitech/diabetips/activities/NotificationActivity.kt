@@ -25,7 +25,6 @@ class NotificationActivity : AppCompatActivity()  {
         } else if (notification.id.isEmpty() || notification.read) {
             finish()
         } else {
-            DialogHandler.dialogInvite(this, this.layoutInflater, (NotificationInviteObject()), {}, { finish() })
             when (notification.type) {
                 NotificationObject.Type.user_invite.name -> { DialogHandler.dialogInvite(this, this.layoutInflater, (notification.getTypedNotification() as NotificationInviteObject), {}, { finish() }) }
                 else -> NotificationService.instance.remove<NotificationObject>(notification.id).doOnSuccess {

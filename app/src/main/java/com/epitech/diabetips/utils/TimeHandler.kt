@@ -10,7 +10,6 @@ import com.epitech.diabetips.managers.ModeManager
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog
 import org.joda.time.format.DateTimeFormat
-import java.text.SimpleDateFormat
 import java.util.*
 
 class TimeHandler {
@@ -53,10 +52,6 @@ class TimeHandler {
             return null
         val timestamp = getTimestampFromFormat(date, oldFormat, standardizeInput) ?: return null
         return formatTimestamp(timestamp, newFormat, standardizeOutput)
-    }
-
-    fun changeTimeFormatToUTC(date: String, oldFormat: String, newFormat: String) : String {
-        return DateTimeFormat.forPattern(newFormat).withZoneUTC().print(DateTimeFormat.forPattern(oldFormat).parseDateTime(date).millis)
     }
 
     fun getDatePickerDialog(context: Context, dateSetListener: DatePickerDialog.OnDateSetListener, time: String): DatePickerDialog {

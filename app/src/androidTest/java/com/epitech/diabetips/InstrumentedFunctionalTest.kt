@@ -51,11 +51,11 @@ class InstrumentedFunctionalTest {
         val actualBiometric =  UserManager.instance.getBiometric(instrumentationContext)
         val actualMode =  ModeManager.instance.getDarkMode(instrumentationContext)
         //Asserts
-        assertEquals("Wrong access token.", expectedAccessToken, actualAccessToken)
-        assertEquals("Wrong refresh token.", expectedRefreshToken, actualRefreshToken)
-        assertEquals("Wrong account.", expectedAccount, actualAccount)
-        assertEquals("Wrong biometric.", expectedBiometric, actualBiometric)
-        assertEquals("Wrong dark mode.", expectedMode, actualMode)
+        assertEquals("Wrong access token", expectedAccessToken, actualAccessToken)
+        assertEquals("Wrong refresh token", expectedRefreshToken, actualRefreshToken)
+        assertEquals("Wrong account", expectedAccount, actualAccount)
+        assertEquals("Wrong biometric", expectedBiometric, actualBiometric)
+        assertEquals("Wrong dark mode", expectedMode, actualMode)
     }
 
     @Test
@@ -83,11 +83,11 @@ class InstrumentedFunctionalTest {
         val actualBiometric =  UserManager.instance.getBiometric(instrumentationContext)
         val actualMode =  ModeManager.instance.removePreferences(instrumentationContext)
         //Asserts
-        assertNotEquals("Wrong access token.", expectedAccessToken, actualAccessToken)
-        assertNotEquals("Wrong refresh token.", expectedRefreshToken, actualRefreshToken)
-        assertNotEquals("Wrong account.", expectedAccount, actualAccount)
-        assertNotEquals("Wrong biometric.", expectedBiometric, actualBiometric)
-        assertNotEquals("Wrong dark mode.", expectedMode, actualMode)
+        assertNotEquals("Wrong access token", expectedAccessToken, actualAccessToken)
+        assertNotEquals("Wrong refresh token", expectedRefreshToken, actualRefreshToken)
+        assertNotEquals("Wrong account", expectedAccount, actualAccount)
+        assertNotEquals("Wrong biometric", expectedBiometric, actualBiometric)
+        assertNotEquals("Wrong dark mode", expectedMode, actualMode)
     }
 
     @Test
@@ -138,6 +138,19 @@ class InstrumentedFunctionalTest {
     }
 
     @Test
+    fun chatAdapters() {
+        //Values
+        val chatArray = arrayOf(ChatObject("1", content = "Message 1"), ChatObject("2", content = "Message 2"), ChatObject("3", content = "Message 3"))
+        val chatAdapter = ChatAdapter()
+        //Operations
+        chatAdapter.setMessages(chatArray)
+        chatAdapter.addMessage(chatArray[0])
+        chatAdapter.addMessages(chatArray)
+        //Asserts
+        assertEquals("Wrong Chat adapter", chatArray.size * 2 + 1, chatAdapter.itemCount)
+    }
+
+    @Test
     fun biometricObjects() {
         //Values
         val biometric = BiometricObject(80, 175, 60, 180, "2020-10-05")
@@ -156,10 +169,10 @@ class InstrumentedFunctionalTest {
         val currentTimestamp = TimeHandler.instance.currentTime()
         val currentTime = TimeHandler.instance.formatTimestamp(currentTimestamp, timeFormat)
         val activity = ActivityObject(start = currentTime, end = currentTime)
-        //Asserts
+        //Operations
         activity.setDuration(instrumentationContext, TimeHandler.instance.formatTimestamp(TimeHandler.instance.addTimeToTimestamp(0, 90), timeFormat, true))
         activity.setStart(instrumentationContext, currentTime)
-        //Operations
+        //Asserts
         assertEquals("Wrong activity start", activity.start, currentTime)
         assertEquals("Wrong activity end", activity.end, TimeHandler.instance.addTimeToFormat(currentTime, timeFormat, 90))
         assertEquals("Wrong activity duration", activity.getDurationSecond(instrumentationContext), 90 * 60)
