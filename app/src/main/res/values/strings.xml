@@ -29,7 +29,8 @@
     <!--format start-->
     <string name="format_hour_12" translatable="false">h:mm a</string>
     <string name="format_hour_24" translatable="false">HH:mm</string>
-    <string name="format_time_api" translatable="false">yyyy-MM-dd\'T\'HH:mm:ss.SSS\'Z\'</string>
+    <string name="format_time_api" translatable="false">yyyy-MM-dd\'T\'HH:mm:ss.SSSZZ</string>
+    <string name="format_time_api_UTC" translatable="false">yyyy-MM-dd\'T\'HH:mm:ss.SSS\'Z\'</string>
     <string name="format_date_api" translatable="false">yyyy-MM-dd</string>
     <string name="format_date_birth">MMMM d yyyy</string>
     <string name="format_date">EEE, MMM d yyyy</string>
@@ -334,6 +335,7 @@
     <!--intensities end-->
 
     <!--time range start-->
+    <string name="time_range_day">Today</string>
     <string name="time_range_week">1 week</string>
     <string name="time_range_week_2">14 days</string>
     <string name="time_range_month">1 month</string>

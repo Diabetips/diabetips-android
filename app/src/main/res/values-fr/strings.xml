@@ -307,4 +307,5 @@
     <string name="invitation_text">Voulez-vous devenir le patient de votre diabétologue sur Diabetips?</string>
     <string name="invitation_text_name">Voulez-vous devenir le patient de %1$s sur Diabetips ?</string>
     <string name="invitation_accepted">Vous êtes maintenant le patient de %1$s</string>
+    <string name="time_range_day">Aujourd\'hui</string>
 </resources>

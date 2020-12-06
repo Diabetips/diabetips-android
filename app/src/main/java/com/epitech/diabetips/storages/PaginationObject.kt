@@ -65,9 +65,13 @@ data class PaginationObject (
             last = values["last"]!! as Int
     }
 
-    fun setInterval(start: String, end: String) {
-        this.start = start
-        this.end = end
+    fun setInterval(context: Context, interval: Pair<String, String>) {
+        setInterval(context, interval.first, interval.second)
+    }
+
+    fun setInterval(context: Context, start: String, end: String) {
+        this.start = TimeHandler.instance.changeTimeFormat(start, context.getString(R.string.format_time_api), context.getString(R.string.format_time_api_UTC), false, true) ?: start
+        this.end = TimeHandler.instance.changeTimeFormat(end, context.getString(R.string.format_time_api), context.getString(R.string.format_time_api_UTC), false, true) ?: end
         this.periodEnable = true
     }
 

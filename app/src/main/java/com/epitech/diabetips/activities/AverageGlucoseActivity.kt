@@ -34,7 +34,7 @@ class AverageGlucoseActivity : ADiabetipsActivity(R.layout.activity_average_gluc
     }
 
     private fun updateData(timeRange: String) {
-        calculationOption.setInterval(TimeHandler.instance.getIntervalFormat(this, timeRange, getString(R.string.format_time_api)))
+        calculationOption.setInterval(this, TimeHandler.instance.getIntervalFormat(this, timeRange, getString(R.string.format_time_api)))
         updateChart()
         updateAverage()
     }

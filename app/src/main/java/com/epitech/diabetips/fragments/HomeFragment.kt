@@ -56,8 +56,7 @@ class HomeFragment : ANavigationFragment(FragmentType.HOME) {
 
     private fun updateChart() {
         loading = true
-        val now = TimeHandler.instance.currentTimeFormat(getString(R.string.format_time_api))
-        entriesManager.getPage()?.setInterval(TimeHandler.instance.addTimeToFormat(now, getString(R.string.format_time_api), -TimeHandler.instance.dayInMinute), now)
+        entriesManager.getPage()?.setInterval(requireContext(), TimeHandler.instance.getIntervalFormat(requireContext(), getString(R.string.time_range_day), getString(R.string.format_time_api)))
         entriesManager.updatePages()
         entriesManager.getItems()
     }

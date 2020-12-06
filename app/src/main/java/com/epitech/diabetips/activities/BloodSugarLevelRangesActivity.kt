@@ -23,7 +23,7 @@ class BloodSugarLevelRangesActivity : ADiabetipsActivity(R.layout.activity_blood
     private val hourNumber: Int = 24
     private val hourDivider: Int = 3
 
-    private var calculationOption = CalculationOptionObject(average = true)
+    private var calculationOption = CalculationOptionObject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,14 +39,15 @@ class BloodSugarLevelRangesActivity : ADiabetipsActivity(R.layout.activity_blood
     }
 
     private fun updateData(timeRange: String) {
-        updateChart(timeRange)
+        calculationOption.setInterval(this, TimeHandler.instance.getIntervalFormat(this, timeRange, getString(R.string.format_time_api)))
+        updateChart()
     }
 
-    private fun updateChart(timeRange: String) {
-        BloodSugarService.instance.getRangesPercentage(TimeHandler.instance.getIntervalFormat(this, timeRange, getString(R.string.format_time_api))).doOnSuccess {
+    private fun updateChart() {
+        BloodSugarService.instance.getRangesPercentage(calculationOption).doOnSuccess {
 
             if (it.second.component2() == null && it.second.component1() != null) {
-                var bloodSugarRanges: BloodSugarRangesPercentageObject = it.second.component1()!!;
+                val bloodSugarRanges: BloodSugarRangesPercentageObject = it.second.component1()!!;
 
                 //TODO Remove random values and push true value on db
                 bloodSugarRanges.in_target = Random.nextInt(60, 80).toFloat();

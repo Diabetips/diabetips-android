@@ -9,6 +9,7 @@ import com.epitech.diabetips.R
 import com.epitech.diabetips.managers.ModeManager
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog
+import org.joda.time.format.DateTimeFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -21,7 +22,6 @@ class TimeHandler {
     }
 
     private val calendar: Calendar = Calendar.getInstance()
-    val dayInMinute = 1440
 
     fun currentTime() : Long {
         return System.currentTimeMillis()
@@ -34,25 +34,29 @@ class TimeHandler {
     fun getTimestampFromFormat(date: String, format: String, standardize: Boolean = false) : Long? {
         if (date.isBlank())
             return null
-        val dateVar: Date = SimpleDateFormat(format, Locale.getDefault()).parse(date) ?: return null
+        val dateVar = DateTimeFormat.forPattern(format).parseDateTime(date)
         if (standardize) {
-            return dateVar.time + TimeZone.getDefault().getOffset(dateVar.time)
+            return dateVar.millis + TimeZone.getDefault().getOffset(dateVar.millis)
         }
-        return dateVar.time
+        return dateVar.millis
     }
 
     fun formatTimestamp(timestamp: Long, format: String, standardize: Boolean = false): String {
         if (standardize) {
-            return SimpleDateFormat(format, Locale.getDefault()).format(timestamp - TimeZone.getDefault().getOffset(timestamp))
+            return DateTimeFormat.forPattern(format).print(timestamp - TimeZone.getDefault().getOffset(timestamp))
         }
-        return SimpleDateFormat(format, Locale.getDefault()).format(timestamp)
+        return DateTimeFormat.forPattern(format).print(timestamp)
     }
 
-    fun changeTimeFormat(date: String?, oldFormat: String, newFormat: String) : String? {
+    fun changeTimeFormat(date: String?, oldFormat: String, newFormat: String, standardizeInput: Boolean = false, standardizeOutput: Boolean = false) : String? {
         if (date == null)
             return null
-        val timestamp = getTimestampFromFormat(date, oldFormat) ?: return null
-        return formatTimestamp(timestamp, newFormat)
+        val timestamp = getTimestampFromFormat(date, oldFormat, standardizeInput) ?: return null
+        return formatTimestamp(timestamp, newFormat, standardizeOutput)
+    }
+
+    fun changeTimeFormatToUTC(date: String, oldFormat: String, newFormat: String) : String {
+        return DateTimeFormat.forPattern(newFormat).withZoneUTC().print(DateTimeFormat.forPattern(oldFormat).parseDateTime(date).millis)
     }
 
     fun getDatePickerDialog(context: Context, dateSetListener: DatePickerDialog.OnDateSetListener, time: String): DatePickerDialog {
@@ -119,6 +123,7 @@ class TimeHandler {
     fun getIntervalFormat(context: Context, timeRange: String, format: String): Pair<String, String> {
         val current = currentTimeFormat(format)
         return when (timeRange) {
+            context.getString(R.string.time_range_day) -> Pair(addTimeToFormat(current, format, -1, Calendar.DAY_OF_YEAR), current)
             context.getString(R.string.time_range_week) -> Pair(addTimeToFormat(current, format, -1, Calendar.WEEK_OF_YEAR), current)
             context.getString(R.string.time_range_week_2) -> Pair(addTimeToFormat(current, format, -2, Calendar.WEEK_OF_YEAR), current)
             context.getString(R.string.time_range_month) -> Pair(addTimeToFormat(current, format, -1, Calendar.MONTH), current)

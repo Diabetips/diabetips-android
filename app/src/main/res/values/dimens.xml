@@ -16,6 +16,7 @@
     <dimen name="message_margin_size">128dp</dimen>
     <dimen name="negative_margin_size">-33dp</dimen>
     <dimen name="negative_half_margin_size">-16dp</dimen>
+    <dimen name="negative_quarter_margin_size">-8dp</dimen>
     <dimen name="big_margin_size">48dp</dimen>
     <dimen name="margin_size">32dp</dimen>
     <dimen name="half_margin_size">16dp</dimen>

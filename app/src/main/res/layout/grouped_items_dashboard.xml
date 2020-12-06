@@ -111,6 +111,7 @@
             style="@style/ImageButtonTransparentTheme"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/image_size"
+            android:layout_marginStart="@dimen/negative_quarter_margin_size"
             android:layout_marginEnd="@dimen/quarter_margin_size"
             android:layout_weight="0"
             android:clickable="true"

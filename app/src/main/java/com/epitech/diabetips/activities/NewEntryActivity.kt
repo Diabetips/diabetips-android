@@ -183,7 +183,7 @@ class NewEntryActivity : ADiabetipsActivity(R.layout.activity_new_entry) {
        return InsulinObject(objects[ObjectType.INSULIN_FAST]!!.first,
             "",
             insulinFastEntryInput.text.toString().toIntOrNull()?: 0,
-           entryTime,
+            entryTime,
             InsulinObject.Type.fast.name)
     }
 

@@ -14,6 +14,7 @@ import kotlinx.android.synthetic.main.activity_event_notebook.*
 import org.threeten.bp.LocalDate
 import org.threeten.bp.ZoneOffset
 import org.threeten.bp.format.DateTimeFormatter
+import java.util.*
 
 class EventNotebookActivity : ADiabetipsActivity(R.layout.activity_event_notebook) {
     private lateinit var entriesManager: EntriesManager
@@ -31,9 +32,11 @@ class EventNotebookActivity : ADiabetipsActivity(R.layout.activity_event_noteboo
                 setItemsInDashBoardAdapter(items, reset)
             }
         entriesManager.deactivate(ObjectType.SUGAR)
+        val now = TimeHandler.instance.currentTimeFormat(getString(R.string.format_time_api))
         entriesManager.getPage()?.setInterval(
-            LocalDate.now(ZoneOffset.UTC).atStartOfDay().minusDays(7).format(DateTimeFormatter.ISO_DATE_TIME),
-            LocalDate.now(ZoneOffset.UTC).atStartOfDay().plusDays(2).format(DateTimeFormatter.ISO_DATE_TIME))
+            this,
+            TimeHandler.instance.addTimeToFormat(now, getString(R.string.format_time_api), -7, Calendar.DAY_OF_YEAR),
+            TimeHandler.instance.addTimeToFormat(now, getString(R.string.format_time_api), 2, Calendar.DAY_OF_YEAR))
         entriesManager.updatePages()
     }
 

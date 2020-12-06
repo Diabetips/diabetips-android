@@ -4,19 +4,17 @@ import android.os.Bundle
 import android.widget.Toast
 import com.epitech.diabetips.R
 import com.epitech.diabetips.adapters.DropdownAdapter
-import com.epitech.diabetips.services.BloodSugarService
 import com.epitech.diabetips.services.InsulinService
 import com.epitech.diabetips.storages.CalculationOptionObject
 import com.epitech.diabetips.storages.InsulinCalculationObject
-import com.epitech.diabetips.storages.InsulinObject
 import com.epitech.diabetips.storages.InsulinsQuantityObject
 import com.epitech.diabetips.textWatchers.ItemClickWatcher
 import com.epitech.diabetips.utils.ADiabetipsActivity
 import com.epitech.diabetips.utils.BarChartHandler
 import com.epitech.diabetips.utils.TimeHandler
-import kotlinx.android.synthetic.main.activity_average_glucose.*
 import kotlinx.android.synthetic.main.activity_average_glucose.averageBarChart
 import kotlinx.android.synthetic.main.activity_insulin_quantity.*
+import kotlin.math.roundToInt
 import kotlin.random.Random
 
 class InsulinQuantityActivity : ADiabetipsActivity(R.layout.activity_insulin_quantity) {
@@ -40,7 +38,7 @@ class InsulinQuantityActivity : ADiabetipsActivity(R.layout.activity_insulin_qua
     }
 
     private fun updateData(timeRange: String) {
-        calculationOption.setInterval(TimeHandler.instance.getIntervalFormat(this, timeRange, getString(R.string.format_time_api)))
+        calculationOption.setInterval(this, TimeHandler.instance.getIntervalFormat(this, timeRange, getString(R.string.format_time_api)))
         updateChart()
     }
 
@@ -84,13 +82,13 @@ class InsulinQuantityActivity : ADiabetipsActivity(R.layout.activity_insulin_qua
     }
 
     private fun updateAverage(insulinsCalculations: InsulinCalculationObject) {
-        var average: Float = 0f;
-        for (i in  0..hourNumber)   {
+        var average: Float = 0f
+        for (i in  0..hourNumber) {
             if (i >= insulinsCalculations.average.count()) {
-                break;
+                break
             }
-            average += insulinsCalculations.average.get(i)?.fast!! * insulinsCalculations.count.get(i)?.fast!!;
+            average += insulinsCalculations.average[i]?.fast!! * insulinsCalculations.count[i]?.fast!!
         }
-        insulinQuantityText.text = "${getText(R.string.average)} : ${average.toBigDecimal().stripTrailingZeros().toPlainString()} ${getString(R.string.unit)}"
+        insulinQuantityText.text = "${getText(R.string.average)} : ${average.roundToInt()} ${getString(R.string.unit)}"
     }
 }

@@ -18,13 +18,12 @@ class BloodSugarService : AService("/users/me/blood_sugar") {
         return getRequest("/last")
     }
 
-    fun getRangesPercentage(intervalFormat: Pair<String, String>): FuelResponse<BloodSugarRangesPercentageObject>
-    {
-        return getRequest("/target?start=${intervalFormat.first}&end=${intervalFormat.second}")
-    }
-
     fun postMeasures(biometric: BloodSugarObject) : FuelResponse<BloodSugarObject> {
         return putRequest(biometric)
+    }
+
+    fun getRangesPercentage(calculationOption: CalculationOptionObject): FuelResponse<BloodSugarRangesPercentageObject> {
+        return getRequest("/target?" + calculationOption.getRequestParameters())
     }
 
     fun getCalculations(calculationOption: CalculationOptionObject) : FuelResponse<CalculationObject> {
