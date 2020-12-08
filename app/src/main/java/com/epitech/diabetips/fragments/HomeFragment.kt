@@ -1,5 +1,6 @@
 package com.epitech.diabetips.fragments
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -13,10 +14,7 @@ import com.epitech.diabetips.managers.EntriesManager
 import com.epitech.diabetips.managers.UserManager
 import com.epitech.diabetips.services.BloodSugarService
 import com.epitech.diabetips.services.PredictionService
-import com.epitech.diabetips.storages.BiometricObject
-import com.epitech.diabetips.storages.BloodSugarObject
-import com.epitech.diabetips.storages.EntryObject
-import com.epitech.diabetips.storages.PredictionObject
+import com.epitech.diabetips.storages.*
 import com.epitech.diabetips.utils.*
 import kotlinx.android.synthetic.main.fragment_home.view.*
 
@@ -32,7 +30,7 @@ class HomeFragment : ANavigationFragment(FragmentType.HOME) {
         val view = createFragmentView(R.layout.fragment_home, inflater, container)
         view.readyToScan.text = (activity as NavigationActivity).nfcReader?.nfcStatus
         view.newEntryButton.setOnClickListener {
-            startActivity(Intent(requireContext(), NewEntryActivity::class.java))
+            startActivityForResult(Intent(requireContext(), NewEntryActivity::class.java), RequestCode.NEW_ENTRY.ordinal)
         }
         view.viewRecipeButton.setOnClickListener {
             startActivity(Intent(requireContext(), RecipeActivity::class.java)
@@ -138,6 +136,13 @@ class HomeFragment : ANavigationFragment(FragmentType.HOME) {
     fun onNfc() {
         getLastBloodSugar()
         entriesManager.getItems()
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == Activity.RESULT_OK && requestCode == RequestCode.NEW_ENTRY.ordinal && data?.getBooleanExtra(getString(R.string.param_entry), false) == true) {
+            updateChart()
+        }
     }
 
     override fun isLoading(): Boolean {

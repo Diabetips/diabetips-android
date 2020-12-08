@@ -27,8 +27,12 @@ data class NotificationChatObject(
     }
 
     override fun send(context: Context, title: String?, body: String?) {
+        if (ChatActivity.instance != null) {
+            ChatActivity.instance?.getLastMessage()
+        } else {
             NavigationActivity.setUnreadMessage(true)
-            ChatActivity.instance?.getLastMessage() ?: displayNotification(context, title, body)
+            displayNotification(context, title, body)
+        }
     }
 
     override fun getNotificationChannel(context: Context) : String {

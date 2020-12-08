@@ -208,7 +208,7 @@ class ProfileFragment : ANavigationFragment(FragmentType.PROFILE) {
         view?.hypoglycemiaProfileInput?.setText(biometric.hypoglycemia?.toString())
         view?.birthDateProfileInput?.setText(TimeHandler.instance.changeTimeFormat(
             biometric.date_of_birth,
-            getString(R.string.format_date_api),
+            getString(R.string.format_time_api),
             getString(R.string.format_date_birth)))
         view?.diabetesTypeProfileDropdown?.setText(biometric.getDiabetesType(requireContext()))
         view?.sexProfileDropdown?.setText(biometric.getSex(requireContext()))
@@ -245,7 +245,7 @@ class ProfileFragment : ANavigationFragment(FragmentType.PROFILE) {
         biometric.date_of_birth = TimeHandler.instance.changeTimeFormat(
             view?.birthDateProfileInput?.text.toString(),
             getString(R.string.format_date_birth),
-            getString(R.string.format_date_api))
+            getString(R.string.format_time_api))
         biometric.setSex(requireContext(), view?.sexProfileDropdown?.text.toString())
         biometric.setDiabetesType(requireContext(), view?.diabetesTypeProfileDropdown?.text.toString())
         loading = true

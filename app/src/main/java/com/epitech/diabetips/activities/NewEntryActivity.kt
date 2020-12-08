@@ -218,8 +218,10 @@ class NewEntryActivity : ADiabetipsActivity(R.layout.activity_new_entry) {
     private fun displaySavedMessage(finishView: Boolean) {
         if (objects.all { obj -> obj.value.second != false }) {
             Toast.makeText(this, getString(R.string.saved_change), Toast.LENGTH_SHORT).show()
-            if (finishView)
+            if (finishView) {
+                setResult(Activity.RESULT_OK, Intent().putExtra(getString(R.string.param_entry), true))
                 finish()
+            }
         }
     }
 

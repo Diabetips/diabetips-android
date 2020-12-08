@@ -136,8 +136,8 @@
                         android:layout_height="wrap_content"
                         android:text="@string/total_sugar"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintBottom_toTopOf="@+id/entryMealQuantityTitle"
-                        app:layout_constraintTop_toBottomOf="@+id/entryMealQuantityTitle" />
+                        app:layout_constraintTop_toTopOf="@+id/entryMealQuantityTitle"
+                        app:layout_constraintBottom_toBottomOf="@+id/entryMealQuantityTitle" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -262,7 +262,7 @@
                     android:layout_marginStart="0dp"
                     android:layout_marginEnd="@dimen/half_margin_size"
                     android:hint="@string/insulin_fast_input"
-                    app:suffixText="@string/unit_unit"
+                    app:suffixText="@string/unit_units"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/calculateInsulinButton"
                     app:layout_constraintTop_toTopOf="parent">
@@ -329,7 +329,7 @@
                 style="@style/TextInputLayoutTheme"
                 android:layout_width="match_parent"
                 android:hint="@string/insulin_slow_input"
-                app:suffixText="@string/unit_unit">
+                app:suffixText="@string/unit_units">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/insulinSlowEntryInput"

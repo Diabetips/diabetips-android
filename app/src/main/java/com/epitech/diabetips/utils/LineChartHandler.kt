@@ -68,8 +68,10 @@ class ChartHandler {
                 lineData.addDataSet(generateBloodDataset(bloodValueChunk, intervalTimeStamp, context))
             }
 
-            if (items.isNotEmpty())
-                drawLimits(lineData)
+            if (items.isNotEmpty()) {
+                drawLimit(lineData, 0f)
+                drawLimit(lineData, 250f)
+            }
 
             val punctualInfo = mapOf(
                 ObjectType.INSULIN_FAST to ContextCompat.getDrawable(context, R.drawable.ic_syringe).apply {
@@ -109,8 +111,8 @@ class ChartHandler {
             lineChart.invalidate()
         }
 
-        private fun drawLimits(lineData: LineData) {
-            val d = LineDataSet(listOf(Entry(0f, 0f)), "ShowBottom")
+        private fun drawLimit(lineData: LineData, yPos: Float = 0f) {
+            val d = LineDataSet(listOf(Entry(0f, yPos)), "ShowBottom")
             d.color = Color.TRANSPARENT
             d.setDrawCircles(false)
             d.setDrawValues(false)
@@ -143,7 +145,7 @@ class ChartHandler {
             val yValues = mutableListOf<Entry>()
             val bitmapDrawable = BitmapDrawable(context.resources, drawable?.toBitmap(42, 42))
             for (item in items) {
-                yValues.add(Entry((((TimeHandler.instance.getTimestampFromFormat(item.time, context.getString(R.string.format_time_api)) ?: 0) - intervalTimeStamp.first).toFloat()), 100f, bitmapDrawable))
+                yValues.add(Entry((((TimeHandler.instance.getTimestampFromFormat(item.time, context.getString(R.string.format_time_api)) ?: 0) - intervalTimeStamp.first).toFloat()), 225f, bitmapDrawable))
             }
             val set = LineDataSet(yValues, items[0].type.toString())
             setPonctualElementDatasetStyle(set)

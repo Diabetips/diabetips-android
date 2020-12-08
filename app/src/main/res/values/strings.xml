@@ -13,6 +13,7 @@
 
     <!--parameters name start-->
     <string name="param_mode" translatable="false">Mode</string>
+    <string name="param_entry" translatable="false">Entry</string>
     <string name="param_meal" translatable="false">Meal</string>
     <string name="param_recipe" translatable="false">Recipe</string>
     <string name="param_food" translatable="false">Food</string>
@@ -139,8 +140,8 @@
     <string name="birth_input">Date of birth</string>
     <string name="sex_input">Sex</string>
     <string name="diabetes_type_input">Diabetes type</string>
-    <string name="hyperglycemia">Hyperglycemia</string>
-    <string name="hypoglycemia">Hypoglycemia</string>
+    <string name="hyperglycemia">Hyperglycemia limit</string>
+    <string name="hypoglycemia">Hypoglycemia limit</string>
     <string name="medical_information">Medical information</string>
     <string name="new_password_button">Change Password</string>
     <string name="change_profile_picture">Change profile picture</string>

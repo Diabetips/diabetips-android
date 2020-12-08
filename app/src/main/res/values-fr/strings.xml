@@ -124,8 +124,8 @@
     <string name="logout_button">Déconnexion</string>
     <string name="recipe_portion">Portions</string>
     <string name="recipe_portion_empty">La recette doit avoir une portion</string>
-    <string name="hyperglycemia">Hyperglycémie</string>
-    <string name="hypoglycemia">Hypoglycémie</string>
+    <string name="hyperglycemia">Limite d\'hyperglycémie</string>
+    <string name="hypoglycemia">Limite d\'hypoglycémie</string>
     <string name="change_insulin">Modifier l\'injection d\'insuline</string>
     <string name="recipe_all">Toutes</string>
     <string name="recipe_favorite">Favoris</string>
