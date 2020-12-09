@@ -41,7 +41,6 @@ class AverageGlucoseActivity : ADiabetipsActivity(R.layout.activity_average_gluc
 
     private fun updateChart() {
         BloodSugarService.instance.getAggregateCalculations(calculationOption).doOnSuccess {
-
             if (it.second.component2() == null) {
                 val values = Array(hourNumber / hourDivider) { i: Int ->
                     var value = 0f

@@ -243,7 +243,7 @@
                     style="@style/TextInputTheme"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="textMultiLine"
+                    android:inputType="textMultiLine|textCapSentences"
                     android:imeOptions="actionNext"
                     android:nextFocusForward="@+id/insulinFastEntryInputLayout" />
 

@@ -45,7 +45,7 @@
                 android:hint="@string/name_input"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textPersonName"
+                android:inputType="textPersonName|textCapCharacters"
                 android:imeOptions="actionNext"
                 android:nextFocusForward="@+id/firstNameInput" />
 
@@ -66,7 +66,7 @@
                 android:hint="@string/first_name_input"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textPersonName"
+                android:inputType="textPersonName|textCapWords"
                 android:imeOptions="actionNext"
                 android:nextFocusForward="@+id/emailInput" />
 

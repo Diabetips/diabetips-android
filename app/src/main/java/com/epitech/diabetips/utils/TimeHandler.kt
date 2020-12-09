@@ -10,6 +10,7 @@ import com.epitech.diabetips.managers.ModeManager
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog
 import org.joda.time.format.DateTimeFormat
+import java.lang.IllegalArgumentException
 import java.util.*
 
 class TimeHandler {
@@ -33,11 +34,15 @@ class TimeHandler {
     fun getTimestampFromFormat(date: String, format: String, standardize: Boolean = false) : Long? {
         if (date.isBlank())
             return null
-        val dateVar = DateTimeFormat.forPattern(format).parseDateTime(date)
-        if (standardize) {
-            return dateVar.millis + TimeZone.getDefault().getOffset(dateVar.millis)
+        try {
+            val dateVar = DateTimeFormat.forPattern(format).parseDateTime(date)
+            if (standardize) {
+                return dateVar.millis + TimeZone.getDefault().getOffset(dateVar.millis)
+            }
+            return dateVar.millis
+        } catch (e: IllegalArgumentException) {
+            return null
         }
-        return dateVar.millis
     }
 
     fun formatTimestamp(timestamp: Long, format: String, standardize: Boolean = false): String {

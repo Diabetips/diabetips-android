@@ -38,6 +38,7 @@ class ImageHandler {
             .error(drawable)
             .diskCacheStrategy(if (cacheImage) DiskCacheStrategy.ALL else DiskCacheStrategy.NONE)
             .skipMemoryCache(!cacheImage)
+            .fitCenter()
             .into(image)
     }
 

@@ -131,7 +131,7 @@
                     style="@style/TextInputTheme"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="textPersonName"
+                    android:inputType="textPersonName|textCapCharacters"
                     android:imeOptions="actionNext"
                     android:nextFocusForward="@+id/firstNameProfileInput" />
 
@@ -148,7 +148,7 @@
                     style="@style/TextInputTheme"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="textPersonName"
+                    android:inputType="textPersonName|textCapWords"
                     android:imeOptions="actionNext"
                     android:nextFocusForward="@+id/emailProfileInput" />
 
