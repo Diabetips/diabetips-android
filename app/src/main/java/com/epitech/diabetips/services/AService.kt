@@ -37,6 +37,7 @@ abstract class AService(var baseRoute : String = "") {
 
     inline fun <reified T : Any> postRequest(postObject : T, route : String = "") : FuelResponse<T> {
         Log.d("REQUEST [POST]","$baseRoute$route")
+        Log.d("deed", customGson.toJson(postObject))
         return subscribeToRequest("$baseRoute$route".httpPost().body(customGson.toJson(postObject)))
     }
 

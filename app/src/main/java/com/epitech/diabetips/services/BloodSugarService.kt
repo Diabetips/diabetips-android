@@ -14,6 +14,10 @@ class BloodSugarService : AService("/users/me/blood_sugar") {
         return getRequest("?${page.getRequestParameters()}")
     }
 
+    fun deleteAllMeasures(start: String = "", end: String = "") : FuelResponse<BloodSugarObject> {
+        return deleteRequest("?start=${start}&end=${end}")
+    }
+
     fun getLastMeasure() : FuelResponse<BloodSugarObject> {
         return getRequest("/last")
     }
