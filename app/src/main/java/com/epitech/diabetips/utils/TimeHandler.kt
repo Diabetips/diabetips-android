@@ -17,8 +17,8 @@ class TimeHandler {
     private object Holder { val INSTANCE = TimeHandler() }
 
     companion object {
-        private const val MILIS_IN_SECOND = 1000
-        private const val MILIS_IN_DAY = 86400000
+        const val MILIS_IN_SECOND = 1000
+        const val MILIS_IN_DAY = 86400000
         val instance: TimeHandler by lazy { Holder.INSTANCE }
     }
 

@@ -24,6 +24,7 @@
     <string name="placeholder_text" translatable="false">Placeholder Text</string>
     <string name="placeholder_date" translatable="false">XX/XX/XXXX</string>
     <string name="placeholder_hour" translatable="false">XX:XX</string>
+    <string name="placeholder_percent" translatable="false">X%</string>
     <string name="placeholder_number" translatable="false">X</string>
     <!--placeholder end-->
 
@@ -126,8 +127,8 @@
     <string name="no_data_period">No data to display for the selected period</string>
     <string name="insulin_quantity_title">Average Insulins Quantities</string>
     <string name="blood_sugar_level_ranges_title">Blood sugar level ranges</string>
-    <string name="target_hyper"><![CDATA[Hyperglycemia > 140 md/dl]]></string>
-    <string name="target_hypo"><![CDATA[Hypoglycemia < 80 md/dl]]></string>
+    <string name="target_hyper"><![CDATA[Hyperglycemia > %1$s mg/dl]]></string>
+    <string name="target_hypo"><![CDATA[Hypoglycemia < %1$s mg/dl]]></string>
     <string name="target_in">In ranges</string>
     <!--Dashboard end-->
 
@@ -140,8 +141,8 @@
     <string name="birth_input">Date of birth</string>
     <string name="sex_input">Sex</string>
     <string name="diabetes_type_input">Diabetes type</string>
-    <string name="hyperglycemia">Hyperglycemia limit</string>
-    <string name="hypoglycemia">Hypoglycemia limit</string>
+    <string name="hyperglycemia">Hyperglycemia limit (mg/dl)</string>
+    <string name="hypoglycemia">Hypoglycemia limit (mg/dl)</string>
     <string name="medical_information">Medical information</string>
     <string name="new_password_button">Change Password</string>
     <string name="change_profile_picture">Change profile picture</string>
@@ -167,6 +168,10 @@
     <string name="test_notification">Send test notification</string>
     <string name="test_notification_send">Notification sent</string>
     <!--Settings screen end-->
+
+    <string name="generate_fake_data" translatable="false">Generate data</string>
+    <string name="delete_data" translatable="false">Delete data</string>
+    <string name="generate" translatable="false">Generate data</string>
 
     <!--entry screen start-->
     <string name="entry_title">New entry</string>
@@ -447,14 +452,6 @@
     <string name="sport_windsurfing">Windsurfing</string>
     <string name="sport_yoga">Yoga</string>
     <string name="sport_zumba">Zumba</string>
-    <string name="insulin_quantity_title">Average Insulins Quantities</string>
-    <string name="blood_sugar_level_ranges_title">Blood sugar level ranges</string>
-    <string name="target_hyper"><![CDATA[Hyperglycemia > 140 md/dl]]></string>
-    <string name="target_hypo"><![CDATA[Hypoglycemia < 80 md/dl]]></string>
-    <string name="target_in">In ranges</string>
-    <string name="generate_fake_data" translatable="false">Generate data</string>
-    <string name="delete_data" translatable="false">Delete data</string>
-    <string name="generate" translatable="false">Generate data</string>
 
     <string-array name="sports">
         <item>@string/sport_aerobics</item>

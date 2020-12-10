@@ -105,7 +105,7 @@ class ChatActivity : ADiabetipsActivity(R.layout.activity_chat) {
     }
 
     private fun scrollToPosition(pos: Int = (chatList.adapter?.itemCount ?: 1) - 1) {
-        chatList.layoutManager?.scrollToPosition(pos.coerceIn(0, (chatList.adapter?.itemCount ?: 1) - 1))
+        chatList.layoutManager?.scrollToPosition(pos.coerceIn(0, ((chatList.adapter?.itemCount ?: 1) - 1).coerceAtLeast(0)))
     }
 
     override fun onPause() {

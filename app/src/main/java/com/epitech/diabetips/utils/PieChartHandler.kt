@@ -2,15 +2,11 @@ package com.epitech.diabetips.utils
 
 import android.content.Context
 import android.graphics.Color
-import android.graphics.Typeface
-import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import com.epitech.diabetips.R
 import com.github.mikephil.charting.charts.PieChart
-import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.*
 import com.github.mikephil.charting.formatter.PercentFormatter
-
 
 class PieChartHandler {
 
@@ -26,32 +22,31 @@ class PieChartHandler {
             barChart.setEntryLabelColor(R.attr.colorBackground)
             barChart.setEntryLabelTypeface(ResourcesCompat.getFont(context, R.font.muli_bold))
             barChart.isHighlightPerTapEnabled = true
-            barChart.setCenterTextSize(50f);
-
+            barChart.setCenterTextSize(50f)
         }
 
-        fun updateChartData(context: Context, pieChart: PieChart, items: Array<Pair<Float, Int>>) {
-
-            val yvalues: MutableList<PieEntry> = ArrayList()
+        fun updateChartData(context: Context, pieChart: DetailPieChart, items: Array<Pair<Float, Int>>, noDataTextId: Int = R.string.no_data) {
+            val yValues: MutableList<PieEntry> = ArrayList()
             items.forEach {
-                yvalues.add(PieEntry(it.first))
+                yValues.add(PieEntry(it.first))
             }
 
-            val dataSet = PieDataSet(yvalues, "Percentages")
+            val dataSet = PieDataSet(yValues, "Percentages")
             dataSet.valueTextSize = 40f
             dataSet.valueTypeface = ResourcesCompat.getFont(context, R.font.muli_bold)
             dataSet.valueTextColor = Color.WHITE
-            dataSet.valueFormatter = RoundValueFormatter()
-            dataSet.resetColors();
+            dataSet.resetColors()
             for (item in items) {
                 dataSet.addColor(item.second)
             }
 
-            val data = PieData(dataSet)
-
-            data.setValueFormatter(PercentFormatter())
-
-            pieChart.data = data;
+            val pieData = PieData(dataSet)
+            if (pieData.yMax > 0) {
+                pieData.setValueFormatter(RoundValueFormatter())
+                pieChart.data = pieData
+            } else {
+                pieChart.setData(null, noDataTextId)
+            }
             pieChart.animateY(800)
             // refresh the drawing
             pieChart.invalidate()

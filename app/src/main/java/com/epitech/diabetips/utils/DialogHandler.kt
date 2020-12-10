@@ -137,7 +137,7 @@ class DialogHandler {
                         view.dialogActivityDurationInput.clearFocus()
                         timePickerDialog(
                             context, fragmentManager,
-                            TimeHandler.instance.changeTimeFormat(view.dialogActivityDurationInput.text.toString(), context.getString(R.string.format_hour_24), context.getString(R.string.format_time_api), true, true)
+                            TimeHandler.instance.changeTimeFormat(view.dialogActivityDurationInput.text.toString(), context.getString(R.string.format_hour_24), context.getString(R.string.format_time_api))
                                 ?: TimeHandler.instance.currentTimeFormat(context.getString(R.string.format_time_api))) { time ->
                             activity.setDuration(context, time)
                             view.dialogActivityDurationInput.setText(activity.getDuration(context))

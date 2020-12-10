@@ -46,6 +46,8 @@ class BarChartHandler {
             barChart.xAxis.valueFormatter = formatter
             val barList: MutableList<IBarDataSet> = ArrayList()
             val biometrics = UserManager.instance.getBiometric(context)
+
+            //Add Data
             items.forEach { item ->
                 if (item.second != 0f) {
                     barList.add(
@@ -84,7 +86,7 @@ class BarChartHandler {
 
 class FloatToHourFormatter(context: Context) : ValueFormatter() {
 
-    val is24Format: Boolean = DateFormat.is24HourFormat(context)
+    private val is24Format: Boolean = DateFormat.is24HourFormat(context)
 
     override fun getFormattedValue(value: Float): String {
         return value.toString()
@@ -108,7 +110,7 @@ class FloatToHourFormatter(context: Context) : ValueFormatter() {
 
 }
 
-class RoundValueFormatter() : ValueFormatter() {
+class RoundValueFormatter : ValueFormatter() {
 
     override fun getFormattedValue(value: Float): String {
         return value.roundToInt().toString()

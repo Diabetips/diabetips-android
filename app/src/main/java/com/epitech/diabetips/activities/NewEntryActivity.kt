@@ -75,12 +75,10 @@ class NewEntryActivity : ADiabetipsActivity(R.layout.activity_new_entry) {
     private fun handlePrediction() {
         calculateInsulinButton.setOnClickListener {
             PredictionService.instance.getUserPrediction().doOnSuccess {
-                PredictionService.instance.getUserPrediction().doOnSuccess {
-                    if (it.second.component2() == null) {
-                        updatePrediction(it.second.component1())
-                    } else {
-                        Toast.makeText(this, it.second.component2()!!.exception.message, Toast.LENGTH_SHORT).show()
-                    }
+                if (it.second.component2() == null) {
+                    updatePrediction(it.second.component1())
+                } else {
+                    Toast.makeText(this, it.second.component2()!!.exception.message, Toast.LENGTH_SHORT).show()
                 }
             }.subscribe()
         }

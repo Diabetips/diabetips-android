@@ -15,7 +15,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.epitech.diabetips.managers.UserManager
 import com.epitech.diabetips.R
 import com.epitech.diabetips.activities.DataGenerator
-import com.epitech.diabetips.activities.EventNotebookActivity
 import com.epitech.diabetips.activities.NavigationActivity
 import com.epitech.diabetips.activities.SettingsActivity
 import com.epitech.diabetips.adapters.DropdownAdapter

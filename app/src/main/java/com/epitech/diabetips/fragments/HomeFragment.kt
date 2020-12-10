@@ -18,8 +18,6 @@ import com.epitech.diabetips.services.PredictionService
 import com.epitech.diabetips.storages.*
 import com.epitech.diabetips.utils.*
 import kotlinx.android.synthetic.main.fragment_home.view.*
-import java.sql.Time
-import kotlin.random.Random
 
 class HomeFragment : ANavigationFragment(FragmentType.HOME) {
 

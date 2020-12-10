@@ -5,7 +5,7 @@
     style="@style/BackgroundHomeTheme"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.NewMealActivity">
+    tools:context=".activities.NewEntryActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/newEntryActionBar"
@@ -262,6 +262,7 @@
                     android:layout_marginStart="0dp"
                     android:layout_marginEnd="@dimen/half_margin_size"
                     android:hint="@string/insulin_fast_input"
+                    android:maxLength="@integer/glycemia_max_length"
                     app:suffixText="@string/unit_units"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/calculateInsulinButton"
@@ -272,6 +273,7 @@
                         style="@style/TextInputTheme"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:maxLength="@integer/glycemia_max_length"
                         android:inputType="number"
                         android:imeOptions="actionNext"
                         android:nextFocusForward="@+id/insulinSlowEntryInput" />
@@ -328,6 +330,7 @@
                 android:id="@+id/insulinSlowEntryInputLayout"
                 style="@style/TextInputLayoutTheme"
                 android:layout_width="match_parent"
+                android:maxLength="@integer/glycemia_max_length"
                 android:hint="@string/insulin_slow_input"
                 app:suffixText="@string/unit_units">
 
@@ -336,6 +339,7 @@
                     style="@style/TextInputTheme"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:maxLength="@integer/glycemia_max_length"
                     android:inputType="number"/>
 
             </com.google.android.material.textfield.TextInputLayout>

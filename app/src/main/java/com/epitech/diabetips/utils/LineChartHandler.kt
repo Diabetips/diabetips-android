@@ -31,6 +31,9 @@ class ChartHandler {
 
     companion object {
 
+        const val MAX_HEIGHT = 250f
+        const val ICON_MARGIN = 25f
+
         fun handleLineChartStyle(lineChart: LineChart, context: Context) {
             lineChart.setViewPortOffsets(0f, 10f, 0f, 50f)
             lineChart.description.isEnabled = false
@@ -61,6 +64,13 @@ class ChartHandler {
 
             val lineData = LineData()
 
+            //Draw limits
+            if (items.isNotEmpty()) {
+                drawLimit(lineData)
+                drawLimit(lineData, MAX_HEIGHT, TimeHandler.MILIS_IN_DAY.toFloat())
+            }
+
+            //Draw blood sugar line
             val bloodValues: List<BloodSugarObject> = items.filter { it.type == ObjectType.SUGAR }
                 .map { it.orignal as (BloodSugarObject) }
             val bloodValuesChunks = cutBloodValuesIntoChunks(bloodValues, 1800f, context)
@@ -68,17 +78,13 @@ class ChartHandler {
                 lineData.addDataSet(generateBloodDataset(bloodValueChunk, intervalTimeStamp, context))
             }
 
-            if (items.isNotEmpty()) {
-                drawLimit(lineData, 0f)
-                drawLimit(lineData, 250f)
-            }
-
+            //Draw icons
             val punctualInfo = mapOf(
-                ObjectType.INSULIN_FAST to ContextCompat.getDrawable(context, R.drawable.ic_syringe).apply {
-                    this?.setTint(ContextCompat.getColor(context, R.color.colorAccent))
-                },
                 ObjectType.INSULIN_SLOW to ContextCompat.getDrawable(context, R.drawable.ic_syringe_alt).apply {
                     this?.setTint(ContextCompat.getColor(context, R.color.colorAccentLight))
+                },
+                ObjectType.INSULIN_FAST to ContextCompat.getDrawable(context, R.drawable.ic_syringe).apply {
+                    this?.setTint(ContextCompat.getColor(context, R.color.colorAccent))
                 },
                 ObjectType.MEAL to ContextCompat.getDrawable(context, R.drawable.ic_fork).apply {
                     this?.setTint(ContextCompat.getColor(context, R.color.colorPrimary))
@@ -89,10 +95,14 @@ class ChartHandler {
                 ObjectType.NOTE to ContextCompat.getDrawable(context, R.drawable.ic_comment).apply {
                     this?.setTint(MaterialHandler.getColorFromAttribute(context, R.attr.colorComment))
                 })
+            var yPos = MAX_HEIGHT
             for (info in punctualInfo) {
                 val filteredItems: List<EntryObject> = items.filter { it.type == info.key }
-                lineData.addDataSet(generatePonctualDataset(filteredItems, intervalTimeStamp, info.value, context))
+                lineData.addDataSet(generatePonctualDataset(filteredItems, intervalTimeStamp, info.value, context, yPos))
+                yPos -= ICON_MARGIN
             }
+
+            //Draw hypo and hyper range
             lineChart.axisLeft.removeAllLimitLines()
             val biometrics = UserManager.instance.getBiometric(context)
             if (biometrics.hypoglycemia != null && biometrics.hyperglycemia != null) {
@@ -111,8 +121,8 @@ class ChartHandler {
             lineChart.invalidate()
         }
 
-        private fun drawLimit(lineData: LineData, yPos: Float = 0f) {
-            val d = LineDataSet(listOf(Entry(0f, yPos)), "ShowBottom")
+        private fun drawLimit(lineData: LineData, yPos: Float = 0f, xPos: Float = 0f) {
+            val d = LineDataSet(listOf(Entry(xPos, yPos)), "ShowBottom")
             d.color = Color.TRANSPARENT
             d.setDrawCircles(false)
             d.setDrawValues(false)
@@ -139,13 +149,13 @@ class ChartHandler {
             return chunks
         }
 
-        private fun generatePonctualDataset(items: List<EntryObject>, intervalTimeStamp: Pair<Long, Long>, drawable: Drawable?, context: Context): LineDataSet? {
+        private fun generatePonctualDataset(items: List<EntryObject>, intervalTimeStamp: Pair<Long, Long>, drawable: Drawable?, context: Context, yPos: Float = MAX_HEIGHT): LineDataSet? {
             if (items.isEmpty())
                 return null
             val yValues = mutableListOf<Entry>()
             val bitmapDrawable = BitmapDrawable(context.resources, drawable?.toBitmap(42, 42))
             for (item in items) {
-                yValues.add(Entry((((TimeHandler.instance.getTimestampFromFormat(item.time, context.getString(R.string.format_time_api)) ?: 0) - intervalTimeStamp.first).toFloat()), 225f, bitmapDrawable))
+                yValues.add(Entry((((TimeHandler.instance.getTimestampFromFormat(item.time, context.getString(R.string.format_time_api)) ?: 0) - intervalTimeStamp.first).toFloat()), yPos, bitmapDrawable))
             }
             val set = LineDataSet(yValues, items[0].type.toString())
             setPonctualElementDatasetStyle(set)

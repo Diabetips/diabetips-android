@@ -75,183 +75,124 @@
         app:layout_constraintTop_toBottomOf="@id/bloodSugarRangesTimeInputLayout"
         app:layout_constraintBottom_toTopOf="@id/targetBarChart" />
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/targetBarChart"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_marginStart="@dimen/margin_size"
+        android:layout_marginEnd="@dimen/margin_size"
         android:layout_marginBottom="@dimen/half_margin_size"
         app:layout_constraintTop_toBottomOf="@id/averagePieChart"
         app:layout_constraintBottom_toBottomOf="parent">
+
         <TextView
+            android:id="@+id/hyperglycemiaText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             style="@style/SubtitleTheme"
             android:text="@string/target_hyper"
-            android:paddingBottom="4dp">
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
 
-        </TextView>
-
-        <androidx.cardview.widget.CardView
+        <ProgressBar
+            android:id="@+id/hyperglycemiaProgressBar"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            android:progressDrawable="@drawable/progress_bar_dark"
             android:layout_width="match_parent"
             android:layout_height="@dimen/input_size"
-            android:orientation="horizontal"
-            app:cardBackgroundColor="@android:color/transparent"
-            android:layout_marginEnd="16dp"
-            app:cardCornerRadius="0dp"
-            app:cardElevation="0dp">
+            android:elevation="@dimen/shadow_size"
+            android:indeterminate="false"
+            android:max="100"
+            android:progress="100"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/hyperglycemiaText"/>
 
-            <androidx.cardview.widget.CardView
-                xmlns:card_view="http://schemas.android.com/apk/res-auto"
-                android:id="@+id/card_view_inner"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/input_size"
-                android:layout_gravity="left"
-                android:layout_marginStart="-18dp"
-                android:layout_marginEnd="18dp"
-                card_view:cardBackgroundColor="@color/colorBackgroundSearch"
-                card_view:cardCornerRadius="@dimen/input_corner_size"
-                card_view:cardElevation="0dp">
-
-                <androidx.cardview.widget.CardView
-                    xmlns:card_view="http://schemas.android.com/apk/res-auto"
-                    android:id="@+id/hyperglycemia_target_jauge"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:scaleType="fitXY"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintWidth_default="percent"
-                    android:layout_gravity="left"
-                    card_view:cardBackgroundColor="@color/colorBackgroundDarkGray"
-                    card_view:cardCornerRadius="@dimen/input_corner_size"
-                    card_view:cardElevation="0dp"
-                    android:layout_marginEnd="64dp">
-                </androidx.cardview.widget.CardView>
-                <TextView
-                    android:id="@+id/hyperglycemia_target_text"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center_vertical|right"
-                    style="@style/SubtitleTheme"
-                    android:text="10%"
-                    android:paddingRight="@dimen/half_margin_size">
-                </TextView>
-            </androidx.cardview.widget.CardView>
-        </androidx.cardview.widget.CardView>
         <TextView
+            android:id="@+id/hyperglycemiaProgressText"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical|end"
+            style="@style/SubtitleDarkTheme"
+            android:text="@string/placeholder_percent"
+            android:elevation="@dimen/shadow_size"
+            android:layout_marginEnd="@dimen/half_margin_size"
+            app:layout_constraintTop_toTopOf="@id/hyperglycemiaProgressBar"
+            app:layout_constraintBottom_toBottomOf="@id/hyperglycemiaProgressBar"
+            app:layout_constraintEnd_toEndOf="@id/hyperglycemiaProgressBar"/>
+
+        <TextView
+            android:id="@+id/inTargetText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             style="@style/SubtitleTheme"
             android:text="@string/target_in"
-            android:paddingBottom="4dp"
-            android:paddingTop="@dimen/quarter_margin_size">
+            android:layout_marginTop="@dimen/quarter_margin_size"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/hyperglycemiaProgressBar"/>
 
-        </TextView>
-
-        <androidx.cardview.widget.CardView
+        <ProgressBar
+            android:id="@+id/inTargetProgressBar"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            android:progressDrawable="@drawable/progress_bar_primary"
             android:layout_width="match_parent"
             android:layout_height="@dimen/input_size"
-            android:orientation="horizontal"
-            app:cardBackgroundColor="@android:color/transparent"
-            android:layout_marginEnd="16dp"
-            app:cardCornerRadius="0dp"
-            app:cardElevation="0dp">
+            android:elevation="@dimen/shadow_size"
+            android:indeterminate="false"
+            android:max="100"
+            android:progress="100"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/inTargetText"/>
 
-            <androidx.cardview.widget.CardView
-                xmlns:card_view="http://schemas.android.com/apk/res-auto"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/input_size"
-                android:layout_gravity="left"
-                android:layout_marginStart="-18dp"
-                android:layout_marginEnd="18dp"
-                card_view:cardBackgroundColor="@color/colorBackgroundSearch"
-                card_view:cardCornerRadius="@dimen/input_corner_size"
-                card_view:cardElevation="0dp">
-
-                <androidx.cardview.widget.CardView
-                    xmlns:card_view="http://schemas.android.com/apk/res-auto"
-                    android:id="@+id/in_target_jauge"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:scaleType="fitXY"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintWidth_default="percent"
-                    android:layout_gravity="left"
-                    card_view:cardBackgroundColor="@color/colorPrimary"
-                    card_view:cardCornerRadius="@dimen/input_corner_size"
-                    card_view:cardElevation="0dp"
-                    android:layout_marginEnd="64dp">
-                </androidx.cardview.widget.CardView>
-                <TextView
-                    android:id="@+id/in_target_text"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center_vertical|right"
-                    style="@style/SubtitleTheme"
-                    android:text="10%"
-                    android:paddingRight="@dimen/half_margin_size">
-                </TextView>
-            </androidx.cardview.widget.CardView>
-        </androidx.cardview.widget.CardView>
         <TextView
+            android:id="@+id/inTargetProgressText"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical|end"
+            style="@style/SubtitleDarkTheme"
+            android:text="@string/placeholder_percent"
+            android:elevation="@dimen/shadow_size"
+            android:layout_marginEnd="@dimen/half_margin_size"
+            app:layout_constraintTop_toTopOf="@id/inTargetProgressBar"
+            app:layout_constraintBottom_toBottomOf="@id/inTargetProgressBar"
+            app:layout_constraintEnd_toEndOf="@id/inTargetProgressBar"/>
+
+        <TextView
+            android:id="@+id/hypoglycemiaText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             style="@style/SubtitleTheme"
             android:text="@string/target_hypo"
-            android:paddingBottom="4dp"
-            android:paddingTop="@dimen/quarter_margin_size">
+            android:layout_marginTop="@dimen/quarter_margin_size"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/inTargetProgressBar"/>
 
-        </TextView>
-
-        <androidx.cardview.widget.CardView
+        <ProgressBar
+            android:id="@+id/hypoglycemiaProgressBar"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            android:progressDrawable="@drawable/progress_bar_accent"
             android:layout_width="match_parent"
             android:layout_height="@dimen/input_size"
-            android:orientation="horizontal"
-            app:cardBackgroundColor="@android:color/transparent"
-            android:layout_marginEnd="16dp"
-            app:cardCornerRadius="0dp"
-            app:cardElevation="0dp">
+            android:elevation="@dimen/shadow_size"
+            android:indeterminate="false"
+            android:max="100"
+            android:progress="100"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/hypoglycemiaText"/>
 
-            <androidx.cardview.widget.CardView
-                xmlns:card_view="http://schemas.android.com/apk/res-auto"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/input_size"
-                android:layout_gravity="left"
-                android:layout_marginStart="-18dp"
-                android:layout_marginEnd="18dp"
-                card_view:cardBackgroundColor="@color/colorBackgroundSearch"
-                card_view:cardCornerRadius="@dimen/input_corner_size"
-                card_view:cardElevation="0dp">
+        <TextView
+            android:id="@+id/hypoglycemiaProgressText"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical|end"
+            style="@style/SubtitleDarkTheme"
+            android:text="@string/placeholder_percent"
+            android:elevation="@dimen/shadow_size"
+            android:layout_marginEnd="@dimen/half_margin_size"
+            app:layout_constraintTop_toTopOf="@id/hypoglycemiaProgressBar"
+            app:layout_constraintBottom_toBottomOf="@id/hypoglycemiaProgressBar"
+            app:layout_constraintEnd_toEndOf="@id/hypoglycemiaProgressBar"/>
 
-                <androidx.cardview.widget.CardView
-                    xmlns:card_view="http://schemas.android.com/apk/res-auto"
-                    android:id="@+id/hypoglycemia_target_jauge"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:scaleType="fitXY"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintWidth_default="percent"
-                    android:layout_gravity="left"
-                    card_view:cardBackgroundColor="@color/colorAccent"
-                    card_view:cardCornerRadius="@dimen/input_corner_size"
-                    card_view:cardElevation="0dp"
-                    android:layout_marginEnd="64dp">
-                </androidx.cardview.widget.CardView>
-                <TextView
-                    android:id="@+id/hypoglycemia_target_text"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center_vertical|right"
-                    style="@style/SubtitleTheme"
-                    android:text="10%"
-                    android:paddingRight="@dimen/half_margin_size">
-                </TextView>
-            </androidx.cardview.widget.CardView>
-        </androidx.cardview.widget.CardView>
-    </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

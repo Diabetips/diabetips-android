@@ -434,8 +434,18 @@
         <item name="android:textColorHintInverse">?attr/colorAccent</item>
     </style>
 
+    <style name="TextViewDarkTheme" parent="ThemeOverlay.AppCompat.Dark">
+        <item name="android:textColor">?attr/colorText</item>
+        <item name="android:textColorHint">?attr/colorText</item>
+        <item name="android:textColorHintInverse">?attr/colorText</item>
+    </style>
+
     <style name="TitleTheme" parent="TextViewTheme">
         <item name="android:textAppearance">@style/TitleAppearance</item>
+    </style>
+
+    <style name="SubtitleDarkTheme" parent="TextViewDarkTheme">
+        <item name="android:textAppearance">@style/SubtitleAppearance</item>
     </style>
 
     <style name="SubtitleTheme" parent="TextViewAltTheme">
@@ -463,6 +473,10 @@
     </style>
 
     <style name="TextReverseTheme" parent="TextViewReverseTheme">
+        <item name="android:textAppearance">@style/TextAppearance</item>
+    </style>
+
+    <style name="TextDarkTheme" parent="TextViewDarkTheme">
         <item name="android:textAppearance">@style/TextAppearance</item>
     </style>
 

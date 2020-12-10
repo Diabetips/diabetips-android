@@ -79,15 +79,16 @@ class MainActivity : ADiabetipsActivity(R.layout.activity_main) {
                     UserManager.instance.removePreferences(this)
                     launchHomeActivity()
                 } else {
-                    var error = it.first.data.toString(Charset.defaultCharset())
-                    if (error.isNotBlank())
                     try {
-                        error = JSONObject(error).getString("error")
-                        if (error == "registration_incomplete") {
-                            emailInputLayout.error = getString(R.string.registration_incomplete)
-                        } else {
-                            emailInputLayout.error = getString(R.string.login_invalid)
-                            passwordWatcher?.setError(R.string.login_invalid)
+                        var error = it.first.data.toString(Charset.defaultCharset())
+                        if (error.isNotBlank()) {
+                            error = JSONObject(error).getString("error")
+                            if (error == "registration_incomplete") {
+                                emailInputLayout.error = getString(R.string.registration_incomplete)
+                            } else {
+                                emailInputLayout.error = getString(R.string.login_invalid)
+                                passwordWatcher?.setError(R.string.login_invalid)
+                            }
                         }
                     } catch (e: Exception) {
                         Toast.makeText(this, getString(R.string.connexion_error), Toast.LENGTH_SHORT).show()
