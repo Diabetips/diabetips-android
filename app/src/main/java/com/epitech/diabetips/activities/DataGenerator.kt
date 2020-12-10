@@ -4,13 +4,10 @@ import android.os.Bundle
 import com.epitech.diabetips.R
 import com.epitech.diabetips.services.BloodSugarService
 import com.epitech.diabetips.services.FakeDayDataGenerator
-import com.epitech.diabetips.storages.BloodSugarObject
 import com.epitech.diabetips.utils.ADiabetipsActivity
 import com.epitech.diabetips.utils.DialogHandler
 import com.epitech.diabetips.utils.TimeHandler
 import kotlinx.android.synthetic.main.activity_data_generator.*
-import kotlinx.android.synthetic.main.activity_new_entry.*
-import kotlinx.android.synthetic.main.dialog_hba1c.view.*
 import java.util.*
 import kotlin.random.Random
 
@@ -68,9 +65,9 @@ class DataGenerator : ADiabetipsActivity(R.layout.activity_data_generator) {
         while (interatableDate < current) {
             if (i > 31)
                 return;
-            val fakeDayDataGenerator = FakeDayDataGenerator(injectionInterval, lastStart);
+            val fakeDayDataGenerator = FakeDayDataGenerator(injectionInterval, lastStart, Random(1));
             val points =  fakeDayDataGenerator.getDay();
-            fakeDayDataGenerator.sendData(points, interatableDate, trimData, getString(R.string.format_time_api))
+            fakeDayDataGenerator.sendData(points, interatableDate, trimData, getString(R.string.format_time_api)).subscribe();
             interatableDate = TimeHandler.instance.addTimeToTimestamp(date, 1, Calendar.DAY_OF_YEAR)
             lastStart = fakeDayDataGenerator.getLastValue();
             i++;

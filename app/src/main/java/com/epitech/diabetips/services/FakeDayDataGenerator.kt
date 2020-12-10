@@ -3,19 +3,22 @@ package com.epitech.diabetips.services
 import android.graphics.Path
 import android.graphics.PathMeasure
 import android.graphics.PointF
-import android.util.Log
 import com.epitech.diabetips.R
 import com.epitech.diabetips.activities.FloatPoint
 import com.epitech.diabetips.storages.BloodSugarObject
 import com.epitech.diabetips.utils.TimeHandler
+import com.github.kittinunf.fuel.core.FuelError
+import com.github.kittinunf.fuel.core.Response
+import com.github.kittinunf.result.Result
+import io.reactivex.Single
 import kotlin.random.Random
 
-class FakeDayDataGenerator(private val injectionInterval: Int, private val startValue: Float = 100f) {
+class FakeDayDataGenerator(private val injectionInterval: Int, private val startValue: Float = 100f, private val random: Random = Random(1)) {
     private val path = Path()
     private val points = mutableListOf<MyPoint>()
     private val conPoint1 = mutableListOf<PointF>()
     private val conPoint2 = mutableListOf<PointF>()
-    private val granularity = 50;
+    private val granularity = 150;
     private val spikeGenerator = SpikeGenerator();
     private var lastValue: Float = 100f
 
@@ -88,7 +91,7 @@ class FakeDayDataGenerator(private val injectionInterval: Int, private val start
     {
         points.add(MyPoint(0f, startValue))
         points.add(MyPoint(1f, startValue))
-        lastValue = base + Random.nextInt(-10, 10).toFloat()
+        lastValue = base + random.nextInt(-10, 10).toFloat()
         points.add(MyPoint(23f, lastValue))
         points.add(MyPoint(24f, lastValue))
         points.sortBy { x -> x.x }
@@ -98,16 +101,16 @@ class FakeDayDataGenerator(private val injectionInterval: Int, private val start
     {
         val times = arrayOf<Float>(date + (15f / 60f), date + (60f / 60f), date + (110f / 60f))
         spikeGenerator.addSpike(points, times,
-            base + Random.nextInt(-10, +10),
-            top + Random.nextInt(-30, +30))
+            base + random.nextInt(-10, +10),
+            top + random.nextInt(-30, +30))
     }
 
     private fun addHypo(date: Float, base: Float = 100f, min: Float = 40f)
     {
         val times = arrayOf<Float>(date, date + (10f / 60f), date + (110f / 60f))
         spikeGenerator.addSpike(points, times,
-            base + Random.nextInt(-10, 10),
-            min + Random.nextInt(-10, +10))
+            base + random.nextInt(-10, 10),
+            min + random.nextInt(-10, +10))
     }
 
     private fun calculateConnectionPointsForBezierCurve() {
@@ -138,9 +141,16 @@ class FakeDayDataGenerator(private val injectionInterval: Int, private val start
         } catch (e: Exception) {
         }
     }
+    public fun removeData(date: Long, timeFormat: String): Single<Pair<Response, Result<BloodSugarObject, FuelError>>> {
+        val end = TimeHandler.instance.currentTime()
+        val start = TimeHandler.instance.changeTimestampTime(date, 0, 0)
+        return BloodSugarService.instance.deleteAllMeasures(
+            TimeHandler.instance.formatTimestamp(start, timeFormat),
+            TimeHandler.instance.formatTimestamp(end, timeFormat))
+    }
 
-    public fun sendData(newPoints: Array<FloatPoint?>, date: Long, trimData: Boolean, timeFormat: String)
-    {
+
+    public fun sendData(newPoints: Array<FloatPoint?>, date: Long, trimData: Boolean, timeFormat: String): Single<Pair<Response, Result<BloodSugarObject, FuelError>>> {
         val bs = BloodSugarObject();
         bs.start = TimeHandler.instance.formatTimestamp(date, timeFormat)
         if (trimData) {
@@ -149,8 +159,10 @@ class FakeDayDataGenerator(private val injectionInterval: Int, private val start
         } else
             bs.measures = newPoints.map { it!!.y.toInt() }.toTypedArray()
         bs.interval = injectionInterval * 60;
-        BloodSugarService.instance.postMeasures(bs).doOnSuccess {}.subscribe()
+        return BloodSugarService.instance.postMeasures(bs)
     }
+
+
 
     fun getLastValue(): Float {
         return lastValue;
