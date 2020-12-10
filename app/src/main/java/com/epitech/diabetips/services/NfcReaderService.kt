@@ -105,11 +105,17 @@ var NFC_USE_MULTI_BLOCK_READ = true
         val action = intent.action
         Log.d("Diabetips", "Action FOUND ! ! !")
         if (NfcAdapter.ACTION_TECH_DISCOVERED == action) {
-            val fakeDayDataGenerator = FakeDayDataGenerator(10, 100f + Random.nextInt(-10, 10).toFloat(), Random(2));
-            val points =  fakeDayDataGenerator.getDay();
-            fakeDayDataGenerator.removeData(TimeHandler.instance.currentTime(), context.getString(R.string.format_time_api)).doOnSuccess{
-                fakeDayDataGenerator.sendData(points,  TimeHandler.instance.changeTimestampTime(TimeHandler.instance.currentTime(), hour = 0, minute = 0), true, context.getString(R.string.format_time_api)).doOnSuccess {
-                    GlucoseUpdated()
+            val fakeDayDataGenerator = FakeDayDataGenerator(10, 100f, Random(2));
+            fakeDayDataGenerator.removeData(TimeHandler.instance.currentTime(), context.getString(R.string.format_time_api_UTC)).doOnSuccess{
+                val points =  fakeDayDataGenerator.getDay();
+                BloodSugarService.instance.getLastMeasure().doOnSuccess {
+                    var startValue = 100f + Random.nextInt(-10, 10).toFloat()
+                    if (it.second.component2() == null)
+                        startValue = it.second.component1()!!.value.toFloat()
+                    fakeDayDataGenerator.startValue = startValue;
+                    fakeDayDataGenerator.sendData(points.toTypedArray(),  TimeHandler.instance.changeTimestampTime(TimeHandler.instance.currentTime(), hour = 0, minute = 0), true, context.getString(R.string.format_time_api_UTC)).doOnSuccess {
+                        GlucoseUpdated()
+                    }.subscribe()
                 }.subscribe()
             }.subscribe()
             return;

@@ -64,5 +64,4 @@ abstract class AService(var baseRoute : String = "") {
                 Log.e("API error on ${request.method.value} ${request.url}", err.message!!)
             }
     }
-
 }
