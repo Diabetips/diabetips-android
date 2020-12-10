@@ -4,16 +4,20 @@ import android.graphics.Path
 import android.graphics.PathMeasure
 import android.graphics.PointF
 import android.util.Log
+import com.epitech.diabetips.R
 import com.epitech.diabetips.activities.FloatPoint
+import com.epitech.diabetips.storages.BloodSugarObject
+import com.epitech.diabetips.utils.TimeHandler
 import kotlin.random.Random
 
-class FakeDayDataGenerator(private val injectionInterval: Int) {
+class FakeDayDataGenerator(private val injectionInterval: Int, private val startValue: Float = 100f) {
     private val path = Path()
     private val points = mutableListOf<MyPoint>()
     private val conPoint1 = mutableListOf<PointF>()
     private val conPoint2 = mutableListOf<PointF>()
     private val granularity = 50;
     private val spikeGenerator = SpikeGenerator();
+    private var lastValue: Float = 100f
 
     private val nbInjectionsInOneDay: Int = 24 * (60 / this.injectionInterval);
 
@@ -82,12 +86,11 @@ class FakeDayDataGenerator(private val injectionInterval: Int) {
 
     private fun addLimits(base: Float = 100f)
     {
-        var newBase = base + Random.nextInt(-10, 10).toFloat()
-        points.add(MyPoint(0f, newBase))
-        points.add(MyPoint(1f, newBase))
-        newBase = base + Random.nextInt(-10, 10).toFloat()
-        points.add(MyPoint(23f, newBase))
-        points.add(MyPoint(24f, newBase))
+        points.add(MyPoint(0f, startValue))
+        points.add(MyPoint(1f, startValue))
+        lastValue = base + Random.nextInt(-10, 10).toFloat()
+        points.add(MyPoint(23f, lastValue))
+        points.add(MyPoint(24f, lastValue))
         points.sortBy { x -> x.x }
     }
 
@@ -134,6 +137,23 @@ class FakeDayDataGenerator(private val injectionInterval: Int) {
             }
         } catch (e: Exception) {
         }
+    }
+
+    public fun sendData(newPoints: Array<FloatPoint?>, date: Long, trimData: Boolean, timeFormat: String)
+    {
+        val bs = BloodSugarObject();
+        bs.start = TimeHandler.instance.formatTimestamp(date, timeFormat)
+        if (trimData) {
+            val elapsedTime = (TimeHandler.instance.currentTime() - (date - 3600 * 1000 * 5)) / 1000;
+            bs.measures = newPoints.filter { it!!.x * 3600 <= elapsedTime }.map { it!!.y.toInt() }.toTypedArray()
+        } else
+            bs.measures = newPoints.map { it!!.y.toInt() }.toTypedArray()
+        bs.interval = injectionInterval * 60;
+        BloodSugarService.instance.postMeasures(bs).doOnSuccess {}.subscribe()
+    }
+
+    fun getLastValue(): Float {
+        return lastValue;
     }
 }
 

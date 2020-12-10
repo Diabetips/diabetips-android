@@ -424,7 +424,9 @@
     <string name="target_hyper"><![CDATA[Hyperglycemia > 140 md/dl]]></string>
     <string name="target_hypo"><![CDATA[Hypoglycemia < 80 md/dl]]></string>
     <string name="target_in">In ranges</string>
-    <string name="generate_fake_data">Generate data</string>
+    <string name="generate_fake_data" translatable="false">Generate data</string>
+    <string name="delete_data" translatable="false">Delete data</string>
+    <string name="generate" translatable="false">Generate data</string>
 
     <string-array name="sports">
         <item>@string/sport_aerobics</item>
