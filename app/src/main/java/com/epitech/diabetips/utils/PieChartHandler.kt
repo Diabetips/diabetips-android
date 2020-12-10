@@ -20,12 +20,12 @@ class PieChartHandler {
             barChart.description.isEnabled = false
             barChart.legend.isEnabled = false
             barChart.setDrawMarkers(true)
-            barChart.isDrawHoleEnabled = false;
-            barChart.setDrawEntryLabels(true);
-            barChart.setEntryLabelTextSize(50f);
-            barChart.setEntryLabelColor(R.attr.colorBackground);
-            barChart.setEntryLabelTypeface(ResourcesCompat.getFont(context, R.font.muli_bold));
-            barChart.setHighlightPerTapEnabled(true);
+            barChart.isDrawHoleEnabled = false
+            barChart.setDrawEntryLabels(true)
+            barChart.setEntryLabelTextSize(50f)
+            barChart.setEntryLabelColor(R.attr.colorBackground)
+            barChart.setEntryLabelTypeface(ResourcesCompat.getFont(context, R.font.muli_bold))
+            barChart.isHighlightPerTapEnabled = true
             barChart.setCenterTextSize(50f);
 
         }
@@ -37,7 +37,7 @@ class PieChartHandler {
                 yvalues.add(PieEntry(it.first))
             }
 
-            val dataSet = PieDataSet(yvalues, "aaa")
+            val dataSet = PieDataSet(yvalues, "Percentages")
             dataSet.valueTextSize = 40f
             dataSet.valueTypeface = ResourcesCompat.getFont(context, R.font.muli_bold)
             dataSet.valueTextColor = Color.WHITE

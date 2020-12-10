@@ -1,7 +1,6 @@
 package com.epitech.diabetips.activities
 
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import com.epitech.diabetips.R
@@ -9,19 +8,13 @@ import com.epitech.diabetips.adapters.DropdownAdapter
 import com.epitech.diabetips.services.BloodSugarService
 import com.epitech.diabetips.storages.BloodSugarRangesPercentageObject
 import com.epitech.diabetips.storages.CalculationOptionObject
-import com.epitech.diabetips.storages.InsulinCalculationObject
 import com.epitech.diabetips.textWatchers.ItemClickWatcher
 import com.epitech.diabetips.utils.ADiabetipsActivity
 import com.epitech.diabetips.utils.PieChartHandler
 import com.epitech.diabetips.utils.TimeHandler
 import kotlinx.android.synthetic.main.activity_blood_sugar_ranges.*
-import kotlin.random.Random
-import kotlin.random.nextInt
 
 class BloodSugarLevelRangesActivity : ADiabetipsActivity(R.layout.activity_blood_sugar_ranges) {
-
-    private val hourNumber: Int = 24
-    private val hourDivider: Int = 3
 
     private var calculationOption = CalculationOptionObject()
 
@@ -45,15 +38,8 @@ class BloodSugarLevelRangesActivity : ADiabetipsActivity(R.layout.activity_blood
 
     private fun updateChart() {
         BloodSugarService.instance.getRangesPercentage(calculationOption).doOnSuccess {
-
             if (it.second.component2() == null && it.second.component1() != null) {
-                val bloodSugarRanges: BloodSugarRangesPercentageObject = it.second.component1()!!;
-
-                //TODO Remove random values and push true value on db
-                bloodSugarRanges.in_target = Random.nextInt(60, 80).toFloat();
-                bloodSugarRanges.hyperglycemia = Random.nextInt(10, 100 - bloodSugarRanges.in_target!!.toInt()).toFloat();
-                bloodSugarRanges.hypoglycemia = (100 - bloodSugarRanges.hyperglycemia!!.toInt() - bloodSugarRanges.in_target!!.toInt()).toFloat();
-
+                val bloodSugarRanges: BloodSugarRangesPercentageObject = it.second.component1()!!
                 PieChartHandler.handleBarChartStyle(averagePieChart, this)
                 val points = mutableListOf(
                     Pair(bloodSugarRanges.in_target!!, ContextCompat.getColor(this, R.color.colorPrimary)),
@@ -67,8 +53,5 @@ class BloodSugarLevelRangesActivity : ADiabetipsActivity(R.layout.activity_blood
                 Toast.makeText(this, it.second.component2()!!.exception.message, Toast.LENGTH_SHORT).show()
             }
         }.subscribe()
-    }
-
-    private fun updateAverage(insulinsCalculations: InsulinCalculationObject) {
     }
 }

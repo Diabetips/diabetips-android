@@ -44,10 +44,12 @@ class AverageGlucoseActivity : ADiabetipsActivity(R.layout.activity_average_gluc
             if (it.second.component2() == null) {
                 val values = Array(hourNumber / hourDivider) { i: Int ->
                     var value = 0f
+                    var valueDivider = 0f
                     for (j: Int in IntRange(0, hourDivider - 1)) {
                         value += (it.second.component1()?.average?.get(i * hourDivider + j) ?: 0f)
+                        ++valueDivider
                     }
-                    Pair((i * hourDivider) + 0.25f + ((hourDivider - 1f) / 2f), value / hourDivider)
+                    Pair((i * hourDivider) + 0.25f + ((hourDivider - 1f) / 2f), value / (if (valueDivider != 0f) valueDivider else 1f))
                 }
                 BarChartHandler.handleBarChartStyle(averageBarChart, this)
                 BarChartHandler.updateChartData(this, values, (hourNumber / (hourNumber / hourDivider)).toFloat() * 0.75f, averageBarChart, R.string.no_data_period)

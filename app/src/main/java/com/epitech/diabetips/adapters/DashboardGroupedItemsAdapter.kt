@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.epitech.diabetips.holders.DashboardGroupedItemsViewHolder
 import com.epitech.diabetips.storages.EntryObject
-import com.epitech.diabetips.utils.toInt
 import java.util.*
 
 //var animationPlaybackSpeed: Double = 0.8

@@ -1,6 +1,5 @@
 package com.epitech.diabetips.services
 
-import com.epitech.diabetips.storages.AggregateCalculationObject
 import com.epitech.diabetips.storages.CalculationOptionObject
 import com.epitech.diabetips.storages.InsulinCalculationObject
 import com.epitech.diabetips.storages.InsulinObject

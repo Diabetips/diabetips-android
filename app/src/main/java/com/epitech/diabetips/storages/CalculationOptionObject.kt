@@ -9,6 +9,7 @@ data class CalculationOptionObject (
     var start: String = "",
     var end: String = "",
     var format: String = "",
+    var count: Boolean = false,
     var average: Boolean = false,
     var first: Boolean = false,
     var third: Boolean = false) : Serializable {
@@ -21,6 +22,8 @@ data class CalculationOptionObject (
             parameters += "&format=$format"
         if (average)
             parameters += "&calcs=average"
+        if (count)
+            parameters += "&calcs=count"
         if (first)
             parameters += "&calcs=first"
         if (third)

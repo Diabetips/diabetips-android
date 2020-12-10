@@ -14,10 +14,11 @@ import java.lang.IllegalArgumentException
 import java.util.*
 
 class TimeHandler {
-
     private object Holder { val INSTANCE = TimeHandler() }
 
     companion object {
+        private const val MILIS_IN_SECOND = 1000
+        private const val MILIS_IN_DAY = 86400000
         val instance: TimeHandler by lazy { Holder.INSTANCE }
     }
 
@@ -40,7 +41,8 @@ class TimeHandler {
                 return dateVar.millis + TimeZone.getDefault().getOffset(dateVar.millis)
             }
             return dateVar.millis
-        } catch (e: IllegalArgumentException) {
+        } catch (iae: IllegalArgumentException) {
+            iae.printStackTrace()
             return null
         }
     }
@@ -53,7 +55,7 @@ class TimeHandler {
     }
 
     fun changeTimeFormat(date: String?, oldFormat: String, newFormat: String, standardizeInput: Boolean = false, standardizeOutput: Boolean = false) : String? {
-        if (date == null)
+        if (date.isNullOrBlank())
             return null
         val timestamp = getTimestampFromFormat(date, oldFormat, standardizeInput) ?: return null
         return formatTimestamp(timestamp, newFormat, standardizeOutput)
@@ -100,12 +102,16 @@ class TimeHandler {
         return calendar.timeInMillis
     }
 
+    fun getDayDiffFormat(start: String, end: String, format: String): Long {
+        return getTimeDiffFormat(start, end, format) / MILIS_IN_DAY
+    }
+
     fun getSecondDiffFormat(start: String, end: String, format: String): Long {
-        return getTimeDiffFormat(start, end, format) / 1000
+        return getTimeDiffFormat(start, end, format) / MILIS_IN_SECOND
     }
 
     fun getSecondDiff(start: Long, end: Long): Long {
-        return getTimeDiff(start, end) / 1000
+        return getTimeDiff(start, end) / MILIS_IN_SECOND
     }
 
     fun getFormatDiff(start: String, end: String, inputFormat: String, outputFormat: String = inputFormat): String {

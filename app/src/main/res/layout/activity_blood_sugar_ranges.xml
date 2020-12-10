@@ -60,7 +60,7 @@
         style="@style/HintAltTheme"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/unit_glucose"
+        android:text="@string/select_percentage_input"
         android:elevation="@dimen/shadow_size"
         app:layout_constraintEnd_toEndOf="@id/averagePieChart"
         app:layout_constraintTop_toTopOf="@id/averagePieChart"/>

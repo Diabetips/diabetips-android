@@ -7,7 +7,6 @@ import com.epitech.diabetips.adapters.DropdownAdapter
 import com.epitech.diabetips.services.InsulinService
 import com.epitech.diabetips.storages.CalculationOptionObject
 import com.epitech.diabetips.storages.InsulinCalculationObject
-import com.epitech.diabetips.storages.InsulinsQuantityObject
 import com.epitech.diabetips.textWatchers.ItemClickWatcher
 import com.epitech.diabetips.utils.ADiabetipsActivity
 import com.epitech.diabetips.utils.BarChartHandler
@@ -15,14 +14,13 @@ import com.epitech.diabetips.utils.TimeHandler
 import kotlinx.android.synthetic.main.activity_average_glucose.averageBarChart
 import kotlinx.android.synthetic.main.activity_insulin_quantity.*
 import kotlin.math.roundToInt
-import kotlin.random.Random
 
 class InsulinQuantityActivity : ADiabetipsActivity(R.layout.activity_insulin_quantity) {
 
     private val hourNumber: Int = 24
     private val hourDivider: Int = 3
 
-    private var calculationOption = CalculationOptionObject(average = true)
+    private var calculationOption = CalculationOptionObject(average = true, count = true)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,31 +44,16 @@ class InsulinQuantityActivity : ADiabetipsActivity(R.layout.activity_insulin_qua
         InsulinService.instance.getCalculations(calculationOption).doOnSuccess {
 
             if (it.second.component2() == null) {
-                //TODO Remove random
-                print(it.second.component1())
-                it.second.component1()?.average = Array(hourNumber) {
-                    InsulinsQuantityObject(Random.nextDouble(0.0, 15.0).toFloat(),
-                        Random.nextDouble(0.0, 15.0).toFloat(),
-                        0f);
-                }
-                it.second.component1()?.count = Array(hourNumber) {
-                    InsulinsQuantityObject(1f,
-                        0f,
-                        0f);
-                }
-                it.second.component1()?.count?.get(8)?.fast = 0.8f;
-                it.second.component1()?.count?.get(11)?.fast = 0.1f;
-                it.second.component1()?.count?.get(12)?.fast = 0.8f;
-                it.second.component1()?.count?.get(13)?.fast = 0.2f;
-                it.second.component1()?.count?.get(16)?.fast = 0.2f;
-                it.second.component1()?.count?.get(19)?.fast = 1f;
-
                 val values = Array(hourNumber / hourDivider) { i: Int ->
                     var value = 0f
+                    var valueDivider = 0f
                     for (j: Int in IntRange(0, hourDivider - 1)) {
-                        value += (it.second.component1()?.average?.get( i * hourDivider + j)?.fast ?: 0f)
+                        if ((it.second.component1()?.average?.get(i * hourDivider + j)?.fast ?: 0f) != 0f) {
+                            value += (it.second.component1()?.average?.get(i * hourDivider + j)?.fast ?: 0f)
+                            ++valueDivider
+                        }
                     }
-                    Pair((i * hourDivider) + 0.25f + ((hourDivider - 1f) / 2f), value / hourDivider)
+                    Pair((i * hourDivider) + 0.25f + ((hourDivider - 1f) / 2f), value / (if (valueDivider != 0f) valueDivider else 1f))
                 }
                 BarChartHandler.handleBarChartStyle(averageBarChart, this)
                 BarChartHandler.updateChartData(this, values, (hourNumber / (hourNumber / hourDivider)).toFloat() * 0.75f, averageBarChart)
@@ -82,13 +65,23 @@ class InsulinQuantityActivity : ADiabetipsActivity(R.layout.activity_insulin_qua
     }
 
     private fun updateAverage(insulinsCalculations: InsulinCalculationObject) {
-        var average: Float = 0f
+        var average = 0f
+        //Average injection quantity
+        var count = 0f
         for (i in  0..hourNumber) {
-            if (i >= insulinsCalculations.average.count()) {
-                break
+            if ((insulinsCalculations.average.getOrNull(i)?.fast ?: 0f) != 0f) {
+                average += insulinsCalculations.average.getOrNull(i)?.fast ?: 0f
+                count += 1
             }
-            average += insulinsCalculations.average[i]?.fast!! * insulinsCalculations.count[i]?.fast!!
         }
+        if (count != 0f) {
+            average /= count
+        }
+        //Average daily injection quantity (days without data count as 0)
+        /*for (i in  0..hourNumber) {
+            average += (insulinsCalculations.average.getOrNull(i)?.fast ?: 0f) * (insulinsCalculations.count.getOrNull(i)?.fast ?: 0f)
+        }
+        average /= (TimeHandler.instance.getDayDiffFormat(insulinsCalculations.end, insulinsCalculations.start, getString(R.string.format_time_api)) + 1)*/
         insulinQuantityText.text = "${getText(R.string.average)} : ${average.roundToInt()} ${getString(R.string.unit)}"
     }
 }
