@@ -30,4 +30,10 @@
         android:icon="@drawable/ic_deactivate"
         android:title="@string/deactivate"
         android:visible="true" />
+
+    <item
+        android:id="@+id/profileGenerateFakeData"
+        android:icon="@drawable/ic_generate_data"
+        android:title="@string/generate_fake_data"
+        android:visible="true" />
 </menu>

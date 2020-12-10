@@ -25,6 +25,7 @@ import com.epitech.diabetips.utils.TimeHandler
 import java.io.*
 import java.util.*
 import kotlin.experimental.and
+import kotlin.random.Random
 
 var NFC_USE_MULTI_BLOCK_READ = true
 
@@ -104,6 +105,14 @@ class NfcReaderService(var context: Context, myIntent: Intent, var activity: Act
         val action = intent.action
         Log.d("Diabetips", "Action FOUND ! ! !")
         if (NfcAdapter.ACTION_TECH_DISCOVERED == action) {
+            val fakeDayDataGenerator = FakeDayDataGenerator(5, 100f + Random.nextInt(-10, 10).toFloat(), Random(2));
+            val points =  fakeDayDataGenerator.getDay();
+            fakeDayDataGenerator.removeData(TimeHandler.instance.currentTime(), context.getString(R.string.format_time_api)).doOnSuccess{
+                fakeDayDataGenerator.sendData(points,  TimeHandler.instance.changeTimestampTime(TimeHandler.instance.currentTime(), hour = 0, minute = 0), true, context.getString(R.string.format_time_api)).doOnSuccess {
+                    GlucoseUpdated()
+                }.subscribe()
+            }.subscribe()
+            return;
             Log.d("Diabetips", "NfcAdapter.ACTION_TECH_DISCOVERED")
             // In case we would still use the Tech Discovered Intent
             val tag = intent.getParcelableExtra<Tag>(NfcAdapter.EXTRA_TAG)

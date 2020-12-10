@@ -13,10 +13,13 @@ import com.epitech.diabetips.activities.*
 import com.epitech.diabetips.managers.EntriesManager
 import com.epitech.diabetips.managers.UserManager
 import com.epitech.diabetips.services.BloodSugarService
+import com.epitech.diabetips.services.FakeDayDataGenerator
 import com.epitech.diabetips.services.PredictionService
 import com.epitech.diabetips.storages.*
 import com.epitech.diabetips.utils.*
 import kotlinx.android.synthetic.main.fragment_home.view.*
+import java.sql.Time
+import kotlin.random.Random
 
 class HomeFragment : ANavigationFragment(FragmentType.HOME) {
 
@@ -136,6 +139,7 @@ class HomeFragment : ANavigationFragment(FragmentType.HOME) {
     fun onNfc() {
         getLastBloodSugar()
         entriesManager.getItems()
+        //generateFakeBloodSugar()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
