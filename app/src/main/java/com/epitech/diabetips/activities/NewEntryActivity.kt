@@ -13,6 +13,9 @@ import com.epitech.diabetips.storages.*
 import com.epitech.diabetips.textWatchers.TextChangedWatcher
 import com.epitech.diabetips.utils.*
 import kotlinx.android.synthetic.main.activity_new_entry.*
+import org.json.JSONObject
+import java.lang.Exception
+import java.nio.charset.Charset
 
 class NewEntryActivity : ADiabetipsActivity(R.layout.activity_new_entry) {
 
@@ -75,11 +78,17 @@ class NewEntryActivity : ADiabetipsActivity(R.layout.activity_new_entry) {
     private fun handlePrediction() {
         calculateInsulinButton.setOnClickListener {
             PredictionService.instance.getUserPrediction().doOnSuccess {
-                PredictionService.instance.getUserPrediction().doOnSuccess {
-                    if (it.second.component2() == null) {
-                        updatePrediction(it.second.component1())
-                    } else {
-                        Toast.makeText(this, it.second.component2()!!.exception.message, Toast.LENGTH_SHORT).show()
+                if (it.second.component2() == null) {
+                    updatePrediction(it.second.component1())
+                } else {
+                    var error = it.first.data.toString(Charset.defaultCharset())
+                    if (error.isNotBlank()) {
+                        try {
+                            error = JSONObject(error).getString("message")
+                            Toast.makeText(this, error, Toast.LENGTH_SHORT).show()
+                        } catch (e: Exception) {
+                            Toast.makeText(this, it.second.component2()!!.exception.message, Toast.LENGTH_SHORT).show()
+                        }
                     }
                 }
             }.subscribe()

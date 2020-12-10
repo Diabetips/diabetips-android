@@ -1,6 +1,7 @@
 package com.epitech.diabetips.activities
 
 import android.os.Bundle
+import android.util.Log
 import com.epitech.diabetips.R
 import com.epitech.diabetips.services.BloodSugarService
 import com.epitech.diabetips.services.FakeDayDataGenerator
@@ -28,7 +29,7 @@ class DataGenerator : ADiabetipsActivity(R.layout.activity_data_generator) {
         TimeHandler.instance.updateTimeDisplay(this, entryTime, date_picker_from)
     }
 
-    private val injectionInterval: Int = 5;
+    private val injectionInterval: Int = 10;
 
     private fun generate()
     {
@@ -51,8 +52,11 @@ class DataGenerator : ADiabetipsActivity(R.layout.activity_data_generator) {
             return;
         val start = TimeHandler.instance.changeTimestampTime(fullStart, 0, 0)
         BloodSugarService.instance.deleteAllMeasures(
-            TimeHandler.instance.formatTimestamp(start, getString(R.string.format_time_api)),
-            TimeHandler.instance.formatTimestamp(end, getString(R.string.format_time_api))).doOnSuccess{
+            TimeHandler.instance.formatTimestamp(start, getString(R.string.format_time_api_UTC), true),
+            TimeHandler.instance.formatTimestamp(end, getString(R.string.format_time_api_UTC), true)).doOnSuccess{
+            if (it.second.component2() == null) {
+                Log.d("OUII", "NN")
+            }
         }.subscribe()
     }
 

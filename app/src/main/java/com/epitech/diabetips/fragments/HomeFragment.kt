@@ -13,7 +13,6 @@ import com.epitech.diabetips.activities.*
 import com.epitech.diabetips.managers.EntriesManager
 import com.epitech.diabetips.managers.UserManager
 import com.epitech.diabetips.services.BloodSugarService
-import com.epitech.diabetips.services.FakeDayDataGenerator
 import com.epitech.diabetips.services.PredictionService
 import com.epitech.diabetips.storages.*
 import com.epitech.diabetips.utils.*

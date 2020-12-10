@@ -29,7 +29,7 @@ import kotlin.random.Random
 
 var NFC_USE_MULTI_BLOCK_READ = true
 
-class NfcReaderService(var context: Context, myIntent: Intent, var activity: Activity, private val GlucoseUpdated: () -> Unit) {
+@Suppress("DEPRECATION") class NfcReaderService(var context: Context, myIntent: Intent, var activity: Activity, private val GlucoseUpdated: () -> Unit) {
     val MIME_TEXT_PLAIN = "text/plain"
 
     private var mNfcAdapter: NfcAdapter? = null
@@ -105,7 +105,7 @@ class NfcReaderService(var context: Context, myIntent: Intent, var activity: Act
         val action = intent.action
         Log.d("Diabetips", "Action FOUND ! ! !")
         if (NfcAdapter.ACTION_TECH_DISCOVERED == action) {
-            val fakeDayDataGenerator = FakeDayDataGenerator(5, 100f + Random.nextInt(-10, 10).toFloat(), Random(2));
+            val fakeDayDataGenerator = FakeDayDataGenerator(10, 100f + Random.nextInt(-10, 10).toFloat(), Random(2));
             val points =  fakeDayDataGenerator.getDay();
             fakeDayDataGenerator.removeData(TimeHandler.instance.currentTime(), context.getString(R.string.format_time_api)).doOnSuccess{
                 fakeDayDataGenerator.sendData(points,  TimeHandler.instance.changeTimestampTime(TimeHandler.instance.currentTime(), hour = 0, minute = 0), true, context.getString(R.string.format_time_api)).doOnSuccess {
@@ -113,12 +113,12 @@ class NfcReaderService(var context: Context, myIntent: Intent, var activity: Act
                 }.subscribe()
             }.subscribe()
             return;
-            Log.d("Diabetips", "NfcAdapter.ACTION_TECH_DISCOVERED")
+            //Log.d("Diabetips", "NfcAdapter.ACTION_TECH_DISCOVERED")
             // In case we would still use the Tech Discovered Intent
-            val tag = intent.getParcelableExtra<Tag>(NfcAdapter.EXTRA_TAG)
+            //val tag = intent.getParcelableExtra<Tag>(NfcAdapter.EXTRA_TAG)
             //val techList = tag?.techList
             //val searchedTech = NfcV::class.java.name
-            NfcVReaderTask().execute(tag)
+            //NfcVReaderTask().execute(tag)
         }
     }
 
@@ -192,18 +192,9 @@ class NfcReaderService(var context: Context, myIntent: Intent, var activity: Act
             Looper.prepare()
             val tag = params[0]
             val nfcvTag = NfcV.get(tag)
-            Log.d("Diabetips", "Enter NdefReaderTask: $nfcvTag")
-            Log.d("Diabetips", "Tag ID: " + tag!!.id)
-            sensorTagId = bytesToHexString(tag.id)
+            sensorTagId = bytesToHexString(tag!!.id)
             readNfcTag(tag)
             val raw = RawTagData(sensorTagId, data)
-            Log.d("Diabetips", "Date : " + raw.date)
-            Log.d("Diabetips", "Tag Id : " + raw.tagId)
-            Log.d("Diabetips", "Sensor age : " + raw.sensorAgeInMinutes)
-            Log.d(
-                "Diabetips",
-                "TimeZone Offset : " + raw.timezoneOffsetInMinutes / 60
-            )
             val indexHistory = raw.getIndexHistory()
             val glucoseLevels = ArrayList<Int>()
             val ageInSensorMinutesList = ArrayList<Int>()

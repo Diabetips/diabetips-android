@@ -11,6 +11,7 @@ import com.github.kittinunf.fuel.core.FuelError
 import com.github.kittinunf.fuel.core.Response
 import com.github.kittinunf.result.Result
 import io.reactivex.Single
+import kotlin.math.abs
 import kotlin.random.Random
 
 class FakeDayDataGenerator(private val injectionInterval: Int, private val startValue: Float = 100f, private val random: Random = Random(1)) {
@@ -28,7 +29,16 @@ class FakeDayDataGenerator(private val injectionInterval: Int, private val start
         calculatePointsForData()
         calculateConnectionPointsForBezierCurve()
         generateBezierCurve()
+        removeBuggedPoints()
         return toFixedPoints(getPoints(), 24);
+    }
+
+    private fun removeBuggedPoints() {
+        for (i in 1 until (points.size - 1)) {
+            if (abs(points[i - 1].y - points[i].y) > 30 && abs(points[i - 1].x - points[i].x) < 0.25f)
+                points[i].x = -1f;
+        }
+        points.removeAll { it.x.toInt() == -1}
     }
 
     private fun getPoints(): List<FloatPoint?>? {
