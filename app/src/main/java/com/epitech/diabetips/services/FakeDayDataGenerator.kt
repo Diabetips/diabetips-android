@@ -3,7 +3,7 @@ package com.epitech.diabetips.services
 import android.graphics.Path
 import android.graphics.PathMeasure
 import android.graphics.PointF
-import com.epitech.diabetips.R
+import android.util.Log
 import com.epitech.diabetips.activities.FloatPoint
 import com.epitech.diabetips.storages.BloodSugarObject
 import com.epitech.diabetips.utils.TimeHandler
@@ -11,9 +11,11 @@ import com.github.kittinunf.fuel.core.FuelError
 import com.github.kittinunf.fuel.core.Response
 import com.github.kittinunf.result.Result
 import io.reactivex.Single
+import java.util.*
+import kotlin.math.abs
 import kotlin.random.Random
 
-class FakeDayDataGenerator(private val injectionInterval: Int, private val startValue: Float = 100f, private val random: Random = Random(1)) {
+class FakeDayDataGenerator(private val injectionInterval: Int = 5, var startValue: Float = 100f, private val random: Random = Random(1)) {
     private val path = Path()
     private val points = mutableListOf<MyPoint>()
     private val conPoint1 = mutableListOf<PointF>()
@@ -24,11 +26,26 @@ class FakeDayDataGenerator(private val injectionInterval: Int, private val start
 
     private val nbInjectionsInOneDay: Int = 24 * (60 / this.injectionInterval);
 
-    fun getDay(): Array<FloatPoint?> {
+    fun getDay(): MutableList<FloatPoint> {
         calculatePointsForData()
         calculateConnectionPointsForBezierCurve()
         generateBezierCurve()
         return toFixedPoints(getPoints(), 24);
+    }
+
+    private fun removeBuggedPoints(fixedPointArray: MutableList<FloatPoint>) {
+        var i = 1;
+        while (i < fixedPointArray.size) {
+            if (abs(fixedPointArray[i - 1].y - fixedPointArray[i].y) > 20) {
+                Log.d("Remove this : ", "${fixedPointArray[i].y} : ${fixedPointArray[i].x}");
+                if (fixedPointArray[i - 1].y < 100)
+                    fixedPointArray[i].y = fixedPointArray[i - 1].y - 10;
+                else
+                    fixedPointArray[i].y = fixedPointArray[i - 1].y + 10;
+                i++;
+            }
+            i++;
+        }
     }
 
     private fun getPoints(): List<FloatPoint?>? {
@@ -51,9 +68,9 @@ class FakeDayDataGenerator(private val injectionInterval: Int, private val start
         return pointArray.sortedWith(compareBy { it?.x })
     }
 
-    private fun toFixedPoints(points: List<FloatPoint?>?, nbHours: Int): Array<FloatPoint?> {
+    private fun toFixedPoints(points: List<FloatPoint?>?, nbHours: Int): MutableList<FloatPoint> {
         val size = (nbHours * (60 / injectionInterval));
-        val fixedPointArray: Array<FloatPoint?> = arrayOfNulls<FloatPoint>(size)
+        val fixedPointArray: MutableList<FloatPoint> = MutableList(size) { FloatPoint(0f, 0f) }
         var lastIndex = 0;
         for (i in 0 until size) {
             val x: Float = (i * nbHours).toFloat() / size.toFloat();
@@ -74,6 +91,7 @@ class FakeDayDataGenerator(private val injectionInterval: Int, private val start
                 fixedPointArray[i] = FloatPoint(x, y);
             }
         }
+        removeBuggedPoints(fixedPointArray)
         //print(fixedPointArray.joinToString("\n") { it?.x.toString() + "," + it?.y.toString()})
         return fixedPointArray;
     }
@@ -141,20 +159,20 @@ class FakeDayDataGenerator(private val injectionInterval: Int, private val start
         } catch (e: Exception) {
         }
     }
-    public fun removeData(date: Long, timeFormat: String): Single<Pair<Response, Result<BloodSugarObject, FuelError>>> {
-        val end = TimeHandler.instance.currentTime()
-        val start = TimeHandler.instance.changeTimestampTime(date, 0, 0)
+    fun removeData(date: Long, timeFormat: String): Single<Pair<Response, Result<BloodSugarObject, FuelError>>> {
+        val end = TimeHandler.instance.addTimeToTimestamp(TimeHandler.instance.currentTime(), 1, Calendar.DAY_OF_YEAR)
+        val start = TimeHandler.instance.changeTimestampTime(date, hour = 0, minute = 0)
         return BloodSugarService.instance.deleteAllMeasures(
-            TimeHandler.instance.formatTimestamp(start, timeFormat),
-            TimeHandler.instance.formatTimestamp(end, timeFormat))
+            TimeHandler.instance.formatTimestamp(start, timeFormat, true),
+            TimeHandler.instance.formatTimestamp(end, timeFormat, true))
     }
 
 
     public fun sendData(newPoints: Array<FloatPoint?>, date: Long, trimData: Boolean, timeFormat: String): Single<Pair<Response, Result<BloodSugarObject, FuelError>>> {
         val bs = BloodSugarObject();
-        bs.start = TimeHandler.instance.formatTimestamp(date, timeFormat)
+        bs.start = TimeHandler.instance.formatTimestamp(TimeHandler.instance.changeTimestampTime(date, hour=0, minute=0) , timeFormat, true)
         if (trimData) {
-            val elapsedTime = (TimeHandler.instance.currentTime() - (date - 3600 * 1000 * 5)) / 1000;
+            val elapsedTime = (TimeHandler.instance.currentTime() - date) / 1000;
             bs.measures = newPoints.filter { it!!.x * 3600 <= elapsedTime }.map { it!!.y.toInt() }.toTypedArray()
         } else
             bs.measures = newPoints.map { it!!.y.toInt() }.toTypedArray()

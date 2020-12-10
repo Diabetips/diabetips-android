@@ -13,11 +13,13 @@ import com.epitech.diabetips.activities.*
 import com.epitech.diabetips.managers.EntriesManager
 import com.epitech.diabetips.managers.UserManager
 import com.epitech.diabetips.services.BloodSugarService
-import com.epitech.diabetips.services.FakeDayDataGenerator
 import com.epitech.diabetips.services.PredictionService
 import com.epitech.diabetips.storages.*
 import com.epitech.diabetips.utils.*
 import kotlinx.android.synthetic.main.fragment_home.view.*
+import org.json.JSONObject
+import java.lang.Exception
+import java.nio.charset.Charset
 
 class HomeFragment : ANavigationFragment(FragmentType.HOME) {
 
@@ -79,7 +81,14 @@ class HomeFragment : ANavigationFragment(FragmentType.HOME) {
                 if (it.second.component2() == null) {
                     updatePrediction(it.second.component1())
                 } else {
-                    Toast.makeText(requireContext(), it.second.component2()!!.exception.message, Toast.LENGTH_SHORT).show()
+                    val error = it.first.data.toString(Charset.defaultCharset())
+                    if (error.isNotBlank()) {
+                        try {
+                            Toast.makeText(requireContext(), JSONObject(error).getString("message"), Toast.LENGTH_SHORT).show()
+                        } catch (e: Exception) {
+                            Toast.makeText(requireContext(), it.second.component2()!!.exception.message, Toast.LENGTH_SHORT).show()
+                        }
+                    }
                 }
             }
         }
