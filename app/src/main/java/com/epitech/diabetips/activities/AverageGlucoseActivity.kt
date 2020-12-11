@@ -51,7 +51,7 @@ class AverageGlucoseActivity : ADiabetipsActivity(R.layout.activity_average_gluc
                     }
                     Pair((i * hourDivider) + 0.25f + ((hourDivider - 1f) / 2f), value / (if (valueDivider != 0f) valueDivider else 1f))
                 }
-                BarChartHandler.handleBarChartStyle(averageBarChart, this)
+                BarChartHandler.handleBarChartStyle(averageBarChart, this, 200f)
                 BarChartHandler.updateChartData(this, values, (hourNumber / (hourNumber / hourDivider)).toFloat() * 0.75f, averageBarChart, R.string.no_data_period)
             } else {
                 Toast.makeText(this, it.second.component2()!!.exception.message, Toast.LENGTH_SHORT).show()

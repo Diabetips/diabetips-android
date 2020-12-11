@@ -55,7 +55,7 @@ class InsulinQuantityActivity : ADiabetipsActivity(R.layout.activity_insulin_qua
                     }
                     Pair((i * hourDivider) + 0.25f + ((hourDivider - 1f) / 2f), value / (if (valueDivider != 0f) valueDivider else 1f))
                 }
-                BarChartHandler.handleBarChartStyle(averageBarChart, this)
+                BarChartHandler.handleBarChartStyle(averageBarChart, this, 20f)
                 BarChartHandler.updateChartData(this, values, (hourNumber / (hourNumber / hourDivider)).toFloat() * 0.75f, averageBarChart)
                 it.second.component1()?.let { it1 -> updateAverage(it1) }
             } else {

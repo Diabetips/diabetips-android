@@ -202,8 +202,6 @@ class ChartHandler {
             dataSet.setDrawCircles(true)
             dataSet.setCircleColor(Color.TRANSPARENT)
             dataSet.circleHoleColor = Color.TRANSPARENT
-            dataSet.circleRadius = 0f
-            dataSet.circleHoleRadius = 0f
             dataSet.setDrawCircleHole(false)
             dataSet.setDrawValues(false)
             dataSet.setDrawVerticalHighlightIndicator(false)
@@ -211,6 +209,7 @@ class ChartHandler {
             dataSet.setDrawFilled(false)
             dataSet.isHighlightEnabled = false
             dataSet.setDrawValues(false)
+            dataSet.isVisible = true
         }
     }
 }

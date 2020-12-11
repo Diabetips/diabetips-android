@@ -18,7 +18,7 @@ class BarChartHandler {
 
     companion object {
 
-        fun handleBarChartStyle(barChart: BarChart, context: Context) {
+        fun handleBarChartStyle(barChart: BarChart, context: Context, ymax: Float = -1f) {
             barChart.description.isEnabled = false
             barChart.legend.isEnabled = false
             barChart.axisLeft.isEnabled = false
@@ -39,6 +39,12 @@ class BarChartHandler {
             barChart.setDrawBorders(false)
             barChart.setDrawBarShadow(true)
             barChart.setScaleEnabled(false)
+            barChart.axisLeft.axisMinimum = 0f
+            barChart.axisRight.axisMinimum = 0f
+            if (ymax > 0) {
+                barChart.axisLeft.axisMaximum = ymax
+                barChart.axisRight.axisMaximum = ymax
+            }
         }
 
         fun updateChartData(context: Context, items: Array<Pair<Float, Float>>, barWidth: Float, barChart: DetailBarChart, noDataTextId: Int = R.string.no_data) {
@@ -68,6 +74,10 @@ class BarChartHandler {
                 barChart.data = barData
             } else {
                 barChart.setData(null, noDataTextId)
+            }
+            if (barData.yMax > barChart.axisLeft.axisMaximum) {
+                barChart.axisLeft.axisMaximum = barData.yMax
+                barChart.axisRight.axisMaximum = barData.yMax
             }
             barChart.animateY(800)
             // refresh the drawing
