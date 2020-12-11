@@ -83,7 +83,7 @@ class NavigationActivity : ADiabetipsActivity(R.layout.activity_navigation), me.
         if (notification?.read == false && notification.id.isNotEmpty()) {
             when (notification.type) {
                 NotificationObject.Type.user_invite.name -> {
-                    DialogHandler.dialogInvite(this, this.layoutInflater, (notification.getTypedNotification() as NotificationInviteObject), { setUnreadMessage() })
+                    DialogHandler.dialogInvite(this, this.layoutInflater, (notification.getTypedNotification() as NotificationInviteObject))
                 }
                 NotificationObject.Type.chat_message.name -> {
                     setUnreadMessage(true)

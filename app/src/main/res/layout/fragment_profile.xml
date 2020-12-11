@@ -309,6 +309,7 @@
                     android:layout_height="wrap_content"
                     android:maxLength="@integer/glycemia_max_length"
                     android:inputType="number"
+                    android:imeOptions="actionNext"
                     android:nextFocusForward="@+id/hyperglycemiaProfileInput"/>
 
             </com.google.android.material.textfield.TextInputLayout>

@@ -31,8 +31,9 @@ class ChartHandler {
 
     companion object {
 
-        const val MAX_HEIGHT = 250f
-        const val ICON_MARGIN = 25f
+        private const val MAX_HEIGHT = 250f
+        private const val ICON_MARGIN = 25f
+        private const val MAX_VALUE_COUNT = Int.MAX_VALUE
 
         fun handleLineChartStyle(lineChart: LineChart, context: Context) {
             lineChart.setViewPortOffsets(0f, 10f, 0f, 50f)
@@ -56,6 +57,7 @@ class ChartHandler {
             lineChart.axisLeft.setDrawZeroLine(false)
             lineChart.setDrawMarkers(true)
             lineChart.setDrawBorders(false)
+            lineChart.setMaxVisibleValueCount(MAX_VALUE_COUNT)
         }
 
         fun updateChartData(items: List<EntryObject>, intervalTimeStamp: Pair<Long, Long>, lineChart: DetailLineChart, context: Context, noDataTextId: Int = R.string.no_data) {

@@ -16,6 +16,7 @@ import androidx.core.app.ActivityCompat
 import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.epitech.diabetips.R
+import com.epitech.diabetips.activities.NavigationActivity
 import com.epitech.diabetips.adapters.DropdownAdapter
 import com.epitech.diabetips.adapters.NutritionalAdapter
 import com.epitech.diabetips.managers.UserManager
@@ -237,7 +238,7 @@ class DialogHandler {
             }
         }
 
-        fun dialogInvite(context: Context, layoutInflater: LayoutInflater, notification: NotificationInviteObject, callback: (() -> Unit), onDismiss: (() -> Unit) = {}) {
+        fun dialogInvite(context: Context, layoutInflater: LayoutInflater, notification: NotificationInviteObject, callback: (() -> Unit) = {}, onDismiss: (() -> Unit) = {}) {
             createDialog(context, layoutInflater, R.layout.dialog_confirm) { view, dialog ->
                 dialog.setOnDismissListener { onDismiss.invoke() }
                 var user = UserObject(uid = notification.from_uid)
@@ -259,6 +260,7 @@ class DialogHandler {
                             notification.markAsRead()
                             Toast.makeText(context, context.getString(R.string.invitation_accepted, "${user.first_name} ${user.last_name}"), Toast.LENGTH_SHORT).show()
                             UserManager.instance.saveChatUser(context, user)
+                            NavigationActivity.setUnreadMessage()
                             callback.invoke()
                             dialog.dismiss()
                         } else {

@@ -257,7 +257,8 @@ class ProfileFragment : ANavigationFragment(FragmentType.PROFILE) {
         loading = true
         BiometricService.instance.update(biometric).doOnSuccess {
             if (it.second.component2() == null) {
-                UserManager.instance.saveBiometric(requireContext(), it.second.component1()!!)
+                it.second.component1()?.date_of_birth = biometric.date_of_birth //TODO remove when returned date_of_birth format is correct
+                UserManager.instance.saveBiometric(requireContext(), it.second.component1() ?: BiometricObject())
                 Toast.makeText(context, getString(R.string.update_profile), Toast.LENGTH_SHORT).show()
             } else {
                 Toast.makeText(context, it.second.component2()!!.exception.message, Toast.LENGTH_SHORT).show()
