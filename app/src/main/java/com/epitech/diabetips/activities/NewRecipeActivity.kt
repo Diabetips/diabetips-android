@@ -1,17 +1,12 @@
 package com.epitech.diabetips.activities
 
 import android.app.Activity
-import android.app.AlertDialog
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.provider.MediaStore
 import android.text.InputType
 import android.view.View
-import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
@@ -28,22 +23,11 @@ import com.epitech.diabetips.storages.MealRecipeObject
 import com.epitech.diabetips.storages.RecipeObject
 import com.epitech.diabetips.textWatchers.InputWatcher
 import com.epitech.diabetips.textWatchers.NumberWatcher
-import com.epitech.diabetips.textWatchers.TextChangedWatcher
-import com.epitech.diabetips.utils.ADiabetipsActivity
-import com.epitech.diabetips.utils.DividerItemDecorator
-import com.epitech.diabetips.utils.ImageHandler
-import com.epitech.diabetips.utils.MaterialHandler
+import com.epitech.diabetips.utils.*
 import kotlinx.android.synthetic.main.activity_new_recipe.*
-import kotlinx.android.synthetic.main.dialog_change_picture.view.*
-import kotlinx.android.synthetic.main.dialog_save_change.view.*
-import kotlinx.android.synthetic.main.dialog_select_quantity.view.*
 import java.io.InputStream
 
 class NewRecipeActivity : ADiabetipsActivity(R.layout.activity_new_recipe) {
-
-    enum class ActivityMode {RECIPE, MEAL_RECIPE}
-    enum class DisplayMode {CONTENT, NUTRITION}
-    enum class RequestCode {SEARCH_FOOD, GET_IMAGE, GET_PHOTO}
 
     private var saved: Boolean? = null
     private var changedPicture: Boolean = false
@@ -68,47 +52,31 @@ class NewRecipeActivity : ADiabetipsActivity(R.layout.activity_new_recipe) {
             updateNutritionalValueDisplay()
         }
         imagePhotoRecipe.setOnClickListener {
-            val dialogView = layoutInflater.inflate(R.layout.dialog_change_picture, null)
-            MaterialHandler.instance.handleTextInputLayoutSize(dialogView as ViewGroup)
-            val dialog = AlertDialog.Builder(this).setView(dialogView).create()
-            dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-            dialogView.newPictureButton.setOnClickListener {
-                val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-                startActivityForResult(intent, RequestCode.GET_PHOTO.ordinal)
-                dialog.dismiss()
-            }
-            dialogView.pictureGalleryButton.setOnClickListener {
-                val intent = Intent(Intent.ACTION_GET_CONTENT)
-                intent.type = "image/*"
-                startActivityForResult(intent, RequestCode.GET_IMAGE.ordinal)
-                dialog.dismiss()
-            }
-            dialogView.deletePictureButton.setOnClickListener {
-                if (!changedPicture) {
-                    dialog.dismiss()
-                } else if (recipe.id == 0) {
+            DialogHandler.dialogChangePicture(this, layoutInflater, this) {
+                if (recipe.id > 0) {
+                    RecipeService.instance.removePicture<RecipeObject>(recipe.id).doOnSuccess {
+                        if (it.second.component2() == null) {
+                            changedPicture = false
+                            loadImage()
+                            Toast.makeText(this, R.string.deleted, Toast.LENGTH_SHORT).show()
+                        } else {
+                            Toast.makeText(this, it.second.component2()!!.exception.message, Toast.LENGTH_SHORT).show()
+                        }
+                    }.subscribe()
+                } else if (changedPicture && recipe.id == 0) {
                     changedPicture = false
                     loadImage()
-                    dialog.dismiss()
                 }
-                RecipeService.instance.removePicture<RecipeObject>(recipe.id).doOnSuccess {
-                    if (it.second.component2() == null) {
-                        changedPicture = false
-                        loadImage()
-                        Toast.makeText(this, R.string.deleted, Toast.LENGTH_SHORT).show()
-                    } else {
-                        Toast.makeText(this, it.second.component2()!!.exception.message, Toast.LENGTH_SHORT).show()
-                    }
-                    dialog.dismiss()
-                }.subscribe()
             }
-            dialog.show()
         }
         addFoodButton.setOnClickListener {
             startActivityForResult(
                 Intent(this, FoodActivity::class.java)
                     .putExtra(getString(R.string.param_food), (foodList.adapter as RecipeFoodAdapter).getFoods()),
                 RequestCode.SEARCH_FOOD.ordinal)
+        }
+        scanFoodButton.setOnClickListener {
+            ImageHandler.instance.startBarcodeActivity(this)
         }
         newRecipeToggleContent.setOnClickListener {
             changeDisplayMode(DisplayMode.CONTENT)
@@ -118,37 +86,13 @@ class NewRecipeActivity : ADiabetipsActivity(R.layout.activity_new_recipe) {
         }
         foodList.apply {
             layoutManager = LinearLayoutManager(this@NewRecipeActivity)
-            adapter = RecipeFoodAdapter {ingredientObject, textQuantity ->
-                val view = layoutInflater.inflate(R.layout.dialog_select_quantity, null)
-                MaterialHandler.instance.handleTextInputLayoutSize(view as ViewGroup)
-                val dialog = AlertDialog.Builder(this@NewRecipeActivity).setView(view).create()
-                dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-                view.selectQuantityInputLayout.hint = "${view.selectQuantityInputLayout.hint} (${ingredientObject.food.unit})"
-                view.selectQuantityInput.setText(ingredientObject.quantity.toBigDecimal().stripTrailingZeros().toPlainString())
-                view.selectQuantityNutritionalList.apply {
-                    layoutManager = LinearLayoutManager(this@NewRecipeActivity)
-                    adapter = NutritionalAdapter(ingredientObject.getNutritionalValues(), ingredientObject.quantity)
+            adapter = RecipeFoodAdapter (onItemClickListener = { ingredientObject, textQuantity ->
+                DialogHandler.dialogSelectQuantity(this@NewRecipeActivity, layoutInflater, ingredientObject) {
+                    saved = false
+                    textQuantity?.text = "${ingredientObject.quantity} ${ingredientObject.food.unit}"
+                    updateNutritionalValueDisplay()
                 }
-                view.selectQuantityInput.addTextChangedListener(NumberWatcher(this@NewRecipeActivity, view.selectQuantityInputLayout, R.string.quantity_null, 0f))
-                view.selectQuantityInput.addTextChangedListener(TextChangedWatcher {
-                    val quantity = it.toString().toFloatOrNull() ?: 0f
-                    (view.selectQuantityNutritionalList.adapter as NutritionalAdapter).setNutritions(ingredientObject.getNutritionalValues(quantity), quantity)
-                })
-                view.selectQuantityNegativeButton.setOnClickListener {
-                    dialog.dismiss()
-                }
-                view.selectQuantityPositiveButton.setOnClickListener {
-                    view.selectQuantityInput.text = view.selectQuantityInput.text
-                    if (view.selectQuantityInputLayout.error == null) {
-                        saved = false
-                        ingredientObject.quantity = view.selectQuantityInput.text.toString().toFloatOrNull() ?: 0f
-                        textQuantity?.text = "${ingredientObject.quantity} ${ingredientObject.food.unit}"
-                        updateNutritionalValueDisplay()
-                        dialog.dismiss()
-                    }
-                }
-                dialog.show()
-            }
+            }, onItemRemovedListener =  { updateNutritionalValueDisplay() })
             (adapter as RecipeFoodAdapter).setVisibilityElements(foodListEmptyLayout, foodList)
             addItemDecoration(DividerItemDecorator(ContextCompat.getDrawable(this@NewRecipeActivity, R.drawable.list_divider)!!))
         }
@@ -186,7 +130,7 @@ class NewRecipeActivity : ADiabetipsActivity(R.layout.activity_new_recipe) {
                 (foodList.adapter as RecipeFoodAdapter).setFoods(mealRecipe.getIngredients())
                 newRecipePortion.inputType = (InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_DECIMAL)
                 newRecipePortionLayout.suffixText = "/ ${recipe.portions.toInt()}"
-                newRecipePortion.setText(mealRecipe.portions_eaten.toString())
+                newRecipePortion.setText(mealRecipe.portions_eaten.toBigDecimal().stripTrailingZeros().toPlainString())
             } else {
                 recipe = (intent.getSerializableExtra(getString(R.string.param_recipe)) as RecipeObject)
                 newRecipeName.setText(recipe.name)
@@ -247,7 +191,7 @@ class NewRecipeActivity : ADiabetipsActivity(R.layout.activity_new_recipe) {
         val ingredients = (foodList.adapter as RecipeFoodAdapter).getFoods()
         recipe.ingredients.forEach { ingredient ->
             if (ingredients.find { it.food.id == ingredient.food.id } == null) {
-                ingredients.add(IngredientObject(quantity = 0f, food = ingredient.food))
+                ingredients.add(ingredient.food.getIngredient(0f))
             }
         }
         val mealRecipe = MealRecipeObject(
@@ -325,6 +269,10 @@ class NewRecipeActivity : ADiabetipsActivity(R.layout.activity_new_recipe) {
                 saved = false
                 (foodList.adapter as RecipeFoodAdapter).setFoods(ArrayList((data?.getSerializableExtra(getString(R.string.param_food)) as ArrayList<*>).filterIsInstance<IngredientObject>()))
                 updateNutritionalValueDisplay()
+            } else if (requestCode == RequestCode.SCAN_BARCODE.ordinal) {
+                DialogHandler.dialogBarcode(this, data) { ingredient ->
+                    (foodList.adapter as RecipeFoodAdapter).addFood(ingredient)
+                }
             } else if (requestCode == RequestCode.GET_IMAGE.ordinal) {
                 val imageStream: InputStream? = contentResolver.openInputStream(data?.data!!)
                 setRecipePicture(BitmapFactory.decodeStream(imageStream))
@@ -340,22 +288,13 @@ class NewRecipeActivity : ADiabetipsActivity(R.layout.activity_new_recipe) {
         } else if (saved == true && !changedPicture) {
             endActivity()
         } else {
-            val view = layoutInflater.inflate(R.layout.dialog_save_change, null)
-            MaterialHandler.instance.handleTextInputLayoutSize(view as ViewGroup)
-            val dialog = AlertDialog.Builder(this@NewRecipeActivity).setView(view).create()
-            dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-            view.saveChangeNegativeButton.setOnClickListener {
-                finish()
-            }
-            view.saveChangePositiveButton.setOnClickListener {
+            DialogHandler.dialogSaveChange(this, layoutInflater, {
                 if (saved == false || recipe.id <= 0) {
                     saveRecipe(true)
                 } else {
                     saveRecipePicture(true)
                 }
-                dialog.dismiss()
-            }
-            dialog.show()
+            }, { finish() })
         }
     }
 

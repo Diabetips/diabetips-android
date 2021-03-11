@@ -131,7 +131,7 @@
                     style="@style/TextInputTheme"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="textPersonName"
+                    android:inputType="textPersonName|textCapCharacters"
                     android:imeOptions="actionNext"
                     android:nextFocusForward="@+id/firstNameProfileInput" />
 
@@ -148,7 +148,7 @@
                     style="@style/TextInputTheme"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="textPersonName"
+                    android:inputType="textPersonName|textCapWords"
                     android:imeOptions="actionNext"
                     android:nextFocusForward="@+id/emailProfileInput" />
 
@@ -214,7 +214,7 @@
                 android:layout_marginStart="@dimen/margin_size"
                 android:layout_marginTop="@dimen/half_margin_size"
                 android:layout_marginBottom="@dimen/quarter_margin_size"
-                android:text="@string/medical_informations" />
+                android:text="@string/medical_information" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/weightProfileInputLayout"
@@ -245,7 +245,8 @@
                     style="@style/TextInputTheme"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="numberDecimal"/>
+                    android:inputType="numberDecimal"
+                    android:imeOptions="actionDone"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -308,6 +309,7 @@
                     android:layout_height="wrap_content"
                     android:maxLength="@integer/glycemia_max_length"
                     android:inputType="number"
+                    android:imeOptions="actionNext"
                     android:nextFocusForward="@+id/hyperglycemiaProfileInput"/>
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -325,7 +327,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:maxLength="@integer/glycemia_max_length"
-                    android:inputType="number"/>
+                    android:inputType="number"
+                    android:imeOptions="actionDone"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 

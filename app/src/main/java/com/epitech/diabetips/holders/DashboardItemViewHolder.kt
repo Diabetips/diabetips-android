@@ -10,7 +10,6 @@ import com.epitech.diabetips.R
 import com.epitech.diabetips.storages.EntryObject
 import com.epitech.diabetips.utils.TimeHandler
 import kotlinx.android.synthetic.main.item_dashboard.view.*
-import java.text.SimpleDateFormat
 
 class DashboardItemViewHolder(inflater: LayoutInflater, parent: ViewGroup)
     : RecyclerView.ViewHolder(inflater.inflate(R.layout.item_dashboard, parent, false)) {

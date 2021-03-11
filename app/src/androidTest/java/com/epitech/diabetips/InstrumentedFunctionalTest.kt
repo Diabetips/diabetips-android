@@ -9,6 +9,7 @@ import com.epitech.diabetips.managers.UserManager
 import com.epitech.diabetips.managers.AuthManager
 import com.epitech.diabetips.managers.ModeManager
 import com.epitech.diabetips.storages.*
+import com.epitech.diabetips.utils.TimeHandler
 import org.junit.Assert.*
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -50,11 +51,11 @@ class InstrumentedFunctionalTest {
         val actualBiometric =  UserManager.instance.getBiometric(instrumentationContext)
         val actualMode =  ModeManager.instance.getDarkMode(instrumentationContext)
         //Asserts
-        assertEquals("Wrong access token.", expectedAccessToken, actualAccessToken)
-        assertEquals("Wrong refresh token.", expectedRefreshToken, actualRefreshToken)
-        assertEquals("Wrong account.", expectedAccount, actualAccount)
-        assertEquals("Wrong biometric.", expectedBiometric, actualBiometric)
-        assertEquals("Wrong dark mode.", expectedMode, actualMode)
+        assertEquals("Wrong access token", expectedAccessToken, actualAccessToken)
+        assertEquals("Wrong refresh token", expectedRefreshToken, actualRefreshToken)
+        assertEquals("Wrong account", expectedAccount, actualAccount)
+        assertEquals("Wrong biometric", expectedBiometric, actualBiometric)
+        assertEquals("Wrong dark mode", expectedMode, actualMode)
     }
 
     @Test
@@ -82,11 +83,11 @@ class InstrumentedFunctionalTest {
         val actualBiometric =  UserManager.instance.getBiometric(instrumentationContext)
         val actualMode =  ModeManager.instance.removePreferences(instrumentationContext)
         //Asserts
-        assertNotEquals("Wrong access token.", expectedAccessToken, actualAccessToken)
-        assertNotEquals("Wrong refresh token.", expectedRefreshToken, actualRefreshToken)
-        assertNotEquals("Wrong account.", expectedAccount, actualAccount)
-        assertNotEquals("Wrong biometric.", expectedBiometric, actualBiometric)
-        assertNotEquals("Wrong dark mode.", expectedMode, actualMode)
+        assertNotEquals("Wrong access token", expectedAccessToken, actualAccessToken)
+        assertNotEquals("Wrong refresh token", expectedRefreshToken, actualRefreshToken)
+        assertNotEquals("Wrong account", expectedAccount, actualAccount)
+        assertNotEquals("Wrong biometric", expectedBiometric, actualBiometric)
+        assertNotEquals("Wrong dark mode", expectedMode, actualMode)
     }
 
     @Test
@@ -125,6 +126,31 @@ class InstrumentedFunctionalTest {
     }
 
     @Test
+    fun hba1cAdapters() {
+        //Values
+        val hba1cArray = arrayOf(HbA1cObject(1, 5.5f), HbA1cObject(2, 10f), HbA1cObject(3, 7f))
+        val hbA1cAdapter = HbA1cAdapter()
+        //Operations
+        hbA1cAdapter.setHbA1c(hba1cArray)
+        hbA1cAdapter.addHbA1c(hba1cArray)
+        //Asserts
+        assertEquals("Wrong HbA1c adapter", hba1cArray.size * 2, hbA1cAdapter.itemCount)
+    }
+
+    @Test
+    fun chatAdapters() {
+        //Values
+        val chatArray = arrayOf(ChatObject("1", content = "Message 1"), ChatObject("2", content = "Message 2"), ChatObject("3", content = "Message 3"))
+        val chatAdapter = ChatAdapter()
+        //Operations
+        chatAdapter.setMessages(chatArray)
+        chatAdapter.addMessage(chatArray[0])
+        chatAdapter.addMessages(chatArray)
+        //Asserts
+        assertEquals("Wrong Chat adapter", chatArray.size * 2 + 1, chatAdapter.itemCount)
+    }
+
+    @Test
     fun biometricObjects() {
         //Values
         val biometric = BiometricObject(80, 175, 60, 180, "2020-10-05")
@@ -137,7 +163,43 @@ class InstrumentedFunctionalTest {
     }
 
     @Test
+    fun activityObject() {
+        //Values
+        val timeFormat = instrumentationContext.getString(R.string.format_time_api)
+        val currentTimestamp = TimeHandler.instance.currentTime()
+        val currentTime = TimeHandler.instance.formatTimestamp(currentTimestamp, timeFormat)
+        val activity = ActivityObject(start = currentTime, end = currentTime)
+        //Operations
+        activity.setDuration(instrumentationContext, TimeHandler.instance.formatTimestamp(TimeHandler.instance.addTimeToTimestamp(0, 90), timeFormat, true))
+        activity.setStart(instrumentationContext, currentTime)
+        //Asserts
+        assertEquals("Wrong activity start", activity.start, currentTime)
+        assertEquals("Wrong activity end", activity.end, TimeHandler.instance.addTimeToFormat(currentTime, timeFormat, 90))
+        assertEquals("Wrong activity duration", activity.getDurationSecond(instrumentationContext), 90 * 60)
+    }
+
+    @Test
     fun timeHandlers() {
-        //TODO after api change from timestamp: long to date: String
+        //Values
+        val timeFormat = instrumentationContext.getString(R.string.format_time_api)
+        val currentTimestamp = TimeHandler.instance.currentTime()
+        val currentTime = TimeHandler.instance.formatTimestamp(currentTimestamp, timeFormat)
+        //Asserts
+        assertEquals("Wrong Timestamp to Time", currentTime, TimeHandler.instance.formatTimestamp(currentTimestamp, timeFormat))
+        assertEquals("Wrong Time to Timestamp", currentTimestamp, TimeHandler.instance.getTimestampFromFormat(currentTime, timeFormat))
+        assertEquals("Wrong Add Time",
+            TimeHandler.instance.addTimeToTimestamp(currentTimestamp, 90),
+            TimeHandler.instance.getTimestampFromFormat(TimeHandler.instance.addTimeToFormat(currentTime, timeFormat, 90), timeFormat))
+        assertEquals("Wrong Change Date",
+            TimeHandler.instance.changeTimestampDate(currentTimestamp, 2000, 9, 12),
+            TimeHandler.instance.getTimestampFromFormat(TimeHandler.instance.changeFormatDate(currentTime, timeFormat, 2000, 9, 12), timeFormat))
+        assertEquals("Wrong Change Time",
+            TimeHandler.instance.changeTimestampTime(currentTimestamp, 12, 30),
+            TimeHandler.instance.getTimestampFromFormat(TimeHandler.instance.changeFormatTime(currentTime, timeFormat, 12, 30), timeFormat))
+        assertEquals("Wrong Second Diff",
+            TimeHandler.instance.getSecondDiffFormat(TimeHandler.instance.changeFormatTime(currentTime, timeFormat, 12, 0),
+                TimeHandler.instance.changeFormatTime(currentTime, timeFormat, 14, 30), timeFormat),
+            TimeHandler.instance.getSecondDiff(TimeHandler.instance.changeTimestampTime(currentTimestamp, 12, 0),
+                TimeHandler.instance.changeTimestampTime(currentTimestamp, 14, 30)))
     }
 }

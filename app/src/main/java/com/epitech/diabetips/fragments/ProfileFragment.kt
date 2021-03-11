@@ -1,26 +1,26 @@
 package com.epitech.diabetips.fragments
 
 import android.app.Activity
-import android.app.AlertDialog
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.provider.MediaStore
 import android.util.DisplayMetrics
 import android.view.*
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.epitech.diabetips.managers.UserManager
 import com.epitech.diabetips.R
+import com.epitech.diabetips.activities.DataGenerator
+import com.epitech.diabetips.activities.NavigationActivity
 import com.epitech.diabetips.activities.SettingsActivity
 import com.epitech.diabetips.adapters.DropdownAdapter
 import com.epitech.diabetips.adapters.MenuAdapter
 import com.epitech.diabetips.managers.AuthManager
+import com.epitech.diabetips.managers.ModeManager
 import com.epitech.diabetips.services.BiometricService
 import com.epitech.diabetips.services.UserService
 import com.epitech.diabetips.storages.UserObject
@@ -31,18 +31,13 @@ import com.epitech.diabetips.textWatchers.PasswordConfirmWatcher
 import com.epitech.diabetips.textWatchers.PasswordWatcher
 import com.epitech.diabetips.utils.*
 import com.google.android.material.appbar.AppBarLayout
-import com.wdullaer.materialdatetimepicker.date.DatePickerDialog
-import kotlinx.android.synthetic.main.dialog_change_picture.view.*
 import kotlinx.android.synthetic.main.dialog_deactivate_account.view.*
-import kotlinx.android.synthetic.main.dialog_logout.view.*
 import kotlinx.android.synthetic.main.fragment_profile.view.*
 import kotlinx.android.synthetic.main.dialog_menu.view.*
 import java.io.InputStream
 import kotlin.math.abs
 
-class ProfileFragment : ANavigationFragment(FragmentType.PROFILE), DatePickerDialog.OnDateSetListener {
-
-    enum class RequestCode { GET_IMAGE, GET_PHOTO }
+class ProfileFragment : ANavigationFragment(FragmentType.PROFILE) {
 
     private var loading: Boolean = false
 
@@ -64,12 +59,11 @@ class ProfileFragment : ANavigationFragment(FragmentType.PROFILE), DatePickerDia
         view.birthDateProfileInput.setOnFocusChangeListener { _, hasFocus ->
             if (hasFocus) {
                 view.birthDateProfileInput.clearFocus()
-                TimeHandler.instance.getDatePickerDialog(requireContext(), this,
-                    TimeHandler.instance.changeTimeFormat(view.birthDateProfileInput.text.toString(),
-                        getString(R.string.format_date_birth),
-                        getString(R.string.format_time_api))
-                        ?: TimeHandler.instance.currentTimeFormat(getString(R.string.format_time_api)))
-                    .show(requireActivity().supportFragmentManager, "DatePickerDialog")
+                DialogHandler.datePickerDialog(requireContext(), requireActivity().supportFragmentManager,
+                    TimeHandler.instance.changeTimeFormat(view.birthDateProfileInput.text.toString(), getString(R.string.format_date_birth), getString(R.string.format_time_api))
+                        ?: TimeHandler.instance.currentTimeFormat(getString(R.string.format_time_api))) { time ->
+                    this.view?.birthDateProfileInput?.setText(TimeHandler.instance.changeTimeFormat(time, getString(R.string.format_time_api), getString(R.string.format_date_birth)))
+                }
             }
         }
         view.updateProfileButton.setOnClickListener {
@@ -84,7 +78,9 @@ class ProfileFragment : ANavigationFragment(FragmentType.PROFILE), DatePickerDia
         view.deactivateAccountButton.setOnClickListener {
             deactivateAccount()
         }
-        handleProfileImage(view)
+        view.imagePhotoProfile.setOnClickListener {
+            handleProfileImage()
+        }
         handlePopupMenu(view)
         handleAnimation(view)
         view.sexProfileDropdown.setAdapter(DropdownAdapter(requireContext(), R.array.sex))
@@ -93,63 +89,50 @@ class ProfileFragment : ANavigationFragment(FragmentType.PROFILE), DatePickerDia
         return view
     }
 
-    private fun handleProfileImage(view: View) {
-        view.imagePhotoProfile.setOnClickListener {
-            val dialogView = layoutInflater.inflate(R.layout.dialog_change_picture, null)
-            MaterialHandler.instance.handleTextInputLayoutSize(dialogView as ViewGroup)
-            val dialog = AlertDialog.Builder(context).setView(dialogView).create()
-            dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-            dialogView.newPictureButton.setOnClickListener {
-                val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-                startActivityForResult(intent, RequestCode.GET_PHOTO.ordinal)
-                dialog.dismiss()
-            }
-            dialogView.pictureGalleryButton.setOnClickListener {
-                val intent = Intent(Intent.ACTION_GET_CONTENT)
-                intent.type = "image/*"
-                startActivityForResult(intent, RequestCode.GET_IMAGE.ordinal)
-                dialog.dismiss()
-            }
-            dialogView.deletePictureButton.setOnClickListener {
-                loading = true
-                UserService.instance.removePicture<UserObject>("me").doOnSuccess {
-                    if (it.second.component2() == null) {
-                        Toast.makeText(requireContext(), R.string.remove_profile_picture, Toast.LENGTH_SHORT).show()
-                        setAccountInfo(UserManager.instance.getUser(requireContext()))
-                    } else {
-                        Toast.makeText(requireContext(), it.second.component2()!!.exception.message, Toast.LENGTH_SHORT).show()
-                    }
-                    loading = false
-                    dialog.dismiss()
-                }.subscribe()
-            }
-            dialog.show()
+    private fun handleProfileImage() {
+        DialogHandler.dialogChangePicture(requireContext(), layoutInflater, requireActivity()) {
+            loading = true
+            UserService.instance.removePicture<UserObject>("me").doOnSuccess {
+                if (it.second.component2() == null) {
+                    Toast.makeText(requireContext(), R.string.remove_profile_picture, Toast.LENGTH_SHORT).show()
+                    setAccountInfo(UserManager.instance.getUser(requireContext()))
+                } else {
+                    Toast.makeText(requireContext(), it.second.component2()!!.exception.message, Toast.LENGTH_SHORT).show()
+                }
+                loading = false
+            }.subscribe()
         }
     }
 
     private fun handlePopupMenu(view: View) {
         view.menuButton.setOnClickListener {
-            val dialogView: View = layoutInflater.inflate(R.layout.dialog_menu, null)
-            val dialog = AlertDialog.Builder(context).setView(dialogView).create()
-            dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-            dialog.window?.attributes?.apply {
-                gravity = Gravity.TOP or Gravity.END
-                y = requireContext().resources.getDimension(R.dimen.input_size).toInt() + requireContext().resources.getDimension(R.dimen.half_margin_size).toInt()
-            }
-            dialogView.menuList.apply {
-                layoutManager = LinearLayoutManager(requireContext())
-                adapter = MenuAdapter(R.menu.profile, requireContext()) { item ->
-                    dialog.dismiss()
-                    when (item.itemId) {
-                        R.id.profileSettings -> openSettings()
-                        R.id.profileLogout -> logout()
-                        R.id.profileDeactivate -> deactivateAccount()
-                    }
+            DialogHandler.createDialog(requireContext(), layoutInflater, R.layout.dialog_menu) { view, dialog ->
+                dialog.window?.attributes?.apply {
+                    gravity = Gravity.TOP or Gravity.END
+                    y = requireContext().resources.getDimension(R.dimen.input_size).toInt() + requireContext().resources.getDimension(R.dimen.half_margin_size).toInt()
                 }
-                addItemDecoration(DividerItemDecorator(ContextCompat.getDrawable(requireContext(), R.drawable.menu_divider)!!))
+                view.menuBackground.setOnClickListener { dialog.dismiss() }
+                view.menuList.apply {
+                    layoutManager = LinearLayoutManager(requireContext())
+                    adapter = MenuAdapter(R.menu.profile, requireContext()) { item ->
+                        dialog.dismiss()
+                        when (item.itemId) {
+                            R.id.profileSettings -> openSettings()
+                            R.id.profileDarkMode -> changeDarkMode()
+                            R.id.profileImage -> handleProfileImage()
+                            R.id.profileLogout -> logout()
+                            R.id.profileDeactivate -> deactivateAccount()
+                            R.id.profileGenerateFakeData -> openDataGenerator()
+                        }
+                    }
+                    addItemDecoration(DividerItemDecorator(ContextCompat.getDrawable(requireContext(), R.drawable.menu_divider)!!))
+                }
             }
-            dialog.show()
         }
+    }
+
+    private fun openDataGenerator() {
+        startActivity(Intent(requireContext(), DataGenerator::class.java))
     }
 
     private fun handleAnimation(view: View) {
@@ -231,8 +214,8 @@ class ProfileFragment : ANavigationFragment(FragmentType.PROFILE), DatePickerDia
         view?.hypoglycemiaProfileInput?.setText(biometric.hypoglycemia?.toString())
         view?.birthDateProfileInput?.setText(TimeHandler.instance.changeTimeFormat(
             biometric.date_of_birth,
-            context?.getString(R.string.format_date_api)!!,
-            context?.getString(R.string.format_date_birth)!!))
+            getString(R.string.format_date_api),
+            getString(R.string.format_date_birth)))
         view?.diabetesTypeProfileDropdown?.setText(biometric.getDiabetesType(requireContext()))
         view?.sexProfileDropdown?.setText(biometric.getSex(requireContext()))
     }
@@ -267,14 +250,15 @@ class ProfileFragment : ANavigationFragment(FragmentType.PROFILE), DatePickerDia
         biometric.hyperglycemia = view?.hyperglycemiaProfileInput?.text.toString().toIntOrNull()
         biometric.date_of_birth = TimeHandler.instance.changeTimeFormat(
             view?.birthDateProfileInput?.text.toString(),
-            context?.getString(R.string.format_date_birth)!!,
-            context?.getString(R.string.format_date_api)!!)
+            getString(R.string.format_date_birth),
+            getString(R.string.format_date_api))
         biometric.setSex(requireContext(), view?.sexProfileDropdown?.text.toString())
         biometric.setDiabetesType(requireContext(), view?.diabetesTypeProfileDropdown?.text.toString())
         loading = true
         BiometricService.instance.update(biometric).doOnSuccess {
             if (it.second.component2() == null) {
-                UserManager.instance.saveBiometric(requireContext(), it.second.component1()!!)
+                it.second.component1()?.date_of_birth = biometric.date_of_birth //TODO remove when returned date_of_birth format is correct
+                UserManager.instance.saveBiometric(requireContext(), it.second.component1() ?: BiometricObject())
                 Toast.makeText(context, getString(R.string.update_profile), Toast.LENGTH_SHORT).show()
             } else {
                 Toast.makeText(context, it.second.component2()!!.exception.message, Toast.LENGTH_SHORT).show()
@@ -309,49 +293,47 @@ class ProfileFragment : ANavigationFragment(FragmentType.PROFILE), DatePickerDia
         }.subscribe()
     }
 
+    private fun changeDarkMode() {
+        if (ModeManager.instance.getDarkMode(requireContext()) == AppCompatDelegate.MODE_NIGHT_NO) {
+            ModeManager.instance.saveDarkMode(requireContext(), AppCompatDelegate.MODE_NIGHT_YES)
+        } else {
+            ModeManager.instance.saveDarkMode(requireContext(), AppCompatDelegate.MODE_NIGHT_NO)
+        }
+        (requireActivity() as ADiabetipsActivity).changeTheme()
+        NavigationActivity.defaultFragmentSelect = FragmentType.PROFILE
+    }
+
     private fun openSettings() {
         startActivity(Intent(context, SettingsActivity::class.java))
     }
 
     private fun logout() {
-        val dialogView = layoutInflater.inflate(R.layout.dialog_logout, null)
-        MaterialHandler.instance.handleTextInputLayoutSize(dialogView as ViewGroup)
-        val dialog = AlertDialog.Builder(context).setView(dialogView).create()
-        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        dialogView.logoutNegativeButton.setOnClickListener {
-            dialog.dismiss()
-        }
-        dialogView.logoutPositiveButton.setOnClickListener {
-            dialog.dismiss()
+        DialogHandler.dialogConfirm(requireContext(), layoutInflater, R.string.logout_confirm) {
             UserManager.instance.removePreferences(requireContext())
             AuthManager.instance.removePreferences(requireContext())
             Toast.makeText(context, getString(R.string.logout), Toast.LENGTH_SHORT).show()
             activity?.finish()
         }
-        dialog.show()
     }
 
     private fun deactivateAccount() {
-        val dialogView = layoutInflater.inflate(R.layout.dialog_deactivate_account, null)
-        MaterialHandler.instance.handleTextInputLayoutSize(dialogView as ViewGroup)
-        val dialog = AlertDialog.Builder(context).setView(dialogView).create()
-        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        dialogView.deactivateAccountNegativeButton.setOnClickListener {
-            dialog.dismiss()
+        DialogHandler.createDialog(requireContext(), layoutInflater, R.layout.dialog_deactivate_account) { view, dialog ->
+            view.deactivateAccountCloseButton.setOnClickListener {
+                dialog.dismiss()
+            }
+            view.deactivateAccountConfirmButton.setOnClickListener {
+                UserService.instance.remove<UserObject>("me").doOnSuccess {
+                    if (it.second.component2() == null) {
+                        UserManager.instance.removePreferences(requireContext())
+                        AuthManager.instance.removePreferences(requireContext())
+                        Toast.makeText(context, getString(R.string.deactivated), Toast.LENGTH_SHORT).show()
+                        activity?.finish()
+                    } else {
+                        Toast.makeText(context, it.second.component2()!!.exception.message, Toast.LENGTH_SHORT).show()
+                    }
+                }.subscribe()
+            }
         }
-        dialogView.deactivateAccountPositiveButton.setOnClickListener {
-            dialog.dismiss()
-            UserService.instance.remove<UserObject>("me").doOnSuccess {
-                if (it.second.component2() == null) {
-                    AuthManager.instance.removePreferences(requireContext())
-                    Toast.makeText(context, getString(R.string.deactivated), Toast.LENGTH_SHORT).show()
-                    activity?.finish()
-                } else {
-                    Toast.makeText(context, it.second.component2()!!.exception.message, Toast.LENGTH_SHORT).show()
-                }
-            }.subscribe()
-        }
-        dialog.show()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -368,11 +350,5 @@ class ProfileFragment : ANavigationFragment(FragmentType.PROFILE), DatePickerDia
 
     override fun isLoading(): Boolean {
         return loading
-    }
-
-    override fun onDateSet(view: DatePickerDialog?, year: Int, monthOfYear: Int, dayOfMonth: Int) {
-        this.view?.birthDateProfileInput?.setText(TimeHandler.instance.formatTimestamp(
-            TimeHandler.instance.getTimestampDate(year, monthOfYear, dayOfMonth),
-            requireContext().getString(R.string.format_date_birth)))
     }
 }

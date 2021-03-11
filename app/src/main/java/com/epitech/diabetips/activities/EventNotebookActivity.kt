@@ -1,19 +1,20 @@
 package com.epitech.diabetips.activities
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.epitech.diabetips.R
 import com.epitech.diabetips.adapters.DashboardGroupedItemsAdapter
 import com.epitech.diabetips.storages.EntryObject
 import com.epitech.diabetips.managers.EntriesManager
-import com.epitech.diabetips.utils.ADiabetipsActivity
-import com.epitech.diabetips.utils.PaginationScrollListener
-import com.epitech.diabetips.utils.TimeHandler
+import com.epitech.diabetips.utils.*
 import kotlin.collections.ArrayList
 import kotlinx.android.synthetic.main.activity_event_notebook.*
 import org.threeten.bp.LocalDate
 import org.threeten.bp.ZoneOffset
 import org.threeten.bp.format.DateTimeFormatter
+import java.util.*
 
 class EventNotebookActivity : ADiabetipsActivity(R.layout.activity_event_notebook) {
     private lateinit var entriesManager: EntriesManager
@@ -28,12 +29,14 @@ class EventNotebookActivity : ADiabetipsActivity(R.layout.activity_event_noteboo
 
     private fun setupEntriesManager() {
         entriesManager = EntriesManager(context = this) { items, reset ->
-                setItemsInDashBoardAdapter(reset, items)
+                setItemsInDashBoardAdapter(items, reset)
             }
-        entriesManager.deactivate(EntryObject.Type.SUGAR)
+        entriesManager.deactivate(ObjectType.SUGAR)
+        val now = TimeHandler.instance.currentTimeFormat(getString(R.string.format_time_api))
         entriesManager.getPage()?.setInterval(
-            LocalDate.now(ZoneOffset.UTC).atStartOfDay().minusDays(7).format(DateTimeFormatter.ISO_DATE_TIME),
-            LocalDate.now(ZoneOffset.UTC).atStartOfDay().plusDays(2).format(DateTimeFormatter.ISO_DATE_TIME))
+            this,
+            TimeHandler.instance.addTimeToFormat(now, getString(R.string.format_time_api), -7, Calendar.DAY_OF_YEAR),
+            TimeHandler.instance.addTimeToFormat(now, getString(R.string.format_time_api), 2, Calendar.DAY_OF_YEAR))
         entriesManager.updatePages()
     }
 
@@ -65,7 +68,7 @@ class EventNotebookActivity : ADiabetipsActivity(R.layout.activity_event_noteboo
         entriesManager.getItems(resetPage)
     }
 
-    private fun setItemsInDashBoardAdapter(resetPage: Boolean, items: Array<EntryObject>) {
+    private fun setItemsInDashBoardAdapter(items: Array<EntryObject>, resetPage: Boolean) {
         val newItems = ArrayList(items.sortedByDescending{it.time}.toTypedArray().groupBy {
             TimeHandler.instance.changeTimeFormat(it.time, getString(R.string.format_time_api), getString(R.string.format_date_dashboard))
         }.toList())
@@ -75,5 +78,12 @@ class EventNotebookActivity : ADiabetipsActivity(R.layout.activity_event_noteboo
             return entriesManager.getItems(false)
         }
         itemsSwipeRefresh.isRefreshing = false
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == Activity.RESULT_OK && requestCode == RequestCode.UPDATE_MEAL.ordinal) {
+            getItems()
+        }
     }
 }

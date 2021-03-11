@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    style="@style/EmptyBackgroundTheme">
+
+    <LinearLayout
+        android:id="@+id/dialogActivityLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:orientation="vertical"
+        style="@style/EmptyBackgroundTheme">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/dialogActivityTextLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="@dimen/margin_size"
+            style="@style/BackgroundDialogTheme">
+
+            <TextView
+                android:id="@+id/dialogActivityTitle"
+                style="@style/SubtitleTheme"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_size"
+                android:layout_marginTop="@dimen/half_margin_size"
+                android:text="@string/add_activity"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/dialogActivityTimeLayout"
+                style="@style/EmptyBackgroundTheme"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="@dimen/quarter_margin_size"
+                app:layout_constraintTop_toBottomOf="@+id/dialogActivityTitle">
+
+                <ImageButton
+                    android:id="@+id/dialogActivityTimeImage"
+                    style="@style/ImageButtonTransparentTheme"
+                    android:clickable="false"
+                    android:layout_marginStart="@dimen/margin_size"
+                    android:contentDescription="@string/placeholder_text"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_time" />
+
+                <TextView
+                    android:id="@+id/dialogActivityTimeDate"
+                    style="@style/TextAltTheme"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="@dimen/margin_size"
+                    android:layout_marginStart="@dimen/half_margin_size"
+                    android:text="@string/placeholder_text"
+                    app:layout_constraintStart_toEndOf="@+id/dialogActivityTimeImage"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"/>
+
+                <TextView
+                    android:id="@+id/dialogActivityTimeHour"
+                    style="@style/TextAltTheme"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="@dimen/margin_size"
+                    android:text="@string/placeholder_hour"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/dialogActivityTypeInputLayout"
+                style="@style/TextInputLayoutTheme"
+                android:layout_width="match_parent"
+                android:layout_marginTop="@dimen/quarter_margin_size"
+                android:hint="@string/activity_type"
+                android:labelFor="@id/dialogActivityTypeInput"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/dialogActivityTimeLayout">
+
+                <AutoCompleteTextView
+                    android:id="@+id/dialogActivityTypeInput"
+                    style="@style/AutocompleteTheme"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="text|textCapSentences"
+                    android:imeOptions="actionNext"
+                    android:nextFocusForward="@+id/dialogActivityDurationInput"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:id="@+id/dialogActivityDurationLabel"
+                style="@style/HintAltTheme"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/big_margin_size"
+                android:text="@string/select_duration_input"
+                app:layout_constraintBottom_toTopOf="@+id/dialogActivityDurationInputLayout"
+                app:layout_constraintStart_toStartOf="parent"/>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/dialogActivityDurationInputLayout"
+                style="@style/TextInputNoHintLayoutTheme"
+                android:layout_width="match_parent"
+                app:startIconDrawable="@drawable/ic_time"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/dialogActivityTypeInputLayout">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/dialogActivityDurationInput"
+                    style="@style/TextInputTheme"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="textEnd"
+                    android:imeOptions="actionDone" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:id="@+id/dialogActivityIntensityLabel"
+                style="@style/HintAltTheme"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/big_margin_size"
+                android:text="@string/select_intensity_input"
+                app:layout_constraintTop_toBottomOf="@+id/dialogActivityDurationInputLayout"
+                app:layout_constraintStart_toStartOf="parent"/>
+
+            <androidx.appcompat.widget.AppCompatSeekBar
+                android:id="@+id/dialogActivityIntensityInput"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/quarter_margin_size"
+                android:layout_marginStart="@dimen/margin_size"
+                android:layout_marginEnd="@dimen/margin_size"
+                android:thumbTint="@color/colorPrimary"
+                android:progressTint="@color/colorPrimary"
+                android:progressBackgroundTint="@color/colorPrimaryLight"
+                android:max="10"
+                app:layout_constraintTop_toBottomOf="@+id/dialogActivityIntensityLabel"/>
+
+            <TextView
+                android:id="@+id/dialogActivityIntensityText"
+                style="@style/TextTheme"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/quarter_margin_size"
+                android:text="@string/select_intensity_input"
+                app:layout_constraintTop_toBottomOf="@+id/dialogActivityIntensityInput"
+                app:layout_constraintStart_toStartOf="@+id/dialogActivityIntensityInput"
+                app:layout_constraintEnd_toEndOf="@+id/dialogActivityIntensityInput" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <LinearLayout
+            android:id="@+id/dialogActivityButtonLayout"
+            style="@style/EmptyBackgroundTheme"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="start"
+            android:layout_marginTop="@dimen/negative_margin_size"
+            android:padding="@dimen/half_margin_size">
+
+            <ImageButton
+                android:id="@+id/dialogActivityDeleteButton"
+                style="@style/ImageButtonWarmTheme"
+                android:layout_marginStart="@dimen/half_margin_size"
+                android:contentDescription="@string/delete"
+                android:src="@drawable/ic_delete"/>
+
+            <LinearLayout
+                android:id="@+id/dialogActivityButtonSubLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="end"
+                style="@style/EmptyBackgroundTheme">
+
+                <ImageButton
+                    android:id="@+id/dialogActivityNegativeButton"
+                    style="@style/ImageButtonTheme"
+                    android:layout_marginEnd="@dimen/half_margin_size"
+                    android:contentDescription="@string/placeholder_text"
+                    android:src="@drawable/ic_close"/>
+
+                <ImageButton
+                    android:id="@+id/dialogActivityPositiveButton"
+                    style="@style/ImageButtonAltTheme"
+                    android:layout_marginEnd="@dimen/half_margin_size"
+                    android:contentDescription="@string/placeholder_text"
+                    android:src="@drawable/ic_check"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

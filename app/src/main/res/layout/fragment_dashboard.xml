@@ -67,38 +67,38 @@
     </com.google.android.material.card.MaterialCardView>
 
     <com.google.android.material.card.MaterialCardView
-        android:id="@+id/dashboardGlucoseCard"
+        android:id="@+id/dashboardGlucoseCurveCard"
         style="@style/BackgroundCardTheme"
-        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dashboard_button_size"
+        android:visibility="gone"
         app:layout_constraintTop_toBottomOf="@+id/dashboardEventNotebookCard">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/dashboardGlucoseLayout"
+            android:id="@+id/dashboardGlucoseCurveLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/dashboardGlucoseText"
+                android:id="@+id/dashboardGlucoseCurveText"
                 style="@style/SubtitleTheme"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_marginStart="@dimen/half_margin_size"
-                android:text="@string/glucose_average_title"
+                android:text="@string/glucose_curve_title"
                 android:gravity="center_vertical"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/dashboardGlucoseImage"/>
+                app:layout_constraintEnd_toStartOf="@id/dashboardGlucoseCurveImage"/>
 
             <ImageView
-                android:id="@+id/dashboardGlucoseImage"
+                android:id="@+id/dashboardGlucoseCurveImage"
                 android:layout_width="@dimen/dashboard_image_size"
                 android:layout_height="match_parent"
                 android:layout_marginEnd="@dimen/half_margin_size"
                 android:contentDescription="@string/placeholder_text"
                 android:scaleType="centerCrop"
-                android:src="@drawable/ic_glucose"
+                android:src="@drawable/ic_glucose_curve"
                 app:layout_constraintEnd_toEndOf="parent"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -106,11 +106,124 @@
     </com.google.android.material.card.MaterialCardView>
 
     <com.google.android.material.card.MaterialCardView
+        android:id="@+id/dashboardGlucoseChartCard"
+        style="@style/BackgroundCardTheme"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dashboard_button_size"
+        app:layout_constraintTop_toBottomOf="@+id/dashboardGlucoseCurveCard">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/dashboardGlucoseChartLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/dashboardGlucoseChartText"
+                style="@style/SubtitleTheme"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="@dimen/half_margin_size"
+                android:text="@string/glucose_average_title"
+                android:gravity="center_vertical"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/dashboardGlucoseChartImage"/>
+
+            <ImageView
+                android:id="@+id/dashboardGlucoseChartImage"
+                android:layout_width="@dimen/dashboard_image_size"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="@dimen/half_margin_size"
+                android:contentDescription="@string/placeholder_text"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_glucose_chart"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/dashboardInsulinQuantityCard"
+        style="@style/BackgroundCardTheme"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dashboard_button_size"
+        app:layout_constraintTop_toBottomOf="@+id/dashboardGlucoseChartCard">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/dashboardInsulinQuantityLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/dashboardInsulinQuantityText"
+                style="@style/SubtitleTheme"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="@dimen/half_margin_size"
+                android:gravity="center_vertical"
+                android:text="@string/insulin_quantity_title"
+                app:layout_constraintEnd_toStartOf="@id/dashboardInsulinQuantityImage"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <ImageView
+                android:id="@+id/dashboardInsulinQuantityImage"
+                android:layout_width="@dimen/dashboard_image_size"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="@dimen/half_margin_size"
+                android:contentDescription="@string/placeholder_text"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_dashboard_icon_insulin"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/dashboardBloodSugarLevelRangesCard"
+        style="@style/BackgroundCardTheme"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dashboard_button_size"
+        app:layout_constraintTop_toBottomOf="@+id/dashboardInsulinQuantityCard">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/dashboardBloodSugarLevelRangesLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/dashboardBloodSugarLevelRangesText"
+                style="@style/SubtitleTheme"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="@dimen/half_margin_size"
+                android:gravity="center_vertical"
+                android:text="@string/blood_sugar_level_ranges_title"
+                app:layout_constraintEnd_toStartOf="@id/dashboardBloodSugarLevelRangesImage"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <ImageView
+                android:id="@+id/dashboardBloodSugarLevelRangesImage"
+                android:layout_width="@dimen/dashboard_image_size"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="@dimen/half_margin_size"
+                android:contentDescription="@string/placeholder_text"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_dashboard_icon_sugar_ranges"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.card.MaterialCardView
         android:id="@+id/dashboardHemoglobinCard"
         style="@style/BackgroundCardTheme"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dashboard_button_size"
-        app:layout_constraintTop_toBottomOf="@+id/dashboardGlucoseCard">
+        app:layout_constraintTop_toBottomOf="@+id/dashboardBloodSugarLevelRangesCard">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/dashboardHemoglobinLayout"
@@ -142,8 +255,5 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </com.google.android.material.card.MaterialCardView>
-
-
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/ClearBackgroundTheme"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.BloodSugarLevelRangesActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/bloodSugarRangesActionPie"
+        style="@style/ActionBarTheme"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageButton
+            android:id="@+id/closeBloodSugarRangesButton"
+            style="@style/ImageButtonTransparentTheme"
+            android:layout_marginStart="@dimen/half_margin_size"
+            android:contentDescription="@string/placeholder_text"
+            android:src="@drawable/ic_back"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/titleBloodSugarRangesText"
+            style="@style/SubtitleTheme"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/half_margin_size"
+            android:text="@string/blood_sugar_level_ranges_title"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/closeBloodSugarRangesButton"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/bloodSugarRangesTimeInputLayout"
+        style="@style/DropdownInputNoHintLayoutTheme"
+        android:layout_marginTop="@dimen/half_margin_size"
+        android:layout_width="match_parent"
+        android:hint="@string/time_range_input"
+        android:labelFor="@id/bloodSugarRangesTimeDropdown"
+        app:layout_constraintTop_toBottomOf="@id/bloodSugarRangesActionPie">
+
+        <AutoCompleteTextView
+            android:id="@+id/bloodSugarRangesTimeDropdown"
+            style="@style/DropdownTheme"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView
+        android:id="@+id/bloodSugarRangesChartUnit"
+        style="@style/HintAltTheme"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/select_percentage_input"
+        android:elevation="@dimen/shadow_size"
+        app:layout_constraintEnd_toEndOf="@id/averagePieChart"
+        app:layout_constraintTop_toTopOf="@id/averagePieChart"/>
+
+    <com.epitech.diabetips.utils.DetailPieChart
+        android:id="@+id/averagePieChart"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginStart="@dimen/margin_size"
+        android:layout_marginEnd="@dimen/margin_size"
+        android:layout_marginBottom="@dimen/half_margin_size"
+        app:layout_constraintTop_toBottomOf="@id/bloodSugarRangesTimeInputLayout"
+        app:layout_constraintBottom_toTopOf="@id/targetBarChart" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/targetBarChart"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginStart="@dimen/margin_size"
+        android:layout_marginEnd="@dimen/margin_size"
+        android:layout_marginBottom="@dimen/half_margin_size"
+        app:layout_constraintTop_toBottomOf="@id/averagePieChart"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <TextView
+            android:id="@+id/hyperglycemiaText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/SubtitleTheme"
+            android:text="@string/target_hyper"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <ProgressBar
+            android:id="@+id/hyperglycemiaProgressBar"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            android:progressDrawable="@drawable/progress_bar_dark"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/input_size"
+            android:elevation="@dimen/shadow_size"
+            android:indeterminate="false"
+            android:max="100"
+            android:progress="100"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/hyperglycemiaText"/>
+
+        <TextView
+            android:id="@+id/hyperglycemiaProgressText"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical|end"
+            style="@style/SubtitleDarkTheme"
+            android:text="@string/placeholder_percent"
+            android:elevation="@dimen/shadow_size"
+            android:layout_marginEnd="@dimen/half_margin_size"
+            app:layout_constraintTop_toTopOf="@id/hyperglycemiaProgressBar"
+            app:layout_constraintBottom_toBottomOf="@id/hyperglycemiaProgressBar"
+            app:layout_constraintEnd_toEndOf="@id/hyperglycemiaProgressBar"/>
+
+        <TextView
+            android:id="@+id/inTargetText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/SubtitleTheme"
+            android:text="@string/target_in"
+            android:layout_marginTop="@dimen/quarter_margin_size"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/hyperglycemiaProgressBar"/>
+
+        <ProgressBar
+            android:id="@+id/inTargetProgressBar"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            android:progressDrawable="@drawable/progress_bar_primary"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/input_size"
+            android:elevation="@dimen/shadow_size"
+            android:indeterminate="false"
+            android:max="100"
+            android:progress="100"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/inTargetText"/>
+
+        <TextView
+            android:id="@+id/inTargetProgressText"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical|end"
+            style="@style/SubtitleDarkTheme"
+            android:text="@string/placeholder_percent"
+            android:elevation="@dimen/shadow_size"
+            android:layout_marginEnd="@dimen/half_margin_size"
+            app:layout_constraintTop_toTopOf="@id/inTargetProgressBar"
+            app:layout_constraintBottom_toBottomOf="@id/inTargetProgressBar"
+            app:layout_constraintEnd_toEndOf="@id/inTargetProgressBar"/>
+
+        <TextView
+            android:id="@+id/hypoglycemiaText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/SubtitleTheme"
+            android:text="@string/target_hypo"
+            android:layout_marginTop="@dimen/quarter_margin_size"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/inTargetProgressBar"/>
+
+        <ProgressBar
+            android:id="@+id/hypoglycemiaProgressBar"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            android:progressDrawable="@drawable/progress_bar_accent"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/input_size"
+            android:elevation="@dimen/shadow_size"
+            android:indeterminate="false"
+            android:max="100"
+            android:progress="100"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/hypoglycemiaText"/>
+
+        <TextView
+            android:id="@+id/hypoglycemiaProgressText"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical|end"
+            style="@style/SubtitleDarkTheme"
+            android:text="@string/placeholder_percent"
+            android:elevation="@dimen/shadow_size"
+            android:layout_marginEnd="@dimen/half_margin_size"
+            app:layout_constraintTop_toTopOf="@id/hypoglycemiaProgressBar"
+            app:layout_constraintBottom_toBottomOf="@id/hypoglycemiaProgressBar"
+            app:layout_constraintEnd_toEndOf="@id/hypoglycemiaProgressBar"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

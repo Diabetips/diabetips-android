@@ -5,7 +5,7 @@
     style="@style/BackgroundHomeTheme"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.NewMealActivity">
+    tools:context=".activities.NewEntryActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/newEntryActionBar"
@@ -136,8 +136,8 @@
                         android:layout_height="wrap_content"
                         android:text="@string/total_sugar"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintBottom_toTopOf="@+id/entryMealQuantityTitle"
-                        app:layout_constraintTop_toBottomOf="@+id/entryMealQuantityTitle" />
+                        app:layout_constraintTop_toTopOf="@+id/entryMealQuantityTitle"
+                        app:layout_constraintBottom_toBottomOf="@+id/entryMealQuantityTitle" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -206,6 +206,32 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/newActivityButton"
+                style="@style/MaterialButtonAltTheme"
+                android:layout_width="match_parent"
+                android:layout_marginTop="@dimen/quarter_margin_size"
+                android:layout_marginBottom="@dimen/quarter_margin_size"
+                android:text="@string/add_activity"
+                app:icon="@drawable/ic_run"
+                android:visibility="visible"
+                android:layout_gravity="center_horizontal"/>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/activityEntryInputLayout"
+                style="@style/EditInputLayoutTheme"
+                android:layout_width="match_parent"
+                android:visibility="gone"
+                android:hint="@string/activity">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/activityEntryInput"
+                    style="@style/TextInputTheme"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/commentEntryInputLayout"
                 style="@style/TextInputLayoutTheme"
@@ -217,27 +243,9 @@
                     style="@style/TextInputTheme"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="textMultiLine"
+                    android:inputType="textMultiLine|textCapSentences"
                     android:imeOptions="actionNext"
-                    android:nextFocusForward="@+id/physicalActivityEntryInput" />
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/physicalActivityEntryInputLayout"
-                style="@style/TextInputLayoutTheme"
-                android:layout_width="match_parent"
-                android:hint="@string/physical_activity_input"
-                app:suffixText="@string/unit_minute">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/physicalActivityEntryInput"
-                    style="@style/TextInputTheme"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="number"
-                    android:imeOptions="actionNext"
-                    android:nextFocusForward="@+id/insulinFastEntryInput" />
+                    android:nextFocusForward="@+id/insulinFastEntryInputLayout" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -254,7 +262,8 @@
                     android:layout_marginStart="0dp"
                     android:layout_marginEnd="@dimen/half_margin_size"
                     android:hint="@string/insulin_fast_input"
-                    app:suffixText="@string/unit_unit"
+                    android:maxLength="@integer/glycemia_max_length"
+                    app:suffixText="@string/unit_units"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/calculateInsulinButton"
                     app:layout_constraintTop_toTopOf="parent">
@@ -264,6 +273,7 @@
                         style="@style/TextInputTheme"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:maxLength="@integer/glycemia_max_length"
                         android:inputType="number"
                         android:imeOptions="actionNext"
                         android:nextFocusForward="@+id/insulinSlowEntryInput" />
@@ -284,29 +294,52 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <TextView
-                android:id="@+id/calculateInsulinQuantity"
-                style="@style/SubtitleTheme"
-                android:layout_width="wrap_content"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/calculateInsulinResultLayout"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:visibility="gone"
-                android:layout_marginTop="@dimen/quarter_margin_size"
+                android:layout_marginTop="@dimen/negative_half_margin_size"
                 android:layout_marginBottom="@dimen/quarter_margin_size"
-                android:text="@string/unit_units"
-                android:layout_gravity="center_horizontal" />
+                android:layout_marginStart="@dimen/margin_size"
+                android:layout_marginEnd="@dimen/margin_size"
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/calculateInsulinResultTime"
+                    style="@style/HintAltTheme"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:text="@string/placeholder_hour"/>
+
+                <TextView
+                    android:id="@+id/calculateInsulinResult"
+                    style="@style/SubtitleAccentTheme"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:text="@string/placeholder_number"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/insulinSlowEntryInputLayout"
                 style="@style/TextInputLayoutTheme"
                 android:layout_width="match_parent"
+                android:maxLength="@integer/glycemia_max_length"
                 android:hint="@string/insulin_slow_input"
-                app:suffixText="@string/unit_unit">
+                app:suffixText="@string/unit_units">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/insulinSlowEntryInput"
                     style="@style/TextInputTheme"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:maxLength="@integer/glycemia_max_length"
                     android:inputType="number"/>
 
             </com.google.android.material.textfield.TextInputLayout>

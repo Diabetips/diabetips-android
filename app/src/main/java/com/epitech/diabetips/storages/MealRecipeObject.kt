@@ -53,21 +53,36 @@ data class MealRecipeObject (
         return quantity * portion / recipe.portions
     }
 
+    fun getNutriscore(): Float {
+        var nutriScore = 0f
+        var quantity = 0f
+        getIngredients().forEach { ingredient ->
+            if (ingredient.food.nutriscore != null && ingredient.quantity > 0f) {
+                quantity += ingredient.quantity
+                nutriScore += ingredient.food.nutriscore!![0].toFloat() * ingredient.quantity
+            }
+        }
+        return if (quantity > 0) nutriScore / quantity else 0f
+    }
+
     fun getNutritionalValues(portion: Float = portions_eaten) : ArrayList<NutritionalObject> {
         val nutritionalValues = NutritionalObject.getDefaultValues()
         getIngredients().forEach { ingredient ->
             ingredient.getNutritionalValues().forEach { ingredientNutrition ->
-                val index = nutritionalValues.indexOfFirst { it.type == ingredientNutrition.type }
-                if (index >= 0) {
-                    nutritionalValues[index].value += ingredientNutrition.value
-                } else {
-                    nutritionalValues.add(ingredientNutrition)
+                if (ingredientNutrition.type != NutritionalObject.NutritionalType.NUTRI_SCORE) {
+                    val index = nutritionalValues.indexOfFirst { it.type == ingredientNutrition.type }
+                    if (index >= 0) {
+                        nutritionalValues[index].value += ingredientNutrition.value
+                    } else {
+                        nutritionalValues.add(ingredientNutrition)
+                    }
                 }
             }
         }
         nutritionalValues.forEach { nutrition ->
             nutrition.value *= if (recipe.portions == 0f) 0f else (portion / recipe.portions)
         }
+        nutritionalValues.add(NutritionalObject(NutritionalObject.NutritionalType.NUTRI_SCORE, getNutriscore()))
         return nutritionalValues
     }
 }

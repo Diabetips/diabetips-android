@@ -7,7 +7,6 @@ import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import com.google.gson.Gson
 
-
 class FirebaseNotificationService : FirebaseMessagingService() {
 
     /**
@@ -30,12 +29,10 @@ class FirebaseNotificationService : FirebaseMessagingService() {
         Log.d("FirebaseNotification", "From: ${remoteMessage.from}")
         // Check if message contains a data payload.
         if (remoteMessage.data.isNotEmpty()) {
-            Log.d("FirebaseNotification", "Message data payload: ${remoteMessage.data}")
-            Gson().fromJson(remoteMessage.data["notification"].toString(), NotificationObject::class.java).send(this)
-        }
-        // Check if message contains a notification payload.
-        remoteMessage.notification?.let {
-            Log.d("FirebaseNotification", "Message Notification Body: ${it.body}")
+            Log.d("FirebaseNotification", "Title: ${remoteMessage.notification?.title}")
+            val notification = Gson().fromJson(remoteMessage.data.toString(), NotificationObject::class.java)
+            notification.data = remoteMessage.data.toString()
+            notification.send(this, remoteMessage.notification?.title, remoteMessage.notification?.body)
         }
     }
 

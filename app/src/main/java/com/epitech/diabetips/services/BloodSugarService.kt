@@ -1,7 +1,6 @@
 package com.epitech.diabetips.services
 
-import com.epitech.diabetips.storages.BloodSugarObject
-import com.epitech.diabetips.storages.PaginationObject
+import com.epitech.diabetips.storages.*
 
 class BloodSugarService : AService("/users/me/blood_sugar") {
 
@@ -15,13 +14,28 @@ class BloodSugarService : AService("/users/me/blood_sugar") {
         return getRequest("?${page.getRequestParameters()}")
     }
 
-    fun getMeasures(timestamp: Int) : FuelResponse<BloodSugarObject> {
+    fun deleteAllMeasures(start: String = "", end: String = "") : FuelResponse<BloodSugarObject> {
+        return deleteRequest("?start=${start}&end=${end}")
+    }
 
-        return getRequest()
+    fun getLastMeasure() : FuelResponse<BloodSugarObject> {
+        return getRequest("/last")
     }
 
     fun postMeasures(biometric: BloodSugarObject) : FuelResponse<BloodSugarObject> {
         return putRequest(biometric)
+    }
+
+    fun getRangesPercentage(calculationOption: CalculationOptionObject): FuelResponse<BloodSugarRangesPercentageObject> {
+        return getRequest("/target?" + calculationOption.getRequestParameters())
+    }
+
+    fun getCalculations(calculationOption: CalculationOptionObject) : FuelResponse<CalculationObject> {
+        return getRequest("/calculations?" + calculationOption.getRequestParameters())
+    }
+
+    fun getAggregateCalculations(calculationOption: CalculationOptionObject) : FuelResponse<AggregateCalculationObject> {
+        return getRequest("/calculations/aggregate?" + calculationOption.getRequestParameters())
     }
 
 }

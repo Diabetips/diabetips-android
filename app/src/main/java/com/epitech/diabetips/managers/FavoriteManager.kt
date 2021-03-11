@@ -8,6 +8,7 @@ import androidx.core.content.ContextCompat
 import com.epitech.diabetips.R
 import com.epitech.diabetips.services.*
 import com.epitech.diabetips.storages.*
+import com.epitech.diabetips.utils.MaterialHandler
 
 class FavoriteManager {
 
@@ -82,11 +83,7 @@ class FavoriteManager {
             imageView.setColorFilter(ContextCompat.getColor(context!!, R.color.colorAccent))
             imageView.setImageDrawable(ContextCompat.getDrawable(context!!, R.drawable.ic_favorite))
         } else {
-            val attribute = intArrayOf(R.attr.colorBackgroundText)
-            val array = context!!.theme.obtainStyledAttributes(attribute)
-            val color = array.getColor(0, ContextCompat.getColor(context!!, R.color.colorTextDark))
-            array.recycle()
-            imageView.setColorFilter(color)
+            imageView.setColorFilter(MaterialHandler.getColorFromAttribute(context!!, R.attr.colorBackgroundText))
             imageView.setImageDrawable(ContextCompat.getDrawable(context!!, R.drawable.ic_favorite_border))
         }
     }

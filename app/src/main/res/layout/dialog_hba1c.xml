@@ -83,7 +83,7 @@
                 style="@style/RemoveInputLayoutTheme"
                 android:layout_width="match_parent"
                 android:layout_marginTop="@dimen/quarter_margin_size"
-                android:hint="@string/select_quantity_input"
+                android:hint="@string/select_percentage_input"
                 android:maxLength="@integer/hba1c_max_length"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -95,7 +95,8 @@
                     android:maxLength="@integer/hba1c_max_length"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="numberDecimal" />
+                    android:inputType="numberDecimal"
+                    android:imeOptions="actionDone" />
 
             </com.google.android.material.textfield.TextInputLayout>
 

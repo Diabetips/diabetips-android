@@ -15,8 +15,6 @@ class NutritionalAdapter(private val nutritions: ArrayList<NutritionalObject> = 
         sortNutritions()
     }
 
-    private val selectedIngredients: ArrayList<IngredientObject> = arrayListOf()
-
     fun setNutritions(nutritionList: ArrayList<NutritionalObject>, newQuantity: Float = quantity) {
         quantity = newQuantity
         nutritions.clear()

@@ -3,7 +3,7 @@
         <item name="statusBarBackground">@null</item>
     </style>
 
-    <style name="MaterialTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="MaterialTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="colorPrimaryVariant">@color/colorPrimary</item>
         <item name="colorSecondaryVariant">@color/colorAccent</item>
         <item name="colorSurface">@color/colorBackground</item>
@@ -33,14 +33,17 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="colorWarm">@color/colorWarm</item>
         <item name="colorBackground">@color/colorBackground</item>
+        <item name="colorDialogBackground">@color/colorBackground</item>
         <item name="colorMainBackground">@color/colorPrimary</item>
         <item name="colorInputBackground">@color/colorBackground</item>
         <item name="colorNavigationBackground">@color/colorPrimaryLight</item>
         <item name="colorSearchBackground">@color/colorBackgroundSearch</item>
+        <item name="colorDarkBackground">@color/colorBackgroundSearch</item>
         <item name="colorCardBackground">@color/colorBackgroundCard</item>
         <item name="colorText">@color/colorTextDark</item>
         <item name="colorBackgroundText">@color/colorTextDark</item>
         <item name="colorNavigationText">@color/colorPrimary</item>
+        <item name="colorComment">@color/colorBackgroundDarkLight</item>
         <item name="colorHint">@color/colorHint</item>
         <item name="colorTextButton">@color/colorText</item>
         <item name="colorDivider">@color/colorDivider</item>
@@ -52,11 +55,14 @@
 
     <style name="DarkTheme" parent="AppTheme">
         <item name="colorBackground">@color/colorBackgroundDark</item>
+        <item name="colorDialogBackground">@color/colorBackgroundDarkLight</item>
         <item name="colorMainBackground">@color/colorBackgroundDarkLight</item>
         <item name="colorNavigationBackground">@color/colorBackgroundDarkLight</item>
         <item name="colorCardBackground">@color/colorBackgroundDarkLight</item>
+        <item name="colorDarkBackground">@color/colorBackgroundDarkGray</item>
         <item name="colorBackgroundText">@color/colorText</item>
         <item name="colorNavigationText">@color/colorText</item>
+        <item name="colorComment">@color/colorBackgroundSearch</item>
         <item name="imageBackground">@drawable/ic_background_black</item>
         <item name="imageMainBackground">@drawable/ic_background_black</item>
         <item name="imageHomeBackground">@drawable/ic_background_logo_black</item>
@@ -112,6 +118,11 @@
         <item name="cardCornerRadius">@dimen/margin_size</item>
     </style>
 
+    <style name="BackgroundCardAltTheme" parent="BackgroundTheme">
+        <item name="cardBackgroundColor">?attr/colorPrimary</item>
+        <item name="cardCornerRadius">@dimen/margin_size</item>
+    </style>
+
     <style name="BackgroundCardColorTheme">
         <item name="android:colorBackground">?attr/colorCardBackground</item>
     </style>
@@ -141,6 +152,12 @@
     <style name="ActionBarTheme" parent="ClearBackgroundTheme">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">@dimen/action_bar_height</item>
+        <item name="android:elevation">@dimen/shadow_size</item>
+    </style>
+
+    <style name="ChatBarTheme" parent="ClearBackgroundTheme">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/navigation_height</item>
         <item name="android:elevation">@dimen/shadow_size</item>
     </style>
 
@@ -196,6 +213,7 @@
         <item name="android:layout_margin">0dp</item>
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_weight">1</item>
+        <item name="android:padding">0dp</item>
         <item name="android:checkable">true</item>
         <item name="android:elevation">0dp</item>
     </style>
@@ -265,6 +283,7 @@
         <item name="boxCornerRadiusBottomEnd">@dimen/input_corner_size</item>
         <item name="boxCornerRadiusTopEnd">@dimen/input_corner_size</item>
         <item name="boxCornerRadiusTopStart">@dimen/input_corner_size</item>
+        <item name="startIconTint">?attr/colorText</item>
         <item name="endIconTint">?attr/colorHint</item>
         <item name="hintTextAppearance">@style/HintTextAppearance</item>
         <item name="android:textColorHint">?attr/colorHint</item>
@@ -284,6 +303,16 @@
         <item name="boxCollapsedPaddingTop">0dp</item>
     </style>
 
+    <style name="TextInputNoHintAndErrorLayoutTheme" parent="TextInputNoHintLayoutTheme">
+        <item name="errorEnabled">false</item>
+    </style>
+
+    <style name="EditInputLayoutTheme" parent="TextInputLayoutTheme">
+        <item name="endIconDrawable">@drawable/ic_edit</item>
+        <item name="endIconTint">?attr/colorText</item>
+        <item name="endIconMode">custom</item>
+    </style>
+
     <style name="RemoveInputLayoutTheme" parent="TextInputLayoutTheme">
         <item name="endIconDrawable">@drawable/ic_remove</item>
         <item name="endIconMode">clear_text</item>
@@ -291,10 +320,12 @@
 
     <style name="PasswordInputLayoutTheme" parent="TextInputLayoutTheme">
         <item name="endIconMode">password_toggle</item>
+        <item name="errorIconDrawable">@null</item>
     </style>
 
     <style name="PasswordInputNoHintLayoutTheme" parent="TextInputNoHintLayoutTheme">
         <item name="endIconMode">password_toggle</item>
+        <item name="errorIconDrawable">@null</item>
     </style>
 
     <style name="PasswordCounterInputLayoutTheme" parent="PasswordInputLayoutTheme">
@@ -310,7 +341,11 @@
         <item name="endIconMode">dropdown_menu</item>
     </style>
 
-    <style name="DropdownTheme" parent="@style/Widget.AppCompat.EditText">
+    <style name="DropdownInputNoHintLayoutTheme" parent="TextInputNoHintLayoutTheme">
+        <item name="endIconMode">dropdown_menu</item>
+    </style>
+
+    <style name="AutocompleteTheme" parent="@style/Widget.AppCompat.EditText">
         <item name="android:paddingStart">@dimen/half_margin_size</item>
         <item name="android:paddingEnd">@dimen/half_margin_size</item>
         <item name="android:paddingTop">@dimen/quarter_margin_size</item>
@@ -318,6 +353,10 @@
         <item name="android:textAppearance">@style/TextAppearance</item>
         <item name="android:textColor">?attr/colorText</item>
         <item name="android:textColorHint">?attr/colorHint</item>
+        <item name="android:popupBackground">?attr/colorInputBackground</item>
+    </style>
+
+    <style name="DropdownTheme" parent="AutocompleteTheme">
         <item name="android:inputType">none</item>
         <item name="android:clickable">false</item>
         <item name="android:cursorVisible">false</item>
@@ -345,17 +384,12 @@
         <item name="android:textSize">@dimen/subtitle_size</item>
     </style>
 
-    <style name="BoldTextAppearance" parent="TextViewAltTheme">
+    <style name="BoldTextAppearance" parent="TextAppearance.MaterialComponents.Body1">
         <item name="fontFamily">@font/muli_bold</item>
         <item name="android:textSize">@dimen/text_size</item>
     </style>
 
     <style name="TextAppearance" parent="TextAppearance.MaterialComponents.Body1">
-        <item name="fontFamily">@font/rubik_regular</item>
-        <item name="android:textSize">@dimen/text_size</item>
-    </style>
-
-    <style name="SoftTextAppearance" parent="TextViewAltTheme">
         <item name="fontFamily">@font/rubik_regular</item>
         <item name="android:textSize">@dimen/text_size</item>
     </style>
@@ -394,11 +428,31 @@
         <item name="android:textColorHintInverse">?attr/colorTextButton</item>
     </style>
 
+    <style name="TextViewAccentTheme" parent="ThemeOverlay.AppCompat.Dark">
+        <item name="android:textColor">?attr/colorAccent</item>
+        <item name="android:textColorHint">?attr/colorAccent</item>
+        <item name="android:textColorHintInverse">?attr/colorAccent</item>
+    </style>
+
+    <style name="TextViewDarkTheme" parent="ThemeOverlay.AppCompat.Dark">
+        <item name="android:textColor">?attr/colorText</item>
+        <item name="android:textColorHint">?attr/colorText</item>
+        <item name="android:textColorHintInverse">?attr/colorText</item>
+    </style>
+
     <style name="TitleTheme" parent="TextViewTheme">
         <item name="android:textAppearance">@style/TitleAppearance</item>
     </style>
 
+    <style name="SubtitleDarkTheme" parent="TextViewDarkTheme">
+        <item name="android:textAppearance">@style/SubtitleAppearance</item>
+    </style>
+
     <style name="SubtitleTheme" parent="TextViewAltTheme">
+        <item name="android:textAppearance">@style/SubtitleAppearance</item>
+    </style>
+
+    <style name="SubtitleAccentTheme" parent="TextViewAccentTheme">
         <item name="android:textAppearance">@style/SubtitleAppearance</item>
     </style>
 
@@ -422,6 +476,18 @@
         <item name="android:textAppearance">@style/TextAppearance</item>
     </style>
 
+    <style name="TextDarkTheme" parent="TextViewDarkTheme">
+        <item name="android:textAppearance">@style/TextAppearance</item>
+    </style>
+
+    <style name="TextBoldTheme" parent="TextViewAltTheme">
+        <item name="android:textAppearance">@style/BoldTextAppearance</item>
+    </style>
+
+    <style name="TextBoldReverseTheme" parent="TextViewReverseTheme">
+        <item name="android:textAppearance">@style/BoldTextAppearance</item>
+    </style>
+
     <style name="HintTheme" parent="TextViewTheme">
         <item name="android:textAppearance">@style/HintTextAppearance</item>
     </style>
@@ -430,7 +496,7 @@
         <item name="android:textAppearance">@style/HintTextAppearance</item>
     </style>
 
-    <style name="HintReverseTheme" parent="HintViewTheme">
+    <style name="HintReverseTheme" parent="TextViewReverseTheme">
         <item name="android:textAppearance">@style/HintTextAppearance</item>
     </style>
 
@@ -443,19 +509,23 @@
         <item name="android:queryBackground">@android:color/transparent</item>
         <item name="queryBackground">@android:color/transparent</item>
         <item name="iconifiedByDefault">false</item>
+
+        <item name="android:editTextColor">?attr/colorBackgroundText</item>
+
     </style>
 
     <style name="SearchBarTheme" parent="MaterialSearchBarLight">
         <item name="android:layout_height">@dimen/action_bar_height</item>
         <item name="mt_maxSuggestionsCount">10</item>
         <item name="mt_searchBarColor">?attr/colorBackground</item>
-        <item name="mt_textColor">?attr/colorText</item>
+        <item name="mt_textColor">?attr/colorBackgroundText</item>
+        <item name="mt_hintColor">?attr/colorHint</item>
         <item name="mt_backIconDrawable">@null</item>
-        <item name="mt_backIconTint">?attr/colorText</item>
-        <item name="mt_navIconTint">?attr/colorText</item>
-        <item name="mt_searchIconTint">?attr/colorText</item>
-        <item name="mt_clearIconTint">?attr/colorText</item>
-        <item name="mt_menuIconTint">?attr/colorText</item>
+        <item name="mt_backIconTint">?attr/colorBackgroundText</item>
+        <item name="mt_navIconTint">?attr/colorBackgroundText</item>
+        <item name="mt_searchIconTint">?attr/colorBackgroundText</item>
+        <item name="mt_clearIconTint">?attr/colorBackgroundText</item>
+        <item name="mt_menuIconTint">?attr/colorBackgroundText</item>
     </style>
 
     <style name="SmoothBottomBarTheme" parent="ThemeOverlay.AppCompat.Dark">

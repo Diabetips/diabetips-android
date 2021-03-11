@@ -1,9 +1,8 @@
 package com.epitech.diabetips
 
 import com.epitech.diabetips.storages.*
-import org.junit.Test
-
 import org.junit.Assert.*
+import org.junit.Test
 
 /**
  * Local unit test, which will execute on the development machine.
@@ -74,5 +73,55 @@ class UnitTest {
     fun mealTotalSugar() {
         val meal = mealObject
         assertEquals("Wrong meal total sugar", mealObject.total_carbohydrates, meal.calculateTotalSugars())
+    }
+
+    @Test
+    fun notificationChatObject() {
+        val notification = NotificationChatObject(from_uid = "2B2T42666-693607202B", msg_id = "2B72036069-666422B2T")
+        notification.id = "2B72036069-666422B2T"
+        notification.read = true
+        notification.type = NotificationObject.Type.chat_message.name
+        notification.data = """{"from_uid": "2B2T42666-693607202B", "msg_id": "2B72036069-666422B2T"}"""
+        assertEquals("Wrong Notification Chat", notification, NotificationObject(id = notification.id, read = notification.read, type = notification.type, data = notification.data).getTypedNotification())
+    }
+
+    @Test
+    fun notificationInviteObject() {
+        val notification = NotificationInviteObject(from_uid = "2B2T42666-693607202B")
+        notification.id = "2B72036069-666422B2T"
+        notification.read = true
+        notification.type = NotificationObject.Type.user_invite.name
+        notification.data = """{"from_uid": "2B2T42666-693607202B"}"""
+        assertEquals("Wrong Notification Invite", notification, NotificationObject(id = notification.id, read = notification.read, type = notification.type, data = notification.data).getTypedNotification())
+    }
+
+    @Test
+    fun notificationInviteAcceptedObject() {
+        val notification = NotificationInviteAcceptedObject(from_uid = "2B2T42666-693607202B")
+        notification.id = "2B72036069-666422B2T"
+        notification.read = true
+        notification.type = NotificationObject.Type.user_invite_accepted.name
+        notification.data = """{"from_uid": "2B2T42666-693607202B"}"""
+        assertEquals("Wrong Notification Invite Accepted", notification, NotificationObject(id = notification.id, read = notification.read, type = notification.type, data = notification.data).getTypedNotification())
+    }
+
+    @Test
+    fun notificationPredictionEnabledObject() {
+        val notification = NotificationPredictionEnabledObject()
+        notification.id = "2B72036069-666422B2T"
+        notification.read = true
+        notification.type = NotificationObject.Type.predictions_enabled.name
+        notification.data = ""
+        assertEquals("Wrong Notification Test", notification, NotificationObject(id = notification.id, read = notification.read, type = notification.type, data = notification.data).getTypedNotification())
+    }
+
+    @Test
+    fun notificationTestObject() {
+        val notification = NotificationTestObject(foo = "aled", bar = "oskour")
+        notification.id = "2B72036069-666422B2T"
+        notification.read = true
+        notification.type = NotificationObject.Type.test.name
+        notification.data = """{"foo": "aled", "bar": "oskour"}"""
+        assertEquals("Wrong Notification Test", notification, NotificationObject(id = notification.id, read = notification.read, type = notification.type, data = notification.data).getTypedNotification())
     }
 }

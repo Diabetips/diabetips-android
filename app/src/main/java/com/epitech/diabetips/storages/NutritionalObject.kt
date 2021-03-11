@@ -6,7 +6,7 @@ data class NutritionalObject (
     var type: NutritionalType = NutritionalType.CALORIE,
     var value: Float = 0f) : Serializable {
 
-    enum class NutritionalType {CALORIE, CARBOHYDRATE, SUGAR, FAT, SATURATED_FAT, FIBER, PROTEIN}
+    enum class NutritionalType { CALORIE, CARBOHYDRATE, SUGAR, FAT, SATURATED_FAT, FIBER, PROTEIN, NUTRI_SCORE }
 
     companion object {
         fun getDefaultValues(): ArrayList<NutritionalObject> {

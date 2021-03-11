@@ -7,6 +7,7 @@ import com.epitech.diabetips.storages.BiometricObject
 class UserManager : AObjectManager<UserObject>("user_object")  {
 
     private val USER : String = "user"
+    private val CHAT_USER : String = "chat"
     private val BIOMETRIC : String = "biometric"
 
     private object Holder { val INSTANCE = UserManager() }
@@ -19,12 +20,20 @@ class UserManager : AObjectManager<UserObject>("user_object")  {
         saveObject(context, user, USER)
     }
 
+    fun saveChatUser(context: Context, user: UserObject) {
+        saveObject(context, user, CHAT_USER)
+    }
+
     fun saveBiometric(context: Context, biometric: BiometricObject) {
         saveObject(context, biometric, BIOMETRIC)
     }
 
     fun getUser(context: Context) : UserObject {
         return getObject(context, UserObject::class.java, USER) ?: UserObject()
+    }
+
+    fun getChatUser(context: Context) : UserObject {
+        return getObject(context, UserObject::class.java, CHAT_USER) ?: UserObject()
     }
 
     fun getBiometric(context: Context) : BiometricObject {

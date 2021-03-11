@@ -15,16 +15,15 @@ class SettingsActivity : ADiabetipsActivity(R.layout.activity_settings) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        darkModeSwitch.isChecked = (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES)
+        darkModeSwitch.isChecked = (ModeManager.instance.getDarkMode(this) == AppCompatDelegate.MODE_NIGHT_YES)
         darkModeSwitch.setOnCheckedChangeListener { _, state ->
             if (state) {
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+                ModeManager.instance.saveDarkMode(this, AppCompatDelegate.MODE_NIGHT_YES)
             } else {
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+                ModeManager.instance.saveDarkMode(this, AppCompatDelegate.MODE_NIGHT_NO)
             }
             NavigationActivity.defaultFragmentSelect = ANavigationFragment.FragmentType.PROFILE
-            ModeManager.instance.saveDarkMode(this, AppCompatDelegate.getDefaultNightMode())
-            recreate()
+            changeTheme()
         }
         testNotificationButton.visibility = if (getString(R.string.api_base_url).contains("dev")) View.VISIBLE else View.GONE
         testNotificationButton.setOnClickListener {

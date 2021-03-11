@@ -2,13 +2,9 @@ package com.epitech.diabetips.activities
 
 import android.app.Activity
 import android.content.Intent
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.View
-import android.view.ViewGroup
 import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.epitech.diabetips.R
@@ -20,19 +16,11 @@ import com.epitech.diabetips.storages.IngredientObject
 import com.epitech.diabetips.storages.MealObject
 import com.epitech.diabetips.storages.MealRecipeObject
 import com.epitech.diabetips.storages.RecipeObject
-import com.epitech.diabetips.textWatchers.NumberWatcher
-import com.epitech.diabetips.textWatchers.TextChangedWatcher
 import com.epitech.diabetips.utils.*
-import com.wdullaer.materialdatetimepicker.date.DatePickerDialog
-import com.wdullaer.materialdatetimepicker.time.TimePickerDialog
 import kotlinx.android.synthetic.main.activity_new_meal.*
-import kotlinx.android.synthetic.main.dialog_save_change.view.*
-import kotlinx.android.synthetic.main.dialog_select_quantity.view.*
 
-class NewMealActivity : ADiabetipsActivity(R.layout.activity_new_meal), DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
 
-    enum class DisplayMode {CONTENT, NUTRITION}
-    enum class RequestCode {SEARCH_RECIPE, EDIT_RECIPE, SEARCH_FOOD}
+class NewMealActivity : ADiabetipsActivity(R.layout.activity_new_meal) {
 
     private var mealId: Int = 0
     private var saved: Boolean? = null
@@ -42,14 +30,19 @@ class NewMealActivity : ADiabetipsActivity(R.layout.activity_new_meal), DatePick
         super.onCreate(savedInstanceState)
         mealTime = TimeHandler.instance.currentTimeFormat(getString(R.string.format_time_api))
         newMealTimeDate.setOnClickListener {
-            TimeHandler.instance.getDatePickerDialog(this, this, mealTime).show(supportFragmentManager, "DatePickerDialog")
+            DialogHandler.datePickerDialog(this, supportFragmentManager, mealTime, newMealTimeDate) { time ->
+                mealTime = time
+            }
         }
         newMealTimeHour.setOnClickListener {
-            TimeHandler.instance.getTimePickerDialog(this, this, mealTime).show(supportFragmentManager, "TimePickerDialog")
+            DialogHandler.timePickerDialog(this, supportFragmentManager, mealTime, newMealTimeHour) { time ->
+                mealTime = time
+            }
         }
         addRecipeButton.setOnClickListener {
-            startActivityForResult(Intent(this, RecipeActivity::class.java)
-                .putExtra(getString(R.string.param_mode), IRecipe.ActivityMode.SELECT),
+            startActivityForResult(
+                Intent(this, RecipeActivity::class.java)
+                    .putExtra(getString(R.string.param_mode), ActivityMode.SELECT),
                 RequestCode.SEARCH_RECIPE.ordinal)
         }
         newMealToggleContent.setOnClickListener {
@@ -60,12 +53,12 @@ class NewMealActivity : ADiabetipsActivity(R.layout.activity_new_meal), DatePick
         }
         recipeList.apply {
             layoutManager = LinearLayoutManager(this@NewMealActivity)
-            adapter = MealRecipeAdapter { mealRecipeObject ->
+            adapter = MealRecipeAdapter(onItemClickListener = { mealRecipeObject ->
                 val intent = Intent(this@NewMealActivity, NewRecipeActivity::class.java)
-                intent.putExtra(getString(R.string.param_mode), NewRecipeActivity.ActivityMode.MEAL_RECIPE)
+                intent.putExtra(getString(R.string.param_mode), ActivityMode.MEAL_RECIPE)
                 intent.putExtra(getString(R.string.param_recipe), mealRecipeObject)
-                startActivityForResult(intent, RequestCode.EDIT_RECIPE.ordinal)
-            }
+                startActivityForResult(intent, RequestCode.UPDATE_RECIPE.ordinal)
+            }, onItemRemovedListener = { updateNutritionalValueDisplay() })
             (adapter as MealRecipeAdapter).setVisibilityElements(recipeListEmptyLayout, recipeList)
             addItemDecoration(DividerItemDecorator(ContextCompat.getDrawable(this@NewMealActivity, R.drawable.list_divider)!!))
         }
@@ -75,39 +68,18 @@ class NewMealActivity : ADiabetipsActivity(R.layout.activity_new_meal), DatePick
                     .putExtra(getString(R.string.param_food), (mealFoodList.adapter as RecipeFoodAdapter).getFoods()),
                 RequestCode.SEARCH_FOOD.ordinal)
         }
+        scanMealFoodButton.setOnClickListener {
+            ImageHandler.instance.startBarcodeActivity(this)
+        }
         mealFoodList.apply {
             layoutManager = LinearLayoutManager(this@NewMealActivity)
-            adapter = RecipeFoodAdapter { ingredientObject, textQuantity ->
-                val view = layoutInflater.inflate(R.layout.dialog_select_quantity, null)
-                MaterialHandler.instance.handleTextInputLayoutSize(view as ViewGroup)
-                val dialog = AlertDialog.Builder(this@NewMealActivity).setView(view).create()
-                dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-                view.selectQuantityInputLayout.hint = "${view.selectQuantityInputLayout.hint} (${ingredientObject.food.unit})"
-                view.selectQuantityInput.setText(ingredientObject.quantity.toBigDecimal().stripTrailingZeros().toPlainString())
-                view.selectQuantityNutritionalList.apply {
-                    layoutManager = LinearLayoutManager(this@NewMealActivity)
-                    adapter = NutritionalAdapter(ingredientObject.getNutritionalValues(), ingredientObject.quantity)
+            adapter = RecipeFoodAdapter(onItemClickListener = { ingredientObject, textQuantity ->
+                DialogHandler.dialogSelectQuantity(this@NewMealActivity, layoutInflater, ingredientObject) {
+                    saved = false
+                    textQuantity?.text = "${ingredientObject.quantity} ${ingredientObject.food.unit}"
+                    updateNutritionalValueDisplay()
                 }
-                view.selectQuantityInput.addTextChangedListener(NumberWatcher(this@NewMealActivity, view.selectQuantityInputLayout, R.string.quantity_null, 0f))
-                view.selectQuantityInput.addTextChangedListener(TextChangedWatcher {
-                    val quantity = it.toString().toFloatOrNull() ?: 0f
-                    (view.selectQuantityNutritionalList.adapter as NutritionalAdapter).setNutritions(ingredientObject.getNutritionalValues(quantity), quantity)
-                })
-                view.selectQuantityNegativeButton.setOnClickListener {
-                    dialog.dismiss()
-                }
-                view.selectQuantityPositiveButton.setOnClickListener {
-                    view.selectQuantityInput.text = view.selectQuantityInput.text
-                    if (view.selectQuantityInputLayout.error == null) {
-                        saved = false
-                        ingredientObject.quantity = view.selectQuantityInput.text.toString().toFloatOrNull() ?: 0f
-                        textQuantity?.text = "${ingredientObject.quantity} ${ingredientObject.food.unit}"
-                        updateNutritionalValueDisplay()
-                        dialog.dismiss()
-                    }
-                }
-                dialog.show()
-            }
+            }, onItemRemovedListener = { updateNutritionalValueDisplay() })
             (adapter as RecipeFoodAdapter).setVisibilityElements(mealFoodListEmptyLayout, mealFoodList)
             addItemDecoration(DividerItemDecorator(ContextCompat.getDrawable(this@NewMealActivity, R.drawable.list_divider)!!))
         }
@@ -120,6 +92,19 @@ class NewMealActivity : ADiabetipsActivity(R.layout.activity_new_meal), DatePick
         }
         validateNewMealButton.setOnClickListener {
             saveMeal(true)
+        }
+        deleteNewMealButton.setOnClickListener {
+            DialogHandler.dialogConfirm(this, layoutInflater, R.string.meal_delete) {
+                MealService.instance.remove<MealObject>(mealId).doOnSuccess {
+                    if (it.second.component2() == null) {
+                        Toast.makeText(this, getString(R.string.deleted), Toast.LENGTH_SHORT).show()
+                        setResult(Activity.RESULT_OK, Intent())
+                        finish()
+                    } else {
+                        Toast.makeText(this, it.second.component2()!!.exception.message, Toast.LENGTH_SHORT).show()
+                    }
+                }.subscribe()
+            }
         }
         closeNewMealButton.setOnClickListener {
             onBackPressed()
@@ -138,9 +123,10 @@ class NewMealActivity : ADiabetipsActivity(R.layout.activity_new_meal), DatePick
             }
             if (mealId > 0 && meal.foods.isNotEmpty())
                 (mealFoodList.adapter as RecipeFoodAdapter).setFoods(meal.foods)
-            updateNutritionalValueDisplay()
         }
+        deleteNewMealButton.visibility = if (mealId > 0) View.VISIBLE else View.GONE
         TimeHandler.instance.updateTimeDisplay(this, mealTime, newMealTimeDate, newMealTimeHour)
+        updateNutritionalValueDisplay()
     }
 
     private fun updateNutritionalValueDisplay() {
@@ -170,7 +156,8 @@ class NewMealActivity : ADiabetipsActivity(R.layout.activity_new_meal), DatePick
     }
 
     private fun getMeal() : MealObject {
-        val meal = MealObject(mealId, mealTime, "",
+        val meal = MealObject(
+            mealId, mealTime, "",
             recipes = (recipeList.adapter as MealRecipeAdapter).getRecipes().toTypedArray(),
             foods = (mealFoodList.adapter as RecipeFoodAdapter).getFoods().toTypedArray())
         meal.calculateTotalSugars()
@@ -193,7 +180,7 @@ class NewMealActivity : ADiabetipsActivity(R.layout.activity_new_meal), DatePick
                 val mealRecipe = MealRecipeObject(portions_eaten = recipe.portions, recipe = recipe)
                 (recipeList.adapter as MealRecipeAdapter).addRecipe(mealRecipe)
                 updateNutritionalValueDisplay()
-            } else if (requestCode == RequestCode.EDIT_RECIPE.ordinal) {
+            } else if (requestCode == RequestCode.UPDATE_RECIPE.ordinal) {
                 saved = false
                 (recipeList.adapter as MealRecipeAdapter).updateRecipe(data?.getSerializableExtra(getString(R.string.param_recipe)) as MealRecipeObject)
                 updateNutritionalValueDisplay()
@@ -201,18 +188,12 @@ class NewMealActivity : ADiabetipsActivity(R.layout.activity_new_meal), DatePick
                 saved = false
                 (mealFoodList.adapter as RecipeFoodAdapter).setFoods(ArrayList((data?.getSerializableExtra(getString(R.string.param_food)) as ArrayList<*>).filterIsInstance<IngredientObject>()))
                 updateNutritionalValueDisplay()
+            } else if (requestCode == RequestCode.SCAN_BARCODE.ordinal) {
+                DialogHandler.dialogBarcode(this, data) { ingredient ->
+                    (mealFoodList.adapter as RecipeFoodAdapter).addFood(ingredient)
+                }
             }
         }
-    }
-
-    override fun onDateSet(view: DatePickerDialog?, year: Int, monthOfYear: Int, dayOfMonth: Int) {
-        mealTime = TimeHandler.instance.changeFormatDate(mealTime, getString(R.string.format_time_api), year, monthOfYear, dayOfMonth)
-        TimeHandler.instance.updateTimeDisplay(this, mealTime, newMealTimeDate, newMealTimeHour)
-    }
-
-    override fun onTimeSet(view: TimePickerDialog?, hourOfDay: Int, minute: Int, second: Int) {
-        mealTime = TimeHandler.instance.changeFormatTime(mealTime, getString(R.string.format_time_api), hourOfDay, minute)
-        TimeHandler.instance.updateTimeDisplay(this, mealTime, newMealTimeDate, newMealTimeHour)
     }
 
     override fun onBackPressed() {
@@ -222,18 +203,7 @@ class NewMealActivity : ADiabetipsActivity(R.layout.activity_new_meal), DatePick
             setResult(Activity.RESULT_OK, Intent().putExtra(getString(R.string.param_meal), getMeal()))
             finish()
         } else {
-            val view = layoutInflater.inflate(R.layout.dialog_save_change, null)
-            MaterialHandler.instance.handleTextInputLayoutSize(view as ViewGroup)
-            val dialog = AlertDialog.Builder(this@NewMealActivity).setView(view).create()
-            dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-            view.saveChangeNegativeButton.setOnClickListener {
-                finish()
-            }
-            view.saveChangePositiveButton.setOnClickListener {
-                saveMeal(true)
-                dialog.dismiss()
-            }
-            dialog.show()
+            DialogHandler.dialogSaveChange(this, layoutInflater, { saveMeal(true) }, { finish() })
         }
     }
 }

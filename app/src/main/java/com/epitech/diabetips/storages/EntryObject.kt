@@ -4,6 +4,10 @@ import android.content.Context
 import android.graphics.drawable.Drawable
 import androidx.core.content.ContextCompat
 import com.epitech.diabetips.R
+import com.epitech.diabetips.utils.MaterialHandler
+import com.epitech.diabetips.utils.ObjectType
+import com.epitech.diabetips.utils.TimeHandler
+import kotlinx.android.synthetic.main.activity_new_entry.*
 import java.io.Serializable
 
 data class EntryObject (
@@ -14,7 +18,7 @@ data class EntryObject (
     var time: String = "",
     var icon: Drawable? = null) : Serializable {
 
-    lateinit var type: Type
+    lateinit var type: ObjectType
 
     constructor (meal: MealObject, context: Context) : this(
         orignal = meal,
@@ -23,7 +27,7 @@ data class EntryObject (
         title = context.getString(R.string.meal),
         time = meal.time,
         icon = ContextCompat.getDrawable(context, R.drawable.ic_fork)) {
-            type = Type.MEAL
+            type = ObjectType.MEAL
             icon?.setTint(ContextCompat.getColor(context, R.color.colorPrimary))
     }
 
@@ -34,8 +38,19 @@ data class EntryObject (
         title = if (insulin.type == InsulinObject.Type.fast.toString()) context.getString(R.string.insulin_fast) else context.getString(R.string.insulin_slow),
         time = insulin.time,
         icon = ContextCompat.getDrawable(context, if (insulin.type == InsulinObject.Type.fast.toString()) R.drawable.ic_syringe else R.drawable.ic_syringe_alt)) {
-            type = if (insulin.type == InsulinObject.Type.fast.toString()) Type.INSULIN_FAST else Type.INSULIN_SLOW
-            icon?.setTint(ContextCompat.getColor(context, if (type == Type.INSULIN_FAST) R.color.colorAccent else R.color.colorAccentLight))
+            type = if (insulin.type == InsulinObject.Type.fast.toString()) ObjectType.INSULIN_FAST else ObjectType.INSULIN_SLOW
+            icon?.setTint(ContextCompat.getColor(context, if (type == ObjectType.INSULIN_FAST) R.color.colorAccent else R.color.colorAccentLight))
+    }
+
+    constructor (activity: ActivityObject, context: Context) : this(
+        orignal = activity,
+        id = activity.id,
+        description ="${activity.getDuration(context)} • ${activity.type} • ${activity.getIntensity(context)}",
+        title = context.getString(R.string.activity),
+        time = activity.start,
+        icon = ContextCompat.getDrawable(context, R.drawable.ic_activity)) {
+            type = ObjectType.ACTIVITY
+            icon?.setTint(ContextCompat.getColor(context, R.color.colorGreen))
     }
 
     constructor (note: NoteObject, context: Context) : this(
@@ -45,22 +60,29 @@ data class EntryObject (
         title = context.getString(R.string.comment),
         time = note.time,
         icon = ContextCompat.getDrawable(context, R.drawable.ic_comment)) {
-            type = Type.COMMENT
-            icon?.setTint(ContextCompat.getColor(context, R.color.searchBarSearchIconTintColor))
+            type = ObjectType.NOTE
+            icon?.setTint(MaterialHandler.getColorFromAttribute(context, R.attr.colorComment))
     }
 
     constructor (bloodSugar: BloodSugarObject, context: Context) : this(
         orignal = bloodSugar,
         id = 0,
-        description = "${bloodSugar.value} ${context.getString(R.string.unit_u)}",
+        description = "${bloodSugar.value} ${context.getString(R.string.unit_glucose)}",
         title = context.getString(R.string.sugar),
         time = bloodSugar.time,
         icon = ContextCompat.getDrawable(context, R.drawable.ic_syringe)) {
-            type = Type.SUGAR
-            icon?.setTint(ContextCompat.getColor(context, R.color.colorAccent))
+            type = ObjectType.SUGAR
+            icon?.setTint(ContextCompat.getColor(context, R.color.colorWarm))
     }
 
-    enum class Type {
-        MEAL, COMMENT, INSULIN_SLOW, INSULIN_FAST, SUGAR, INSULIN
+    constructor (event: EventObject, context: Context) : this(
+        orignal = event,
+        id = event.id,
+        description = event.description,
+        title = context.getString(R.string.activity),
+        time = event.start,
+        icon = ContextCompat.getDrawable(context, R.drawable.ic_activity)) {
+            type = ObjectType.ACTIVITY
+            icon?.setTint(ContextCompat.getColor(context, R.color.colorPurple))
     }
 }

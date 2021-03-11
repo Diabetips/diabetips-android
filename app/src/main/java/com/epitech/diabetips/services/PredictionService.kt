@@ -8,6 +8,7 @@ class PredictionService : AService("/users/me/predictions") {
 
     companion object {
         val instance: PredictionService by lazy { Holder.INSTANCE }
+        var lastPrediction: PredictionObject? = null
     }
 
     fun getUserPrediction() : FuelResponse<PredictionObject> {

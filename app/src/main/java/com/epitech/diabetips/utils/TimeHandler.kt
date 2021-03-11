@@ -1,58 +1,64 @@
 package com.epitech.diabetips.utils
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.text.format.DateFormat
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
 import com.epitech.diabetips.R
+import com.epitech.diabetips.managers.ModeManager
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog
-import java.text.SimpleDateFormat
+import org.joda.time.format.DateTimeFormat
+import java.lang.IllegalArgumentException
 import java.util.*
 
 class TimeHandler {
-
     private object Holder { val INSTANCE = TimeHandler() }
 
     companion object {
+        const val MILIS_IN_SECOND = 1000
+        const val MILIS_IN_DAY = 86400000
         val instance: TimeHandler by lazy { Holder.INSTANCE }
     }
 
     private val calendar: Calendar = Calendar.getInstance()
-    val dayInMinute = 1440
 
     fun currentTime() : Long {
         return System.currentTimeMillis()
-    }
-
-    fun currentTimeSecond() : Long {
-        return System.currentTimeMillis() / 1000
     }
 
     fun currentTimeFormat(format: String) : String {
         return formatTimestamp(System.currentTimeMillis(), format)
     }
 
-    @SuppressLint("SimpleDateFormat")
-    fun getTimestampFromFormat(date: String, format: String) : Long? {
+    fun getTimestampFromFormat(date: String, format: String, standardize: Boolean = false) : Long? {
         if (date.isBlank())
             return null
-        val dateVar = SimpleDateFormat(format).parse(date) ?: return null
-        return dateVar.time
-    }
-
-    @SuppressLint("SimpleDateFormat")
-    fun formatTimestamp(timestamp: Long, format: String): String {
-        return SimpleDateFormat(format).format(timestamp)
-    }
-
-    fun changeTimeFormat(date: String?, oldFormat: String, newFormat: String) : String? {
-        if (date == null)
+        try {
+            val dateVar = DateTimeFormat.forPattern(format).parseDateTime(date)
+            if (standardize) {
+                return dateVar.millis + TimeZone.getDefault().getOffset(dateVar.millis)
+            }
+            return dateVar.millis
+        } catch (iae: IllegalArgumentException) {
+            iae.printStackTrace()
             return null
-        val timestamp = getTimestampFromFormat(date, oldFormat) ?: return null
-        return formatTimestamp(timestamp, newFormat)
+        }
+    }
+
+    fun formatTimestamp(timestamp: Long, format: String, standardize: Boolean = false): String {
+        if (standardize) {
+            return DateTimeFormat.forPattern(format).print(timestamp - TimeZone.getDefault().getOffset(timestamp))
+        }
+        return DateTimeFormat.forPattern(format).print(timestamp)
+    }
+
+    fun changeTimeFormat(date: String?, oldFormat: String, newFormat: String, standardizeInput: Boolean = false, standardizeOutput: Boolean = false) : String? {
+        if (date.isNullOrBlank())
+            return null
+        val timestamp = getTimestampFromFormat(date, oldFormat, standardizeInput) ?: return null
+        return formatTimestamp(timestamp, newFormat, standardizeOutput)
     }
 
     fun getDatePickerDialog(context: Context, dateSetListener: DatePickerDialog.OnDateSetListener, time: String): DatePickerDialog {
@@ -64,7 +70,7 @@ class TimeHandler {
             calendar.get(Calendar.DAY_OF_MONTH)
         )
         datePickerDialog.version = DatePickerDialog.Version.VERSION_1
-        datePickerDialog.isThemeDark = AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES
+        datePickerDialog.isThemeDark = (ModeManager.instance.getDarkMode(context) == AppCompatDelegate.MODE_NIGHT_YES)
         datePickerDialog.accentColor = ContextCompat.getColor(context, R.color.colorPrimary)
         calendar.time = Calendar.getInstance().time
         calendar.add(Calendar.DATE, 1)
@@ -81,23 +87,56 @@ class TimeHandler {
             DateFormat.is24HourFormat(context)
         )
         timePickerDialog.version = TimePickerDialog.Version.VERSION_2
-        timePickerDialog.isThemeDark = AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES
+        timePickerDialog.isThemeDark = (ModeManager.instance.getDarkMode(context) == AppCompatDelegate.MODE_NIGHT_YES)
         timePickerDialog.accentColor = ContextCompat.getColor(context, R.color.colorPrimary)
         return timePickerDialog
     }
 
-    fun addMinuteToFormat(date: String, format: String, minuteToAdd: Int = 0): String {
-        calendar.timeInMillis = getTimestampFromFormat(date, format) ?: currentTime()
-        calendar.add(Calendar.MINUTE, minuteToAdd)
-        return formatTimestamp(calendar.timeInMillis, format)
+    fun addTimeToFormat(date: String, format: String, timeToAdd: Int = 0, timeType: Int = Calendar.MINUTE): String {
+        return formatTimestamp(addTimeToTimestamp((getTimestampFromFormat(date, format) ?: currentTime()), timeToAdd, timeType), format)
+    }
+
+    fun addTimeToTimestamp(timestamp: Long, timeToAdd: Int = 0, timeType: Int = Calendar.MINUTE): Long {
+        calendar.timeInMillis = timestamp
+        calendar.add(timeType, timeToAdd)
+        return calendar.timeInMillis
+    }
+
+    fun getDayDiffFormat(start: String, end: String, format: String): Long {
+        return getTimeDiffFormat(start, end, format) / MILIS_IN_DAY
     }
 
     fun getSecondDiffFormat(start: String, end: String, format: String): Long {
-        return ((getTimestampFromFormat(start, format) ?: currentTime()) - (getTimestampFromFormat(end, format) ?: 0)) / 1000
+        return getTimeDiffFormat(start, end, format) / MILIS_IN_SECOND
     }
 
-    fun getTimestampDate(year: Int, month: Int, day: Int): Long {
-        return changeTimestampDate(currentTimeSecond(), year, month, day)
+    fun getSecondDiff(start: Long, end: Long): Long {
+        return getTimeDiff(start, end) / MILIS_IN_SECOND
+    }
+
+    fun getFormatDiff(start: String, end: String, inputFormat: String, outputFormat: String = inputFormat): String {
+        return formatTimestamp(getTimeDiffFormat(start, end, inputFormat), outputFormat, true)
+    }
+
+    private fun getTimeDiffFormat(start: String, end: String, format: String): Long {
+        return getTimeDiff(getTimestampFromFormat(start, format) ?: currentTime(), getTimestampFromFormat(end, format) ?: currentTime())
+    }
+
+    private fun getTimeDiff(start: Long, end: Long): Long {
+        return (start - end)
+    }
+
+    fun getIntervalFormat(context: Context, timeRange: String, format: String): Pair<String, String> {
+        val current = currentTimeFormat(format)
+        return when (timeRange) {
+            context.getString(R.string.time_range_day) -> Pair(addTimeToFormat(current, format, -1, Calendar.DAY_OF_YEAR), current)
+            context.getString(R.string.time_range_week) -> Pair(addTimeToFormat(current, format, -1, Calendar.WEEK_OF_YEAR), current)
+            context.getString(R.string.time_range_week_2) -> Pair(addTimeToFormat(current, format, -2, Calendar.WEEK_OF_YEAR), current)
+            context.getString(R.string.time_range_month) -> Pair(addTimeToFormat(current, format, -1, Calendar.MONTH), current)
+            context.getString(R.string.time_range_month_3) -> Pair(addTimeToFormat(current, format, -3, Calendar.MONTH), current)
+            context.getString(R.string.time_range_year) -> Pair(addTimeToFormat(current, format, -1, Calendar.YEAR), current)
+            else -> Pair(formatTimestamp(0, format), current)
+        }
     }
 
     fun changeFormatDate(date: String, format: String, year: Int, month: Int, day: Int): String {

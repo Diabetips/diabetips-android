@@ -7,12 +7,12 @@ import androidx.fragment.app.Fragment
 
 abstract class ANavigationFragment(val fragmentType: FragmentType) : Fragment() {
 
-    enum class FragmentType {HOME, DASHBOARD, RECIPES, PROFILE, SETTINGS}
+    enum class FragmentType { HOME, DASHBOARD, RECIPES, PROFILE, SETTINGS }
 
     protected fun createFragmentView(layoutId: Int, inflater: LayoutInflater, container: ViewGroup?): View {
         val view = inflater.inflate(layoutId, container, false)
-        MaterialHandler.instance.handleTextInputLayoutSize(view as ViewGroup)
-        return view;
+        MaterialHandler.handleTextInputLayoutSize(view as ViewGroup)
+        return view
     }
 
     abstract fun isLoading(): Boolean

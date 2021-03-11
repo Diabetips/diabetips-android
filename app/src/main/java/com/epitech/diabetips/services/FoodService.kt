@@ -10,4 +10,8 @@ class FoodService : AObjectPictureService<FoodObject>("/food") {
         val instance: FoodService by lazy { Holder.INSTANCE }
     }
 
+    fun getBarcode(barcode: String) : FuelResponse<Array<FoodObject>> {
+        return getRequest("?code=$barcode")
+    }
+
 }

@@ -105,6 +105,7 @@
         android:layout_margin="@dimen/half_margin_size"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/ic_check"/>
+        app:srcCompat="@drawable/ic_check"
+        android:contentDescription="@string/placeholder_text" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

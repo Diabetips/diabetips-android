@@ -1,66 +1,158 @@
 package com.epitech.diabetips.fragments
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.core.content.ContextCompat
 import com.epitech.diabetips.R
-import com.epitech.diabetips.activities.NavigationActivity
-import com.epitech.diabetips.activities.NewEntryActivity
-import com.epitech.diabetips.activities.RecipeActivity
+import com.epitech.diabetips.activities.*
 import com.epitech.diabetips.managers.EntriesManager
-import com.epitech.diabetips.storages.EntryObject
+import com.epitech.diabetips.managers.UserManager
+import com.epitech.diabetips.services.BloodSugarService
+import com.epitech.diabetips.services.PredictionService
+import com.epitech.diabetips.storages.*
 import com.epitech.diabetips.utils.*
 import kotlinx.android.synthetic.main.fragment_home.view.*
+import org.json.JSONObject
+import java.lang.Exception
+import java.nio.charset.Charset
 
 class HomeFragment : ANavigationFragment(FragmentType.HOME) {
 
-    lateinit var entriesManager: EntriesManager
-    var loading: Boolean = false
+    private lateinit var entriesManager: EntriesManager
+    private var loading: Boolean = false
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        entriesManager = EntriesManager(requireContext()) { items, reset ->
-            itemsUpdateTrigger(reset, items)
+        entriesManager = EntriesManager(requireContext()) { items, _ ->
+            itemsUpdateTrigger(items)
         }
-
         val view = createFragmentView(R.layout.fragment_home, inflater, container)
         view.readyToScan.text = (activity as NavigationActivity).nfcReader?.nfcStatus
-
         view.newEntryButton.setOnClickListener {
-            startActivity(Intent(requireContext(), NewEntryActivity::class.java))
+            startActivityForResult(Intent(requireContext(), NewEntryActivity::class.java), RequestCode.NEW_ENTRY.ordinal)
         }
         view.viewRecipeButton.setOnClickListener {
             startActivity(Intent(requireContext(), RecipeActivity::class.java)
-                .putExtra(getString(R.string.param_mode), IRecipe.ActivityMode.UPDATE))
+                .putExtra(getString(R.string.param_mode), ActivityMode.UPDATE))
         }
         view.openDashboardButton.setOnClickListener {
-            startActivity(Intent(requireContext(), DashboardFragment::class.java))
+            startActivity(Intent(requireContext(), EventNotebookActivity::class.java))
         }
-        ChartHandler.instance.handleLineChartStyle(view.sugarLineChart, requireContext())
-        //Draw empty chart
-        val interval: Pair<Long, Long> = entriesManager.getPage()!!.getTimestampInterval(requireContext())
-        ChartHandler.instance.updateChartData(listOf(), interval, view.sugarLineChart, requireContext())
+        view.viewChatButton.setOnClickListener {
+            NavigationActivity.setUnreadMessage(false)
+            startActivity(Intent(requireContext(), ChatActivity::class.java))
+        }
+        updateChatIcon(view)
+        handlePrediction(view)
+        getLastBloodSugar()
+        ChartHandler.handleLineChartStyle(view.sugarLineChart, requireContext())
         //Call Api to update chart
         updateChart()
-
-        (activity as NavigationActivity).nfcReader
         return view
     }
 
     private fun updateChart() {
         loading = true
-        val now = TimeHandler.instance.currentTimeFormat(getString(R.string.format_time_api))
-        entriesManager.getPage()?.setInterval(TimeHandler.instance.addMinuteToFormat(now, getString(R.string.format_time_api), -TimeHandler.instance.dayInMinute), now)
+        entriesManager.getPage()?.setInterval(requireContext(), TimeHandler.instance.getIntervalFormat(requireContext(), getString(R.string.time_range_day), getString(R.string.format_time_api)))
         entriesManager.updatePages()
         entriesManager.getItems()
     }
 
-    private fun itemsUpdateTrigger(reset: Boolean, items: Array<EntryObject>) {
+    private fun itemsUpdateTrigger(items: Array<EntryObject>) {
         val interval: Pair<Long, Long> = entriesManager.getPage()!!.getTimestampInterval(requireContext())
         view?.sugarLineChart?.let {
-            ChartHandler.instance.updateChartData(items.sortedBy{ it.time }, interval, it, requireContext())
+            ChartHandler.updateChartData(items.sortedBy { it.time }, interval, it, requireContext(), R.string.no_data_24)
             loading = false
+        }
+    }
+
+    private fun handlePrediction(view: View? = this.view) {
+        PredictionService.instance.getUserPredictionSettings().doOnSuccess {
+            if (it.second.component2() == null && it.second.component1()?.enabled == true) {
+                view?.homePredictionLayout?.visibility = View.VISIBLE
+            }
+        }.subscribe()
+        view?.homePredictionButton?.setOnClickListener {
+            PredictionService.instance.getUserPrediction().doOnSuccess {
+                if (it.second.component2() == null) {
+                    updatePrediction(it.second.component1())
+                } else {
+                    val error = it.first.data.toString(Charset.defaultCharset())
+                    if (error.isNotBlank()) {
+                        try {
+                            Toast.makeText(requireContext(), JSONObject(error).getString("message"), Toast.LENGTH_SHORT).show()
+                        } catch (e: Exception) {
+                            Toast.makeText(requireContext(), it.second.component2()!!.exception.message, Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                }
+            }
+        }
+        updatePrediction(PredictionService.lastPrediction, view)
+    }
+
+    private fun updatePrediction(prediction: PredictionObject?, view: View? = this.view) {
+        PredictionService.lastPrediction = prediction
+        if ((prediction?.id ?: 0) > 0) {
+            view?.homePredictionResult?.text = "${prediction!!.insulin.toBigDecimal().stripTrailingZeros().toPlainString()} ${requireContext().getString(R.string.unit_units)}"
+            TimeHandler.instance.updateTimeDisplay(requireContext(), prediction.time, null, view?.homePredictionResultTime)
+            view?.homePredictionResultTime?.text = "${view?.homePredictionResultTime?.text} ${requireContext().getString(R.string.last_prediction)}"
+            view?.homePredictionResultLayout?.visibility = View.VISIBLE
+        } else {
+            view?.homePredictionResultLayout?.visibility = View.GONE
+        }
+    }
+
+    private fun getLastBloodSugar() {
+        BloodSugarService.instance.getLastMeasure().doOnSuccess {
+            updateLastBloodSugar(it.second.component1())
+        }.subscribe()
+    }
+
+    private fun updateLastBloodSugar(bloodSugar: BloodSugarObject?, view: View? = this.view) {
+        if ((bloodSugar?.value ?: 0) > 0) {
+            view?.lastBloodGlucose?.text = "${bloodSugar!!.value.toBigDecimal().stripTrailingZeros().toPlainString()} ${requireContext().getString(R.string.unit_glucose)}"
+            TimeHandler.instance.updateTimeDisplay(requireContext(), bloodSugar.time, null, view?.lastBloodGlucoseTime)
+            view?.lastBloodGlucoseTime?.text = "${view?.lastBloodGlucoseTime?.text} ${requireContext().getString(R.string.last_use)}"
+            val biometric: BiometricObject = UserManager.instance.getBiometric(requireContext())
+            if ((biometric.hyperglycemia ?: bloodSugar.value) < bloodSugar.value || (biometric.hypoglycemia ?: bloodSugar.value) > bloodSugar.value) {
+                view?.lastBloodGlucoseLayout?.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.colorAccent))
+            } else {
+                view?.lastBloodGlucoseLayout?.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.colorPrimary))
+            }
+            view?.lastBloodGlucoseLayout?.visibility = View.VISIBLE
+        } else {
+            view?.lastBloodGlucoseLayout?.visibility = View.GONE
+        }
+    }
+
+    fun updateChatIcon(view: View? = this.view) {
+        if (UserManager.instance.getChatUser(requireContext()).uid.isNotEmpty()) {
+            view?.viewChatButton?.visibility = View.VISIBLE
+            if (NavigationActivity.getUnreadMessage()) {
+                view?.viewChatButton?.setColorFilter(ContextCompat.getColor(requireContext(), R.color.colorPrimary))
+            } else {
+                view?.viewChatButton?.setColorFilter(MaterialHandler.getColorFromAttribute(requireContext(), R.attr.colorBackgroundText))
+            }
+        } else {
+            view?.viewChatButton?.visibility = View.GONE
+        }
+    }
+
+    fun onNfc() {
+        getLastBloodSugar()
+        entriesManager.getItems()
+        //generateFakeBloodSugar()
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == Activity.RESULT_OK && requestCode == RequestCode.NEW_ENTRY.ordinal && data?.getBooleanExtra(getString(R.string.param_entry), false) == true) {
+            updateChart()
         }
     }
 
